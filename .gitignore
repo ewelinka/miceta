@@ -71,3 +71,5 @@ Thumbs.db
 
 android/target
 android/assets/*.csv
+
+desktop/target
