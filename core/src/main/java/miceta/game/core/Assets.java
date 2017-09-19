@@ -30,9 +30,21 @@ public class Assets implements Disposable, AssetErrorListener {
         assetManager.load("sounds/3.wav", Sound.class);
         assetManager.load("sounds/4.wav", Sound.class);
         assetManager.load("sounds/5.wav", Sound.class);
-        assetManager.load("sounds/do.mp3", Sound.class);
-        assetManager.load("sounds/re.mp3", Sound.class);
-        assetManager.load("sounds/mi.mp3", Sound.class);
+        assetManager.load("sounds/6.wav", Sound.class);
+        assetManager.load("sounds/7.wav", Sound.class);
+        assetManager.load("sounds/8.wav", Sound.class);
+        assetManager.load("sounds/9.wav", Sound.class);
+        assetManager.load("sounds/10.wav", Sound.class);
+        assetManager.load("sounds/11.wav", Sound.class);
+        assetManager.load("sounds/12.wav", Sound.class);
+        assetManager.load("sounds/13.wav", Sound.class);
+        assetManager.load("sounds/14.wav", Sound.class);
+        assetManager.load("sounds/15.wav", Sound.class);
+        assetManager.load("sounds/do.wav", Sound.class);
+        assetManager.load("sounds/re.wav", Sound.class);
+        assetManager.load("sounds/mi.wav", Sound.class);
+        assetManager.load("sounds/fa.wav", Sound.class);
+        assetManager.load("sounds/sol.wav", Sound.class);
         assetManager.load("sounds/puck.mp3", Sound.class);
         assetManager.load("music/song1.mp3", Music.class);
         assetManager.load("sounds/yuju.mp3", Sound.class);
@@ -66,19 +78,32 @@ public class Assets implements Disposable, AssetErrorListener {
 
 
     public class AssetSounds {
-        public final Sound one, two, three, four, five;
-        public final Sound oneDo, oneRe, oneMi;
+        public final Sound f1, f2, f3, f4, f5, f6, f7, f8, f9, f10, f11, f12, f13, f14, f15;
+        public final Sound oneDo, oneRe, oneMi, oneFa, oneSol;
         public final Sound puck,yuju;
         public final Sound d1,d2,d3,d4,d5,d6,d7,d8,d9,d10;
         public AssetSounds (AssetManager am) {
-            one = am.get("sounds/1.wav", Sound.class);
-            two = am.get("sounds/2.wav", Sound.class);
-            three = am.get("sounds/3.wav", Sound.class);
-            four = am.get("sounds/4.wav", Sound.class);
-            five = am.get("sounds/5.wav", Sound.class);
-            oneDo = am.get("sounds/do.mp3", Sound.class);
-            oneRe = am.get("sounds/re.mp3", Sound.class);
-            oneMi = am.get("sounds/mi.mp3", Sound.class);
+            f1 = am.get("sounds/1.wav", Sound.class);
+            f2 = am.get("sounds/2.wav", Sound.class);
+            f3 = am.get("sounds/3.wav", Sound.class);
+            f4 = am.get("sounds/4.wav", Sound.class);
+            f5 = am.get("sounds/5.wav", Sound.class);
+            f6 = am.get("sounds/6.wav", Sound.class);
+            f7 = am.get("sounds/7.wav", Sound.class);
+            f8 = am.get("sounds/8.wav", Sound.class);
+            f9 = am.get("sounds/9.wav", Sound.class);
+            f10 = am.get("sounds/10.wav", Sound.class);
+            f11 = am.get("sounds/11.wav", Sound.class);
+            f12 = am.get("sounds/12.wav", Sound.class);
+            f13 = am.get("sounds/13.wav", Sound.class);
+            f14 = am.get("sounds/14.wav", Sound.class);
+            f15 = am.get("sounds/15.wav", Sound.class);
+
+            oneDo = am.get("sounds/do.wav", Sound.class);
+            oneRe = am.get("sounds/re.wav", Sound.class);
+            oneMi = am.get("sounds/mi.wav", Sound.class);
+            oneFa = am.get("sounds/fa.wav", Sound.class);
+            oneSol = am.get("sounds/sol.wav", Sound.class);
             puck = am.get("sounds/puck.mp3", Sound.class);
             yuju = am.get("sounds/yuju.mp3", Sound.class);
             d1 = am.get("sounds/distancia1.wav", Sound.class);

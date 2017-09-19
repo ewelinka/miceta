@@ -26,6 +26,7 @@ public class CvWorldController extends InputAdapter {
     private int randomNumber;
     private boolean lastAnswerRight;
 
+
     private float timeToWait, timePassed;
 
 
@@ -45,7 +46,7 @@ public class CvWorldController extends InputAdapter {
         randomNumber = getNewNumber();
 
         AudioManager.instance.setStage(stage); // we set current Stage in AudioManager, if not "reader" actor doesn't work
-        AudioManager.instance.readFeedback(randomNumber); //first we read the random number
+        AudioManager.instance.readFeedback(randomNumber, 1); //first we read the random number
         timeToWait = randomNumber + Constants.WAIT_AFTER_KNOCK; // time we should wait before next loop starts
         lastAnswerRight = false;
     }
@@ -64,11 +65,12 @@ public class CvWorldController extends InputAdapter {
         if(isTimeToStartNewLoop()){
             Gdx.app.log(TAG,"new loop! with random number "+randomNumber);
             if(lastAnswerRight){ // if las answer was correct, we celebrate and get new random number
-                AudioManager.instance.play(Assets.instance.sounds.yuju);
+                AudioManager.instance.playNumber(randomNumber); // we play which number was correct
                 randomNumber = getNewNumber();
-                timeToWait = randomNumber + Constants.WAIT_AFTER_KNOCK;
+                int delayForNumberAndYuju = 2;
+                timeToWait = randomNumber + Constants.WAIT_AFTER_KNOCK +delayForNumberAndYuju ; // one extra second to read the number and yuju
                 timePassed = 0; // start to count the time
-                AudioManager.instance.readFeedback(randomNumber); // we just read feedback, we do not read detected blocks
+                AudioManager.instance.readFeedback(randomNumber, delayForNumberAndYuju); // we just read feedback, we do not read detected blocks
                 lastAnswerRight = false;
             }else { // if last answer was wrong we check the detected values and read feedback and read blocks detected
                 ArrayList<Integer> nowDetected = cvBlocksManager.getNewDetectedVals(); // to know the blocks on the table
@@ -80,9 +82,7 @@ public class CvWorldController extends InputAdapter {
                     timeToWait = sum;
                 } else
                     timeToWait = randomNumber;
-
                 if(sum == randomNumber){ // correct answer! in next loop we will celebrate
-                    Gdx.app.log(TAG,"iguality!!! "+sum+" "+randomNumber);
                     lastAnswerRight = true;
                 }else
                     timeToWait += Constants.WAIT_AFTER_KNOCK; // we add extra time to wait after feedback reading

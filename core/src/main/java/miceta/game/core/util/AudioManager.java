@@ -24,7 +24,7 @@ public class AudioManager {
     public static final AudioManager instance = new AudioManager();
     private Music playingMusic;
     private Sound currentSound;
-    private SequenceAction readFeedback, readBlocks;
+    private SequenceAction readFeedback, readBlocks, readCorrectSolution;
     private float defaultVolSound = 1.0f;
     private Actor reader;
     private Stage stage;
@@ -39,6 +39,7 @@ public class AudioManager {
         stage.addActor(reader);
         readFeedback = new SequenceAction(); // for feedback reading
         readBlocks = new SequenceAction(); // for detected blocks reading
+        readCorrectSolution = new SequenceAction(); // for correct number and yuju
     }
 
     public void play (Sound sound) {
@@ -73,64 +74,112 @@ public class AudioManager {
     }
 
     public void playNumber (int nr) {
-        switch (nr){
+        final Sound whichSound;
+        switch(nr) {
             case 1:
-                playWithoutInterruption(Assets.instance.sounds.one);
+                whichSound = Assets.instance.sounds.f1;
                 break;
             case 2:
-                playWithoutInterruption(Assets.instance.sounds.two);
+                whichSound = Assets.instance.sounds.f2;
                 break;
             case 3:
-                playWithoutInterruption(Assets.instance.sounds.three);
+                whichSound = Assets.instance.sounds.f3;
                 break;
             case 4:
-                playWithoutInterruption(Assets.instance.sounds.four);
+                whichSound = Assets.instance.sounds.f4;
                 break;
             case 5:
-                playWithoutInterruption(Assets.instance.sounds.five);
+                whichSound = Assets.instance.sounds.f5;
+                break;
+            case 6:
+                whichSound = Assets.instance.sounds.f6;
+                break;
+            case 7:
+                whichSound = Assets.instance.sounds.f7;
+                break;
+            case 8:
+                whichSound = Assets.instance.sounds.f8;
+                break;
+            case 9:
+                whichSound = Assets.instance.sounds.f9;
+                break;
+            case 10:
+                whichSound = Assets.instance.sounds.f10;
+                break;
+            case 11:
+                whichSound = Assets.instance.sounds.f11;
+                break;
+            case 12:
+                whichSound = Assets.instance.sounds.f12;
+                break;
+            case 13:
+                whichSound = Assets.instance.sounds.f13;
+                break;
+            case 14:
+                whichSound = Assets.instance.sounds.f14;
+                break;
+            case 15:
+                whichSound = Assets.instance.sounds.f15;
+                break;
+            default:
+                whichSound = Assets.instance.sounds.f15; // should never be used because we count to 15 max
                 break;
         }
+        //playWithoutInterruption(whichSound);
+        readCorrectSolution.reset();
+        readCorrectSolution.addAction(run(new Runnable() {
+            public void run() {
+                playWithoutInterruption(whichSound);
+            }
+        }));
+        readCorrectSolution.addAction(delay(readBlockDuration));
+        readCorrectSolution.addAction(run(new Runnable() {
+            public void run() {
+                playWithoutInterruption(Assets.instance.sounds.yuju);
+            }
+        }));
+        reader.addAction(readCorrectSolution);
+
     }
 
     public void addToReadBlock (int nr) {
+        final Sound whichSound;
         switch (nr) {
             case 1:
-                readBlocks.addAction(run(new Runnable() {
-                    public void run() {
-                        playWithoutInterruption(Assets.instance.sounds.oneDo);
-                    }
-                }));
-                readBlocks.addAction(delay(readBlockDuration)); // we wait 0.5s because sound files with "do", "re" and "mi" have 0.5s
+                whichSound = Assets.instance.sounds.oneDo;
                 break;
             case 2:
-                readBlocks.addAction(run(new Runnable() {
-                    public void run() {
-                        playWithoutInterruption(Assets.instance.sounds.oneRe);
-                    }
-                }));
-                readBlocks.addAction(delay(readBlockDuration));
+                whichSound = Assets.instance.sounds.oneRe;
                 break;
             case 3:
-                readBlocks.addAction(run(new Runnable() {
-                    public void run() {
-                        playWithoutInterruption(Assets.instance.sounds.oneMi);
-                    }
-                }));
-                readBlocks.addAction(delay(readBlockDuration));
+                whichSound = Assets.instance.sounds.oneMi;
+                break;
+            case 4:
+                whichSound = Assets.instance.sounds.oneFa;
+                break;
+            case 5:
+                whichSound = Assets.instance.sounds.oneSol;
+                break;
+            default:
+                whichSound = Assets.instance.sounds.oneSol; // TODO change the default to hmmm nothing?
                 break;
 
         }
+        readBlocks.addAction(run(new Runnable() {
+            public void run() {
+                playWithoutInterruption(whichSound);
+            }
+        }));
+        readBlocks.addAction(delay(readBlockDuration)); // we wait 0.5s because sound files with "do", "re" and "mi" have 0.5s
     }
 
     public void readSingleKnock(int whichKnock){
         final Sound whichSound;
         switch(whichKnock) {
             case 1:
-                Gdx.app.log(TAG,"one!");
                 whichSound = Assets.instance.sounds.d1;
                 break;
             case 2:
-                Gdx.app.log(TAG,"two!");
                 whichSound = Assets.instance.sounds.d2;
                 break;
             case 3:
@@ -207,10 +256,10 @@ public class AudioManager {
 
     }
 
-    public void readFeedback( int numToBuild){ // we use this action at the beginning of new screen, we read feedback without blocks
+    public void readFeedback( int numToBuild, int delayForNumberAndYuju){ // we use this action at the beginning of new screen, we read feedback without blocks
         Gdx.app.log(TAG,"readFeedback "+numToBuild);
         readFeedback.reset();
-        readFeedback.addAction(delay(1.0f));
+        readFeedback.addAction(delay(delayForNumberAndYuju));
         addToReadFeedbackInSpace(numToBuild);
         reader.addAction(readFeedback);
     }
