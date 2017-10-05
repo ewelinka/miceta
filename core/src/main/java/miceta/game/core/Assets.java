@@ -49,16 +49,16 @@ public class Assets implements Disposable, AssetErrorListener {
         assetManager.load("music/song1.mp3", Music.class);
         assetManager.load("sounds/yuju.mp3", Sound.class);
 
-        assetManager.load("sounds/distancia1.wav", Sound.class);
-        assetManager.load("sounds/distancia2.wav", Sound.class);
-        assetManager.load("sounds/distancia3.wav", Sound.class);
-        assetManager.load("sounds/distancia4.wav", Sound.class);
-        assetManager.load("sounds/distancia5.wav", Sound.class);
-        assetManager.load("sounds/distancia6.wav", Sound.class);
-        assetManager.load("sounds/distancia7.wav", Sound.class);
-        assetManager.load("sounds/distancia8.wav", Sound.class);
-        assetManager.load("sounds/distancia9.wav", Sound.class);
-        assetManager.load("sounds/distancia10.wav", Sound.class);
+        assetManager.load("sounds/d1.wav", Sound.class);
+        assetManager.load("sounds/d2.wav", Sound.class);
+        assetManager.load("sounds/d3.wav", Sound.class);
+        assetManager.load("sounds/d4.wav", Sound.class);
+        assetManager.load("sounds/d5.wav", Sound.class);
+        assetManager.load("sounds/d6.wav", Sound.class);
+        assetManager.load("sounds/d7.wav", Sound.class);
+        assetManager.load("sounds/d8.wav", Sound.class);
+        assetManager.load("sounds/d9.wav", Sound.class);
+        assetManager.load("sounds/d10.wav", Sound.class);
 
 
         assetManager.finishLoading();
@@ -106,16 +106,16 @@ public class Assets implements Disposable, AssetErrorListener {
             oneSol = am.get("sounds/sol.wav", Sound.class);
             puck = am.get("sounds/puck.mp3", Sound.class);
             yuju = am.get("sounds/yuju.mp3", Sound.class);
-            d1 = am.get("sounds/distancia1.wav", Sound.class);
-            d2 = am.get("sounds/distancia2.wav", Sound.class);
-            d3 = am.get("sounds/distancia3.wav", Sound.class);
-            d4 = am.get("sounds/distancia4.wav", Sound.class);
-            d5 = am.get("sounds/distancia5.wav", Sound.class);
-            d6 = am.get("sounds/distancia6.wav", Sound.class);
-            d7 = am.get("sounds/distancia7.wav", Sound.class);
-            d8 = am.get("sounds/distancia8.wav", Sound.class);
-            d9 = am.get("sounds/distancia9.wav", Sound.class);
-            d10 = am.get("sounds/distancia10.wav", Sound.class);
+            d1 = am.get("sounds/d1.wav", Sound.class);
+            d2 = am.get("sounds/d2.wav", Sound.class);
+            d3 = am.get("sounds/d3.wav", Sound.class);
+            d4 = am.get("sounds/d4.wav", Sound.class);
+            d5 = am.get("sounds/d5.wav", Sound.class);
+            d6 = am.get("sounds/d6.wav", Sound.class);
+            d7 = am.get("sounds/d7.wav", Sound.class);
+            d8 = am.get("sounds/d8.wav", Sound.class);
+            d9 = am.get("sounds/d9.wav", Sound.class);
+            d10 = am.get("sounds/d10.wav", Sound.class);
         }
     }
 
