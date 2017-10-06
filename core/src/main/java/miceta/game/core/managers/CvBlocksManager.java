@@ -10,6 +10,7 @@ import com.badlogic.gdx.utils.ArrayMap;
 import edu.ceta.vision.android.topcode.TopCodeDetectorAndroid;
 import edu.ceta.vision.core.blocks.Block;
 import edu.ceta.vision.core.topcode.TopCodeDetector;
+import edu.ceta.vision.core.topcode.TopCodeDetectorDesktop;
 import miceta.game.core.miCeta;
 import org.opencv.core.Core;
 import org.opencv.core.Mat;
@@ -41,9 +42,16 @@ public class CvBlocksManager {
     }
 
     private void init(){
-        Rect detectionZone = new Rect((640-480),0,480,480);
+
         if((Gdx.app.getType() == Application.ApplicationType.Android)) {
+            Rect detectionZone = new Rect((640-480),0,480,480);
             topCodeDetector = new TopCodeDetectorAndroid(50, true, 70, 5, true, false, false, true, detectionZone);
+        }else{ // pc!
+            Rect detectionZone = new Rect(0,0,1280,720); // WARN my mac cam resolution!!
+            // TODO check the orientation of the frame
+            //Rect detectionZone = new Rect(0,0,1920,768); //positivo camera resolution
+            topCodeDetector = new TopCodeDetectorDesktop(50, true, 70, 5, true, false, true, detectionZone,true);
+
         }
         detectionReady = false;
     }
@@ -72,8 +80,27 @@ public class CvBlocksManager {
                 }
             }).start();
         }
-        else{
-            //PC case
+        else{ // PC!
+            new Thread(new Runnable() {
+                public void run() {
+                    // Mat frame = ((CetaGame) game).getAndBlockLastFrame();
+                    //Core.flip(frame, frame, 0);
+
+                    final Set<Block> finalSet = ((TopCodeDetectorDesktop) topCodeDetector).detectBlocks();
+                    // Gdx.app.log(TAG, "ready with the detection!! framerateee"+Gdx.graphics.getFramesPerSecond());
+                    detectionReady = true;
+                    //((CetaGame) game).releaseFrame();
+
+                    Gdx.app.postRunnable(new Runnable() {
+                        @Override
+                        public void run() {
+                            // process the result, e.g. add it to an Array<Result> field of the ApplicationListener.
+                            results.clear();
+                            results.add(finalSet);
+                        }
+                    });
+                }
+            }).start();
         }
     }
 
@@ -104,5 +131,8 @@ public class CvBlocksManager {
         return new ArrayList(nowDetectedVals);
     }
 
+    public TopCodeDetector getTopCodeDetector(){
+        return topCodeDetector;
+    }
 
 }
