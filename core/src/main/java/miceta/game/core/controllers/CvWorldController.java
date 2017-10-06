@@ -55,8 +55,12 @@ public class CvWorldController extends InputAdapter {
     public void update(float deltaTime) {
         timePassed+=deltaTime; // variable used to check in isTimeToStartNewLoop() to decide if new feedback loop should be started
 
+        //Gdx.app.log(TAG,"NEW LOOOOOOOP ");
+
         if (game.hasNewFrame()) {
+
             cvBlocksManager.updateDetected(); // to get detected blocks
+            // cvBlocksManager.idLastFrame();
         }
         if (cvBlocksManager.isDetectionReady()) {
             cvBlocksManager.analyseDetected(); // to analyse the blocks (=get blocks values)
@@ -77,6 +81,9 @@ public class CvWorldController extends InputAdapter {
                 int sum = 0;
                 for (int i = 0; i < nowDetected.size(); i++)
                     sum += nowDetected.get(i); // we need to know the sum to decide if response is correct
+                    //System.out.print("PRUEBA: " + sum);
+                    Gdx.app.log(TAG,"SUM" + sum);
+
 
                 if (sum > randomNumber) { //check how long to wait (biggest number between sum of blocks and random number)
                     timeToWait = sum;
