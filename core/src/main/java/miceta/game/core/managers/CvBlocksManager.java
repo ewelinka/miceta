@@ -48,9 +48,8 @@ public class CvBlocksManager {
             topCodeDetector = new TopCodeDetectorAndroid(50, true, 70, 5, true, false, false, true, detectionZone);
         }else{ // pc!
             Rect detectionZone = new Rect(0,0,1280,720); // WARN my mac cam resolution!!
-            // TODO check the orientation of the frame
-            //Rect detectionZone = new Rect(0,0,1920,768); //positivo camera resolution
-            topCodeDetector = new TopCodeDetectorDesktop(50, true, 70, 5, true, false, true, detectionZone,true);
+            //Rect detectionZone = new Rect(0,0,640,480); //positivo camera resolution
+            topCodeDetector = new TopCodeDetectorDesktop(50, true, 70, 5, true, false, true, detectionZone,true,false);
 
         }
         detectionReady = false;
@@ -64,8 +63,6 @@ public class CvBlocksManager {
                     Core.flip(frame, frame, 0);
 
                     final Set<Block> finalSet = ((TopCodeDetectorAndroid) topCodeDetector).detectBlocks(frame, 0.85);
-                    //final Set<Block> finalSet = topCodeDetector.detectBlocks(((CetaGame) game).getAndBlockLastFrame());
-                    // Gdx.app.log(TAG, "ready with the detection!! framerateee"+Gdx.graphics.getFramesPerSecond());
                     detectionReady = true;
                     game.releaseFrame();
 
@@ -118,7 +115,7 @@ public class CvBlocksManager {
             for (Block i : currentBlocks) {
                 nowDetectedVals.add(i.getValue()); // we fill the empty array with detected values
             }
-            Gdx.app.log(TAG, "now detected vals "+Arrays.toString(nowDetectedVals.toArray()));
+            //Gdx.app.log(TAG, "now detected vals "+Arrays.toString(nowDetectedVals.toArray()));
             detectionReady = false;
         }
     }

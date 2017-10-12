@@ -5,15 +5,14 @@ import com.badlogic.gdx.audio.Music;
 import com.badlogic.gdx.audio.Sound;
 import com.badlogic.gdx.scenes.scene2d.Actor;
 import com.badlogic.gdx.scenes.scene2d.Stage;
+import com.badlogic.gdx.scenes.scene2d.actions.Actions;
 import com.badlogic.gdx.scenes.scene2d.actions.SequenceAction;
 import miceta.game.core.Assets;
 
 
 import java.util.ArrayList;
 
-import static com.badlogic.gdx.scenes.scene2d.actions.Actions.delay;
-import static com.badlogic.gdx.scenes.scene2d.actions.Actions.parallel;
-import static com.badlogic.gdx.scenes.scene2d.actions.Actions.run;
+import static com.badlogic.gdx.scenes.scene2d.actions.Actions.*;
 
 /**
  * Created by ewe on 8/10/17.
@@ -24,11 +23,11 @@ public class AudioManager {
     public static final AudioManager instance = new AudioManager();
     private Music playingMusic;
     private Sound currentSound;
-    private SequenceAction readFeedback, readBlocks, readCorrectSolution;
+    private SequenceAction readFeedbackAction, readBlocksAction, readCorrectSolutionAction;
     private float defaultVolSound = 1.0f;
     private Actor reader;
     private Stage stage;
-    private float readBlockDuration = 0.5f;
+    private float readBlockDuration = Constants.READ_ONE_UNIT_DURATION;
 
     private AudioManager () { }
 
@@ -37,9 +36,9 @@ public class AudioManager {
         this.stage = stage;
         reader = new Actor(); // ractor that reads everything
         stage.addActor(reader);
-        readFeedback = new SequenceAction(); // for feedback reading
-        readBlocks = new SequenceAction(); // for detected blocks reading
-        readCorrectSolution = new SequenceAction(); // for correct number and yuju
+        readFeedbackAction = new SequenceAction(); // for feedback reading
+        readBlocksAction = new SequenceAction(); // for detected blocks reading
+        readCorrectSolutionAction = new SequenceAction(); // for correct number and yuju
     }
 
     public void play (Sound sound) {
@@ -61,7 +60,7 @@ public class AudioManager {
         playingMusic = music;
 
         music.setLooping(true);
-        music.setVolume(0.05f);
+        music.setVolume(0.01f);
         music.play();
 
     }
@@ -73,7 +72,8 @@ public class AudioManager {
         sound.play(defaultVolSound , 1, 1);
     }
 
-    public void playNumber (int nr) {
+    public SequenceAction playNumberAndYuju (int nr, SequenceAction readCorrectSolution) {
+        Gdx.app.log(TAG,"play number and yuju "+nr);
         final Sound whichSound;
         switch(nr) {
             case 1:
@@ -125,24 +125,17 @@ public class AudioManager {
                 whichSound = Assets.instance.sounds.f15; // should never be used because we count to 15 max
                 break;
         }
-        //playWithoutInterruption(whichSound);
-        readCorrectSolution.reset();
+
         readCorrectSolution.addAction(run(new Runnable() {
             public void run() {
                 playWithoutInterruption(whichSound);
             }
         }));
-        readCorrectSolution.addAction(delay(readBlockDuration));
-        readCorrectSolution.addAction(run(new Runnable() {
-            public void run() {
-                playWithoutInterruption(Assets.instance.sounds.yuju);
-            }
-        }));
-        reader.addAction(readCorrectSolution);
+        return readCorrectSolution;
 
     }
 
-    public void addToReadBlock (int nr) {
+    public void addToReadBlock (int nr, SequenceAction readBlocks) {
         final Sound whichSound;
         switch (nr) {
             case 1:
@@ -170,10 +163,11 @@ public class AudioManager {
                 playWithoutInterruption(whichSound);
             }
         }));
-        readBlocks.addAction(delay(readBlockDuration)); // we wait 0.5s because sound files with "do", "re" and "mi" have 0.5s
+        readBlocks.addAction(delay(readBlockDuration)); // we wait Xs because sound files with "do", "re" and "mi" have X duration
     }
 
-    public void readSingleKnock(int whichKnock){
+    public void readSingleKnock(int whichKnock, SequenceAction readFeedback){
+        Gdx.app.log(TAG,"--- knock "+whichKnock+" block duration "+readBlockDuration);
         final Sound whichSound;
         switch(whichKnock) {
             case 1:
@@ -216,51 +210,66 @@ public class AudioManager {
                 playWithoutInterruption(whichSound);
             }
         }));
-        readFeedback.addAction(delay(readBlockDuration));
+        readFeedback.addAction(delay(readBlockDuration)); // we wait Xs because sound files with "do", "re" and "mi" have X duration
 
     }
 
-    public void addToReadFeedback (int nr) {
-        for(int i = 0; i<nr;i++){ // if the number is 5 we have to knock 5 times
-            readFeedback.addAction(run(new Runnable() {
-                public void run() {
-                    playWithoutInterruption(Assets.instance.sounds.puck);
-                }
-            }));
-            readFeedback.addAction(delay(readBlockDuration));
-        }
-    }
 
-    public void addToReadFeedbackInSpace (int nr) {
+    public SequenceAction addToReadFeedbackInSpace (int nr, SequenceAction readFeedback) {
         for(int i = 0; i<nr;i++){ // if the number is 5 we have to knock 5 times
-            readSingleKnock(i+1); // we start with 1
+            readSingleKnock(i+1, readFeedback); // we start with 1
         }
+
+        return readFeedback;
     }
 
     public void readFeedbackAndBlocks(ArrayList<Integer> toReadNums, int numToBuild){
-        readBlocks.reset();
-        readBlocks.addAction(delay(0.2f));
+        Gdx.app.log(TAG," read feedback and blocks! "+numToBuild);
+        /////// blocks
+        readBlocksAction.reset();
+        readBlocksAction.addAction(delay(0.2f)); //wait before start read blocks
         for(int i = 0; i<toReadNums.size();i++) { // if we have detected block 3 and block 2, we have to read 3 times "mi" and 2 time "re"
             int val = toReadNums.get(i); // val will be 3 and than 2
             for(int j = 0; j<val;j++) {
-                addToReadBlock(val); // one single lecture
+                addToReadBlock(val, readBlocksAction); // one single lecture
             }
         }
+        /////////// feedback
+        readFeedbackAction.reset();
+        readFeedbackAction.addAction(delay(0.2f)); // wait before start read feedback
+        readFeedbackAction = addToReadFeedbackInSpace(numToBuild, readFeedbackAction); // to generate feedback
 
-        readFeedback.reset();
-        readFeedback.addAction(delay(0.2f));
-        addToReadFeedbackInSpace(numToBuild); // to generate feedback
 
-
-        reader.addAction(parallel(readBlocks,readFeedback)); // we read feedback and the blocks in parallel
+        reader.addAction(parallel(readBlocksAction,readFeedbackAction)); // we read feedback and the blocks in parallel
 
     }
 
-    public void readFeedback( int numToBuild, int delayForNumberAndYuju){ // we use this action at the beginning of new screen, we read feedback without blocks
-        Gdx.app.log(TAG,"readFeedback "+numToBuild);
-        readFeedback.reset();
-        readFeedback.addAction(delay(delayForNumberAndYuju));
-        addToReadFeedbackInSpace(numToBuild);
-        reader.addAction(readFeedback);
+    public void readFeedback( int numToBuild){ // we use this action at the beginning of new screen, we read feedback without blocks
+        readFeedbackAction.reset();
+        addToReadFeedbackInSpace(numToBuild, readFeedbackAction);
+        // first read with small delay at the beginning
+        reader.addAction(sequence(delay(1.0f),readFeedbackAction));
+    }
+
+    public void readNumberAndYujuAndThenFeedback( int previousNumber, int numToBuild){ // we use this action at the beginning of new screen, we read feedback without blocks
+        reader.clearActions(); // important! clear actions!
+        ////// play correct number and yuju
+        readCorrectSolutionAction.reset();
+        readCorrectSolutionAction = playNumberAndYuju(previousNumber,readCorrectSolutionAction);
+        readCorrectSolutionAction.addAction(delay(readBlockDuration)); //we wait to finish read the correct answer and then yuju
+        readCorrectSolutionAction.addAction(run(new Runnable() {
+            public void run() {
+                playWithoutInterruption(Assets.instance.sounds.yuju); //after correct answer comes "yuju"
+            }
+        }));
+
+        ////// read feedback
+        readFeedbackAction.reset();
+        readFeedbackAction.addAction(delay(Constants.DELAY_FOR_NUMBER_AND_YUJU));
+        addToReadFeedbackInSpace(numToBuild, readFeedbackAction);
+
+        // first read with small delay at the beginning
+        reader.addAction(parallel(readCorrectSolutionAction,readFeedbackAction));
+
     }
 }
