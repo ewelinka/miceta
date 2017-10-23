@@ -1,5 +1,6 @@
 package miceta.game.core.controllers;
 
+import com.badlogic.gdx.Application;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.InputAdapter;
 import com.badlogic.gdx.audio.Sound;
@@ -7,6 +8,7 @@ import com.badlogic.gdx.math.MathUtils;
 import com.badlogic.gdx.scenes.scene2d.Stage;
 import com.badlogic.gdx.scenes.scene2d.ui.Image;
 import com.badlogic.gdx.utils.Disposable;
+import edu.ceta.vision.core.topcode.TopCodeDetectorDesktop;
 import miceta.game.core.Assets;
 import miceta.game.core.managers.CvBlocksManager;
 import miceta.game.core.miCeta;
@@ -51,19 +53,32 @@ public class CvWorldController extends InputAdapter {
         lastAnswerRight = false;
     }
 
-
-    public void update(float deltaTime) {
-        timePassed+=deltaTime; // variable used to check in isTimeToStartNewLoop() to decide if new feedback loop should be started
-
-        //Gdx.app.log(TAG,"NEW LOOOOOOOP ");
-
+    private void updateAndroid(){
         if (game.hasNewFrame()) {
-
             cvBlocksManager.updateDetected(); // to get detected blocks
-            // cvBlocksManager.idLastFrame();
         }
         if (cvBlocksManager.isDetectionReady()) {
             cvBlocksManager.analyseDetected(); // to analyse the blocks (=get blocks values)
+        }
+    }
+
+    private void updatePC(){
+        if(!((TopCodeDetectorDesktop)cvBlocksManager.getTopCodeDetector()).isBusy()){ //ask before in order to not accumulate new threads.
+            cvBlocksManager.updateDetected();
+
+            if(cvBlocksManager.isDetectionReady()){
+                cvBlocksManager.analyseDetected();
+            }
+        }
+    }
+
+
+    public void update(float deltaTime) {
+        timePassed+=deltaTime; // variable used to check in isTimeToStartNewLoop() to decide if new feedback loop should be started
+        if((Gdx.app.getType() == Application.ApplicationType.Android)){
+            updateAndroid();
+        }else{
+            updatePC();
         }
 
         if(isTimeToStartNewLoop()){
@@ -81,9 +96,6 @@ public class CvWorldController extends InputAdapter {
                 int sum = 0;
                 for (int i = 0; i < nowDetected.size(); i++)
                     sum += nowDetected.get(i); // we need to know the sum to decide if response is correct
-                    //System.out.print("PRUEBA: " + sum);
-                    Gdx.app.log(TAG,"SUM" + sum);
-
 
                 if (sum > randomNumber) { //check how long to wait (biggest number between sum of blocks and random number)
                     timeToWait = sum;
@@ -100,6 +112,7 @@ public class CvWorldController extends InputAdapter {
 
         }
     }
+
 
     private int getNewNumber(){
         //return 10;
