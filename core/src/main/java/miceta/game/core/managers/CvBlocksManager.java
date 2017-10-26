@@ -12,6 +12,7 @@ import edu.ceta.vision.core.blocks.Block;
 import edu.ceta.vision.core.topcode.TopCodeDetector;
 import edu.ceta.vision.core.topcode.TopCodeDetectorDesktop;
 import miceta.game.core.miCeta;
+import miceta.game.core.util.AudioManager;
 import org.opencv.core.Core;
 import org.opencv.core.Mat;
 import org.opencv.core.Rect;
@@ -301,6 +302,7 @@ public class CvBlocksManager {
 
             stableIds.add(id);
             resetStrikes(id);
+            AudioManager.instance.playNumber(16);
             Gdx.app.log(TAG, " ADD BLOCK: " + id + "BECAUSE HAS POSITIVE STRIKES!");
 
         }
