@@ -8,6 +8,7 @@ import com.badlogic.gdx.math.MathUtils;
 import com.badlogic.gdx.scenes.scene2d.Stage;
 import com.badlogic.gdx.scenes.scene2d.ui.Image;
 import com.badlogic.gdx.utils.Disposable;
+import edu.ceta.vision.core.blocks.Block;
 import edu.ceta.vision.core.topcode.TopCodeDetectorDesktop;
 import miceta.game.core.Assets;
 import miceta.game.core.managers.CvBlocksManager;
@@ -17,6 +18,7 @@ import miceta.game.core.util.Constants;
 
 
 import java.util.ArrayList;
+import java.util.Set;
 
 /**
  * Created by ewe on 8/10/17.
@@ -83,31 +85,36 @@ public class CvWorldController extends InputAdapter {
 
         if(isTimeToStartNewLoop()){
             Gdx.app.log(TAG,"new loop! with random number "+randomNumber);
-            if(lastAnswerRight){ // if las answer was correct, we celebrate and get new random number
+            if(lastAnswerRight){ // if las answer was correct, we get new random number
                 previousRandomNumber = randomNumber;
                 randomNumber = getNewNumber();
-                timeToWait = randomNumber*Constants.READ_ONE_UNIT_DURATION + Constants.DELAY_FOR_NUMBER_AND_YUJU + Constants.WAIT_AFTER_KNOCK; // one extra second to read the number and yuju
+                timeToWait = Constants.READ_NUMBER_DURATION + randomNumber*Constants.READ_ONE_UNIT_DURATION + Constants.WAIT_AFTER_KNOCK; // one extra second to read number,feedback and yuju
                 timePassed = 0; // start to count the time
-                AudioManager.instance.readNumberAndYujuAndThenFeedback(previousRandomNumber,randomNumber); // we just read yuju and feedback, we do not read detected blocks
+                AudioManager.instance.readFeedback(randomNumber);
                 lastAnswerRight = false;
-                Gdx.app.log(TAG,"lastAnswerRight! time "+timeToWait+" number "+randomNumber);
+
             }else { // if last answer was wrong we check the detected values and read feedback and read blocks detected
+
                 ArrayList<Integer> nowDetected = cvBlocksManager.getNewDetectedVals(); // to know the blocks on the table
                 int sum = 0;
                 for (int i = 0; i < nowDetected.size(); i++)
                     sum += nowDetected.get(i); // we need to know the sum to decide if response is correct
 
                 if (sum > randomNumber) { //check how long to wait (biggest number between sum of blocks and random number)
-                    timeToWait = sum*Constants.READ_ONE_UNIT_DURATION;
+                    timeToWait = Constants.READ_NUMBER_DURATION + sum*Constants.READ_ONE_UNIT_DURATION;
                 } else
-                    timeToWait = randomNumber*Constants.READ_ONE_UNIT_DURATION;
+                    timeToWait = Constants.READ_NUMBER_DURATION + randomNumber*Constants.READ_ONE_UNIT_DURATION;
                 if(sum == randomNumber){ // correct answer! in next loop we will celebrate
                     lastAnswerRight = true;
+                    timeToWait += Constants.DELAY_FOR_YUJU;
                 }else
                     timeToWait += Constants.WAIT_AFTER_KNOCK; // we add extra time to wait after feedback reading
                 timePassed = 0;
 
-                AudioManager.instance.readFeedbackAndBlocks(nowDetected, randomNumber);
+                if(lastAnswerRight)
+                    Gdx.app.log(TAG," RIGHT "+sum+ " "+randomNumber+" "+timeToWait);
+
+                AudioManager.instance.readAllFeedbacks(nowDetected, randomNumber, lastAnswerRight);
             }
 
         }
@@ -115,14 +122,25 @@ public class CvWorldController extends InputAdapter {
 
 
     private int getNewNumber(){
-        //return 10;
-        return MathUtils.random(1,10);
+        int candidate = MathUtils.random(1,5);
+        if(candidate == previousRandomNumber)
+            candidate = (candidate+1)%6;
+        if(candidate == 0) candidate = 1;
 
+        return candidate;
     }
 
     private boolean isTimeToStartNewLoop(){
         //Gdx.app.log(TAG,"NEW LOOOOOOOP "+timePassed+" "+timeToWait+" "+(timePassed > timeToWait));
         return (timePassed > timeToWait);
+    }
+
+    public Set<Block> getCurrentBlocksFromManager(){
+        return cvBlocksManager.getCurrentBlocks();
+    }
+
+    public int getRandomNumber(){
+        return randomNumber;
     }
 
 
