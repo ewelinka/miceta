@@ -2,6 +2,8 @@ package miceta.game.core.managers;
 
 import com.badlogic.gdx.Application;
 import com.badlogic.gdx.Gdx;
+import com.badlogic.gdx.graphics.g2d.BitmapFont;
+import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.math.MathUtils;
 import com.badlogic.gdx.scenes.scene2d.Stage;
 import com.badlogic.gdx.utils.ArrayMap;
@@ -17,10 +19,7 @@ import org.opencv.core.Mat;
 import org.opencv.core.Rect;
 
 
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.HashSet;
-import java.util.Set;
+import java.util.*;
 
 /**
  * Created by ewe on 8/10/17.
@@ -32,7 +31,8 @@ public class CvBlocksManager {
     private boolean detectionReady;
     public ArrayList<Set> results = new ArrayList<Set>();
     ArrayList<Integer> nowDetectedVals = new ArrayList<Integer>();
-    private Set<Block> currentBlocks;
+    private Set<Block> currentBlocks, tempList;
+
 
 
     public CvBlocksManager(miCeta game, Stage stage)
@@ -42,7 +42,8 @@ public class CvBlocksManager {
     }
 
     private void init(){
-
+        currentBlocks = null;
+        tempList = null;
         if((Gdx.app.getType() == Application.ApplicationType.Android)) {
             Rect detectionZone = new Rect((640-480),0,480,480);
             topCodeDetector = new TopCodeDetectorAndroid(50, true, 70, 5, true, false, false, true, detectionZone);
@@ -56,48 +57,49 @@ public class CvBlocksManager {
     }
 
     public void updateDetected() {
-        if((Gdx.app.getType() == Application.ApplicationType.Android)) {
-            new Thread(new Runnable() {
-                public void run() {
-                    Mat frame = game.getAndBlockLastFrame();
-                    Core.flip(frame, frame, 0);
+        if(!detectionReady) {
+            if ((Gdx.app.getType() == Application.ApplicationType.Android)) {
+                new Thread(new Runnable() {
+                    public void run() {
+                        Mat frame = game.getAndBlockLastFrame();
+                        Core.flip(frame, frame, 0);
 
-                    final Set<Block> finalSet = ((TopCodeDetectorAndroid) topCodeDetector).detectBlocks(frame, 0.85);
-                    detectionReady = true;
-                    game.releaseFrame();
+                        final Set<Block> finalSet = ((TopCodeDetectorAndroid) topCodeDetector).detectBlocks(frame, 0.85);
+                        detectionReady = true;
+                        game.releaseFrame();
 
-                    Gdx.app.postRunnable(new Runnable() {
-                        @Override
-                        public void run() {
-                            // process the result, e.g. add it to an Array<Result> field of the ApplicationListener.
-                            results.clear();
-                            results.add(finalSet);
-                        }
-                    });
-                }
-            }).start();
-        }
-        else{ // PC!
-            new Thread(new Runnable() {
-                public void run() {
-                    // Mat frame = ((CetaGame) game).getAndBlockLastFrame();
-                    //Core.flip(frame, frame, 0);
+                        Gdx.app.postRunnable(new Runnable() {
+                            @Override
+                            public void run() {
+                                // process the result, e.g. add it to an Array<Result> field of the ApplicationListener.
+                                results.clear();
+                                results.add(finalSet);
+                            }
+                        });
+                    }
+                }).start();
+            } else { // PC!
+                new Thread(new Runnable() {
+                    public void run() {
+                        // Mat frame = ((CetaGame) game).getAndBlockLastFrame();
+                        //Core.flip(frame, frame, 0);
 
-                    final Set<Block> finalSet = ((TopCodeDetectorDesktop) topCodeDetector).detectBlocks();
-                    // Gdx.app.log(TAG, "ready with the detection!! framerateee"+Gdx.graphics.getFramesPerSecond());
-                    detectionReady = true;
-                    //((CetaGame) game).releaseFrame();
+                        final Set<Block> finalSet = ((TopCodeDetectorDesktop) topCodeDetector).detectBlocks();
+                        // Gdx.app.log(TAG, "ready with the detection!! framerateee"+Gdx.graphics.getFramesPerSecond());
+                        detectionReady = true;
+                        //((CetaGame) game).releaseFrame();
 
-                    Gdx.app.postRunnable(new Runnable() {
-                        @Override
-                        public void run() {
-                            // process the result, e.g. add it to an Array<Result> field of the ApplicationListener.
-                            results.clear();
-                            results.add(finalSet);
-                        }
-                    });
-                }
-            }).start();
+                        Gdx.app.postRunnable(new Runnable() {
+                            @Override
+                            public void run() {
+                                // process the result, e.g. add it to an Array<Result> field of the ApplicationListener.
+                                results.clear();
+                                results.add(finalSet);
+                            }
+                        });
+                    }
+                }).start();
+            }
         }
     }
 
@@ -105,10 +107,12 @@ public class CvBlocksManager {
         if(detectionReady) {
             if(results.size() > 0) {
                 currentBlocks = results.get(0); //here we have our set of detected blocks
+                tempList = new HashSet<Block>(currentBlocks);
             }
             else {
                 Gdx.app.error(TAG," very very wrong -> empty result!");
                 currentBlocks =  new HashSet<Block>();
+                tempList = new HashSet<Block>();
             }
             nowDetectedVals.clear();
 
@@ -130,6 +134,10 @@ public class CvBlocksManager {
 
     public TopCodeDetector getTopCodeDetector(){
         return topCodeDetector;
+    }
+
+    public Set<Block> getCurrentBlocks() {
+        return tempList;
     }
 
 }
