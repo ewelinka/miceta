@@ -13,8 +13,7 @@ public class miCetaDesktop {
 		config.height = 1366; // screen size
 		config.width = 768;
 		System.out.println(System.getProperty("java.library.path")+"  "+Core.NATIVE_LIBRARY_NAME);
-		System.loadLibrary(Core.NATIVE_LIBRARY_NAME);
-
+		System.loadLibrary("opencv_java2413");
 		new LwjglApplication(new miCeta(), config);
 
 
