@@ -75,7 +75,7 @@ public class CvBlocksManager {
             Rect detectionZone = new Rect(0,0,640,480); // WARN my mac cam resolution!!
             // TODO check the orientation of the frame
             //Rect detectionZone = new Rect(0,0,1920,768); //positivo camera resolution
-            topCodeDetector = new TopCodeDetectorDesktop(50, true, 70, 5, true, false, true, detectionZone,true);
+            topCodeDetector = new TopCodeDetectorDesktop(50, true, 70, 5, true, false, true, detectionZone,true,false);
 
         }
         detectionReady = false;
@@ -302,10 +302,6 @@ public class CvBlocksManager {
         }
         return result;
     }
-    
-    public TopCodeDetector getTopCodeDetector(){
-        return topCodeDetector;
-    }
 
     public Set<Block> getCurrentBlocks() {
         return tempList;
@@ -319,7 +315,8 @@ public class CvBlocksManager {
 
             stableIds.add(id);
             resetStrikes(id);
-            AudioManager.instance.playNumber(16);
+            // PABLO! esto cambio, tenemos que ver de agregar un actor que solo se ocupa de avisar que hay bloque nuevo
+            //AudioManager.instance.playNumber(16);
             Gdx.app.log(TAG, " ADD BLOCK: " + id + "BECAUSE HAS POSITIVE STRIKES!");
 
         }
