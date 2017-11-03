@@ -32,7 +32,7 @@ public class CvBlocksManager {
     public ArrayList<Set> results = new ArrayList<Set>();
     ArrayList<Integer> nowDetectedVals = new ArrayList<Integer>();
 
-    private Set<Block> currentBlocks, tempList;
+    private Set<Block> tempList;
 
     ArrayList<Integer> nowDetectedValsId = new ArrayList<Integer>();
     private ArrayList<Block> newDetectedCVBlocks;
