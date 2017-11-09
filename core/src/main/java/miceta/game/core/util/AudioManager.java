@@ -130,9 +130,9 @@ public class AudioManager {
             case 15:
                 whichSound = Assets.instance.sounds.f15;
                 break;
-            case 16:
-              whichSound = Assets.instance.sounds.newblock;
-                break;
+           // case 16:
+            //  whichSound = Assets.instance.sounds.newblock;
+              //  break;
             default:
                 whichSound = Assets.instance.sounds.f15; // should never be used because we count to 15 max
                 break;
