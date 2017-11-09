@@ -2,12 +2,8 @@ package miceta.game.core.managers;
 
 import com.badlogic.gdx.Application;
 import com.badlogic.gdx.Gdx;
-import com.badlogic.gdx.graphics.g2d.BitmapFont;
-import com.badlogic.gdx.graphics.g2d.SpriteBatch;
-import com.badlogic.gdx.math.MathUtils;
 import com.badlogic.gdx.scenes.scene2d.Stage;
 import com.badlogic.gdx.utils.ArrayMap;
-
 import edu.ceta.vision.core.utils.BlocksMarkersMap;
 import edu.ceta.vision.android.topcode.TopCodeDetectorAndroid;
 import edu.ceta.vision.core.blocks.Block;
@@ -15,6 +11,7 @@ import edu.ceta.vision.core.topcode.TopCodeDetector;
 import edu.ceta.vision.core.topcode.TopCodeDetectorDesktop;
 import miceta.game.core.miCeta;
 import miceta.game.core.util.AudioManager;
+import miceta.game.core.util.Constants;
 import org.opencv.core.Core;
 import org.opencv.core.Mat;
 import org.opencv.core.Rect;
@@ -31,15 +28,12 @@ public class CvBlocksManager {
     private boolean detectionReady;
     public ArrayList<Set> results = new ArrayList<Set>();
     ArrayList<Integer> nowDetectedVals = new ArrayList<Integer>();
-
     private Set<Block> tempList;
-
     ArrayList<Integer> nowDetectedValsId = new ArrayList<Integer>();
     private ArrayList<Block> newDetectedCVBlocks;
-    private ArrayList<Integer> toRemoveCVIds;
-    private ArrayList<Integer> toRemoveCVValues;
+   // private ArrayList<Integer> toRemoveCVIds;
+    //private ArrayList<Integer> toRemoveCVValues;
     private ArrayList<Integer> lastframeids, p_lastframeids;
-    private ArrayList<Integer> oldIds;
     private ArrayList<Integer> newIds, p_newIds, stableIds;
     private ArrayMap<Integer,Integer> strikes;
     private ArrayMap<Integer,Integer> p_strikes;
@@ -48,12 +42,6 @@ public class CvBlocksManager {
     private ArrayMap<Integer,Integer> idToValue;
     private ArrayMap<Integer,Integer> tableIdValue;
     private Set<Block> currentBlocks;
-    private Set<Block> currentBlocksId;
-    int i=0;
-    int x;
-    int y;
-
-
 
     public CvBlocksManager(miCeta game, Stage stage)
     {
@@ -81,8 +69,8 @@ public class CvBlocksManager {
         detectionReady = false;
 
         newDetectedCVBlocks = new ArrayList<Block>();
-        toRemoveCVIds = new ArrayList<Integer>();
-        toRemoveCVValues = new ArrayList<Integer>();
+       // toRemoveCVIds = new ArrayList<Integer>();
+        //toRemoveCVValues = new ArrayList<Integer>();
 
         newIds = new ArrayList<Integer>();
         lastframeids = new ArrayList<Integer>();
@@ -95,8 +83,8 @@ public class CvBlocksManager {
 
 
 
-        maxStrikes = 3; // after x frames without marker, we pronounce it deleted
-        p_maxStrikes = 3;
+        maxStrikes = Constants.STRIKE; // after x frames without marker, we pronounce it deleted
+        p_maxStrikes = Constants.P_STRIKE;;
 
         strikes = new ArrayMap<Integer,Integer>();//id - integer
         p_strikes = new ArrayMap<Integer,Integer>();//id - integer
@@ -162,13 +150,11 @@ public class CvBlocksManager {
             if(results.size() > 0) {
                 currentBlocks = results.get(0); //here we have our set of detected blocks
                 tempList = new HashSet<Block>(currentBlocks);
-                //currentBlocksId = results.get(0)
             }
             else {
                 Gdx.app.error(TAG," very very wrong -> empty result!");
                 currentBlocks =  new HashSet<Block>();
                 tempList = new HashSet<Block>();
-                //currentBlocksId =  new HashSet<Block>();
             }
 
 
@@ -315,8 +301,7 @@ public class CvBlocksManager {
 
             stableIds.add(id);
             resetStrikes(id);
-            // PABLO! esto cambio, tenemos que ver de agregar un actor que solo se ocupa de avisar que hay bloque nuevo
-            //AudioManager.instance.playNumber(16);
+            AudioManager.instance.playNewBlockSong();
             Gdx.app.log(TAG, " ADD BLOCK: " + id + "BECAUSE HAS POSITIVE STRIKES!");
 
         }
@@ -336,12 +321,11 @@ public class CvBlocksManager {
                 boolean shouldBeUpdated = false; //paraa que sirve esto?
             }
             else{
-/////dds
+
                p_resetStrikes(newId);
             }
         }
-        // we won't use more oldBlocksIds so we use it to get unique ids that should be removed
-        //newBlocksIds.removeAll(oldBlocksIds);
+
 
         for(int i=0;i<newBlocksIds.size();i++){
             checkpStrikesAndDecideIfAdd(newBlocksIds.get(i));
