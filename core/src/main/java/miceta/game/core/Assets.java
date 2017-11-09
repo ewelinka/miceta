@@ -111,7 +111,7 @@ public class Assets implements Disposable, AssetErrorListener {
             oneFa = am.get("sounds/fa.wav", Sound.class);
             oneSol = am.get("sounds/sol.wav", Sound.class);
             puck = am.get("sounds/puck.mp3", Sound.class);
-            yuju = am.get("sounds/yuju.mp3", Sound.class);
+             yuju = am.get("sounds/yuju.mp3", Sound.class);
 
             newblock = am.get("sounds/newblock.wav", Sound.class);
             addblock = am.get("sounds/addblock.wav", Sound.class);
