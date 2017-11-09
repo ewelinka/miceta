@@ -43,6 +43,9 @@ public class CvBlocksManager {
     private ArrayMap<Integer,Integer> tableIdValue;
     private Set<Block> currentBlocks;
 
+
+
+
     public CvBlocksManager(miCeta game, Stage stage)
     {
         this.game = game;
