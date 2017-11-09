@@ -18,6 +18,10 @@ import miceta.game.core.miCeta;
 import miceta.game.core.util.AudioManager;
 import miceta.game.core.util.Constants;
 
+import com.badlogic.gdx.audio.Music;
+import com.badlogic.gdx.audio.Sound;
+import com.badlogic.gdx.scenes.scene2d.actions.SequenceAction;
+
 
 import java.util.ArrayList;
 import java.util.Set;
@@ -34,7 +38,7 @@ public class CvWorldController extends InputAdapter {
     private int error_min = 0;
     private int error_max = 0;
     private int counter =0;
-
+    private int feedback_delay=0;
     private float timeToWait, timePassed;
 
 
@@ -110,16 +114,23 @@ public class CvWorldController extends InputAdapter {
                     error_min =0;
                     counter =0;
 
-                    timeToWait = Constants.READ_NUMBER_DURATION + sum*Constants.READ_ONE_UNIT_DURATION;
+                    //timeToWait += Constants.FEEDBACK_DELAY;
+                    feedback_delay= Constants.FEEDBACK_DELAY;
+
+                    timeToWait = Constants.READ_NUMBER_DURATION + sum*Constants.READ_ONE_UNIT_DURATION + feedback_delay ;
+                    feedback_delay =0;
                 } else {
 
                     if ((sum>0)&&(sum < randomNumber)) { //check how long to wait (biggest number between sum of blocks and random number)
                         error_min++;
                         error_max =0;
                         counter =0;
+                        feedback_delay= Constants.FEEDBACK_DELAY;
                     }
 
-                    timeToWait = Constants.READ_NUMBER_DURATION + randomNumber*Constants.READ_ONE_UNIT_DURATION;
+                    timeToWait = Constants.READ_NUMBER_DURATION + randomNumber*Constants.READ_ONE_UNIT_DURATION +feedback_delay;
+                    feedback_delay =0;
+
 
                 }//cuidado con este else
 
@@ -130,22 +141,30 @@ public class CvWorldController extends InputAdapter {
                     error_max=0;
                     counter =0;
                 }else{
+
                     timeToWait += Constants.WAIT_AFTER_KNOCK; // we add extra time to wait after feedback reading
 
                     if ((error_max >= Constants.ERRORS_FOT_HINT) ) {
+
+
+
                         AudioManager.instance.playQuitOrAddBlock(0);
                         Gdx.app.log(TAG,"%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%ERROR MAX ");
                         error_max =Constants.ERRORS_FOT_HINT-1;
                         error_min =Constants.ERRORS_FOT_HINT-1;
+                       // timeToWait = timeToWait +2;
 
                        //if (error_max >= Constants.ERRORS_FOT_HINT){
                             counter =0;
+                            //timeToWait = timeToWait +2;
 
 //                        }
                     }
                     if ((error_min >= Constants.ERRORS_FOT_HINT)||(counter >= Constants.INACTIVITY_LIMIT))
                         {
+
                         AudioManager.instance.playQuitOrAddBlock(1);
+
                         Gdx.app.log(TAG,"########################################ERROR MIN ");
                         error_min =Constants.ERRORS_FOT_HINT-1;
                         error_max=Constants.ERRORS_FOT_HINT-1;
@@ -153,16 +172,20 @@ public class CvWorldController extends InputAdapter {
                             if (error_min >= Constants.ERRORS_FOT_HINT){
                             counter =0;
 
-                       }
 
-                    }
+                            }
+                            //timeToWait = timeToWait +2;
+
+                        }
                 }
                 timePassed = 0;
 
                 if(lastAnswerRight)
                     Gdx.app.log(TAG," RIGHT "+sum+ " "+randomNumber+" "+timeToWait);
-
                 AudioManager.instance.readAllFeedbacks(nowDetected, randomNumber, lastAnswerRight);
+                //delay(1);
+
+                //AudioManager.instance.playQuitOrAddBlock(1);
             }
 
         }
@@ -180,7 +203,7 @@ public class CvWorldController extends InputAdapter {
 
     private boolean isTimeToStartNewLoop(){
         //Gdx.app.log(TAG,"NEW LOOOOOOOP "+timePassed+" "+timeToWait+" "+(timePassed > timeToWait));
-        return (timePassed > timeToWait);
+        return (timePassed > timeToWait );
     }
 
     public Set<Block> getCurrentBlocksFromManager(){

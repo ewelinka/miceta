@@ -28,6 +28,7 @@ public class AudioManager {
     private Actor reader;
     private Stage stage;
     private float readBlockDuration = Constants.READ_ONE_UNIT_DURATION;
+    private int feedback_delay=0;
 
     private AudioManager () { }
 
@@ -83,12 +84,15 @@ public class AudioManager {
     public void playQuitOrAddBlock(int i){
 
         final Sound aux;
-
-        if (i == 0)
+        feedback_delay=Constants.FEEDBACK_DELAY;
+        if (i == 0) {
+            //delay(10);
             aux = Assets.instance.sounds.quitblock;
-        else
+        }
+        else {
+            //delay(10);
             aux = Assets.instance.sounds.addblock;
-
+        }
         aux.play(defaultVolSound);
     }
 
@@ -187,7 +191,7 @@ public class AudioManager {
                 playWithoutInterruption(whichSound);
             }
         }));
-        readBlocks.addAction(delay(readBlockDuration)); // we wait Xs because sound files with "do", "re" and "mi" have X duration
+        readBlocks.addAction(delay(readBlockDuration )); // we wait Xs because sound files with "do", "re" and "mi" have X duration
     }
 
     public void readSingleKnock(int whichKnock, SequenceAction readFeedback){
@@ -261,7 +265,8 @@ public class AudioManager {
         reader.clearActions();
         /////// blocks
         readBlocksAction.reset();
-        readBlocksAction.addAction(delay(Constants.READ_NUMBER_DURATION)); //wait before start read blocks
+        //le postic is here
+        readBlocksAction.addAction(delay(Constants.READ_NUMBER_DURATION )); //wait before start read blocks
         for(int i = 0; i<toReadNums.size();i++) { // if we have detected block 3 and block 2, we have to read 3 times "mi" and 2 time "re"
             int val = toReadNums.get(i); // val will be 3 and than 2
             for(int j = 0; j<val;j++) {
@@ -270,7 +275,9 @@ public class AudioManager {
         }
         /////////// feedback
         readFeedbackAction.reset();
-        // first read number then knocks
+        // first read number then knocks postic 2
+        readFeedbackAction.addAction(delay(feedback_delay)); // wait to finish read the number
+        feedback_delay=0;
         readFeedbackAction = playNumber(numToBuild,readFeedbackAction);
         readFeedbackAction.addAction(delay(Constants.READ_NUMBER_DURATION)); // wait to finish read the number
         readFeedbackAction = addToReadFeedbackInSpace(numToBuild, readFeedbackAction); // to generate feedback
@@ -293,6 +300,8 @@ public class AudioManager {
         /////////// feedback
         readFeedbackAction.reset();
         // first read number then knocks
+        readFeedbackAction.addAction(delay(feedback_delay)); // wait to finish read the number
+        feedback_delay=0;
         readFeedbackAction = playNumber(numToBuild,readFeedbackAction);
         readFeedbackAction.addAction(delay(Constants.READ_NUMBER_DURATION)); // wait to finish read the number
         readFeedbackAction = addToReadFeedbackInSpace(numToBuild, readFeedbackAction); // to generate feedback

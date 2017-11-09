@@ -62,8 +62,8 @@ public class Assets implements Disposable, AssetErrorListener {
 
         assetManager.load("sounds/newblock.wav", Sound.class);
 
-        assetManager.load("sounds/addblock.wav", Sound.class);
-        assetManager.load("sounds/quitblock.wav", Sound.class);
+        assetManager.load("sounds/masPiezas.wav", Sound.class);
+        assetManager.load("sounds/menosPiezas.wav", Sound.class);
 
 
 
@@ -114,8 +114,8 @@ public class Assets implements Disposable, AssetErrorListener {
              yuju = am.get("sounds/yuju.mp3", Sound.class);
 
             newblock = am.get("sounds/newblock.wav", Sound.class);
-            addblock = am.get("sounds/addblock.wav", Sound.class);
-            quitblock = am.get("sounds/quitblock.wav", Sound.class);
+            addblock = am.get("sounds/masPiezas.wav", Sound.class);
+            quitblock = am.get("sounds/menosPiezas.wav", Sound.class);
 
 
             d1 = am.get("sounds/d1.wav", Sound.class);
