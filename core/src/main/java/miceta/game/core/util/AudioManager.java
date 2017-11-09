@@ -69,8 +69,17 @@ public class AudioManager {
     }
 
     public void playWithoutInterruption(Sound sound) {
-        sound.play(defaultVolSound); // be defualt vol = 1
+        sound.play(defaultVolSound);// be defualt vol = 1
     }
+
+    public void playNewBlockSong(){
+
+        final Sound nb_sound;
+
+        nb_sound = Assets.instance.sounds.newblock;
+        nb_sound.play(defaultVolSound);
+    }
+
 
     public SequenceAction playNumber (int nr, SequenceAction readCorrectSolution) {
         //Gdx.app.log(TAG,"play number "+nr);
@@ -122,7 +131,7 @@ public class AudioManager {
                 whichSound = Assets.instance.sounds.f15;
                 break;
             case 16:
-               whichSound = Assets.instance.sounds.newblock;
+              whichSound = Assets.instance.sounds.newblock;
                 break;
             default:
                 whichSound = Assets.instance.sounds.f15; // should never be used because we count to 15 max
