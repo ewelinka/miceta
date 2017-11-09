@@ -31,7 +31,9 @@ public class CvWorldController extends InputAdapter {
     public miCeta game;
     private int randomNumber,previousRandomNumber;
     private boolean lastAnswerRight;
-
+    private int error_min = 0;
+    private int error_max = 0;
+    private int counter =0;
 
     private float timeToWait, timePassed;
 
@@ -97,20 +99,64 @@ public class CvWorldController extends InputAdapter {
 
             }else { // if last answer was wrong we check the detected values and read feedback and read blocks detected
 
+                counter ++;
                 ArrayList<Integer> nowDetected = cvBlocksManager.getNewDetectedVals(); // to know the blocks on the table
                 int sum = 0;
                 for (int i = 0; i < nowDetected.size(); i++)
                     sum += nowDetected.get(i); // we need to know the sum to decide if response is correct
 
                 if (sum > randomNumber) { //check how long to wait (biggest number between sum of blocks and random number)
+                    error_max++;
+                    error_min =0;
+                    counter =0;
+
                     timeToWait = Constants.READ_NUMBER_DURATION + sum*Constants.READ_ONE_UNIT_DURATION;
-                } else
+                } else {
+
+                    if ((sum>0)&&(sum < randomNumber)) { //check how long to wait (biggest number between sum of blocks and random number)
+                        error_min++;
+                        error_max =0;
+                        counter =0;
+                    }
+
                     timeToWait = Constants.READ_NUMBER_DURATION + randomNumber*Constants.READ_ONE_UNIT_DURATION;
+
+                }//cuidado con este else
+
                 if(sum == randomNumber){ // correct answer! in next loop we will celebrate
                     lastAnswerRight = true;
                     timeToWait += Constants.DELAY_FOR_YUJU;
-                }else
+                    error_min=0;
+                    error_max=0;
+                    counter =0;
+                }else{
                     timeToWait += Constants.WAIT_AFTER_KNOCK; // we add extra time to wait after feedback reading
+
+                    if ((error_max >= Constants.ERRORS_FOT_HINT) ) {
+                        AudioManager.instance.playQuitOrAddBlock(0);
+                        Gdx.app.log(TAG,"%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%ERROR MAX ");
+                        error_max =Constants.ERRORS_FOT_HINT-1;
+                        error_min =Constants.ERRORS_FOT_HINT-1;
+
+                       //if (error_max >= Constants.ERRORS_FOT_HINT){
+                            counter =0;
+
+//                        }
+                    }
+                    if ((error_min >= Constants.ERRORS_FOT_HINT)||(counter >= Constants.INACTIVITY_LIMIT))
+                        {
+                        AudioManager.instance.playQuitOrAddBlock(1);
+                        Gdx.app.log(TAG,"########################################ERROR MIN ");
+                        error_min =Constants.ERRORS_FOT_HINT-1;
+                        error_max=Constants.ERRORS_FOT_HINT-1;
+
+                            if (error_min >= Constants.ERRORS_FOT_HINT){
+                            counter =0;
+
+                       }
+
+                    }
+                }
                 timePassed = 0;
 
                 if(lastAnswerRight)
