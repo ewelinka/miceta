@@ -80,6 +80,18 @@ public class AudioManager {
         nb_sound.play(defaultVolSound);
     }
 
+    public void playQuitOrAddBlock(int i){
+
+        final Sound aux;
+
+        if (i == 0)
+            aux = Assets.instance.sounds.quitblock;
+        else
+            aux = Assets.instance.sounds.addblock;
+
+        aux.play(defaultVolSound);
+    }
+
 
     public SequenceAction playNumber (int nr, SequenceAction readCorrectSolution) {
         //Gdx.app.log(TAG,"play number "+nr);
