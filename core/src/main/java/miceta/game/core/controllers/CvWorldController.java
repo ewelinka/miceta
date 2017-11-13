@@ -14,7 +14,7 @@ import edu.ceta.vision.core.blocks.Block;
 import edu.ceta.vision.core.topcode.TopCodeDetectorDesktop;
 import miceta.game.core.Assets;
 import miceta.game.core.managers.CvBlocksManager;
-//import miceta.game.core.managers.CvBlocksManagerDesktop;
+import miceta.game.core.managers.CvBlocksManagerDesktop;
 import miceta.game.core.miCeta;
 import miceta.game.core.util.AudioManager;
 import miceta.game.core.util.Constants;
@@ -41,14 +41,12 @@ public class CvWorldController extends InputAdapter {
     private int counter =0;
     private int feedback_delay=0;
     private float timeToWait, timePassed;
-
-
     protected CvBlocksManager cvBlocksManager;
 
     public CvWorldController(miCeta game, Stage stage){
         this.game = game;
         this.stage = stage;
-        cvBlocksManager = new CvBlocksManager(game,stage);
+        cvBlocksManager = new CvBlocksManagerDesktop(game,stage);
         init();
 
     }
@@ -73,8 +71,19 @@ public class CvWorldController extends InputAdapter {
         }
     }
 
-    private void updatePC(){
+   /* private void updatePC(){
         if(!((TopCodeDetectorDesktop)cvBlocksManager.getTopCodeDetector()).isBusy()){ //ask before in order to not accumulate new threads.
+            cvBlocksManager.updateDetected();
+
+            if(cvBlocksManager.isDetectionReady()){
+                cvBlocksManager.analyseDetected();
+            }
+        }
+    }
+*/
+
+    private void update2(){
+        if(!(cvBlocksManager.isBusy())){ //ask before in order to not accumulate new threads.
             cvBlocksManager.updateDetected();
 
             if(cvBlocksManager.isDetectionReady()){
@@ -84,13 +93,14 @@ public class CvWorldController extends InputAdapter {
     }
 
 
+
     public void update(float deltaTime) {
         timePassed+=deltaTime; // variable used to check in isTimeToStartNewLoop() to decide if new feedback loop should be started
-        if((Gdx.app.getType() == Application.ApplicationType.Android)){
-            updateAndroid();
-        }else{
-            updatePC();
-        }
+        //if((Gdx.app.getType() == Application.ApplicationType.Android)){
+        //    updateAndroid();
+        //}else{
+            update2();
+        //}
 
         if(isTimeToStartNewLoop()){
             Gdx.app.log(TAG,"new loop! with random number "+randomNumber);
