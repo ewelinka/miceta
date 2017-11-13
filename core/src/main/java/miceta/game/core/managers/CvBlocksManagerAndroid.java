@@ -55,10 +55,8 @@ public class CvBlocksManagerAndroid extends CvBlocksManager {
         currentBlocks = null;
         tempList = null;
 
-        Rect detectionZone = new Rect(0,0,640,480); // WARN my mac cam resolution!!
-        // / TODO check the orientation of the frame
-        //Rect detectionZone = new Rect(0,0,1920,768); //positivo camera resolution
-        topCodeDetector = new TopCodeDetectorDesktop(50, true, 70, 5, true, false, true, detectionZone,true,false);
+        Rect detectionZone = new Rect((640-480),0,480,480);
+        topCodeDetector = new TopCodeDetectorAndroid(50, true, 70, 5, true, false, false, true, detectionZone);
         detectionReady = false;
         newDetectedCVBlocks = new ArrayList<Block>();
         // toRemoveCVIds = new ArrayList<Integer>();
@@ -85,33 +83,40 @@ public class CvBlocksManagerAndroid extends CvBlocksManager {
     public void updateDetected() {
         if(!detectionReady) {
 
-            new Thread(new Runnable() {
-                public void run() {
-                    // Mat frame = ((CetaGame) game).getAndBlockLastFrame();
-                    //Core.flip(frame, frame, 0);
-
-                    final Set<Block> finalSet = ((TopCodeDetectorDesktop) topCodeDetector).detectBlocks();
-                    // Gdx.app.log(TAG, "ready with the detection!! framerateee"+Gdx.graphics.getFramesPerSecond());
-                    detectionReady = true;
-                    //((CetaGame) game).releaseFrame();
-
-                    Gdx.app.postRunnable(new Runnable() {
-                        @Override
+            if(!detectionReady) {
+                if ((Gdx.app.getType() == Application.ApplicationType.Android)) {
+                    new Thread(new Runnable() {
                         public void run() {
-                            // process the result, e.g. add it to an Array<Result> field of the ApplicationListener.
-                            results.clear();
-                            results.add(finalSet);
+                            Mat frame = game.getAndBlockLastFrame();
+                            Core.flip(frame, frame, 0);
+
+                            final Set<Block> finalSet = ((TopCodeDetectorAndroid) topCodeDetector).detectBlocks(frame, 0.85);
+                            detectionReady = true;
+                            game.releaseFrame();
+
+                            Gdx.app.postRunnable(new Runnable() {
+                                @Override
+                                public void run() {
+                                    // process the result, e.g. add it to an Array<Result> field of the ApplicationListener.
+                                    results.clear();
+                                    results.add(finalSet);
+                                }
+                            });
                         }
-                    });
+                    }).start();
                 }
-            }).start();
+            }
         }
     }
 
 
 
 
+    public boolean isBusy(){
 
+        return  game.hasNewFrame();
+        // return topCodeDetector;
+    }
 
 
 
