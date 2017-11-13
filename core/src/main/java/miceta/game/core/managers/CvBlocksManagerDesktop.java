@@ -22,7 +22,7 @@ import java.util.Set;
 
 public class CvBlocksManagerDesktop extends CvBlocksManager {
 
-
+/*
     public static final String TAG = CvBlocksManager.class.getName();
     private TopCodeDetector topCodeDetector;
     private miCeta game;
@@ -43,13 +43,14 @@ public class CvBlocksManagerDesktop extends CvBlocksManager {
     private ArrayMap<Integer,Integer> idToValue;
     private ArrayMap<Integer,Integer> tableIdValue;
     private Set<Block> currentBlocks;
-
+*/
 
     public CvBlocksManagerDesktop(miCeta game, Stage stage) {
         super(game, stage);
     }
 
-    private  void init() {
+
+     public  void init() {
 
         currentBlocks = null;
         tempList = null;
@@ -66,7 +67,6 @@ public class CvBlocksManagerDesktop extends CvBlocksManager {
         newIds = new ArrayList<Integer>();
         lastframeids = new ArrayList<Integer>();
         stableIds = new ArrayList<Integer>();
-
         p_newIds = new ArrayList<Integer>();
         p_lastframeids = new ArrayList<Integer>();
         nowDetectedVals = new ArrayList<Integer>();
@@ -107,6 +107,17 @@ public class CvBlocksManagerDesktop extends CvBlocksManager {
             }).start();
         }
     }
+
+    public boolean isBusy(){
+
+        return  (((TopCodeDetectorDesktop)getTopCodeDetector()).isBusy());
+        // return topCodeDetector;
+    }
+
+
+
+
+
 
 
 
