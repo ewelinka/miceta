@@ -233,8 +233,8 @@ public class CvBlocksManager {
            }
     }
 
-
-    private void initStrikesAndBlocksValues(){
+//lo pase de privado a publico, revisar
+    public void initStrikesAndBlocksValues(){
         int [][] allMarkers = {BlocksMarkersMap.block1,BlocksMarkersMap.block2,BlocksMarkersMap.block3,BlocksMarkersMap.block4,BlocksMarkersMap.block5};
 
         for(int arrIdx = 0;arrIdx < allMarkers.length; arrIdx++){
