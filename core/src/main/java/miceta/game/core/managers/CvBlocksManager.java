@@ -20,28 +20,28 @@ import org.opencv.core.Rect;
 import java.util.*;
 
 
-public class CvBlocksManager {
+public abstract class CvBlocksManager {
 
     public static final String TAG = CvBlocksManager.class.getName();
-    private TopCodeDetector topCodeDetector;
-    private miCeta game;
-    private boolean detectionReady;
+    public TopCodeDetector topCodeDetector;
+    public miCeta game;
+    public boolean detectionReady;
     public ArrayList<Set> results = new ArrayList<Set>();
-    ArrayList<Integer> nowDetectedVals = new ArrayList<Integer>();
-    private Set<Block> tempList;
-    ArrayList<Integer> nowDetectedValsId = new ArrayList<Integer>();
-    private ArrayList<Block> newDetectedCVBlocks;
+    public ArrayList<Integer> nowDetectedVals = new ArrayList<Integer>();
+    public Set<Block> tempList;
+    public ArrayList<Integer> nowDetectedValsId = new ArrayList<Integer>();
+    public ArrayList<Block> newDetectedCVBlocks;
    // private ArrayList<Integer> toRemoveCVIds;
     //private ArrayList<Integer> toRemoveCVValues;
-    private ArrayList<Integer> lastframeids, p_lastframeids;
-    private ArrayList<Integer> newIds, p_newIds, stableIds;
-    private ArrayMap<Integer,Integer> strikes;
-    private ArrayMap<Integer,Integer> p_strikes;
-    private int maxStrikes;
-    private int p_maxStrikes;
-    private ArrayMap<Integer,Integer> idToValue;
-    private ArrayMap<Integer,Integer> tableIdValue;
-    private Set<Block> currentBlocks;
+    public ArrayList<Integer> lastframeids, p_lastframeids;
+    public ArrayList<Integer> newIds, p_newIds, stableIds;
+    public ArrayMap<Integer,Integer> strikes;
+    public ArrayMap<Integer,Integer> p_strikes;
+    public int maxStrikes;
+    public int p_maxStrikes;
+    public ArrayMap<Integer,Integer> idToValue;
+    public ArrayMap<Integer,Integer> tableIdValue;
+    public Set<Block> currentBlocks;
 
 
 
@@ -51,7 +51,7 @@ public class CvBlocksManager {
         this.game = game;
         init();
     }
-
+/*
     private void init(){
 
         currentBlocks = null;
@@ -61,7 +61,9 @@ public class CvBlocksManager {
         if((Gdx.app.getType() == Application.ApplicationType.Android)) {
             Rect detectionZone = new Rect((640-480),0,480,480);
             topCodeDetector = new TopCodeDetectorAndroid(50, true, 70, 5, true, false, false, true, detectionZone);
-        }else{ // pc!
+        }
+
+        else{ // pc!
 
             Rect detectionZone = new Rect(0,0,640,480); // WARN my mac cam resolution!!
             // TODO check the orientation of the frame
@@ -98,9 +100,17 @@ public class CvBlocksManager {
         initStrikesAndBlocksValues();
         currentBlocks = new HashSet<Block>();
 
-    }
+    } */
 
-    public void updateDetected() {
+
+    public abstract void init();
+    public abstract void updateDetected();
+
+
+
+
+/*
+    public abstract void updateDetected() {
         if(!detectionReady) {
             if ((Gdx.app.getType() == Application.ApplicationType.Android)) {
                 new Thread(new Runnable() {
@@ -122,7 +132,9 @@ public class CvBlocksManager {
                         });
                     }
                 }).start();
-            } else { // PC!
+            }
+
+            else { // PC!
                 new Thread(new Runnable() {
                     public void run() {
                         // Mat frame = ((CetaGame) game).getAndBlockLastFrame();
@@ -146,7 +158,8 @@ public class CvBlocksManager {
             }
 
         }
-    }
+    }*/
+
 
     public void analyseDetected(){
         if(detectionReady) {
@@ -271,6 +284,10 @@ public class CvBlocksManager {
     public TopCodeDetector getTopCodeDetector(){
         return topCodeDetector;
     }
+
+    public abstract boolean isBusy();
+
+
 
 
 
