@@ -98,12 +98,12 @@ public class AudioManager {
         aux.play(defaultVolSound);
     }
 
-    public void Setdelay_quit(boolean aux){
+    public void setDelay_quit(boolean aux){
 
         delay_quit= aux;
     }
 
-    public void Setdelay_add(boolean aux){
+    public void setDelay_add(boolean aux){
 
         delay_add= aux;
     }
@@ -276,40 +276,7 @@ public class AudioManager {
         reader.clearActions();
         /////// blocks
         readBlocksAction = createReadBlocksAction(readBlocksAction, toReadNums);
-
-        /////////// feedback
-        readFeedbackAction = createReadFeedbackAction(readFeedbackAction, numToBuild);
-
-
-        readBlocksAction.reset();
-        //le postic is here
-        readBlocksAction.addAction(delay(Constants.READ_NUMBER_DURATION )); //wait before start read blocks -change delay ++++
-
-
-
-
-
-
-        for(int i = 0; i<toReadNums.size();i++) { // if we have detected block 3 and block 2, we have to read 3 times "mi" and 2 time "re"
-            int val = toReadNums.get(i); // val will be 3 and than 2
-            for(int j = 0; j<val;j++) {
-                //delay(2);
-                addToReadBlock(val, readBlocksAction); // one single lecture
-            }
-        }
-
-        /*if((delay_quit)){
-            readBlocksAction.addAction(run(new Runnable() {
-                public void run() {
-                 playQuitOrAddBlock(1);
-                }
-
-
-             }));
-            delay_quit = false;
-            delay_add = false;
-        }
-        else */if((delay_add)){
+        if((delay_add)){
             readBlocksAction.addAction(run(new Runnable() {
                 public void run() {
                     playQuitOrAddBlock(0);
@@ -321,31 +288,18 @@ public class AudioManager {
             delay_add = false;
         }
 
-        //readBlocksAction.addAction(run(playQuitOrAddBlock(0));
         /////////// feedback
-      //  readBlocksAction.addAction( playQuitOrAddBlock(1));
-        //readBlocksAction.addAction(delay(3));
-
-        readFeedbackAction.reset();
-        // first read number then knocks postic 2
-        readFeedbackAction.addAction(delay(feedback_delay)); // wait to finish read the number
-        feedback_delay=0;
-        readFeedbackAction = playNumber(numToBuild,readFeedbackAction);
-        readFeedbackAction.addAction(delay(Constants.READ_NUMBER_DURATION)); // wait to finish read the number
-        readFeedbackAction = addToReadFeedbackInSpace(numToBuild, readFeedbackAction); // to generate feedback
->>>>>>> merge-pablo
-
+        readFeedbackAction = createReadFeedbackAction(readFeedbackAction, numToBuild);
         if((delay_quit)){
-        readFeedbackAction.addAction(run(new Runnable() {
-            public void run() {
-                playQuitOrAddBlock(1);
-            }
+            readFeedbackAction.addAction(run(new Runnable() {
+                public void run() {
+                    playQuitOrAddBlock(1);
+                }
 
 
-        }));
-
-        delay_quit = false;
-        delay_add = false;
+            }));
+            delay_quit = false;
+            delay_add = false;
          }
 
         reader.addAction(parallel(readBlocksAction,readFeedbackAction)); // we read feedback and the blocks in parallel
@@ -355,31 +309,10 @@ public class AudioManager {
         Gdx.app.log(TAG," read feedback and blocks! "+numToBuild);
         reader.clearActions();
         /////// blocks
-<<<<<<< HEAD
         readBlocksAction = createReadBlocksAction(readBlocksAction, toReadNums);
         /////////// feedback
         readFeedbackAction = createReadFeedbackAction(readFeedbackAction, numToBuild);
-=======
-        readBlocksAction.reset();
-        readBlocksAction.addAction(delay(Constants.READ_NUMBER_DURATION)); //wait before start read blocks
 
-        for(int i = 0; i<toReadNums.size();i++) { // if we have detected block 3 and block 2, we have to read 3 times "mi" and 2 time "re"
-            int val = toReadNums.get(i); // val will be 3 and than 2
-            for(int j = 0; j<val;j++) {
-                addToReadBlock(val, readBlocksAction); // one single lecture
-            }
-        }
-        /////////// feedback
-
-        readFeedbackAction.reset();
-        // first read number then knocks
-        readFeedbackAction.addAction(delay(feedback_delay)); // wait to finish read the number
-
-        readFeedbackAction = playNumber(numToBuild,readFeedbackAction);
-        readFeedbackAction.addAction(delay(Constants.READ_NUMBER_DURATION + feedback_delay));
-        feedback_delay=0;// wait to finish read the number
-        readFeedbackAction = addToReadFeedbackInSpace(numToBuild, readFeedbackAction); // to generate feedback
->>>>>>> merge-pablo
         readFeedbackAction.addAction(run(new Runnable() {
             public void run() {
                 playWithoutInterruption(Assets.instance.sounds.yuju); //after correct answer comes "yuju"

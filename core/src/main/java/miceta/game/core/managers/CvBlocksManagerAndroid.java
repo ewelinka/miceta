@@ -69,32 +69,21 @@ public class CvBlocksManagerAndroid extends CvBlocksManager {
                     Mat frame = game.getAndBlockLastFrame();
                     Core.flip(frame, frame, 0);
 
-<<<<<<< HEAD
                     final Set<Block> finalSet = ((TopCodeDetectorAndroid) topCodeDetector).detectBlocks(frame, 0.85);
                     detectionReady = true;
                     game.releaseFrame();
 
                     Gdx.app.postRunnable(new Runnable() {
                         @Override
-=======
-           // if(!detectionReady) {
-               // if ((Gdx.app.getType() == Application.ApplicationType.Android)) {
-                    new Thread(new Runnable() {
->>>>>>> merge-pablo
                         public void run() {
                             // process the result, e.g. add it to an Array<Result> field of the ApplicationListener.
                             results.clear();
                             results.add(finalSet);
                         }
-<<<<<<< HEAD
+
                     });
                 }
             }).start();
-=======
-                    }).start();
-                //}
-            //}
->>>>>>> merge-pablo
         }
 
     }
