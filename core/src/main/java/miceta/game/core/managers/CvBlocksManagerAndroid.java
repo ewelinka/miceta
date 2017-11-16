@@ -56,14 +56,17 @@ public class CvBlocksManagerAndroid extends CvBlocksManager {
         initStrikesAndBlocksValues();
         currentBlocks = new HashSet<Block>();
 
+
+
+
     }
 
 
     public void updateDetected() {
         if(!detectionReady) {
 
-            if(!detectionReady) {
-                if ((Gdx.app.getType() == Application.ApplicationType.Android)) {
+           // if(!detectionReady) {
+               // if ((Gdx.app.getType() == Application.ApplicationType.Android)) {
                     new Thread(new Runnable() {
                         public void run() {
                             Mat frame = game.getAndBlockLastFrame();
@@ -83,8 +86,8 @@ public class CvBlocksManagerAndroid extends CvBlocksManager {
                             });
                         }
                     }).start();
-                }
-            }
+                //}
+            //}
         }
     }
 

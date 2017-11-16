@@ -68,7 +68,7 @@ public class CvWorldController extends InputAdapter {
 
         AudioManager.instance.setStage(stage); // we set current Stage in AudioManager, if not "reader" actor doesn't work
         AudioManager.instance.readFeedback(randomNumber); //first we read the random number
-        timeToWait = randomNumber + Constants.WAIT_AFTER_KNOCK; // time we should wait before next loop starts
+        timeToWait = randomNumber ; // time we should wait before next loop starts
         lastAnswerRight = false;
     }
 
@@ -117,7 +117,7 @@ public class CvWorldController extends InputAdapter {
             if(lastAnswerRight){ // if las answer was correct, we get new random number
                 previousRandomNumber = randomNumber;
                 randomNumber = getNewNumber();
-                timeToWait = Constants.READ_NUMBER_DURATION + randomNumber*Constants.READ_ONE_UNIT_DURATION + Constants.WAIT_AFTER_KNOCK; // one extra second to read number,feedback and yuju
+                timeToWait = Constants.READ_NUMBER_DURATION + randomNumber*Constants.READ_ONE_UNIT_DURATION ; // one extra second to read number,feedback and yuju
                 timePassed = 0; // start to count the time
                 AudioManager.instance.readFeedback(randomNumber);
                 lastAnswerRight = false;
@@ -138,7 +138,7 @@ public class CvWorldController extends InputAdapter {
                     //timeToWait += Constants.FEEDBACK_DELAY;
                     feedback_delay= Constants.FEEDBACK_DELAY;
 
-                    timeToWait = Constants.READ_NUMBER_DURATION + sum*Constants.READ_ONE_UNIT_DURATION + feedback_delay ;
+                    timeToWait = Constants.READ_NUMBER_DURATION + sum*Constants.READ_ONE_UNIT_DURATION /*+ feedback_delay */;
                     feedback_delay =0;
                 } else {
 
@@ -149,7 +149,7 @@ public class CvWorldController extends InputAdapter {
                         feedback_delay= Constants.FEEDBACK_DELAY;
                     }
 
-                    timeToWait = Constants.READ_NUMBER_DURATION + randomNumber*Constants.READ_ONE_UNIT_DURATION +feedback_delay;
+                    timeToWait = Constants.READ_NUMBER_DURATION + randomNumber*Constants.READ_ONE_UNIT_DURATION /*+feedback_delay*/;
                     feedback_delay =0;
 
 
@@ -163,13 +163,15 @@ public class CvWorldController extends InputAdapter {
                     counter =0;
                 }else{
 
-                    timeToWait += Constants.WAIT_AFTER_KNOCK; // we add extra time to wait after feedback reading
+
+                    timeToWait += Constants.WAIT_AFTER_KNOCK + Constants.FEEDBACK_DELAY; ; // we add extra time to wait after feedback reading
 
                     if ((error_max >= Constants.ERRORS_FOT_HINT) ) {
 
 
+                        AudioManager.instance.Setdelay_add(true);
+                        //AudioManager.instance.playQuitOrAddBlock(0);
 
-                        AudioManager.instance.playQuitOrAddBlock(0);
                         Gdx.app.log(TAG,"%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%ERROR MAX ");
                         error_max =Constants.ERRORS_FOT_HINT-1;
                         error_min =Constants.ERRORS_FOT_HINT-1;
@@ -184,8 +186,9 @@ public class CvWorldController extends InputAdapter {
                     if ((error_min >= Constants.ERRORS_FOT_HINT)||(counter >= Constants.INACTIVITY_LIMIT))
                         {
 
-                        AudioManager.instance.playQuitOrAddBlock(1);
-
+                       // AudioManager.instance.playQuitOrAddBlock(1);
+                            //AudioManager.instance.s
+                            AudioManager.instance.Setdelay_quit(true);
                         Gdx.app.log(TAG,"########################################ERROR MIN ");
                         error_min =Constants.ERRORS_FOT_HINT-1;
                         error_max=Constants.ERRORS_FOT_HINT-1;
