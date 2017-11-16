@@ -41,7 +41,7 @@ public class CvWorldController extends InputAdapter {
     private int error_max = 0;
     private int counter =0;
     private int feedback_delay=0;
-    private float timeToWait, timePassed;
+    protected float timeToWait, timePassed;
     protected CvBlocksManager cvBlocksManager;
 
     public CvWorldController(miCeta game, Stage stage){
@@ -56,17 +56,17 @@ public class CvWorldController extends InputAdapter {
         else {
             cvBlocksManager = new CvBlocksManagerDesktop(game, stage);
         }
+        AudioManager.instance.setStage(stage); // we set current Stage in AudioManager, if not "reader" actor doesn't work
 
         init();
 
     }
 
-    private void init(){
+    protected void init(){
         Gdx.app.log(TAG,"init in the cv blocks manager");
         timePassed = 0;
         randomNumber = getNewNumber();
 
-        AudioManager.instance.setStage(stage); // we set current Stage in AudioManager, if not "reader" actor doesn't work
         AudioManager.instance.readFeedback(randomNumber); //first we read the random number
         timeToWait = randomNumber + Constants.WAIT_AFTER_KNOCK; // time we should wait before next loop starts
         lastAnswerRight = false;
@@ -92,7 +92,7 @@ public class CvWorldController extends InputAdapter {
     }
 */
 
-    private void update2(){
+    protected void update2(){
         if(!(cvBlocksManager.isBusy())){ //ask before in order to not accumulate new threads.
             cvBlocksManager.updateDetected();
 
@@ -222,7 +222,7 @@ public class CvWorldController extends InputAdapter {
         return candidate;
     }
 
-    private boolean isTimeToStartNewLoop(){
+    protected boolean isTimeToStartNewLoop(){
         //Gdx.app.log(TAG,"NEW LOOOOOOOP "+timePassed+" "+timeToWait+" "+(timePassed > timeToWait));
         return (timePassed > timeToWait );
     }
