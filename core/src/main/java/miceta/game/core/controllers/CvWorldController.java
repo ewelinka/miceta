@@ -17,6 +17,8 @@ import miceta.game.core.managers.CvBlocksManager;
 import miceta.game.core.managers.CvBlocksManagerDesktop;
 import miceta.game.core.managers.CvBlocksManagerAndroid;
 import miceta.game.core.miCeta;
+import miceta.game.core.screens.FeedbackScreen;
+import miceta.game.core.screens.TestScreen;
 import miceta.game.core.util.AudioManager;
 import miceta.game.core.util.Constants;
 
@@ -233,6 +235,30 @@ public class CvWorldController extends InputAdapter {
 
     public int getRandomNumber(){
         return randomNumber;
+    }
+
+
+    @Override
+    public boolean touchDown (int screenX, int screenY, int pointer, int button) {
+        Gdx.app.log(TAG," TOUCHED "+screenX+ " "+screenY);
+        if (Gdx.app.getType() == Application.ApplicationType.Android) {
+            if (screenX > 570 && screenY < 40) {
+                game.setScreen(new TestScreen(game));
+            }
+            if (screenX < 30 && screenY < 40) {
+                game.setScreen(new FeedbackScreen(game));
+            }
+        }else {
+
+            if (screenX > 440 && screenY < 10) {
+                game.setScreen(new TestScreen(game));
+            }
+
+            if (screenX < 40 && screenY < 10) {
+                game.setScreen(new FeedbackScreen(game));
+            }
+        }
+        return true;
     }
 
 
