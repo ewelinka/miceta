@@ -22,28 +22,7 @@ import java.util.Set;
 
 public class CvBlocksManagerAndroid extends CvBlocksManager {
 
-/*
-    public static final String TAG = CvBlocksManager.class.getName();
-    private TopCodeDetector topCodeDetector;
-    private miCeta game;
-    private boolean detectionReady;
-    public ArrayList<Set> results = new ArrayList<Set>();
-    ArrayList<Integer> nowDetectedVals = new ArrayList<Integer>();
-    private Set<Block> tempList;
-    ArrayList<Integer> nowDetectedValsId = new ArrayList<Integer>();
-    private ArrayList<Block> newDetectedCVBlocks;
-    // private ArrayList<Integer> toRemoveCVIds;
-    //private ArrayList<Integer> toRemoveCVValues;
-    private ArrayList<Integer> lastframeids, p_lastframeids;
-    private ArrayList<Integer> newIds, p_newIds, stableIds;
-    private ArrayMap<Integer,Integer> strikes;
-    private ArrayMap<Integer,Integer> p_strikes;
-    private int maxStrikes;
-    private int p_maxStrikes;
-    private ArrayMap<Integer,Integer> idToValue;
-    private ArrayMap<Integer,Integer> tableIdValue;
-    private Set<Block> currentBlocks;
-*/
+
 
     public CvBlocksManagerAndroid(miCeta game, Stage stage) {
         super(game, stage);
@@ -114,7 +93,7 @@ public class CvBlocksManagerAndroid extends CvBlocksManager {
 
     public boolean isBusy(){
 
-        return  game.hasNewFrame();
+        return  !(game.hasNewFrame());
         // return topCodeDetector;
     }
 

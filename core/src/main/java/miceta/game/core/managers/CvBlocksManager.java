@@ -44,122 +44,14 @@ public abstract class CvBlocksManager {
     public Set<Block> currentBlocks;
 
 
-
-
     public CvBlocksManager(miCeta game, Stage stage)
     {
         this.game = game;
         init();
     }
-/*
-    private void init(){
-
-        currentBlocks = null;
-        tempList = null;
-
-
-        if((Gdx.app.getType() == Application.ApplicationType.Android)) {
-            Rect detectionZone = new Rect((640-480),0,480,480);
-            topCodeDetector = new TopCodeDetectorAndroid(50, true, 70, 5, true, false, false, true, detectionZone);
-        }
-
-        else{ // pc!
-
-            Rect detectionZone = new Rect(0,0,640,480); // WARN my mac cam resolution!!
-            // TODO check the orientation of the frame
-            //Rect detectionZone = new Rect(0,0,1920,768); //positivo camera resolution
-            topCodeDetector = new TopCodeDetectorDesktop(50, true, 70, 5, true, false, true, detectionZone,true,false);
-
-        }
-        detectionReady = false;
-
-        newDetectedCVBlocks = new ArrayList<Block>();
-       // toRemoveCVIds = new ArrayList<Integer>();
-        //toRemoveCVValues = new ArrayList<Integer>();
-
-        newIds = new ArrayList<Integer>();
-        lastframeids = new ArrayList<Integer>();
-        stableIds = new ArrayList<Integer>();
-
-        p_newIds = new ArrayList<Integer>();
-        p_lastframeids = new ArrayList<Integer>();
-
-        nowDetectedVals = new ArrayList<Integer>();
-
-
-
-        maxStrikes = Constants.STRIKE; // after x frames without marker, we pronounce it deleted
-        p_maxStrikes = Constants.P_STRIKE;;
-
-        strikes = new ArrayMap<Integer,Integer>();//id - integer
-        p_strikes = new ArrayMap<Integer,Integer>();//id - integer
-
-        idToValue = new ArrayMap<Integer,Integer>();
-        tableIdValue = new ArrayMap<Integer,Integer>();
-
-        initStrikesAndBlocksValues();
-        currentBlocks = new HashSet<Block>();
-
-    } */
-
 
     public abstract void init();
     public abstract void updateDetected();
-
-
-
-
-/*
-    public abstract void updateDetected() {
-        if(!detectionReady) {
-            if ((Gdx.app.getType() == Application.ApplicationType.Android)) {
-                new Thread(new Runnable() {
-                    public void run() {
-                        Mat frame = game.getAndBlockLastFrame();
-                        Core.flip(frame, frame, 0);
-
-                        final Set<Block> finalSet = ((TopCodeDetectorAndroid) topCodeDetector).detectBlocks(frame, 0.85);
-                        detectionReady = true;
-                        game.releaseFrame();
-
-                        Gdx.app.postRunnable(new Runnable() {
-                            @Override
-                            public void run() {
-                                // process the result, e.g. add it to an Array<Result> field of the ApplicationListener.
-                                results.clear();
-                                results.add(finalSet);
-                            }
-                        });
-                    }
-                }).start();
-            }
-
-            else { // PC!
-                new Thread(new Runnable() {
-                    public void run() {
-                        // Mat frame = ((CetaGame) game).getAndBlockLastFrame();
-                        //Core.flip(frame, frame, 0);
-
-                        final Set<Block> finalSet = ((TopCodeDetectorDesktop) topCodeDetector).detectBlocks();
-                        // Gdx.app.log(TAG, "ready with the detection!! framerateee"+Gdx.graphics.getFramesPerSecond());
-                        detectionReady = true;
-                        //((CetaGame) game).releaseFrame();
-
-                        Gdx.app.postRunnable(new Runnable() {
-                            @Override
-                            public void run() {
-                                // process the result, e.g. add it to an Array<Result> field of the ApplicationListener.
-                                results.clear();
-                                results.add(finalSet);
-                            }
-                        });
-                    }
-                }).start();
-            }
-
-        }
-    }*/
-
 
     public void analyseDetected(){
         if(detectionReady) {
@@ -174,9 +66,7 @@ public abstract class CvBlocksManager {
             }
 
 
-
             lastframeids = new ArrayList(nowDetectedValsId);
-
             newIds.clear();
             nowDetectedValsId.clear();
             newDetectedCVBlocks.clear();

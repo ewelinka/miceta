@@ -15,6 +15,7 @@ import edu.ceta.vision.core.topcode.TopCodeDetectorDesktop;
 import miceta.game.core.Assets;
 import miceta.game.core.managers.CvBlocksManager;
 import miceta.game.core.managers.CvBlocksManagerDesktop;
+import miceta.game.core.managers.CvBlocksManagerAndroid;
 import miceta.game.core.miCeta;
 import miceta.game.core.util.AudioManager;
 import miceta.game.core.util.Constants;
@@ -44,9 +45,18 @@ public class CvWorldController extends InputAdapter {
     protected CvBlocksManager cvBlocksManager;
 
     public CvWorldController(miCeta game, Stage stage){
+
         this.game = game;
         this.stage = stage;
-        cvBlocksManager = new CvBlocksManagerDesktop(game,stage);
+
+        if((Gdx.app.getType() == Application.ApplicationType.Android)) {
+
+            cvBlocksManager = new CvBlocksManagerAndroid(game, stage);
+        }
+        else {
+            cvBlocksManager = new CvBlocksManagerDesktop(game, stage);
+        }
+
         init();
 
     }
