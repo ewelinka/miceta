@@ -47,7 +47,6 @@ public class CvWorldController extends InputAdapter {
     protected CvBlocksManager cvBlocksManager;
 
     public CvWorldController(miCeta game, Stage stage){
-
         this.game = game;
         this.stage = stage;
 
@@ -70,31 +69,11 @@ public class CvWorldController extends InputAdapter {
         randomNumber = getNewNumber();
 
         AudioManager.instance.readFeedback(randomNumber); //first we read the random number
-        timeToWait = randomNumber ; // time we should wait before next loop starts
+        timeToWait = randomNumber+Constants.READ_ONE_UNIT_DURATION +Constants.WAIT_AFTER_KNOCK; // time we should wait before next loop starts
         lastAnswerRight = false;
     }
 
-    private void updateAndroid(){
-        if (game.hasNewFrame()) {
-            cvBlocksManager.updateDetected(); // to get detected blocks
-        }
-        if (cvBlocksManager.isDetectionReady()) {
-            cvBlocksManager.analyseDetected(); // to analyse the blocks (=get blocks values)
-        }
-    }
-
-   /* private void updatePC(){
-        if(!((TopCodeDetectorDesktop)cvBlocksManager.getTopCodeDetector()).isBusy()){ //ask before in order to not accumulate new threads.
-            cvBlocksManager.updateDetected();
-
-            if(cvBlocksManager.isDetectionReady()){
-                cvBlocksManager.analyseDetected();
-            }
-        }
-    }
-*/
-
-    protected void update2(){
+    protected void updateCV(){
         if(cvBlocksManager.canBeUpdated()) { //ask before in order to not accumulate new threads.
             cvBlocksManager.updateDetected();
         }
@@ -102,18 +81,13 @@ public class CvWorldController extends InputAdapter {
         if(cvBlocksManager.isDetectionReady()){
             cvBlocksManager.analyseDetected();
         }
-
     }
 
 
 
     public void update(float deltaTime) {
         timePassed+=deltaTime; // variable used to check in isTimeToStartNewLoop() to decide if new feedback loop should be started
-        //if((Gdx.app.getType() == Application.ApplicationType.Android)){
-        //    updateAndroid();
-        //}else{
-            update2();
-        //}
+        updateCV();
 
         if(isTimeToStartNewLoop()){
             Gdx.app.log(TAG,"new loop! with random number "+randomNumber);
@@ -172,7 +146,7 @@ public class CvWorldController extends InputAdapter {
                     if ((error_max >= Constants.ERRORS_FOT_HINT) ) {
 
 
-                        AudioManager.instance.Setdelay_add(true);
+                        AudioManager.instance.setDelay_add(true);
                         //AudioManager.instance.playQuitOrAddBlock(0);
 
                         Gdx.app.log(TAG,"%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%ERROR MAX ");
@@ -191,7 +165,7 @@ public class CvWorldController extends InputAdapter {
 
                        // AudioManager.instance.playQuitOrAddBlock(1);
                             //AudioManager.instance.s
-                            AudioManager.instance.Setdelay_quit(true);
+                            AudioManager.instance.setDelay_quit(true);
                         Gdx.app.log(TAG,"########################################ERROR MIN ");
                         error_min =Constants.ERRORS_FOT_HINT-1;
                         error_max=Constants.ERRORS_FOT_HINT-1;
@@ -207,12 +181,8 @@ public class CvWorldController extends InputAdapter {
                 }
                 timePassed = 0;
 
-                if(lastAnswerRight)
-                    Gdx.app.log(TAG," RIGHT "+sum+ " "+randomNumber+" "+timeToWait);
                 AudioManager.instance.readAllFeedbacks(nowDetected, randomNumber, lastAnswerRight);
-                //delay(1);
 
-                //AudioManager.instance.playQuitOrAddBlock(1);
             }
 
         }

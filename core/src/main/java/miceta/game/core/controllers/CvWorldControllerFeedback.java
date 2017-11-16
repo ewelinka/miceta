@@ -28,17 +28,18 @@ public class CvWorldControllerFeedback extends CvWorldController {
     @Override
     public void update(float deltaTime) {
         timePassed+=deltaTime; // variable used to check in isTimeToStartNewLoop() to decide if new feedback loop should be started
-        update2();
+        updateCV();
 
         if(isTimeToStartNewLoop()){
             ArrayList<Integer> nowDetected = cvBlocksManager.getNewDetectedVals(); // to know the blocks on the table
             int sum = 0;
             for (int i = 0; i < nowDetected.size(); i++)
                 sum += nowDetected.get(i); // we need to know the sum to decide if response is correct
-            timeToWait =  sum*Constants.READ_ONE_UNIT_DURATION + Constants.FEEDBACK_DELAY;
+            timeToWait =  sum*Constants.READ_ONE_UNIT_DURATION + Constants.WAIT_AFTER_KNOCK;
             timePassed = 0;
 
-            AudioManager.instance.readBlocks(nowDetected);
+            if(sum > 0)
+                AudioManager.instance.readBlocks(nowDetected);
 
         }
     }
