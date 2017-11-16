@@ -211,6 +211,7 @@ public abstract class CvBlocksManager {
 
             stableIds.add(id);
             resetStrikes(id);
+
             AudioManager.instance.playNewBlockSong();
             Gdx.app.log(TAG, " ADD BLOCK: " + id + "BECAUSE HAS POSITIVE STRIKES!");
 

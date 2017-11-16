@@ -15,5 +15,5 @@ public class Constants {
     public static final int P_STRIKE = 3;
     public static final int INACTIVITY_LIMIT= 5;
     public static final int ERRORS_FOT_HINT = 3;
-    public static final int FEEDBACK_DELAY = 2;
+    public static final int FEEDBACK_DELAY = 0;//2
 }
