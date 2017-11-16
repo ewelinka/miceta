@@ -95,13 +95,14 @@ public class CvWorldController extends InputAdapter {
 */
 
     protected void update2(){
-        if(!(cvBlocksManager.isBusy())){ //ask before in order to not accumulate new threads.
+        if(cvBlocksManager.canBeUpdated()) { //ask before in order to not accumulate new threads.
             cvBlocksManager.updateDetected();
-
-            if(cvBlocksManager.isDetectionReady()){
-                cvBlocksManager.analyseDetected();
-            }
         }
+
+        if(cvBlocksManager.isDetectionReady()){
+            cvBlocksManager.analyseDetected();
+        }
+
     }
 
 
@@ -260,6 +261,8 @@ public class CvWorldController extends InputAdapter {
         }
         return true;
     }
+
+
 
 
 }
