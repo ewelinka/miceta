@@ -158,9 +158,6 @@ public class AudioManager {
             case 15:
                 whichSound = Assets.instance.sounds.f15;
                 break;
-           // case 16:
-            //  whichSound = Assets.instance.sounds.newblock;
-              //  break;
             default:
                 whichSound = Assets.instance.sounds.f15; // should never be used because we count to 15 max
                 break;
@@ -278,14 +275,12 @@ public class AudioManager {
         Gdx.app.log(TAG," read feedback and blocks! "+numToBuild);
         reader.clearActions();
         /////// blocks
-<<<<<<< HEAD
-
         readBlocksAction = createReadBlocksAction(readBlocksAction, toReadNums);
 
         /////////// feedback
         readFeedbackAction = createReadFeedbackAction(readFeedbackAction, numToBuild);
 
-=======
+
         readBlocksAction.reset();
         //le postic is here
         readBlocksAction.addAction(delay(Constants.READ_NUMBER_DURATION )); //wait before start read blocks -change delay ++++
