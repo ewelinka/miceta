@@ -108,10 +108,8 @@ public class CvBlocksManagerDesktop extends CvBlocksManager {
         }
     }
 
-    public boolean isBusy(){
-
-        return  (((TopCodeDetectorDesktop)getTopCodeDetector()).isBusy());
-        // return topCodeDetector;
+    public boolean canBeUpdated(){
+        return  !(((TopCodeDetectorDesktop)getTopCodeDetector()).isBusy());
     }
 
 

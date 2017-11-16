@@ -9,6 +9,7 @@ import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 
 import miceta.game.core.screens.DirectedGame;
+import miceta.game.core.screens.FeedbackScreen;
 import miceta.game.core.screens.TestScreen;
 import miceta.game.core.transitions.ScreenTransition;
 import miceta.game.core.transitions.ScreenTransitionFade;
@@ -31,7 +32,9 @@ public class miCeta extends DirectedGame {
 		AudioManager.instance.play(Assets.instance.music.song01);
 		//AudioManager.instance.play(Assets.instance.sounds.puck);
 		ScreenTransition transition = ScreenTransitionFade.init(1);
-		setScreen(new TestScreen(this),transition);
+		//setScreen(new TestScreen(this),transition);
+		setScreen(new FeedbackScreen(this),transition);
+
 	}
 
 	public void setLastFrame(Mat frame){

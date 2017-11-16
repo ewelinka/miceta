@@ -76,6 +76,8 @@ public class TestScreen extends AbstractGameScreen {
 
         spriteBatch.begin();
         font.draw(spriteBatch,""+worldController.getRandomNumber(),200,680);
+        font.draw(spriteBatch,"jugar",550,1000);
+        font.draw(spriteBatch,"feedback",10,1000);
         spriteBatch.end();
 
     }

@@ -175,7 +175,7 @@ public abstract class CvBlocksManager {
         return topCodeDetector;
     }
 
-    public abstract boolean isBusy();
+    public abstract boolean canBeUpdated();
 
 
 

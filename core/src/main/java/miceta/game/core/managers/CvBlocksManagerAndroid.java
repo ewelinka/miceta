@@ -64,40 +64,35 @@ public class CvBlocksManagerAndroid extends CvBlocksManager {
 
     public void updateDetected() {
         if(!detectionReady) {
+            new Thread(new Runnable() {
+                public void run() {
+                    Mat frame = game.getAndBlockLastFrame();
+                    Core.flip(frame, frame, 0);
 
-           // if(!detectionReady) {
-               // if ((Gdx.app.getType() == Application.ApplicationType.Android)) {
-                    new Thread(new Runnable() {
+                    final Set<Block> finalSet = ((TopCodeDetectorAndroid) topCodeDetector).detectBlocks(frame, 0.85);
+                    detectionReady = true;
+                    game.releaseFrame();
+
+                    Gdx.app.postRunnable(new Runnable() {
+                        @Override
                         public void run() {
-                            Mat frame = game.getAndBlockLastFrame();
-                            Core.flip(frame, frame, 0);
-
-                            final Set<Block> finalSet = ((TopCodeDetectorAndroid) topCodeDetector).detectBlocks(frame, 0.85);
-                            detectionReady = true;
-                            game.releaseFrame();
-
-                            Gdx.app.postRunnable(new Runnable() {
-                                @Override
-                                public void run() {
-                                    // process the result, e.g. add it to an Array<Result> field of the ApplicationListener.
-                                    results.clear();
-                                    results.add(finalSet);
-                                }
-                            });
+                            // process the result, e.g. add it to an Array<Result> field of the ApplicationListener.
+                            results.clear();
+                            results.add(finalSet);
                         }
-                    }).start();
-                //}
-            //}
+
+                    });
+                }
+            }).start();
         }
+
     }
 
 
 
 
-    public boolean isBusy(){
-
-        return  !(game.hasNewFrame());
-        // return topCodeDetector;
+    public boolean canBeUpdated(){
+        return  game.hasNewFrame();
     }
 
 
