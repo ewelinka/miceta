@@ -114,6 +114,11 @@ public class CvWorldController extends InputAdapter {
 
                 sum2 = sum;
 
+                if ((sum!=0)||(sum2!=sum_aux)){
+
+                    counter =0;
+                }
+
                 if ((sum > randomNumber)&&(sum != sum_aux)) { //check how long to wait (biggest number between sum of blocks and random number)
                     error_max++;
                     error_min =0;
@@ -174,9 +179,17 @@ public class CvWorldController extends InputAdapter {
                             //AudioManager.instance.s
                             AudioManager.instance.setDelay_quit(true);
                         Gdx.app.log(TAG,"########################################ERROR MIN ");
+
+                            if ((error_min >= Constants.ERRORS_FOT_HINT)&&(sum != sum_aux)){
+
+                                counter =0;
+                            }
+
                         error_min =Constants.ERRORS_FOT_HINT-1;
                         error_max=Constants.ERRORS_FOT_HINT-1;
-                            counter =0;
+
+
+
 
 
                             //if (error_min >= Constants.ERRORS_FOT_HINT){
