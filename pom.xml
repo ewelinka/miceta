@@ -84,13 +84,6 @@
 				<version>1.2.0</version>
 			</dependency>
 
-			<!-- ios-specific dependencies -->
-			<!-- requires robovm upgrades -->
-			<dependency>
-				<groupId>com.badlogic.gdx</groupId>
-				<artifactId>gdx-backend-ios</artifactId>
-				<version>1.2.0</version>
-			</dependency>
 		</dependencies>
 	</dependencyManagement>
 
@@ -113,8 +106,8 @@
 				<artifactId>maven-compiler-plugin</artifactId>
 				<version>2.5.1</version>
 				<configuration>
-					<source>1.6</source>
-					<target>1.6</target>
+					<source>1.7</source>
+					<target>1.7</target>
 				</configuration>
 			</plugin>
 		</plugins>
