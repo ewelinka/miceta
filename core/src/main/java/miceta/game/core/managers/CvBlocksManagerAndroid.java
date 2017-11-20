@@ -37,6 +37,7 @@ public class CvBlocksManagerAndroid extends CvBlocksManager {
         Rect detectionZone = new Rect((640-480),0,480,480);
         topCodeDetector = new TopCodeDetectorAndroid(50, true, 70, 5, true, false, false, true, detectionZone);
         detectionReady = false;
+        detectionInProgress = false;
         newDetectedCVBlocks = new ArrayList<Block>();
         // toRemoveCVIds = new ArrayList<Integer>();
         //toRemoveCVValues = new ArrayList<Integer>();
@@ -63,14 +64,16 @@ public class CvBlocksManagerAndroid extends CvBlocksManager {
 
 
     public void updateDetected() {
-        if(!detectionReady) {
+        Gdx.app.log(TAG,"update "+detectionReady + " detectionInProgress " + detectionInProgress);
+        if(!detectionInProgress && !detectionReady) {
+            detectionInProgress = true;
             new Thread(new Runnable() {
                 public void run() {
                     Mat frame = game.getAndBlockLastFrame();
                     Core.flip(frame, frame, 0);
 
                     final Set<Block> finalSet = ((TopCodeDetectorAndroid) topCodeDetector).detectBlocks(frame, 0.85);
-                    detectionReady = true;
+
                     game.releaseFrame();
 
                     Gdx.app.postRunnable(new Runnable() {
@@ -79,6 +82,7 @@ public class CvBlocksManagerAndroid extends CvBlocksManager {
                             // process the result, e.g. add it to an Array<Result> field of the ApplicationListener.
                             results.clear();
                             results.add(finalSet);
+                            detectionReady = true;
                         }
 
                     });

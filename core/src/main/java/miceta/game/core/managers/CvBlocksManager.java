@@ -25,14 +25,12 @@ public abstract class CvBlocksManager {
     public static final String TAG = CvBlocksManager.class.getName();
     public TopCodeDetector topCodeDetector;
     public miCeta game;
-    public boolean detectionReady;
+    public boolean detectionReady, detectionInProgress;
     public ArrayList<Set> results = new ArrayList<Set>();
     public ArrayList<Integer> nowDetectedVals = new ArrayList<Integer>();
     public Set<Block> tempList;
     public ArrayList<Integer> nowDetectedValsId = new ArrayList<Integer>();
     public ArrayList<Block> newDetectedCVBlocks;
-   // private ArrayList<Integer> toRemoveCVIds;
-    //private ArrayList<Integer> toRemoveCVValues;
     public ArrayList<Integer> lastframeids, p_lastframeids;
     public ArrayList<Integer> newIds, p_newIds, stableIds;
     public ArrayMap<Integer,Integer> strikes;
@@ -54,6 +52,7 @@ public abstract class CvBlocksManager {
     public abstract void updateDetected();
 
     public void analyseDetected(){
+        Gdx.app.log(TAG,"analyse -> detectionReady " + detectionReady + " detectionInProgress " + detectionInProgress);
         if(detectionReady) {
             if(results.size() > 0) {
                 currentBlocks = results.get(0); //here we have our set of detected blocks
@@ -84,17 +83,19 @@ public abstract class CvBlocksManager {
 
             }
 
-            Gdx.app.log(TAG, "now detected vals "+ Arrays.toString(nowDetectedVals.toArray()));
-            Gdx.app.log(TAG, "now detected ids "+ Arrays.toString(nowDetectedValsId.toArray()));
-            Gdx.app.log(TAG, "last frame ids "+ Arrays.toString(lastframeids.toArray()));
-            Gdx.app.log(TAG, "stable ids "+ Arrays.toString(stableIds.toArray()));
+//            Gdx.app.log(TAG, "now detected vals "+ Arrays.toString(nowDetectedVals.toArray()));
+//            Gdx.app.log(TAG, "now detected ids "+ Arrays.toString(nowDetectedValsId.toArray()));
+//            Gdx.app.log(TAG, "last frame ids "+ Arrays.toString(lastframeids.toArray()));
+//            Gdx.app.log(TAG, "stable ids "+ Arrays.toString(stableIds.toArray()));
 
             p_newIds = new ArrayList(newIds);
             p_compareIds(newIds , lastframeids);
             p_lastframeids = new ArrayList(stableIds);
             compareIds(p_lastframeids , p_newIds);
-            
-            detectionReady = false;
+
+            detectionInProgress = false;
+            detectionReady = false; // we should do next detection
+
         }
     }
 
@@ -203,16 +204,16 @@ public abstract class CvBlocksManager {
         return tempList;
     }
 
-    private void checkpStrikesAndDecideIfAdd(int id){
+    private void checkStrikesAndDecideIfAdd(int id){
 
-        Gdx.app.log(TAG,  p_maxStrikes + " Entro aca: "  + id + "p_strikes: " + p_strikes.get(id));
+        //Gdx.app.log(TAG,  p_maxStrikes + " Entro aca: "  + id + "p_strikes: " + p_strikes.get(id));
 
         if((p_strikes.get(id) == p_maxStrikes )&&!(stableIds.contains(id))) {
 
             stableIds.add(id);
             resetStrikes(id);
 
-            AudioManager.instance.playNewBlockSong();
+          //  AudioManager.instance.playNewBlockSong();
             Gdx.app.log(TAG, " ADD BLOCK: " + id + "BECAUSE HAS POSITIVE STRIKES!");
 
         }
@@ -221,25 +222,20 @@ public abstract class CvBlocksManager {
 
 
     private void p_compareIds(ArrayList<Integer> newBlocksIds, ArrayList<Integer> oldBlocksIds){
-
-
         for(int i = newBlocksIds.size()-1;i>=0;i--){ // we start from the end to avoid ids problems
 
             int newId = newBlocksIds.get(i);
 
             if(oldBlocksIds.contains(newId)) {
                 p_updateStrikes(newId);
-                boolean shouldBeUpdated = false; //paraa que sirve esto?
             }
             else{
-
                p_resetStrikes(newId);
             }
         }
 
-
         for(int i=0;i<newBlocksIds.size();i++){
-            checkpStrikesAndDecideIfAdd(newBlocksIds.get(i));
+            checkStrikesAndDecideIfAdd(newBlocksIds.get(i));
         }
     }
 
