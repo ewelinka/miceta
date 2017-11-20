@@ -22,35 +22,12 @@ import java.util.Set;
 
 public class CvBlocksManagerDesktop extends CvBlocksManager {
 
-/*
-    public static final String TAG = CvBlocksManager.class.getName();
-    private TopCodeDetector topCodeDetector;
-    private miCeta game;
-    private boolean detectionReady;
-    public ArrayList<Set> results = new ArrayList<Set>();
-    ArrayList<Integer> nowDetectedVals = new ArrayList<Integer>();
-    private Set<Block> tempList;
-    ArrayList<Integer> nowDetectedValsId = new ArrayList<Integer>();
-    private ArrayList<Block> newDetectedCVBlocks;
-    // private ArrayList<Integer> toRemoveCVIds;
-    //private ArrayList<Integer> toRemoveCVValues;
-    private ArrayList<Integer> lastframeids, p_lastframeids;
-    private ArrayList<Integer> newIds, p_newIds, stableIds;
-    private ArrayMap<Integer,Integer> strikes;
-    private ArrayMap<Integer,Integer> p_strikes;
-    private int maxStrikes;
-    private int p_maxStrikes;
-    private ArrayMap<Integer,Integer> idToValue;
-    private ArrayMap<Integer,Integer> tableIdValue;
-    private Set<Block> currentBlocks;
-*/
-
     public CvBlocksManagerDesktop(miCeta game, Stage stage) {
         super(game, stage);
     }
 
 
-     public  void init() {
+    public  void init() {
 
         currentBlocks = null;
         tempList = null;
@@ -60,9 +37,9 @@ public class CvBlocksManagerDesktop extends CvBlocksManager {
         //Rect detectionZone = new Rect(0,0,1920,768); //positivo camera resolution
         topCodeDetector = new TopCodeDetectorDesktop(50, true, 70, 5, true, false, true, detectionZone,true,false);
         detectionReady = false;
+        detectionInProgress = false;
         newDetectedCVBlocks = new ArrayList<Block>();
-        // toRemoveCVIds = new ArrayList<Integer>();
-        //toRemoveCVValues = new ArrayList<Integer>();
+
 
         newIds = new ArrayList<Integer>();
         lastframeids = new ArrayList<Integer>();
@@ -83,8 +60,9 @@ public class CvBlocksManagerDesktop extends CvBlocksManager {
 
 
     public void updateDetected() {
-        if(!detectionReady) {
-
+        Gdx.app.log(TAG,"update "+detectionReady+ " detectionInProgress " + detectionInProgress);
+        if(!detectionInProgress) {
+            detectionInProgress = true;
             new Thread(new Runnable() {
                 public void run() {
                     // Mat frame = ((CetaGame) game).getAndBlockLastFrame();
@@ -92,7 +70,7 @@ public class CvBlocksManagerDesktop extends CvBlocksManager {
 
                     final Set<Block> finalSet = ((TopCodeDetectorDesktop) topCodeDetector).detectBlocks();
                     // Gdx.app.log(TAG, "ready with the detection!! framerateee"+Gdx.graphics.getFramesPerSecond());
-                    detectionReady = true;
+
                     //((CetaGame) game).releaseFrame();
 
                     Gdx.app.postRunnable(new Runnable() {
@@ -101,6 +79,7 @@ public class CvBlocksManagerDesktop extends CvBlocksManager {
                             // process the result, e.g. add it to an Array<Result> field of the ApplicationListener.
                             results.clear();
                             results.add(finalSet);
+                            detectionReady = true;
                         }
                     });
                 }
