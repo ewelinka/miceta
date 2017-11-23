@@ -49,6 +49,7 @@ public class TestScreen extends AbstractGameScreen {
         //Gdx.gl.glClearColor(0, 0, 0, 1);
         Gdx.gl.glClearColor(0x64 / 255.0f, 0x95 / 255.0f,0xed / 255.0f, 0xff / 255.0f);
 
+        //Gdx.app.log(TAG,"famerate " + Gdx.graphics.getFramesPerSecond());
         Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT);
         // Do not update game world when paused.
         if (!paused) {
@@ -75,6 +76,8 @@ public class TestScreen extends AbstractGameScreen {
 
         spriteBatch.begin();
         font.draw(spriteBatch,""+worldController.getRandomNumber(),200,680);
+        font.draw(spriteBatch,"jugar",550,1000);
+        font.draw(spriteBatch,"feedback",10,1000);
         spriteBatch.end();
 
     }
