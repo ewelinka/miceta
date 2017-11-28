@@ -86,7 +86,7 @@ public class CvWorldController extends InputAdapter {
                 previousRandomNumber = randomNumber;
                 randomNumber = getNewNumber();
                // timeToWait = Constants.READ_NUMBER_DURATION + randomNumber*Constants.READ_ONE_UNIT_DURATION + Constants.WAIT_AFTER_KNOCK ; // one extra second to read number and feedback
-                timeToWait = randomNumber*Constants.READ_ONE_UNIT_DURATION + Constants.WAIT_AFTER_KNOCK ; // read feedback and wait
+                timeToWait = randomNumber*Constants.READ_ONE_UNIT_DURATION + Constants.WAIT_AFTER_CORRECT_ANSWER ; // read feedback and wait
 
                 AudioManager.instance.readFeedback(randomNumber);
                 lastAnswerRight = false;
