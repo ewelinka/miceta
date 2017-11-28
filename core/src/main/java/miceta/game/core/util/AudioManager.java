@@ -24,7 +24,7 @@ public class AudioManager {
     private Music playingMusic;
     private Sound currentSound;
     private SequenceAction readFeedbackAction, readBlocksAction, readCorrectSolutionAction;
-    private float defaultVolSound = 0.8f;
+    private float defaultVolSound = 0.5f;
     private float firstNoteVol = 1.0f;
     private Actor reader;
     private Stage stage;
@@ -269,7 +269,8 @@ public class AudioManager {
 
     public void readAllFeedbacks(ArrayList<Integer> toReadNums, int numToBuild, boolean thisAnswerRight){
         if(thisAnswerRight){
-            readFeedbackAndBlocksAndYuju(toReadNums,numToBuild);
+            //readFeedbackAndBlocksAndYuju(toReadNums,numToBuild);
+            readFeedbackAndBlocksAndTadaAndYuju(toReadNums,numToBuild);
         }else{
             readFeedbackAndBlocks(toReadNums,numToBuild);
         }
@@ -309,7 +310,7 @@ public class AudioManager {
         reader.addAction(parallel(readBlocksAction,readFeedbackAction)); // we read feedback and the blocks in parallel
     }
 
-    public void readFeedbackAndBlocksAndYuju(ArrayList<Integer> toReadNums, int numToBuild){
+    public void readFeedbackAndBlocksAndYuju(ArrayList<Integer> toReadNums, int numToBuild){ //
         Gdx.app.log(TAG," read feedback and blocks! "+numToBuild);
         reader.clearActions();
         /////// blocks
@@ -317,6 +318,29 @@ public class AudioManager {
         /////////// feedback
         readFeedbackAction = createReadFeedbackAction(readFeedbackAction, numToBuild);
 
+        readFeedbackAction.addAction(run(new Runnable() {
+            public void run() {
+                playWithoutInterruption(Assets.instance.sounds.yuju); //after correct answer comes "yuju"
+            }
+        }));
+
+        reader.addAction(parallel(readBlocksAction,readFeedbackAction)); // we read feedback and the blocks in parallel
+    }
+
+    public void readFeedbackAndBlocksAndTadaAndYuju(ArrayList<Integer> toReadNums, int numToBuild){ //
+        Gdx.app.log(TAG," read feedback and blocks! "+numToBuild);
+        reader.clearActions();
+        /////// blocks
+        readBlocksAction = createReadBlocksAction(readBlocksAction, toReadNums);
+        /////////// feedback
+        readFeedbackAction = createReadFeedbackAction(readFeedbackAction, numToBuild);
+
+        readFeedbackAction.addAction(run(new Runnable() {
+            public void run() {
+                playWithoutInterruption(Assets.instance.sounds.tada); //after correct answer comes "yuju"
+            }
+        }));
+        readFeedbackAction.addAction(delay(Constants.DELAY_FOR_TADA));
         readFeedbackAction.addAction(run(new Runnable() {
             public void run() {
                 playWithoutInterruption(Assets.instance.sounds.yuju); //after correct answer comes "yuju"

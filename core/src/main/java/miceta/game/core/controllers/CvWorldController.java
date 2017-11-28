@@ -86,7 +86,7 @@ public class CvWorldController extends InputAdapter {
                 previousRandomNumber = randomNumber;
                 randomNumber = getNewNumber();
                // timeToWait = Constants.READ_NUMBER_DURATION + randomNumber*Constants.READ_ONE_UNIT_DURATION + Constants.WAIT_AFTER_KNOCK ; // one extra second to read number and feedback
-                timeToWait = randomNumber*Constants.READ_ONE_UNIT_DURATION + Constants.WAIT_AFTER_CORRECT_ANSWER ; // read feedback and wait
+                timeToWait = randomNumber*Constants.READ_ONE_UNIT_DURATION + Constants.WAIT_AFTER_KNOCK; // read feedback and wait
 
                 AudioManager.instance.readFeedback(randomNumber);
                 lastAnswerRight = false;
@@ -170,7 +170,7 @@ public class CvWorldController extends InputAdapter {
 
         if (currentSum == randomNumber) { // correct answer! in next loop we will celebrate
             lastAnswerRight = true;
-            timeToWait += Constants.DELAY_FOR_YUJU;
+            timeToWait += (Constants.DELAY_FOR_TADA + Constants.DELAY_FOR_YUJU + Constants.WAIT_AFTER_CORRECT_ANSWER);
         }
 
         AudioManager.instance.readAllFeedbacks(nowDetected, randomNumber, lastAnswerRight);
