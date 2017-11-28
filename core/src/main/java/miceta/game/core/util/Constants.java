@@ -10,6 +10,7 @@ public class Constants {
     public static final float READ_ONE_UNIT_DURATION = 0.5f;
     public static final float READ_NUMBER_DURATION = 0.5f;
     public static final float DELAY_FOR_YUJU = 1;
+    public static final float DELAY_FOR_TADA = 1.5f;
     public static final int BASE = 40;
     public static final int STRIKE = 3;
     public static final int P_STRIKE = 3;
