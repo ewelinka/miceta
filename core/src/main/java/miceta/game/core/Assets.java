@@ -41,10 +41,10 @@ public class Assets implements Disposable, AssetErrorListener {
         assetManager.load("sounds/14.wav", Sound.class);
         assetManager.load("sounds/15.wav", Sound.class);
         assetManager.load("sounds/do.wav", Sound.class);
-        assetManager.load("sounds/re.wav", Sound.class);
-        assetManager.load("sounds/mi.wav", Sound.class);
-        assetManager.load("sounds/fa.wav", Sound.class);
-        assetManager.load("sounds/sol.wav", Sound.class);
+        assetManager.load("sounds/re_trumpet.wav", Sound.class);
+        assetManager.load("sounds/mi_guitar.wav", Sound.class);
+        assetManager.load("sounds/fa_flaute.wav", Sound.class);
+        assetManager.load("sounds/sol_harp.wav", Sound.class);
         assetManager.load("sounds/puck.mp3", Sound.class);
         assetManager.load("music/song1.mp3", Music.class);
         assetManager.load("sounds/yuju.mp3", Sound.class);
@@ -107,10 +107,10 @@ public class Assets implements Disposable, AssetErrorListener {
             f15 = am.get("sounds/15.wav", Sound.class);
 
             oneDo = am.get("sounds/do.wav", Sound.class);
-            oneRe = am.get("sounds/re.wav", Sound.class);
-            oneMi = am.get("sounds/mi.wav", Sound.class);
-            oneFa = am.get("sounds/fa.wav", Sound.class);
-            oneSol = am.get("sounds/sol.wav", Sound.class);
+            oneRe = am.get("sounds/re_trumpet.wav", Sound.class);
+            oneMi = am.get("sounds/mi_guitar.wav", Sound.class);
+            oneFa = am.get("sounds/fa_flaute.wav", Sound.class);
+            oneSol = am.get("sounds/sol_harp.wav", Sound.class);
             puck = am.get("sounds/puck.mp3", Sound.class);
             yuju = am.get("sounds/yuju.mp3", Sound.class);
             tada = am.get("sounds/tada.mp3", Sound.class);
