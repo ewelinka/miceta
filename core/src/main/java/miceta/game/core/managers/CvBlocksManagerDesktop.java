@@ -32,13 +32,14 @@ public class CvBlocksManagerDesktop extends CvBlocksManager {
         currentBlocks = null;
         tempList = null;
 
-        Rect detectionZone = new Rect(0,0,640,480); // WARN my mac cam resolution!!
+       // Rect detectionZone = new Rect(0,0,640,480); // WARN my mac cam resolution!!
         // / TODO check the orientation of the frame
-        //Rect detectionZone = new Rect(0,0,1920,768); //positivo camera resolution
+        Rect detectionZone = new Rect(0,0,1920,768); //positivo camera resolution
         topCodeDetector = new TopCodeDetectorDesktop(50, true, 70, 5, true, false, true, detectionZone,true,false);
         detectionReady = false;
         detectionInProgress = false;
         newDetectedCVBlocks = new ArrayList<Block>();
+
 
 
         newIds = new ArrayList<Integer>();
