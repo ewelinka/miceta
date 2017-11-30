@@ -24,7 +24,8 @@ public class AudioManager {
     private Music playingMusic;
     private Sound currentSound;
     private SequenceAction readFeedbackAction, readBlocksAction, readCorrectSolutionAction;
-    private float defaultVolSound = 1.0f;
+    private float defaultVolSound = 0.5f;
+    private float firstNoteVol = 1.0f;
     private Actor reader;
     private Stage stage;
     private float readBlockDuration = Constants.READ_ONE_UNIT_DURATION;
@@ -71,8 +72,15 @@ public class AudioManager {
         if (playingMusic != null) playingMusic.stop();
     }
 
-    public void playWithoutInterruption(Sound sound) {
-        sound.play(defaultVolSound);// be defualt vol = 1
+    public void playWithoutInterruption(Sound sound, boolean firstNote) {
+        if(firstNote)
+            sound.play(firstNoteVol);// be default vol = 1
+        else
+            sound.play(defaultVolSound);
+    }
+
+    public void playWithoutInterruption(Sound sound){
+        playWithoutInterruption(sound, false);
     }
 
     public void playNewBlockSong(){
@@ -169,7 +177,7 @@ public class AudioManager {
 
     }
 
-    public void addToReadBlock (int nr, SequenceAction readBlocks) {
+    public void addToReadBlock (int nr, SequenceAction readBlocks, final boolean firstNote) {
         final Sound whichSound;
         switch (nr) {
             case 1:
@@ -194,7 +202,7 @@ public class AudioManager {
         }
         readBlocks.addAction(run(new Runnable() {
             public void run() {
-                playWithoutInterruption(whichSound);
+                playWithoutInterruption(whichSound, firstNote);
             }
         }));
 
@@ -243,7 +251,7 @@ public class AudioManager {
         }
         readFeedback.addAction(run(new Runnable() {
             public void run() {
-                playWithoutInterruption(whichSound);
+                playWithoutInterruption(whichSound); // knocks with which volume??
             }
         }));
         readFeedback.addAction(delay(readBlockDuration)); // we wait Xs because sound files with "do", "re" and "mi" have X duration
@@ -261,7 +269,8 @@ public class AudioManager {
 
     public void readAllFeedbacks(ArrayList<Integer> toReadNums, int numToBuild, boolean thisAnswerRight){
         if(thisAnswerRight){
-            readFeedbackAndBlocksAndYuju(toReadNums,numToBuild);
+            //readFeedbackAndBlocksAndYuju(toReadNums,numToBuild);
+            readFeedbackAndBlocksAndTadaAndYuju(toReadNums,numToBuild);
         }else{
             readFeedbackAndBlocks(toReadNums,numToBuild);
         }
@@ -301,7 +310,7 @@ public class AudioManager {
         reader.addAction(parallel(readBlocksAction,readFeedbackAction)); // we read feedback and the blocks in parallel
     }
 
-    public void readFeedbackAndBlocksAndYuju(ArrayList<Integer> toReadNums, int numToBuild){
+    public void readFeedbackAndBlocksAndYuju(ArrayList<Integer> toReadNums, int numToBuild){ //
         Gdx.app.log(TAG," read feedback and blocks! "+numToBuild);
         reader.clearActions();
         /////// blocks
@@ -309,6 +318,29 @@ public class AudioManager {
         /////////// feedback
         readFeedbackAction = createReadFeedbackAction(readFeedbackAction, numToBuild);
 
+        readFeedbackAction.addAction(run(new Runnable() {
+            public void run() {
+                playWithoutInterruption(Assets.instance.sounds.yuju); //after correct answer comes "yuju"
+            }
+        }));
+
+        reader.addAction(parallel(readBlocksAction,readFeedbackAction)); // we read feedback and the blocks in parallel
+    }
+
+    public void readFeedbackAndBlocksAndTadaAndYuju(ArrayList<Integer> toReadNums, int numToBuild){ //
+        Gdx.app.log(TAG," read feedback and blocks! "+numToBuild);
+        reader.clearActions();
+        /////// blocks
+        readBlocksAction = createReadBlocksAction(readBlocksAction, toReadNums);
+        /////////// feedback
+        readFeedbackAction = createReadFeedbackAction(readFeedbackAction, numToBuild);
+
+        readFeedbackAction.addAction(run(new Runnable() {
+            public void run() {
+                playWithoutInterruption(Assets.instance.sounds.tada); //after correct answer comes "yuju"
+            }
+        }));
+        readFeedbackAction.addAction(delay(Constants.DELAY_FOR_TADA));
         readFeedbackAction.addAction(run(new Runnable() {
             public void run() {
                 playWithoutInterruption(Assets.instance.sounds.yuju); //after correct answer comes "yuju"
@@ -332,7 +364,7 @@ public class AudioManager {
         reader.clearActions();
         readFeedbackAction.reset();
         // first read number then knocks
-        readFeedbackAction.addAction(delay(1.0f)); // wait before start read feedback
+        readFeedbackAction.addAction(delay(Constants.READ_ONE_UNIT_DURATION)); // wait before start read feedback
         readFeedbackAction = playNumber(numToBuild,readFeedbackAction);
         readFeedbackAction.addAction(delay(Constants.READ_NUMBER_DURATION)); // wait to finish read the number
         readFeedbackAction = addToReadFeedbackInSpace(numToBuild, readFeedbackAction);
@@ -350,10 +382,13 @@ public class AudioManager {
 
     public SequenceAction createReadBlocksAction(SequenceAction readBlocksAction, ArrayList<Integer> toReadNums){
         readBlocksAction.reset();
+        boolean firstNote;
         for(int i = 0; i<toReadNums.size();i++) { // if we have detected block 3 and block 2, we have to read 3 times "mi" and 2 time "re"
             int val = toReadNums.get(i); // val will be 3 and than 2
+            firstNote = true; // first note should be lauder
             for(int j = 0; j<val;j++) {
-                addToReadBlock(val, readBlocksAction); // one single lecture
+                addToReadBlock(val, readBlocksAction, firstNote); // one single lecture
+                firstNote = false;
             }
         }
 
