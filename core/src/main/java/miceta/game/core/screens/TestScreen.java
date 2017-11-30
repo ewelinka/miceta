@@ -1,5 +1,6 @@
 package miceta.game.core.screens;
 
+import com.badlogic.gdx.Application;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.InputMultiplexer;
 import com.badlogic.gdx.InputProcessor;
@@ -23,7 +24,7 @@ import java.util.Set;
 public class TestScreen extends AbstractGameScreen {
     private static final String TAG = TestScreen.class.getName();
     protected ShapeRenderer shapeRenderer;
-    private int shiftX =70;
+    private int shiftX =70; //70
     private int shiftY =100;
     private BitmapFont font = new BitmapFont();
     private SpriteBatch spriteBatch  = new SpriteBatch();
@@ -47,6 +48,7 @@ public class TestScreen extends AbstractGameScreen {
     @Override
     public void render(float deltaTime) {
         //Gdx.gl.glClearColor(0, 0, 0, 1);
+
         Gdx.gl.glClearColor(0x64 / 255.0f, 0x95 / 255.0f,0xed / 255.0f, 0xff / 255.0f);
 
         //Gdx.app.log(TAG,"famerate " + Gdx.graphics.getFramesPerSecond());
@@ -61,26 +63,48 @@ public class TestScreen extends AbstractGameScreen {
         Set<Block> cBlocks = worldController.getCurrentBlocksFromManager();
         shapeRenderer.begin(ShapeRenderer.ShapeType.Filled);
         shapeRenderer.setColor(1, 1, 1, 1);
-        shapeRenderer.rect(shiftX, shiftY, 480, 480);
+
+        // in desktop:
+        shapeRenderer.rect(shiftX, shiftY, 480, 640);
+
+
 
         if(cBlocks!=null) {
+
+
             for (Block block : cBlocks) {
                 setColorFromValue(block.getValue());
-                shapeRenderer.rect((float) block.getCenter().y+shiftX, (float) block.getCenter().x+shiftY,
-                        Constants.BASE * block.getValue(), Constants.BASE,
-                        Constants.BASE * block.getValue() / 2, Constants.BASE / 2,
-                        radianToStage(block.getOrientation()));
+                /*
+                if((Gdx.app.getType() == Application.ApplicationType.Android)) {
+
+                    shapeRenderer.rect((float) block.getCenter().y+shiftX, (float) block.getCenter().x+shiftY,
+                            Constants.BASE * block.getValue(), Constants.BASE,
+                            Constants.BASE * block.getValue() / 2, Constants.BASE / 2,
+                            radianToStage(block.getOrientation()));
+                }
+                else{
+                    shapeRenderer.rect((float) (250 + (-block.getCenter().x))  + shiftX, (float) block.getCenter().y+shiftY,
+                            Constants.BASE, Constants.BASE * block.getValue(),
+                            Constants.BASE  * block.getValue() / 2,Constants.BASE/2,
+                            radianToStage(block.getOrientation()));
+                }
+              */
+                 //ANOTHER FORM - TESTEAR
+
+                FeedbackDrawManager fd = new FeedbackDrawManager();
+                fd.setShapeRenderer(shapeRenderer, block, shiftX,shiftY);
+
             }
+
         }
         shapeRenderer.end();
-
         spriteBatch.begin();
         font.draw(spriteBatch,""+worldController.getRandomNumber(),200,680);
         font.draw(spriteBatch,"jugar",550,1000);
         font.draw(spriteBatch,"feedback",10,1000);
         spriteBatch.end();
-
     }
+
 
     @Override
     public void resize(int width, int height) {
