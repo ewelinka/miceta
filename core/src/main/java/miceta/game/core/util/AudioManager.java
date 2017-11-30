@@ -8,6 +8,8 @@ import com.badlogic.gdx.scenes.scene2d.Stage;
 import com.badlogic.gdx.scenes.scene2d.actions.Actions;
 import com.badlogic.gdx.scenes.scene2d.actions.SequenceAction;
 import miceta.game.core.Assets;
+import miceta.game.core.controllers.CvWorldController;
+import miceta.game.core.managers.CvBlocksManager;
 
 
 import java.util.ArrayList;
@@ -32,6 +34,7 @@ public class AudioManager {
     private int feedback_delay=0;
     private boolean delay_quit = false;
     private boolean delay_add = false;
+    private float speed =0;
 
     private AudioManager () { }
 
@@ -206,8 +209,8 @@ public class AudioManager {
             }
         }));
 
-
-        readBlocks.addAction(delay(readBlockDuration )); // we wait Xs because sound files with "do", "re" and "mi" have X duration
+//&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&
+        readBlocks.addAction(delay(readBlockDuration + speed )); // we wait Xs because sound files with "do", "re" and "mi" have X duration
     }
 
     public void readSingleKnock(int whichKnock, SequenceAction readFeedback){
@@ -254,7 +257,8 @@ public class AudioManager {
                 playWithoutInterruption(whichSound); // knocks with which volume??
             }
         }));
-        readFeedback.addAction(delay(readBlockDuration)); // we wait Xs because sound files with "do", "re" and "mi" have X duration
+        //##########################################
+        readFeedback.addAction(delay(readBlockDuration + speed)); // we wait Xs because sound files with "do", "re" and "mi" have X duration
 
     }
 
@@ -405,7 +409,20 @@ public class AudioManager {
         return readFeedbackAction;
     }
 
+    public float getSpeed(){
 
+        return speed;
+    }
+
+    public void upSpeed(){
+
+        speed = speed +0.1f;
+    }
+
+    public void downSpeed(){
+
+        speed = speed - 0.1f;
+    }
 
 
 

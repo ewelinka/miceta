@@ -18,4 +18,5 @@ public class Constants {
     public static final int ERRORS_FOT_HINT = 3;
     public static final int FEEDBACK_DELAY = 1;
     public static final int WAIT_AFTER_CORRECT_ANSWER = 2;
+    
 }
