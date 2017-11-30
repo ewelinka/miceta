@@ -35,6 +35,7 @@ public class CvWorldController extends InputAdapter {
     private int lastSum=0;
     protected float timeToWait, timePassed;
     protected CvBlocksManager cvBlocksManager;
+    private float speed =0;
 
     public CvWorldController(miCeta game, Stage stage){
         this.game = game;
@@ -57,7 +58,7 @@ public class CvWorldController extends InputAdapter {
         randomNumber = getNewNumber();
 
         AudioManager.instance.readFeedback(randomNumber); //first we read the random number
-        timeToWait = Constants.READ_ONE_UNIT_DURATION+ randomNumber*Constants.READ_ONE_UNIT_DURATION+ Constants.WAIT_AFTER_KNOCK; // time we should wait before next loop starts
+        timeToWait = Constants.READ_ONE_UNIT_DURATION+ randomNumber*Constants.READ_ONE_UNIT_DURATION+ Constants.WAIT_AFTER_KNOCK /*+ ( randomNumber)*(0.3f)*/; // time we should wait before next loop starts
         lastAnswerRight = false;
     }
 
@@ -86,7 +87,7 @@ public class CvWorldController extends InputAdapter {
                 previousRandomNumber = randomNumber;
                 randomNumber = getNewNumber();
                // timeToWait = Constants.READ_NUMBER_DURATION + randomNumber*Constants.READ_ONE_UNIT_DURATION + Constants.WAIT_AFTER_KNOCK ; // one extra second to read number and feedback
-                timeToWait = randomNumber*Constants.READ_ONE_UNIT_DURATION + Constants.WAIT_AFTER_KNOCK; // read feedback and wait
+                timeToWait = ( randomNumber)*(AudioManager.instance.getSpeed()) + randomNumber*Constants.READ_ONE_UNIT_DURATION + Constants.WAIT_AFTER_KNOCK; // read feedback and wait
 
                 AudioManager.instance.readFeedback(randomNumber);
                 lastAnswerRight = false;
@@ -166,7 +167,7 @@ public class CvWorldController extends InputAdapter {
     private void checkForCorrectAnswer(int currentSum, int randomNumber, ArrayList<Integer> nowDetected ) {
         int biggerNumber =  (currentSum > randomNumber) ? currentSum : randomNumber;
         //timeToWait = Constants.READ_NUMBER_DURATION + biggerNumber * Constants.READ_ONE_UNIT_DURATION + Constants.WAIT_AFTER_KNOCK + feedback_delay;
-        timeToWait = biggerNumber * Constants.READ_ONE_UNIT_DURATION + Constants.WAIT_AFTER_KNOCK + feedback_delay;
+        timeToWait = ( randomNumber)*(AudioManager.instance.getSpeed()) + biggerNumber * Constants.READ_ONE_UNIT_DURATION + Constants.WAIT_AFTER_KNOCK + feedback_delay;
 
         if (currentSum == randomNumber) { // correct answer! in next loop we will celebrate
             lastAnswerRight = true;
@@ -183,6 +184,7 @@ public class CvWorldController extends InputAdapter {
     }
 
 
+
     @Override
     public boolean touchDown (int screenX, int screenY, int pointer, int button) {
         Gdx.app.log(TAG," TOUCHED "+screenX+ " "+screenY);
@@ -193,6 +195,16 @@ public class CvWorldController extends InputAdapter {
             if (screenX < 30 && screenY < 40) {
                 game.setScreen(new FeedbackScreen(game));
             }
+
+            if (screenX < 40 && screenY > 440) {
+                AudioManager.instance.downSpeed();
+            }
+
+            if (screenX > 440 && screenY > 440) {
+                AudioManager.instance.upSpeed();
+            }
+
+
         }else {
 
             if (screenX > 440 && screenY < 10) {
@@ -202,6 +214,15 @@ public class CvWorldController extends InputAdapter {
             if (screenX < 40 && screenY < 10) {
                 game.setScreen(new FeedbackScreen(game));
             }
+
+            if (screenX < 40 && screenY > 400) {
+                AudioManager.instance.downSpeed();
+            }
+
+            if (screenX > 440 && screenY > 400) {
+                AudioManager.instance.upSpeed();
+            }
+
         }
         return true;
     }
