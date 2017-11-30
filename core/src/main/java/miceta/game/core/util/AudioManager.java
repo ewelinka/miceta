@@ -221,31 +221,31 @@ public class AudioManager {
                 whichSound = Assets.instance.sounds.d1;
                 break;
             case 2:
-                whichSound = Assets.instance.sounds.d2;
+                whichSound = Assets.instance.sounds.d1;
                 break;
             case 3:
-                whichSound = Assets.instance.sounds.d3;
+                whichSound = Assets.instance.sounds.d1;
                 break;
             case 4:
-                whichSound = Assets.instance.sounds.d4;
+                whichSound = Assets.instance.sounds.d1;
                 break;
             case 5:
-                whichSound = Assets.instance.sounds.d5;
+                whichSound = Assets.instance.sounds.d1;
                 break;
             case 6:
-                whichSound = Assets.instance.sounds.d6;
+                whichSound = Assets.instance.sounds.d1;
                 break;
             case 7:
-                whichSound = Assets.instance.sounds.d7;
+                whichSound = Assets.instance.sounds.d1;
                 break;
             case 8:
-                whichSound = Assets.instance.sounds.d8;
+                whichSound = Assets.instance.sounds.d1;
                 break;
             case 9:
-                whichSound = Assets.instance.sounds.d9;
+                whichSound = Assets.instance.sounds.d1;
                 break;
             case 10:
-                whichSound = Assets.instance.sounds.d10;
+                whichSound = Assets.instance.sounds.d1;
                 break;
             default:
                 whichSound = Assets.instance.sounds.d1;
