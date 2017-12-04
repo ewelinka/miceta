@@ -63,6 +63,8 @@ public class Assets implements Disposable, AssetErrorListener {
         assetManager.load("sounds/d10.wav", Sound.class);
 
         assetManager.load("sounds/newblock.wav", Sound.class);
+        assetManager.load("sounds/new_block_loop.wav", Sound.class);
+
 
         assetManager.load("sounds/masPiezas.wav", Sound.class);
         assetManager.load("sounds/menosPiezas.wav", Sound.class);
@@ -88,7 +90,7 @@ public class Assets implements Disposable, AssetErrorListener {
     public class AssetSounds {
         public final Sound f1, f2, f3, f4, f5, f6, f7, f8, f9, f10, f11, f12, f13, f14, f15;
         public final Sound oneDo, oneRe, oneMi, oneFa, oneSol;
-        public final Sound puck,yuju, newblock, addblock, quitblock, tada;
+        public final Sound puck,yuju, newblock, addblock, quitblock, tada, new_block_loop;
         public final Sound d1,d2,d3,d4,d5,d6,d7,d8,d9,d10;
         public AssetSounds (AssetManager am) {
             f1 = am.get("sounds/1.wav", Sound.class);
@@ -118,6 +120,8 @@ public class Assets implements Disposable, AssetErrorListener {
             tada = am.get("sounds/tada.mp3", Sound.class);
 
             newblock = am.get("sounds/newblock.wav", Sound.class);
+
+            new_block_loop = am.get("sounds/new_block_loop.wav", Sound.class);
             addblock = am.get("sounds/masPiezas.wav", Sound.class);
             quitblock = am.get("sounds/menosPiezas.wav", Sound.class);
 

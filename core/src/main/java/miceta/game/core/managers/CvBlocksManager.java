@@ -62,6 +62,7 @@ public abstract class CvBlocksManager {
                 Gdx.app.error(TAG," very very wrong -> empty result!");
                 currentBlocks =  new HashSet<Block>();
                 tempList = new HashSet<Block>();
+
             }
 
 
@@ -129,6 +130,13 @@ public abstract class CvBlocksManager {
 
                     p_resetStrikes(id);
                     stableIds.remove((Integer) id);
+
+                    if (stableIds.size()==0){
+
+                        AudioManager.instance.setNewblock_loop(false);
+                        AudioManager.instance.playNewBlockSong_loop();
+                    }
+
                 }
             }
              else{
@@ -214,6 +222,12 @@ public abstract class CvBlocksManager {
             resetStrikes(id);
 
             AudioManager.instance.playNewBlockSong();
+            if (AudioManager.instance.getNewblock_loop()== false) {
+
+                AudioManager.instance.setNewblock_loop((true));
+                AudioManager.instance.playNewBlockSong_loop();
+            }
+
             Gdx.app.log(TAG, " ADD BLOCK: " + id + "BECAUSE HAS POSITIVE STRIKES!");
 
         }

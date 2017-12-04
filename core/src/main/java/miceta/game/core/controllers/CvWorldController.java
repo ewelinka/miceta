@@ -66,6 +66,9 @@ public class CvWorldController extends InputAdapter {
 
         if(cvBlocksManager.canBeUpdated()) { //ask before in order to not accumulate new threads.
             cvBlocksManager.updateDetected();
+
+
+
         }
 
         if(cvBlocksManager.isDetectionReady()){
@@ -79,6 +82,9 @@ public class CvWorldController extends InputAdapter {
         timePassed+=deltaTime; // variable used to check in isTimeToStartNewLoop() to decide if new feedback loop should be started
         inactivityTime+=deltaTime;
         updateCV();
+
+        //AudioManager.instance.setNewblock_loop(false);
+        //AudioManager.instance.playNewBlockSong();
 
         if(isTimeToStartNewLoop()){
             timePassed = 0; // start to count the time
@@ -97,6 +103,10 @@ public class CvWorldController extends InputAdapter {
                 ArrayList<Integer> nowDetected = cvBlocksManager.getNewDetectedVals(); // to know the blocks on the table
                 lastSum = currentSum;
                 currentSum = 0;
+
+
+
+
                 for (int i = 0; i < nowDetected.size(); i++)
                     currentSum += nowDetected.get(i); // we need to know the sum to decide if response is correct
 
@@ -217,9 +227,15 @@ public class CvWorldController extends InputAdapter {
 
             if (screenX < 40 && screenY > 400) {
                 AudioManager.instance.downSpeed();
+                AudioManager.instance.setNewblock_loop(false);
+                AudioManager.instance.playNewBlockSong();
             }
 
             if (screenX > 440 && screenY > 400) {
+
+                AudioManager.instance.setNewblock_loop(false);
+                AudioManager.instance.playNewBlockSong();
+
                 AudioManager.instance.upSpeed();
             }
 

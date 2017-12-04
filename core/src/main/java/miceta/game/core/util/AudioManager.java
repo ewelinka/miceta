@@ -36,6 +36,9 @@ public class AudioManager {
     private boolean delay_add = false;
     private float speed =0;
     private boolean newblock_loop = false;
+    private Sound   nb_sound = Assets.instance.sounds.newblock;
+    private Sound   nb_sound_loop = Assets.instance.sounds.new_block_loop;
+
 
     private AudioManager () { }
 
@@ -95,14 +98,24 @@ public class AudioManager {
         playWithoutInterruption(sound, false);
     }
 
+    public void playNewBlockSong_loop(){
+
+        if (newblock_loop){
+
+            nb_sound_loop.play(0.1f);
+            nb_sound_loop.loop();
+
+        }
+        else{
+            nb_sound_loop.pause();
+            nb_sound_loop.stop();
+        }
+    }
+
+
     public void playNewBlockSong(){
 
-        final Sound nb_sound;
-     ;
-        nb_sound = Assets.instance.sounds.newblock;
         nb_sound.play(defaultVolSound);
-        newblock_loop = true;
-
 
     }
 
@@ -448,6 +461,17 @@ public class AudioManager {
         }
     }
 
+    public void setNewblock_loop(boolean aux){
+
+        newblock_loop = aux;
+
+    }
+
+    public boolean getNewblock_loop(){
+
+        return newblock_loop;
+
+    }
 
 
 }
