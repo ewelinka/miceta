@@ -35,6 +35,7 @@ public class AudioManager {
     private boolean delay_quit = false;
     private boolean delay_add = false;
     private float speed =0;
+    private boolean newblock_loop = false;
 
     private AudioManager () { }
 
@@ -70,7 +71,15 @@ public class AudioManager {
         music.setVolume(0.01f);
         music.play();
 
+     /*   if (newblock_loop) {
+            Sound nb_sound;
+            nb_sound = Assets.instance.sounds.newblock;
+            nb_sound.play(defaultVolSound);
+            nb_sound.loop();
+        }*/
     }
+
+
     public void stopMusic () {
         if (playingMusic != null) playingMusic.stop();
     }
@@ -89,9 +98,12 @@ public class AudioManager {
     public void playNewBlockSong(){
 
         final Sound nb_sound;
-
+     ;
         nb_sound = Assets.instance.sounds.newblock;
         nb_sound.play(defaultVolSound);
+        newblock_loop = true;
+
+
     }
 
     public void playQuitOrAddBlock(int i){
@@ -411,17 +423,29 @@ public class AudioManager {
 
     public float getSpeed(){
 
+        //speed = Math.round(speed);
+
         return speed;
     }
 
     public void upSpeed(){
 
-        speed = speed +0.1f;
+        if (speed <4){
+            speed =  speed + (0.1000000000000000000000000000000000000000000000000f);
+
+
+        }
     }
 
     public void downSpeed(){
 
-        speed = speed - 0.1f;
+        if (speed>-0.4f) {
+            if (speed > -0.3f) {
+                speed = speed - (0.100000000000000000000000000000000000000000000f);
+            } else {
+                speed = speed - (0.100000000000000000000000000000000000000000000f);
+            }
+        }
     }
 
 

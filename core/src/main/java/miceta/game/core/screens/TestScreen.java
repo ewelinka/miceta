@@ -1,29 +1,23 @@
 package miceta.game.core.screens;
 
-import com.badlogic.gdx.Application;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.InputMultiplexer;
 import com.badlogic.gdx.InputProcessor;
 import com.badlogic.gdx.graphics.GL20;
-import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.BitmapFont;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.graphics.glutils.ShapeRenderer;
-import com.badlogic.gdx.scenes.scene2d.InputEvent;
-import com.badlogic.gdx.scenes.scene2d.InputListener;
 import com.badlogic.gdx.scenes.scene2d.Stage;
-import com.badlogic.gdx.scenes.scene2d.ui.Button;
-import com.badlogic.gdx.scenes.scene2d.ui.Label;
-import com.badlogic.gdx.scenes.scene2d.ui.Skin;
-import com.badlogic.gdx.scenes.scene2d.ui.TextButton;
 import com.badlogic.gdx.utils.viewport.FitViewport;
 import edu.ceta.vision.core.blocks.Block;
 import miceta.game.core.controllers.CvWorldController;
+import miceta.game.core.managers.FeedbackDrawManager;
 import miceta.game.core.miCeta;
 import miceta.game.core.util.AudioManager;
 import miceta.game.core.util.Constants;
 
-import java.text.BreakIterator;
+import java.math.RoundingMode;
+import java.text.DecimalFormat;
 import java.util.Set;
 
 
@@ -37,6 +31,9 @@ public class TestScreen extends AbstractGameScreen {
     private int shiftY =100;
     private BitmapFont font = new BitmapFont();
     private SpriteBatch spriteBatch  = new SpriteBatch();
+    private FeedbackDrawManager fd;
+    private boolean first_time = true;
+
 
     public TestScreen(miCeta game){
         super(game);
@@ -44,16 +41,16 @@ public class TestScreen extends AbstractGameScreen {
 
     @Override
     public void show() {
+
         Gdx.app.log(TAG," we start the SHOW! "+Gdx.graphics.getWidth());
         stage = new Stage(new FitViewport(Constants.VIEWPORT_WIDTH , Constants.VIEWPORT_HEIGHT));
         worldController = new CvWorldController(game,stage);
         shapeRenderer = new ShapeRenderer();
-
         // android back key used to exit, we should not catch
         Gdx.input.setCatchBackKey(false);
-
     }
 
+   // @android.annotation.TargetApi(android.os.Build.VERSION_CODES.GINGERBREAD)
     @Override
     public void render(float deltaTime) {
         //Gdx.gl.glClearColor(0, 0, 0, 1);
@@ -80,27 +77,12 @@ public class TestScreen extends AbstractGameScreen {
 
         if(cBlocks!=null) {
 
-
             for (Block block : cBlocks) {
                 setColorFromValue(block.getValue());
-                /*
-                if((Gdx.app.getType() == Application.ApplicationType.Android)) {
-
-                    shapeRenderer.rect((float) block.getCenter().y+shiftX, (float) block.getCenter().x+shiftY,
-                            Constants.BASE * block.getValue(), Constants.BASE,
-                            Constants.BASE * block.getValue() / 2, Constants.BASE / 2,
-                            radianToStage(block.getOrientation()));
+                if (first_time){
+                    fd = new FeedbackDrawManager();
+                    first_time = false;
                 }
-                else{
-                    shapeRenderer.rect((float) (250 + (-block.getCenter().x))  + shiftX, (float) block.getCenter().y+shiftY,
-                            Constants.BASE, Constants.BASE * block.getValue(),
-                            Constants.BASE  * block.getValue() / 2,Constants.BASE/2,
-                            radianToStage(block.getOrientation()));
-                }
-              */
-                 //ANOTHER FORM - TESTEAR
-
-                FeedbackDrawManager fd = new FeedbackDrawManager();
                 fd.setShapeRenderer(shapeRenderer, block, shiftX,shiftY);
 
             }
@@ -111,47 +93,15 @@ public class TestScreen extends AbstractGameScreen {
         font.draw(spriteBatch,""+worldController.getRandomNumber(),200,680);
         font.draw(spriteBatch,"jugar",550,1000);
         font.draw(spriteBatch,"feedback",10,1000);
-
         font.draw(spriteBatch," Aumentar",10,100);
 
         float speed = AudioManager.instance.getSpeed();
-        String s_speed = Float.toString(speed);
 
-        //font.setScale(10);
-        font.draw(spriteBatch, s_speed ,250,100);
+        String str = String.format("%.02f", speed);
 
+        font.draw(spriteBatch,"Velocidad: " + str,250,100);
         font.draw(spriteBatch," Disminuir",400,100);
         spriteBatch.end();
-
-
-       /* Skin mySkin = new Skin();
-
-        Skin skin = new Skin();
-        skin.add("logo", new Texture("libgdx-logo.png"));
-
-        Button button2 = new TextButton("Text Button",mySkin,"small");
-
-
-        button2.setSize(10*4,10);
-        button2.setPosition(10*7,Gdx.graphics.getHeight()-10*3);
-        button2.addListener(new InputListener(){
-            @Override
-            public void touchUp (InputEvent event, float x, float y, int pointer, int button) {
-
-                Label outputLabel = null;
-                outputLabel.setText("Press a Button");
-            }
-            @Override
-            public boolean touchDown (InputEvent event, float x, float y, int pointer, int button) {
-                Label outputLabel = null;
-                outputLabel.setText("Pressed Text Button");
-                return true;
-            }
-        });
-        stage.addActor(button2);
-*/
-
-
 
     }
 

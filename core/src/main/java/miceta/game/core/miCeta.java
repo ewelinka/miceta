@@ -30,6 +30,9 @@ public class miCeta extends DirectedGame {
 
 
 		AudioManager.instance.play(Assets.instance.music.song01);
+
+
+
 		//AudioManager.instance.play(Assets.instance.sounds.puck);
 		ScreenTransition transition = ScreenTransitionFade.init(1);
 		//setScreen(new TestScreen(this),transition);
