@@ -20,7 +20,6 @@ public class CvWorldControllerFeedback extends CvWorldController {
     @Override
     protected void init(){
         Gdx.app.log(TAG,"init in the cv blocks manager");
-        timePassed = 0;
         timeToWait = 2; // two seconds before we start!
 
     }
@@ -35,11 +34,11 @@ public class CvWorldControllerFeedback extends CvWorldController {
             int sum = 0;
             for (int i = 0; i < nowDetected.size(); i++)
                 sum += nowDetected.get(i); // we need to know the sum to decide if response is correct
-            timeToWait =  sum*Constants.READ_ONE_UNIT_DURATION + Constants.WAIT_AFTER_KNOCK;
+            timeToWait =  sum*(Constants.READ_ONE_UNIT_DURATION + extraDelayBetweenFeedback)+ waitAfterKnock;
             timePassed = 0;
 
             if(sum > 0)
-                AudioManager.instance.readBlocks(nowDetected);
+                AudioManager.instance.readBlocks(nowDetected, extraDelayBetweenFeedback);
 
         }
     }

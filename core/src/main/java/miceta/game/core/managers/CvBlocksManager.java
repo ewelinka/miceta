@@ -84,11 +84,6 @@ public abstract class CvBlocksManager {
 
             }
 
-//            Gdx.app.log(TAG, "now detected vals "+ Arrays.toString(nowDetectedVals.toArray()));
-//            Gdx.app.log(TAG, "now detected ids "+ Arrays.toString(nowDetectedValsId.toArray()));
-//            Gdx.app.log(TAG, "last frame ids "+ Arrays.toString(lastframeids.toArray()));
-//            Gdx.app.log(TAG, "stable ids "+ Arrays.toString(stableIds.toArray()));
-
             p_newIds = new ArrayList(newIds);
             p_compareIds(newIds , lastframeids);
             p_lastframeids = new ArrayList(stableIds);
@@ -131,11 +126,11 @@ public abstract class CvBlocksManager {
                     p_resetStrikes(id);
                     stableIds.remove((Integer) id);
 
-                    if (stableIds.size()==0){
-
-                        AudioManager.instance.setNewblock_loop(false);
-                        AudioManager.instance.playNewBlockSong_loop();
-                    }
+//                    if (stableIds.size()==0){
+//
+//                        AudioManager.instance.setNewblock_loop(false);
+//                        AudioManager.instance.playNewBlockSong_loop();
+//                    }
 
                 }
             }
@@ -213,20 +208,16 @@ public abstract class CvBlocksManager {
     }
 
     private void checkStrikesAndDecideIfAdd(int id){
-
-        //Gdx.app.log(TAG,  p_maxStrikes + " Entro aca: "  + id + "p_strikes: " + p_strikes.get(id));
-
         if((p_strikes.get(id) == p_maxStrikes )&&!(stableIds.contains(id))) {
 
             stableIds.add(id);
             resetStrikes(id);
 
             AudioManager.instance.playNewBlockSong();
-            if (AudioManager.instance.getNewblock_loop()== false) {
-
-                AudioManager.instance.setNewblock_loop((true));
-                AudioManager.instance.playNewBlockSong_loop();
-            }
+//            if (AudioManager.instance.getNewblock_loop()== false) {
+//                AudioManager.instance.setNewblock_loop((true));
+//                AudioManager.instance.playNewBlockSong_loop();
+//            }
 
             Gdx.app.log(TAG, " ADD BLOCK: " + id + "BECAUSE HAS POSITIVE STRIKES!");
 

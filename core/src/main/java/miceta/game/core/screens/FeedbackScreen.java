@@ -22,7 +22,7 @@ public class FeedbackScreen extends TestScreen {
     @Override
     public void show() {
         Gdx.app.log(TAG," we start the SHOW! "+Gdx.graphics.getWidth());
-        stage = new Stage(new FitViewport(Constants.VIEWPORT_WIDTH , Constants.VIEWPORT_HEIGHT));
+        stage = new Stage(new FitViewport(viewportWidth , viewportHeight));
         worldController = new CvWorldControllerFeedback(game,stage);
         shapeRenderer = new ShapeRenderer();
 

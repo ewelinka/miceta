@@ -28,7 +28,7 @@ public class TestScreen extends AbstractGameScreen {
     private static final String TAG = TestScreen.class.getName();
     protected ShapeRenderer shapeRenderer;
     private int shiftX =70; //70
-    private int shiftY =100;
+    private int shiftY =200;
     private BitmapFont font = new BitmapFont();
     private SpriteBatch spriteBatch  = new SpriteBatch();
     private FeedbackDrawManager fd;
@@ -43,7 +43,7 @@ public class TestScreen extends AbstractGameScreen {
     public void show() {
 
         Gdx.app.log(TAG," we start the SHOW! "+Gdx.graphics.getWidth());
-        stage = new Stage(new FitViewport(Constants.VIEWPORT_WIDTH , Constants.VIEWPORT_HEIGHT));
+        stage = new Stage(new FitViewport(viewportWidth, viewportHeight));
         worldController = new CvWorldController(game,stage);
         shapeRenderer = new ShapeRenderer();
         // android back key used to exit, we should not catch
@@ -88,19 +88,24 @@ public class TestScreen extends AbstractGameScreen {
             }
 
         }
+
         shapeRenderer.end();
         spriteBatch.begin();
         font.draw(spriteBatch,""+worldController.getRandomNumber(),200,680);
         font.draw(spriteBatch,"jugar",550,1000);
         font.draw(spriteBatch,"feedback",10,1000);
-        font.draw(spriteBatch," Aumentar",10,100);
 
-        float speed = AudioManager.instance.getSpeed();
+        font.draw(spriteBatch,"Velocidad entre golpes:",10,140);
+        font.draw(spriteBatch,"más lento",10,120);
+        font.draw(spriteBatch,"Delay extra: " + String.format("%.2g%n", worldController.getExtraDelayBetweenFeedback()),250,120);
+        font.draw(spriteBatch,"más rápido",400,120);
 
-        String str = String.format("%.02f", speed);
+        font.draw(spriteBatch,"Tiempo de espera entre series:",10,80);
+        font.draw(spriteBatch,"más tiempo",10,60);
+        font.draw(spriteBatch,"Tiempo: " + String.format("%.2g%n", worldController.getWaitAfterKnock()),250,60);
+        font.draw(spriteBatch,"menos tiempo",400,60);
 
-        font.draw(spriteBatch,"Velocidad: " + str,250,100);
-        font.draw(spriteBatch," Disminuir",400,100);
+
         spriteBatch.end();
 
     }
