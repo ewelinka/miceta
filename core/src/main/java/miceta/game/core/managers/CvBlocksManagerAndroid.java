@@ -9,6 +9,7 @@ import edu.ceta.vision.android.topcode.TopCodeDetectorAndroid;
 import edu.ceta.vision.core.blocks.Block;
 import edu.ceta.vision.core.topcode.TopCodeDetector;
 import edu.ceta.vision.core.topcode.TopCodeDetectorDesktop;
+import miceta.game.core.Assets;
 import miceta.game.core.miCeta;
 import miceta.game.core.util.AudioManager;
 import miceta.game.core.util.Constants;

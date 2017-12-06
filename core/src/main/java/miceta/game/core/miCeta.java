@@ -14,6 +14,7 @@ import miceta.game.core.screens.TestScreen;
 import miceta.game.core.transitions.ScreenTransition;
 import miceta.game.core.transitions.ScreenTransitionFade;
 import miceta.game.core.util.AudioManager;
+import miceta.game.core.util.GamePreferences;
 import org.opencv.core.Mat;
 
 
@@ -27,10 +28,8 @@ public class miCeta extends DirectedGame {
 	public void create () {
 		this.frameBlocked = false;
 		Assets.instance.init(new AssetManager());
-
-
 		AudioManager.instance.play(Assets.instance.music.song01);
-		//AudioManager.instance.play(Assets.instance.sounds.puck);
+		GamePreferences.instance.load();
 		ScreenTransition transition = ScreenTransitionFade.init(1);
 		//setScreen(new TestScreen(this),transition);
 		setScreen(new FeedbackScreen(this),transition);
