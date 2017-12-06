@@ -1,5 +1,6 @@
 package miceta.game.core.screens;
 
+import com.badlogic.gdx.Application;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.InputProcessor;
 import com.badlogic.gdx.Screen;
@@ -7,6 +8,7 @@ import com.badlogic.gdx.scenes.scene2d.Stage;
 import miceta.game.core.Assets;
 import miceta.game.core.controllers.CvWorldController;
 import miceta.game.core.miCeta;
+import miceta.game.core.util.Constants;
 
 /**
  * Created by ewe on 8/10/17.
@@ -18,6 +20,7 @@ public abstract class AbstractGameScreen  implements Screen {
     protected CvWorldController worldController;
     protected int levelJson;
     protected boolean paused;
+    protected int viewportWidth, viewportHeight;
 
 
     public AbstractGameScreen (miCeta game){
@@ -28,6 +31,14 @@ public abstract class AbstractGameScreen  implements Screen {
         this.game = game;
         this.levelJson = levelJson;
         paused = false;
+
+        if(Gdx.app.getType() == Application.ApplicationType.Android){
+            viewportWidth = Constants.ANDROID_WIDTH;
+            viewportHeight = Constants.ANDROID_HEIGHT;
+        }else{
+            viewportWidth = Constants.DESKTOP_WIDTH;
+            viewportHeight = Constants.DESKTOP_HEIGHT;
+        }
     }
 
 

@@ -14,7 +14,9 @@ import miceta.game.core.screens.FeedbackScreen;
 import miceta.game.core.screens.TestScreen;
 import miceta.game.core.util.AudioManager;
 import miceta.game.core.util.Constants;
+import miceta.game.core.util.GamePreferences;
 
+import java.text.DecimalFormat;
 import java.util.ArrayList;
 import java.util.Set;
 
@@ -35,6 +37,9 @@ public class CvWorldController extends InputAdapter {
     private int lastSum=0;
     protected float timeToWait, timePassed;
     protected CvBlocksManager cvBlocksManager;
+    protected float extraDelayBetweenFeedback;
+    protected float waitAfterKnock;
+
 
     public CvWorldController(miCeta game, Stage stage){
         this.game = game;
@@ -47,24 +52,31 @@ public class CvWorldController extends InputAdapter {
             cvBlocksManager = new CvBlocksManagerDesktop(game, stage);
         }
         AudioManager.instance.setStage(stage); // we set current Stage in AudioManager, if not "reader" actor doesn't work
-
+        initCommonVariables();
         init();
     }
 
     protected void init(){
         Gdx.app.log(TAG,"init in the cv blocks manager");
-        timePassed = 0;
         randomNumber = getNewNumber();
-
-        AudioManager.instance.readFeedback(randomNumber); //first we read the random number
-        timeToWait = Constants.READ_ONE_UNIT_DURATION+ randomNumber*Constants.READ_ONE_UNIT_DURATION+ Constants.WAIT_AFTER_KNOCK; // time we should wait before next loop starts
+        AudioManager.instance.readFeedback(randomNumber, extraDelayBetweenFeedback); //first we read the random number
+        timeToWait = Constants.READ_ONE_UNIT_DURATION+ randomNumber*Constants.READ_ONE_UNIT_DURATION + waitAfterKnock /*+ ( randomNumber)*(0.3f)*/; // time we should wait before next loop starts
         lastAnswerRight = false;
+    }
+
+    protected void initCommonVariables(){
+        timePassed = 0;
+        extraDelayBetweenFeedback = GamePreferences.instance.getExtraDelayBetweenFeedback();
+        waitAfterKnock = GamePreferences.instance.getWaitAfterKnock();
     }
 
     protected void updateCV(){
 
         if(cvBlocksManager.canBeUpdated()) { //ask before in order to not accumulate new threads.
             cvBlocksManager.updateDetected();
+
+
+
         }
 
         if(cvBlocksManager.isDetectionReady()){
@@ -79,6 +91,9 @@ public class CvWorldController extends InputAdapter {
         inactivityTime+=deltaTime;
         updateCV();
 
+        //AudioManager.instance.setNewblock_loop(false);
+        //AudioManager.instance.playNewBlockSong();
+
         if(isTimeToStartNewLoop()){
             timePassed = 0; // start to count the time
             Gdx.app.log(TAG,"new loop! with random number "+randomNumber);
@@ -86,9 +101,9 @@ public class CvWorldController extends InputAdapter {
                 previousRandomNumber = randomNumber;
                 randomNumber = getNewNumber();
                // timeToWait = Constants.READ_NUMBER_DURATION + randomNumber*Constants.READ_ONE_UNIT_DURATION + Constants.WAIT_AFTER_KNOCK ; // one extra second to read number and feedback
-                timeToWait = randomNumber*Constants.READ_ONE_UNIT_DURATION + Constants.WAIT_AFTER_KNOCK; // read feedback and wait
+                timeToWait = randomNumber*(Constants.READ_ONE_UNIT_DURATION+extraDelayBetweenFeedback) + waitAfterKnock; // read feedback and wait
 
-                AudioManager.instance.readFeedback(randomNumber);
+                AudioManager.instance.readFeedback(randomNumber, extraDelayBetweenFeedback);
                 lastAnswerRight = false;
 
                 resetErrorsAndInactivity(); // start from 0
@@ -96,6 +111,10 @@ public class CvWorldController extends InputAdapter {
                 ArrayList<Integer> nowDetected = cvBlocksManager.getNewDetectedVals(); // to know the blocks on the table
                 lastSum = currentSum;
                 currentSum = 0;
+
+
+
+
                 for (int i = 0; i < nowDetected.size(); i++)
                     currentSum += nowDetected.get(i); // we need to know the sum to decide if response is correct
 
@@ -165,15 +184,16 @@ public class CvWorldController extends InputAdapter {
 
     private void checkForCorrectAnswer(int currentSum, int randomNumber, ArrayList<Integer> nowDetected ) {
         int biggerNumber =  (currentSum > randomNumber) ? currentSum : randomNumber;
+        //Gdx.app.log(TAG,"wait after knock!!! "+waitAfterKnock);
         //timeToWait = Constants.READ_NUMBER_DURATION + biggerNumber * Constants.READ_ONE_UNIT_DURATION + Constants.WAIT_AFTER_KNOCK + feedback_delay;
-        timeToWait = biggerNumber * Constants.READ_ONE_UNIT_DURATION + Constants.WAIT_AFTER_KNOCK + feedback_delay;
+        timeToWait = biggerNumber * (Constants.READ_ONE_UNIT_DURATION + extraDelayBetweenFeedback)+ waitAfterKnock + feedback_delay;
 
         if (currentSum == randomNumber) { // correct answer! in next loop we will celebrate
             lastAnswerRight = true;
             timeToWait += (Constants.DELAY_FOR_TADA + Constants.DELAY_FOR_YUJU + Constants.WAIT_AFTER_CORRECT_ANSWER);
         }
 
-        AudioManager.instance.readAllFeedbacks(nowDetected, randomNumber, lastAnswerRight);
+        AudioManager.instance.readAllFeedbacks(nowDetected, randomNumber, lastAnswerRight, extraDelayBetweenFeedback);
     }
 
     private void resetErrorsAndInactivity(){
@@ -182,28 +202,99 @@ public class CvWorldController extends InputAdapter {
         inactivityTime = 0;
     }
 
+    private void touchDownAndroid(int screenX, int screenY){
+        if (screenX > 540 && screenY < 60) {
+            game.setScreen(new TestScreen(game));
+        }
+        if (screenX < 60 && screenY < 60) {
+            game.setScreen(new FeedbackScreen(game));
+        }
+
+        if ((screenX > 10 && screenX < 70) && (screenY > (Constants.ANDROID_HEIGHT-140) && screenY < (Constants.ANDROID_HEIGHT-100))) {
+            makeFeedbackSlower();
+        }
+        if ((screenX > 400 && screenX <460)&& (screenY > (Constants.ANDROID_HEIGHT-140) && screenY < (Constants.ANDROID_HEIGHT-100))) {
+            makeFeedbackFaster();
+        }
+        if ((screenX > 10 && screenX < 70) && (screenY > (Constants.ANDROID_HEIGHT-80) && screenY < (Constants.ANDROID_HEIGHT-40))) {
+            makeWaitBigger();
+        }
+        if ((screenX > 400 && screenX < 460)&& (screenY > (Constants.ANDROID_HEIGHT-80) && screenY < (Constants.ANDROID_HEIGHT-40))) {
+            makeWaitSmaller();
+        }
+
+    }
+    private void touchDownDesktop(int screenX, int screenY){
+        if (screenX > 440 && screenY < 10) {
+            game.setScreen(new TestScreen(game));
+        }
+
+        if (screenX < 40 && screenY < 10) {
+            game.setScreen(new FeedbackScreen(game));
+        }
+
+        if ((screenX > 10 && screenX < 70) && (screenY > (Constants.DESKTOP_HEIGHT-125) && screenY < (Constants.DESKTOP_HEIGHT-105))) {
+            makeFeedbackSlower();
+        }
+        if ((screenX > 400 && screenX <460)&& (screenY > (Constants.DESKTOP_HEIGHT-125) && screenY < (Constants.DESKTOP_HEIGHT-105))) {
+            makeFeedbackFaster();
+        }
+        if ((screenX > 10 && screenX < 70) && (screenY > (Constants.DESKTOP_HEIGHT-65) && screenY < (Constants.DESKTOP_HEIGHT-45))) {
+            makeWaitBigger();
+        }
+        if ((screenX > 400 && screenX < 460)&& (screenY > (Constants.DESKTOP_HEIGHT-65) && screenY < (Constants.DESKTOP_HEIGHT-45))) {
+            makeWaitSmaller();
+        }
+    }
+
 
     @Override
     public boolean touchDown (int screenX, int screenY, int pointer, int button) {
         Gdx.app.log(TAG," TOUCHED "+screenX+ " "+screenY);
         if (Gdx.app.getType() == Application.ApplicationType.Android) {
-            if (screenX > 570 && screenY < 40) {
-                game.setScreen(new TestScreen(game));
-            }
-            if (screenX < 30 && screenY < 40) {
-                game.setScreen(new FeedbackScreen(game));
-            }
+            touchDownAndroid(screenX,screenY);
         }else {
-
-            if (screenX > 440 && screenY < 10) {
-                game.setScreen(new TestScreen(game));
-            }
-
-            if (screenX < 40 && screenY < 10) {
-                game.setScreen(new FeedbackScreen(game));
-            }
+            touchDownDesktop(screenX,screenY);
         }
         return true;
+    }
+
+
+    private void makeFeedbackSlower(){
+        extraDelayBetweenFeedback =  extraDelayBetweenFeedback + 0.10f;
+        saveSettings();
+    }
+
+    private void makeFeedbackFaster(){
+        extraDelayBetweenFeedback =  extraDelayBetweenFeedback - 0.10f;
+        saveSettings();
+    }
+    private void makeWaitBigger(){
+        waitAfterKnock =  waitAfterKnock + 0.50f;
+        saveSettings();
+    }
+
+    private void makeWaitSmaller(){
+        waitAfterKnock =  waitAfterKnock - 0.50f;
+        saveSettings();
+    }
+
+
+    public float getExtraDelayBetweenFeedback(){
+        return extraDelayBetweenFeedback;
+    }
+
+    public float getWaitAfterKnock(){
+        return waitAfterKnock;
+    }
+
+
+    private void saveSettings() {
+        GamePreferences prefs = GamePreferences.instance;
+        prefs.load();
+        GamePreferences.instance.setExtraDelayBetweenFeedback(extraDelayBetweenFeedback);
+        GamePreferences.instance.setWaitAfterKnock(waitAfterKnock);
+        prefs.save();
     }
 
 
