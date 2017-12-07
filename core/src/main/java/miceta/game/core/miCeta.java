@@ -31,6 +31,7 @@ public class miCeta extends DirectedGame {
 	private TangibleBlocksManager blocksManager;
 	private String myIp="";
 	private Object syncObj = new Object();
+	private OSCPortIn oscPortIn = null;
 
 
 
@@ -52,8 +53,13 @@ public class miCeta extends DirectedGame {
 
 	}
 
+	@Override
+	public void dispose(){
+		super.dispose();
+		oscPortIn.stopListening();
+	}
+
 	public void initReception(){
-		OSCPortIn oscPortIn = null;
 		try {
 			oscPortIn = new OSCPortIn(12345);
 		} catch (SocketException e) {
@@ -74,6 +80,7 @@ public class miCeta extends DirectedGame {
 						if(str1.equals("register")){
 							int action = (Integer)arg1.getArguments().get(1);
 							int block_id = (Integer)arg1.getArguments().get(2);
+							int block_value = (Integer)arg1.getArguments().get(3);
 							String actionName;
 
 							switch(action){
@@ -82,15 +89,15 @@ public class miCeta extends DirectedGame {
 									break;
 								case 1:
 									actionName ="start";
-									blocksManager.registerBlock(block_id, blocksManager.getBlockValue(block_id));
+									blocksManager.registerBlock(block_id, block_value); //third param ->value
 									break;
 								case 2:
 									actionName ="inArea";
-									blocksManager.addToCurrentSolution(block_id,blocksManager.getBlockValue(block_id));
+									blocksManager.addToCurrentSolution(block_id, block_value);
 									break;
 								case 3:
 									actionName ="outOfArea";
-									blocksManager.removeFromCurrentSolution(block_id, blocksManager.getBlockValue(block_id));
+									blocksManager.removeFromCurrentSolution(block_id, block_value);
 									break;
 								default:
 									actionName="xxxx";

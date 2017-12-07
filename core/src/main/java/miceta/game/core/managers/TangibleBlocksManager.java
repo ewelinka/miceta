@@ -76,8 +76,7 @@ public class TangibleBlocksManager {
 
     }
     public int getBlockValue(int blockId){
-        Gdx.app.log(TAG,"block id "+blockId);
-        return blockId; //id = value TODO change!
+        return this.blocks.get(blockId).getValue();
     }
 
 
