@@ -25,15 +25,13 @@ public class miCetaActivity extends AndroidApplication {
 	@Override
 	protected void onCreate (Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
-
-
 		WifiManager wm = (WifiManager)getSystemService(WIFI_SERVICE);
 		myIP = Formatter.formatIpAddress(wm.getConnectionInfo().getIpAddress());
-		//Gdx.app.log(TAG,"---> my ip "+myIP);
 
 		AndroidApplicationConfiguration config = new AndroidApplicationConfiguration();
 		config.useImmersiveMode = true;
 		cetaGame = new miCeta(myIP);
+		cetaGame.initReception();
 
 		initialize(cetaGame, config);
 	}

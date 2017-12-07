@@ -2,13 +2,9 @@ package miceta.game.core.managers;
 
 
 import com.badlogic.gdx.Gdx;
-import com.illposed.osc.OSCListener;
-import com.illposed.osc.OSCMessage;
-import com.illposed.osc.OSCPortIn;
 import miceta.game.core.miCeta;
 import miceta.game.core.receiver.Block;
 
-import java.net.SocketException;
 import java.util.*;
 
 
@@ -21,11 +17,8 @@ public class TangibleBlocksManager {
     private ArrayList<Integer> currentSolutionValues;
 
 
-
-
     public TangibleBlocksManager(miCeta game){
         this.initBlocksAndSolution();
-        //this.initReception();
     }
 
     public void initBlocksAndSolution(){
@@ -52,14 +45,15 @@ public class TangibleBlocksManager {
     }
 
     public void startTouch(int blockId){
+
         this.blocks.get(blockId).startTouching();
     }
     public void stopTouch(int blockId){
-        this.blocks.get(blockId).stopTouching();
 
+        this.blocks.get(blockId).stopTouching();
     }
 
-    
+
     // we need it to play feedback (important!!)
     public ArrayList<Integer> getDetectedVals(){
         return new ArrayList<Integer>(currentSolutionValues); //return a copy
@@ -71,11 +65,17 @@ public class TangibleBlocksManager {
     }
 
     public boolean shouldStopLoop(){
-        //TODO check if any block is being touched loneger then X seconds
+        //TODO check if any block is being touched longer then X seconds
+        Date now = new Date();
+        // iterate over all blocks and
+        // if(block.isBeingTouched) && (now - block.startTouching > threshold) -> return true
+        // else return false;
+        long timeDifference = System.currentTimeMillis() - now.getTime();
+
         return false;
 
     }
-    private int getBlockValue(int blockId){
+    public int getBlockValue(int blockId){
         Gdx.app.log(TAG,"block id "+blockId);
         return blockId; //id = value TODO change!
     }

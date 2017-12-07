@@ -82,15 +82,15 @@ public class miCeta extends DirectedGame {
 									break;
 								case 1:
 									actionName ="start";
-									//registerBlock(block_id, getBlockValue(block_id));
+									blocksManager.registerBlock(block_id, blocksManager.getBlockValue(block_id));
 									break;
 								case 2:
 									actionName ="inArea";
-									//addToCurrentSolution(block_id,getBlockValue(block_id));
+									blocksManager.addToCurrentSolution(block_id,blocksManager.getBlockValue(block_id));
 									break;
 								case 3:
 									actionName ="outOfArea";
-									//removeFromCurrentSolution(block_id, getBlockValue(block_id));
+									blocksManager.removeFromCurrentSolution(block_id, blocksManager.getBlockValue(block_id));
 									break;
 								default:
 									actionName="xxxx";
@@ -105,11 +105,9 @@ public class miCeta extends DirectedGame {
 							int block_id = (Integer)arg1.getArguments().get(2);
 							Gdx.app.log(TAG, "event: " + event_id + " - blockID: " + block_id);
 							if(event_id.equals("touched")){
-								//TODO touched
-								//startTouch(block_id);
+								blocksManager.startTouch(block_id);
 							}else if(event_id.equals("untouched")){
-								//TODO untouched
-								//stopTouch(block_id);
+								blocksManager.stopTouch(block_id);
 							}
 						}else if(str1.equals("debug")){
 							//event received (touched, joined, released)
