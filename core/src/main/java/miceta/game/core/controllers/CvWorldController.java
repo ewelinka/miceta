@@ -5,18 +5,17 @@ import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.InputAdapter;
 import com.badlogic.gdx.math.MathUtils;
 import com.badlogic.gdx.scenes.scene2d.Stage;
-import edu.ceta.vision.core.blocks.Block;
+
 import miceta.game.core.managers.CvBlocksManager;
-import miceta.game.core.managers.CvBlocksManagerAndroid;
-import miceta.game.core.managers.CvBlocksManagerDesktop;
+import miceta.game.core.managers.TangibleBlocksManager;
 import miceta.game.core.miCeta;
+import miceta.game.core.receiver.Block;
 import miceta.game.core.screens.FeedbackScreen;
 import miceta.game.core.screens.TestScreen;
 import miceta.game.core.util.AudioManager;
 import miceta.game.core.util.Constants;
 import miceta.game.core.util.GamePreferences;
 
-import java.text.DecimalFormat;
 import java.util.ArrayList;
 import java.util.Set;
 
@@ -36,7 +35,7 @@ public class CvWorldController extends InputAdapter {
     private int currentSum=0;
     private int lastSum=0;
     protected float timeToWait, timePassed;
-    protected CvBlocksManager cvBlocksManager;
+    protected TangibleBlocksManager blocksManager;
     protected float extraDelayBetweenFeedback;
     protected float waitAfterKnock;
 
@@ -45,12 +44,7 @@ public class CvWorldController extends InputAdapter {
         this.game = game;
         this.stage = stage;
 
-        if((Gdx.app.getType() == Application.ApplicationType.Android)) {
-            cvBlocksManager = new CvBlocksManagerAndroid(game, stage);
-        }
-        else {
-            cvBlocksManager = new CvBlocksManagerDesktop(game, stage);
-        }
+        blocksManager = new TangibleBlocksManager(this.game);
         AudioManager.instance.setStage(stage); // we set current Stage in AudioManager, if not "reader" actor doesn't work
         initCommonVariables();
         init();
@@ -70,26 +64,11 @@ public class CvWorldController extends InputAdapter {
         waitAfterKnock = GamePreferences.instance.getWaitAfterKnock();
     }
 
-    protected void updateCV(){
-
-        if(cvBlocksManager.canBeUpdated()) { //ask before in order to not accumulate new threads.
-            cvBlocksManager.updateDetected();
-
-
-
-        }
-
-        if(cvBlocksManager.isDetectionReady()){
-            cvBlocksManager.analyseDetected();
-        }
-    }
-
-
 
     public void update(float deltaTime) {
         timePassed+=deltaTime; // variable used to check in isTimeToStartNewLoop() to decide if new feedback loop should be started
         inactivityTime+=deltaTime;
-        updateCV();
+
 
         //AudioManager.instance.setNewblock_loop(false);
         //AudioManager.instance.playNewBlockSong();
@@ -108,12 +87,9 @@ public class CvWorldController extends InputAdapter {
 
                 resetErrorsAndInactivity(); // start from 0
             }else { // if last answer was wrong we check the detected values and read feedback and read blocks detected
-                ArrayList<Integer> nowDetected = cvBlocksManager.getNewDetectedVals(); // to know the blocks on the table
+                ArrayList<Integer> nowDetected = blocksManager.getDetectedVals(); // to know the blocks on the table
                 lastSum = currentSum;
                 currentSum = 0;
-
-
-
 
                 for (int i = 0; i < nowDetected.size(); i++)
                     currentSum += nowDetected.get(i); // we need to know the sum to decide if response is correct
@@ -140,7 +116,7 @@ public class CvWorldController extends InputAdapter {
     }
 
     public Set<Block> getCurrentBlocksFromManager(){
-        return cvBlocksManager.getCurrentBlocks();
+        return blocksManager.getCurrentBlocks();
     }
 
     public int getRandomNumber(){

@@ -4,17 +4,11 @@ import com.badlogic.gdx.Application;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.scenes.scene2d.Stage;
 import com.badlogic.gdx.utils.ArrayMap;
-import edu.ceta.vision.core.utils.BlocksMarkersMap;
-import edu.ceta.vision.android.topcode.TopCodeDetectorAndroid;
-import edu.ceta.vision.core.blocks.Block;
-import edu.ceta.vision.core.topcode.TopCodeDetector;
-import edu.ceta.vision.core.topcode.TopCodeDetectorDesktop;
+
 import miceta.game.core.miCeta;
+import miceta.game.core.receiver.Block;
 import miceta.game.core.util.AudioManager;
-import miceta.game.core.util.Constants;
-import org.opencv.core.Core;
-import org.opencv.core.Mat;
-import org.opencv.core.Rect;
+
 
 
 import java.util.*;
@@ -23,7 +17,7 @@ import java.util.*;
 public abstract class CvBlocksManager {
 
     public static final String TAG = CvBlocksManager.class.getName();
-    public TopCodeDetector topCodeDetector;
+
     public miCeta game;
     public boolean detectionReady, detectionInProgress;
     public ArrayList<Set> results = new ArrayList<Set>();
@@ -141,21 +135,21 @@ public abstract class CvBlocksManager {
     }
 
 //lo pase de privado a publico, revisar
-    public void initStrikesAndBlocksValues(){
-        int [][] allMarkers = {BlocksMarkersMap.block1,BlocksMarkersMap.block2,BlocksMarkersMap.block3,BlocksMarkersMap.block4,BlocksMarkersMap.block5};
-
-        for(int arrIdx = 0;arrIdx < allMarkers.length; arrIdx++){
-            for(int i =0; i< allMarkers[arrIdx].length;i++){
-                //Gdx.app.log(TAG, " putting "+allMarkers[arrIdx][i]);
-                strikes.put(allMarkers[arrIdx][i],0);
-                p_strikes.put(allMarkers[arrIdx][i],0);
-                idToValue.put(allMarkers[arrIdx][i],arrIdx+1);
-            }
-        }
-
-        Gdx.app.log(TAG," idToVal "+idToValue);
-
-    }
+//    public void initStrikesAndBlocksValues(){
+//        int [][] allMarkers = {BlocksMarkersMap.block1,BlocksMarkersMap.block2,BlocksMarkersMap.block3,BlocksMarkersMap.block4,BlocksMarkersMap.block5};
+//
+//        for(int arrIdx = 0;arrIdx < allMarkers.length; arrIdx++){
+//            for(int i =0; i< allMarkers[arrIdx].length;i++){
+//                //Gdx.app.log(TAG, " putting "+allMarkers[arrIdx][i]);
+//                strikes.put(allMarkers[arrIdx][i],0);
+//                p_strikes.put(allMarkers[arrIdx][i],0);
+//                idToValue.put(allMarkers[arrIdx][i],arrIdx+1);
+//            }
+//        }
+//
+//        Gdx.app.log(TAG," idToVal "+idToValue);
+//
+//    }
 
 
 
@@ -175,9 +169,6 @@ public abstract class CvBlocksManager {
         p_strikes.put(id,0); // reset strikes!
     }
 
-    public TopCodeDetector getTopCodeDetector(){
-        return topCodeDetector;
-    }
 
     public abstract boolean canBeUpdated();
 

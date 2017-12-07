@@ -9,10 +9,11 @@ import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.graphics.glutils.ShapeRenderer;
 import com.badlogic.gdx.scenes.scene2d.Stage;
 import com.badlogic.gdx.utils.viewport.FitViewport;
-import edu.ceta.vision.core.blocks.Block;
+
 import miceta.game.core.controllers.CvWorldController;
 import miceta.game.core.managers.FeedbackDrawManager;
 import miceta.game.core.miCeta;
+import miceta.game.core.receiver.Block;
 import miceta.game.core.util.AudioManager;
 import miceta.game.core.util.Constants;
 
@@ -94,6 +95,8 @@ public class TestScreen extends AbstractGameScreen {
         font.draw(spriteBatch,""+worldController.getRandomNumber(),200,680);
         font.draw(spriteBatch,"jugar",550,1000);
         font.draw(spriteBatch,"feedback",10,1000);
+
+        font.draw(spriteBatch,"Mi IP: "+game.getMyIp(),10,160);
 
         font.draw(spriteBatch,"Velocidad entre golpes:",10,140);
         font.draw(spriteBatch,"más lento",10,120);
