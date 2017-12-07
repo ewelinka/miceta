@@ -18,6 +18,7 @@ import java.util.*;
 public class TangibleBlocksManager {
     public static final String TAG = TangibleBlocksManager.class.getName();
     private HashMap<Integer,Block> blocks, currentSolution;
+    private ArrayList<Integer> currentSolutionValues;
     private int myPort = 12345;
     private OSCPortIn oscPortIn;
     Object syncObj = new Object();
@@ -31,6 +32,7 @@ public class TangibleBlocksManager {
     public void initBlocksAndSolution(){
         this.blocks = new HashMap<Integer,Block>();
         this.currentSolution = new HashMap<Integer,Block>();
+        this.currentSolutionValues = new ArrayList<Integer>();
 
     }
 
@@ -41,10 +43,21 @@ public class TangibleBlocksManager {
     private void addToCurrentSolution(int blockID, int value){
         Block block = new Block(blockID, value);
         this.currentSolution.put(blockID,block);
+        this.currentSolutionValues.add(value);
     }
 
-    private void removeFromCurrentSolution(int blockID){
+    private void removeFromCurrentSolution(int blockID, int blockValue){
+
         this.currentSolution.remove(blockID);
+        this.currentSolutionValues.remove(blockValue); //TODO right way to remove?
+    }
+
+    private void startTouch(int blockId){
+        this.blocks.get(blockId).startTouching();
+    }
+    private void stopTouch(int blockId){
+        this.blocks.get(blockId).stopTouching();
+
     }
 
 
@@ -90,7 +103,7 @@ public class TangibleBlocksManager {
                                         break;
                                     case 3:
                                         actionName ="outOfArea";
-                                        removeFromCurrentSolution(block_id);
+                                        removeFromCurrentSolution(block_id, getBlockValue(block_id));
                                         break;
                                     default:
                                         actionName="xxxx";
@@ -106,8 +119,10 @@ public class TangibleBlocksManager {
                                 Gdx.app.log(TAG, "event: " + event_id + " - blockID: " + block_id);
                                 if(event_id.equals("touched")){
                                     //TODO touched
+                                    startTouch(block_id);
                                 }else if(event_id.equals("untouched")){
                                     //TODO untouched
+                                    stopTouch(block_id);
                                 }
                             }else if(str1.equals("debug")){
                                 //event received (touched, joined, released)
@@ -133,13 +148,18 @@ public class TangibleBlocksManager {
 
     // we need it to play feedback (important!!)
     public ArrayList<Integer> getDetectedVals(){
-        ArrayList<Integer> result = new ArrayList();
-        return result;
+        return new ArrayList<Integer>(currentSolutionValues); //return a copy
     }
 
     // we need it to draw block on the screen (not so important now)
     public Set<Block> getCurrentBlocks(){
         return null;
+    }
+
+    public boolean shouldStopLoop(){
+        //TODO check if any block is being touched loneger then X seconds
+        return false;
+
     }
 
 }

@@ -73,7 +73,7 @@ public class CvWorldController extends InputAdapter {
         //AudioManager.instance.setNewblock_loop(false);
         //AudioManager.instance.playNewBlockSong();
 
-        if(isTimeToStartNewLoop()){
+        if(isTimeToStartNewLoop() && !blocksManager.shouldStopLoop()){
             timePassed = 0; // start to count the time
             Gdx.app.log(TAG,"new loop! with random number "+randomNumber);
             if(lastAnswerRight){ // if las answer was correct, we get new random number
