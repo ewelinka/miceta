@@ -44,7 +44,7 @@ public class CvWorldController extends InputAdapter {
         this.game = game;
         this.stage = stage;
 
-        blocksManager = new TangibleBlocksManager(this.game);
+        blocksManager = game.getBlocksManager();
         AudioManager.instance.setStage(stage); // we set current Stage in AudioManager, if not "reader" actor doesn't work
         initCommonVariables();
         init();

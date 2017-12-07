@@ -140,6 +140,10 @@ public class miCeta extends DirectedGame {
 		return this.myIp;
 	}
 
+	public TangibleBlocksManager getBlocksManager(){
+		return blocksManager;
+	}
+
 }
 
 
