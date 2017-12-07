@@ -29,7 +29,7 @@ public class CvWorldControllerFeedback extends CvWorldController {
         timePassed+=deltaTime; // variable used to check in isTimeToStartNewLoop() to decide if new feedback loop should be started
 
 
-        if(isTimeToStartNewLoop()){
+        if(isTimeToStartNewLoop()&& !blocksManager.shouldStopLoop()){
             ArrayList<Integer> nowDetected = blocksManager.getDetectedVals(); // to know the blocks on the table
             int sum = 0;
             for (int i = 0; i < nowDetected.size(); i++)

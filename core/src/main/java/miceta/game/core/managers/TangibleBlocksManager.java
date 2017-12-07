@@ -2,6 +2,7 @@ package miceta.game.core.managers;
 
 
 import com.badlogic.gdx.Gdx;
+import com.badlogic.gdx.scenes.scene2d.Group;
 import miceta.game.core.miCeta;
 import miceta.game.core.receiver.Block;
 
@@ -38,7 +39,6 @@ public class TangibleBlocksManager {
         Block block = new Block(blockID, blockValue);
         this.currentSolution.put(blockID,block);
         this.currentSolutionValues.add(blockValue);
-        Gdx.app.log(TAG,"----> todos locos add"+this.currentSolutionValues.toString()+" len "+this.currentSolutionValues.size());
     }
 
     public void removeFromCurrentSolution(int blockID, int blockValue){
@@ -82,13 +82,17 @@ public class TangibleBlocksManager {
 
     public boolean shouldStopLoop(){
         Date now = new Date();
+        for (Integer key : this.blocks.keySet()) {
+            Block block = this.blocks.get(key);
+            if(block.isBeingTouched()){
+                if(Math.abs(block.getStartTouching().getTime() - now.getTime()) > 3000){ //after 3seconds of touching we stop the loop
+                    Gdx.app.log(TAG," --> is being touched "+block.getId()+" since "+Math.abs(block.getStartTouching().getTime() - now.getTime()));
+                    return true;
+                }
 
-        for(int i =this.blocks.size()-1;i>=0;i--){
-            Block block = this.blocks.get(i);
-            if(block.isBeingTouched() && Math.abs(block.getStartTouching().getTime() - now.getTime()) > 3000){
-                return true;
             }
         }
+
         return false;
 
     }
