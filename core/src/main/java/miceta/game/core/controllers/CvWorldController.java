@@ -64,6 +64,10 @@ public class CvWorldController extends InputAdapter {
         Gdx.app.log(TAG,"init in the cv blocks manager");
         levelsManager = new LevelsManager();
 
+        Gdx.app.log(TAG,"---------------------------------------------------------");
+
+
+
         randomNumber = getNewNumber();
         AudioManager.instance.readFeedback(randomNumber, extraDelayBetweenFeedback); //first we read the random number
         timeToWait = Constants.READ_ONE_UNIT_DURATION+ randomNumber*Constants.READ_ONE_UNIT_DURATION + waitAfterKnock /*+ ( randomNumber)*(0.3f)*/; // time we should wait before next loop starts
