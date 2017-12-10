@@ -3,10 +3,11 @@ package miceta.game.core.managers;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.files.FileHandle;
 
+import static miceta.game.core.managers.CvBlocksManager.TAG;
 
 public class LevelsManager {
 
-    public static final String TAG = "prueba";
+
     private int actual_level;
     private int price;
     private int operation_index;
@@ -18,7 +19,12 @@ public class LevelsManager {
 
         actual_level = 1;
         operation_index =1;
-        Gdx.app.log(TAG,"====================================================================");
+        FileHandle handle = Gdx.files.internal("src/ejemploNiveles.csv");
+
+        Gdx.app.log(TAG,"LOAD MANAGER IS OK: " + handle.toString()
+        );
+
+
     }
 
     public void up_level(){
