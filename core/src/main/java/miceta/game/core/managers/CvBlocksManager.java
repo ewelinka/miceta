@@ -140,7 +140,6 @@ public abstract class CvBlocksManager {
            }
     }
 
-//lo pase de privado a publico, revisar
     public void initStrikesAndBlocksValues(){
         int [][] allMarkers = {BlocksMarkersMap.block1,BlocksMarkersMap.block2,BlocksMarkersMap.block3,BlocksMarkersMap.block4,BlocksMarkersMap.block5};
 
@@ -190,7 +189,6 @@ public abstract class CvBlocksManager {
         return detectionReady;
     }
 
-    // the posta is here
     public ArrayList<Integer> getNewDetectedVals(){
 
         int size = stableIds.size();
