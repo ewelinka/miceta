@@ -9,6 +9,7 @@ import edu.ceta.vision.core.blocks.Block;
 import miceta.game.core.managers.CvBlocksManager;
 import miceta.game.core.managers.CvBlocksManagerAndroid;
 import miceta.game.core.managers.CvBlocksManagerDesktop;
+import miceta.game.core.managers.LevelsManager;
 import miceta.game.core.miCeta;
 import miceta.game.core.screens.FeedbackScreen;
 import miceta.game.core.screens.TestScreen;
@@ -39,6 +40,7 @@ public class CvWorldController extends InputAdapter {
     protected CvBlocksManager cvBlocksManager;
     protected float extraDelayBetweenFeedback;
     protected float waitAfterKnock;
+    protected LevelsManager levelsManager;
 
 
     public CvWorldController(miCeta game, Stage stage){
@@ -57,26 +59,34 @@ public class CvWorldController extends InputAdapter {
     }
 
     protected void init(){
+
+
         Gdx.app.log(TAG,"init in the cv blocks manager");
+        levelsManager = new LevelsManager();
+
         randomNumber = getNewNumber();
         AudioManager.instance.readFeedback(randomNumber, extraDelayBetweenFeedback); //first we read the random number
         timeToWait = Constants.READ_ONE_UNIT_DURATION+ randomNumber*Constants.READ_ONE_UNIT_DURATION + waitAfterKnock /*+ ( randomNumber)*(0.3f)*/; // time we should wait before next loop starts
         lastAnswerRight = false;
+
+        levelsManager = new LevelsManager();
+
     }
 
     protected void initCommonVariables(){
         timePassed = 0;
-        extraDelayBetweenFeedback = GamePreferences.instance.getExtraDelayBetweenFeedback();
-        waitAfterKnock = GamePreferences.instance.getWaitAfterKnock();
+        //extraDelayBetweenFeedback = GamePreferences.instance.getExtraDelayBetweenFeedback();
+       // waitAfterKnock = GamePreferences.instance.getWaitAfterKnock();
+
+        waitAfterKnock = 3;
+
+
     }
 
     protected void updateCV(){
 
         if(cvBlocksManager.canBeUpdated()) { //ask before in order to not accumulate new threads.
             cvBlocksManager.updateDetected();
-
-
-
         }
 
         if(cvBlocksManager.isDetectionReady()){
@@ -111,8 +121,6 @@ public class CvWorldController extends InputAdapter {
                 ArrayList<Integer> nowDetected = cvBlocksManager.getNewDetectedVals(); // to know the blocks on the table
                 lastSum = currentSum;
                 currentSum = 0;
-
-
 
 
                 for (int i = 0; i < nowDetected.size(); i++)
@@ -262,21 +270,21 @@ public class CvWorldController extends InputAdapter {
 
     private void makeFeedbackSlower(){
         extraDelayBetweenFeedback =  extraDelayBetweenFeedback + 0.10f;
-        saveSettings();
+      //  saveSettings();
     }
 
     private void makeFeedbackFaster(){
         extraDelayBetweenFeedback =  extraDelayBetweenFeedback - 0.10f;
-        saveSettings();
+        //saveSettings();
     }
     private void makeWaitBigger(){
         waitAfterKnock =  waitAfterKnock + 0.50f;
-        saveSettings();
+       // saveSettings();
     }
 
     private void makeWaitSmaller(){
         waitAfterKnock =  waitAfterKnock - 0.50f;
-        saveSettings();
+       // saveSettings();
     }
 
 
