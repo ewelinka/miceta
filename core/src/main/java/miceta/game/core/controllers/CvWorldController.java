@@ -31,7 +31,7 @@ public class CvWorldController extends InputAdapter {
     private int error_min = 0;
     private int error_max = 0;
     private float inactivityTime =0; // time that passed since last move
-    private int feedback_delay=0;
+    private float feedback_delay=0;
     private int currentSum=0;
     private int lastSum=0;
     protected float timeToWait, timePassed;
@@ -53,8 +53,8 @@ public class CvWorldController extends InputAdapter {
     protected void init(){
         Gdx.app.log(TAG,"init in the cv blocks manager");
         randomNumber = getNewNumber();
-        AudioManager.instance.readFeedback(randomNumber, extraDelayBetweenFeedback); //first we read the random number
-        timeToWait = Constants.READ_ONE_UNIT_DURATION+ randomNumber*Constants.READ_ONE_UNIT_DURATION + waitAfterKnock /*+ ( randomNumber)*(0.3f)*/; // time we should wait before next loop starts
+        AudioManager.instance.readNumber(randomNumber, extraDelayBetweenFeedback); //first we read the random number
+        timeToWait = Constants.READ_NUMBER_DURATION + randomNumber*(Constants.READ_ONE_UNIT_DURATION+extraDelayBetweenFeedback) + waitAfterKnock /*+ ( randomNumber)*(0.3f)*/; // time we should wait before next loop starts
         lastAnswerRight = false;
     }
 
@@ -70,24 +70,22 @@ public class CvWorldController extends InputAdapter {
         inactivityTime+=deltaTime;
 
 
-        //AudioManager.instance.setNewblock_loop(false);
-        //AudioManager.instance.playNewBlockSong();
-
         if(isTimeToStartNewLoop() && !blocksManager.shouldStopLoop()){
             timePassed = 0; // start to count the time
             Gdx.app.log(TAG,"new loop! with random number "+randomNumber);
+            ArrayList<Integer> nowDetected = blocksManager.getDetectedVals(); // to know the blocks on the table
             if(lastAnswerRight){ // if las answer was correct, we get new random number
                 previousRandomNumber = randomNumber;
                 randomNumber = getNewNumber();
                // timeToWait = Constants.READ_NUMBER_DURATION + randomNumber*Constants.READ_ONE_UNIT_DURATION + Constants.WAIT_AFTER_KNOCK ; // one extra second to read number and feedback
-                timeToWait = randomNumber*(Constants.READ_ONE_UNIT_DURATION+extraDelayBetweenFeedback) + waitAfterKnock; // read feedback and wait
+                timeToWait = Constants.READ_NUMBER_DURATION + randomNumber*(Constants.READ_ONE_UNIT_DURATION+extraDelayBetweenFeedback) + waitAfterKnock; // read feedback and wait
 
-                AudioManager.instance.readFeedback(randomNumber, extraDelayBetweenFeedback);
+                AudioManager.instance.readNumber(randomNumber, extraDelayBetweenFeedback);
                 lastAnswerRight = false;
 
                 resetErrorsAndInactivity(); // start from 0
             }else { // if last answer was wrong we check the detected values and read feedback and read blocks detected
-                ArrayList<Integer> nowDetected = blocksManager.getDetectedVals(); // to know the blocks on the table
+
                 lastSum = currentSum;
                 currentSum = 0;
 
@@ -169,7 +167,8 @@ public class CvWorldController extends InputAdapter {
             timeToWait += (Constants.DELAY_FOR_TADA + Constants.DELAY_FOR_YUJU + Constants.WAIT_AFTER_CORRECT_ANSWER);
         }
 
-        AudioManager.instance.readAllFeedbacks(nowDetected, randomNumber, lastAnswerRight, extraDelayBetweenFeedback);
+        //AudioManager.instance.readAllFeedbacks(nowDetected, randomNumber, lastAnswerRight, extraDelayBetweenFeedback);
+        AudioManager.instance.readAll(nowDetected, randomNumber, lastAnswerRight, extraDelayBetweenFeedback);
     }
 
     private void resetErrorsAndInactivity(){
