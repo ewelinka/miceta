@@ -235,7 +235,7 @@ public class AudioManager {
             }
         }));
 
-//&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&
+
         readBlocks.addAction(delay(readBlockDuration + extraDelayBetweenFeedback )); // we wait Xs because sound files with "do", "re" and "mi" have X duration
     }
 
@@ -283,7 +283,7 @@ public class AudioManager {
                 playWithoutInterruption(whichSound); // knocks with which volume??
             }
         }));
-        //##########################################
+
         readFeedback.addAction(delay(readBlockDuration + extraDelayBetweenFeedback)); // we wait Xs because sound files with "do", "re" and "mi" have X duration
 
     }
