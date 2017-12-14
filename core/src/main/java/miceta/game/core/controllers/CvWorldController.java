@@ -54,6 +54,8 @@ public class CvWorldController extends InputAdapter {
             cvBlocksManager = new CvBlocksManagerDesktop(game, stage);
         }
         AudioManager.instance.setStage(stage); // we set current Stage in AudioManager, if not "reader" actor doesn't work
+
+        levelsManager = new LevelsManager();
         initCommonVariables();
         init();
     }
@@ -62,18 +64,17 @@ public class CvWorldController extends InputAdapter {
 
 
         Gdx.app.log(TAG,"init in the cv blocks manager");
-        levelsManager = new LevelsManager();
 
-        Gdx.app.log(TAG,"---------------------------------------------------------");
+        //randomNumber = getNewNumber();
+
+        randomNumber = levelsManager.get_number_to_play();
+
+        Gdx.app.log(TAG,"Number to Play: " + randomNumber );
 
 
-
-        randomNumber = getNewNumber();
         AudioManager.instance.readFeedback(randomNumber, extraDelayBetweenFeedback); //first we read the random number
         timeToWait = Constants.READ_ONE_UNIT_DURATION+ randomNumber*Constants.READ_ONE_UNIT_DURATION + waitAfterKnock /*+ ( randomNumber)*(0.3f)*/; // time we should wait before next loop starts
         lastAnswerRight = false;
-
-        levelsManager = new LevelsManager();
 
     }
 
@@ -112,9 +113,13 @@ public class CvWorldController extends InputAdapter {
             timePassed = 0; // start to count the time
             Gdx.app.log(TAG,"new loop! with random number "+randomNumber);
             if(lastAnswerRight){ // if las answer was correct, we get new random number
-                previousRandomNumber = randomNumber;
-                randomNumber = getNewNumber();
-               // timeToWait = Constants.READ_NUMBER_DURATION + randomNumber*Constants.READ_ONE_UNIT_DURATION + Constants.WAIT_AFTER_KNOCK ; // one extra second to read number and feedback
+               // previousRandomNumber = randomNumber;
+                //randomNumber = getNewNumber();
+
+                levelsManager.up_operation_index();
+                randomNumber = levelsManager.get_number_to_play();
+
+                // timeToWait = Constants.READ_NUMBER_DURATION + randomNumber*Constants.READ_ONE_UNIT_DURATION + Constants.WAIT_AFTER_KNOCK ; // one extra second to read number and feedback
                 timeToWait = randomNumber*(Constants.READ_ONE_UNIT_DURATION+extraDelayBetweenFeedback) + waitAfterKnock; // read feedback and wait
 
                 AudioManager.instance.readFeedback(randomNumber, extraDelayBetweenFeedback);
