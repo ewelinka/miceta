@@ -12,6 +12,7 @@ public class GamePreferences {
     private Preferences prefs;
     private float extraDelayBetweenFeedback;
     private float waitAfterKnock;
+    private int last_level =1;
 
     private GamePreferences () {
         prefs = Gdx.app.getPreferences(Constants.PREFERENCES);
