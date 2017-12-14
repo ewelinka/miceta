@@ -280,21 +280,21 @@ public class CvWorldController extends InputAdapter {
 
     private void makeFeedbackSlower(){
         extraDelayBetweenFeedback =  extraDelayBetweenFeedback + 0.10f;
-      //  saveSettings();
+        saveSettings();
     }
 
     private void makeFeedbackFaster(){
         extraDelayBetweenFeedback =  extraDelayBetweenFeedback - 0.10f;
-        //saveSettings();
+        saveSettings();
     }
     private void makeWaitBigger(){
         waitAfterKnock =  waitAfterKnock + 0.50f;
-       // saveSettings();
+        saveSettings();
     }
 
     private void makeWaitSmaller(){
         waitAfterKnock =  waitAfterKnock - 0.50f;
-       // saveSettings();
+        saveSettings();
     }
 
 
