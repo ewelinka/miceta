@@ -66,12 +66,9 @@ public class CvWorldController extends InputAdapter {
 
         Gdx.app.log(TAG,"init in the cv blocks manager");
 
-        //randomNumber = getNewNumber();
-
         numberToPlay = levelsManager.get_number_to_play();
 
         Gdx.app.log(TAG,"Number to Play: " + numberToPlay );
-
 
         AudioManager.instance.readFeedback(numberToPlay, extraDelayBetweenFeedback); //first we read the random number
         timeToWait = Constants.READ_ONE_UNIT_DURATION+ numberToPlay*Constants.READ_ONE_UNIT_DURATION + waitAfterKnock /*+ ( randomNumber)*(0.3f)*/; // time we should wait before next loop starts
@@ -81,11 +78,10 @@ public class CvWorldController extends InputAdapter {
 
     protected void initCommonVariables(){
         timePassed = 0;
-        //extraDelayBetweenFeedback = GamePreferences.instance.getExtraDelayBetweenFeedback();
-       // waitAfterKnock = GamePreferences.instance.getWaitAfterKnock();
 
+        extraDelayBetweenFeedback = GamePreferences.instance.getExtraDelayBetweenFeedback();
+        waitAfterKnock = GamePreferences.instance.getWaitAfterKnock();
         waitAfterKnock = 3;
-
 
     }
 
@@ -119,6 +115,7 @@ public class CvWorldController extends InputAdapter {
 
                 levelsManager.up_operation_index();
                 numberToPlay = levelsManager.get_number_to_play();
+                saveLevel();
 
                 // timeToWait = Constants.READ_NUMBER_DURATION + randomNumber*Constants.READ_ONE_UNIT_DURATION + Constants.WAIT_AFTER_KNOCK ; // one extra second to read number and feedback
                 timeToWait = numberToPlay*(Constants.READ_ONE_UNIT_DURATION+extraDelayBetweenFeedback) + waitAfterKnock; // read feedback and wait
@@ -143,16 +140,7 @@ public class CvWorldController extends InputAdapter {
         }
     }
 
-/*
-    private int getNewNumber(){
-        int candidate = MathUtils.random(1,5);
-        if(candidate == previousRandomNumber)
-            candidate = (candidate+1)%6;
-        if(candidate == 0) candidate = 1;
 
-        return candidate;
-    }
-*/
     protected boolean isTimeToStartNewLoop(){
         return (timePassed > timeToWait );
     }
@@ -316,6 +304,12 @@ public class CvWorldController extends InputAdapter {
     }
 
 
-
+    private void saveLevel() {
+        GamePreferences prefs = GamePreferences.instance;
+        prefs.load();
+        GamePreferences.instance.setLast_level(levelsManager.get_level());
+        GamePreferences.instance.setOperation_index(levelsManager.get_operation_index());
+        prefs.save();
+    }
 
 }

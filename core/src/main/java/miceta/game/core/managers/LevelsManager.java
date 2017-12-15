@@ -3,6 +3,8 @@ package miceta.game.core.managers;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.files.FileHandle;
 import com.badlogic.gdx.math.MathUtils;
+import miceta.game.core.util.GamePreferences;
+
 import java.util.ArrayList;
 import java.util.Scanner;
 
@@ -21,8 +23,15 @@ public class LevelsManager {
 
     public LevelsManager(){
 
-        level = 1;
-        operation_index = 0;
+      //  level = 1;
+      //  operation_index = 0;
+
+        level = GamePreferences.instance.getLast_level();
+        System.out.println("LEVEL " + level);
+        operation_index = GamePreferences.instance.getOperation_index();
+
+
+
         FileHandle handle = Gdx.files.internal("levels/ejemploNiveles.csv");
         String s_level = handle.readString();
         Lines = s_level.split("\n");
@@ -140,6 +149,16 @@ public class LevelsManager {
    public int get_level_size(){
 
         return level_tope;
+    }
+
+    public int get_level(){
+
+        return level;
+    }
+
+    public int get_operation_index(){
+
+        return operation_index;
     }
 
 
