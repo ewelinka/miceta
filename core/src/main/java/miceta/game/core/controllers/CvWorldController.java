@@ -41,7 +41,6 @@ public class CvWorldController extends InputAdapter {
     protected CvBlocksManager cvBlocksManager;
     protected float extraDelayBetweenFeedback;
     protected float waitAfterKnock;
-    protected LevelsManager levelsManager;
 
 
     public CvWorldController(miCeta game, Stage stage){
@@ -56,7 +55,6 @@ public class CvWorldController extends InputAdapter {
         }
         AudioManager.instance.setStage(stage); // we set current Stage in AudioManager, if not "reader" actor doesn't work
 
-        levelsManager = new LevelsManager();
         initCommonVariables();
         init();
     }
@@ -66,8 +64,7 @@ public class CvWorldController extends InputAdapter {
 
         Gdx.app.log(TAG,"init in the cv blocks manager");
 
-        numberToPlay = levelsManager.get_number_to_play();
-
+        numberToPlay = LevelsManager.getInstance().get_number_to_play();
         Gdx.app.log(TAG,"Number to Play: " + numberToPlay );
 
         AudioManager.instance.readFeedback(numberToPlay, extraDelayBetweenFeedback); //first we read the random number
@@ -113,8 +110,8 @@ public class CvWorldController extends InputAdapter {
                // previousRandomNumber = randomNumber;
                 //randomNumber = getNewNumber();
 
-                levelsManager.up_operation_index();
-                numberToPlay = levelsManager.get_number_to_play();
+                LevelsManager.getInstance().up_operation_index();
+                numberToPlay = LevelsManager.getInstance().get_number_to_play();
                 saveLevel();
 
                 // timeToWait = Constants.READ_NUMBER_DURATION + randomNumber*Constants.READ_ONE_UNIT_DURATION + Constants.WAIT_AFTER_KNOCK ; // one extra second to read number and feedback
@@ -307,8 +304,8 @@ public class CvWorldController extends InputAdapter {
     private void saveLevel() {
         GamePreferences prefs = GamePreferences.instance;
         prefs.load();
-        GamePreferences.instance.setLast_level(levelsManager.get_level());
-        GamePreferences.instance.setOperation_index(levelsManager.get_operation_index());
+        GamePreferences.instance.setLast_level(LevelsManager.getInstance().get_level());
+        GamePreferences.instance.setOperation_index(LevelsManager.getInstance().get_operation_index());
         prefs.save();
     }
 

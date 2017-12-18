@@ -10,7 +10,6 @@ import java.util.Scanner;
 
 public class LevelsManager {
 
-
     private int level;
     private int operation_index =0;
     private int level_tope=0;
@@ -19,30 +18,44 @@ public class LevelsManager {
     private int index =0;
     private ArrayList<Integer> list_to_play = new ArrayList<Integer>();
     private Integer quantity_operation =0;
+    public static LevelsManager instance = null; //Singleton
 
 
-    public LevelsManager(){
 
-      //  level = 1;
-      //  operation_index = 0;
+    //Singleton
+    public static LevelsManager getInstance() {
+
+        if (instance == null){
+            instance = new LevelsManager();
+        }
+        return instance;
+    }
+
+    private LevelsManager(){
 
         level = GamePreferences.instance.getLast_level();
         System.out.println("LEVEL " + level);
         operation_index = GamePreferences.instance.getOperation_index();
-
-
-
         FileHandle handle = Gdx.files.internal("levels/ejemploNiveles.csv");
         String s_level = handle.readString();
         Lines = s_level.split("\n");
-        subLines = new String[10][6];
-        boolean aux = true;
+       // subLines = new String[10][6];
         index = 0;
         level_tope = Lines.length;
 
+        Scanner scanner = new Scanner(Lines[0]);
+
+        while ((scanner.hasNext())) {
+            index = index +1;
+            scanner.next();
+        }
+
+        subLines = new String[level_tope][index];
+        index =0;
+
         for (int i = 1; i < Lines.length ; i++) {
 
-            Scanner scanner = new Scanner(Lines[i]);
+            scanner = new Scanner(Lines[i]);
             scanner.useDelimiter("\\r");
 
             while ((scanner.hasNext())) {
@@ -74,9 +87,14 @@ public class LevelsManager {
     }
 
 
+
+
+
+
+
     public void get_List_of_numbers(int level){
 
-            Integer a  = 0;
+            Integer number  = 0;
 
             if (level == level_tope) {
                 level = 1; //reinicio los niveles
@@ -87,9 +105,9 @@ public class LevelsManager {
 
                 while ((scanner.hasNext())) {
 
-                    a = (new Integer(scanner.next()).intValue());
-                    list_to_play.add(a);
-                    System.out.println(a.toString());
+                    number = (new Integer(scanner.next()).intValue());
+                    list_to_play.add(number);
+                    System.out.println(number.toString());
                 }
 
             }
