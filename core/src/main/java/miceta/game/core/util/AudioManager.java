@@ -11,7 +11,10 @@ import miceta.game.core.Assets;
 import miceta.game.core.controllers.CvWorldController;
 import miceta.game.core.managers.CvBlocksManager;
 
+import javax.sound.sampled.*;
 
+import java.io.File;
+import java.io.IOException;
 import java.util.ArrayList;
 
 import static com.badlogic.gdx.scenes.scene2d.actions.Actions.*;
@@ -37,6 +40,8 @@ public class AudioManager {
     private boolean newblock_loop = false;
     private Sound   nb_sound = Assets.instance.sounds.newblock;
     private Music   nb_sound_loop = Assets.instance.music.new_block_loop;
+
+
 
 
 
@@ -73,6 +78,11 @@ public class AudioManager {
         music.setLooping(true);
         music.setVolume(0.01f);
         music.play();
+
+
+
+
+
 
      /*   if (newblock_loop) {
             Sound nb_sound;
@@ -114,8 +124,56 @@ public class AudioManager {
     }
 
 
-    public void playNewBlockSong(){
+    public void get_Duration() {
 
+
+        File soundFile = new File("sounds/d1.wav");
+
+
+        try {
+            AudioInputStream sound = AudioSystem.getAudioInputStream(soundFile);
+            AudioFormat format = sound.getFormat();
+
+            if (format.getEncoding() != AudioFormat.Encoding.PCM_SIGNED) {
+                format = new AudioFormat(AudioFormat.Encoding.PCM_SIGNED, format
+                        .getSampleRate(), format.getSampleSizeInBits() * 2, format
+                        .getChannels(), format.getFrameSize() * 2, format
+                        .getFrameRate(), true); // big endian
+                sound = AudioSystem.getAudioInputStream(format, sound);
+            }
+
+            DataLine.Info info = new DataLine.Info(Clip.class, sound.getFormat(),
+                    ((int) sound.getFrameLength() * format.getFrameSize()));
+
+            try {
+
+                Clip clip = (Clip) AudioSystem.getLine(info);
+                clip.close();
+
+                double durationInSecs = clip.getBufferSize()
+                        / (clip.getFormat().getFrameSize() * clip.getFormat()
+                        .getFrameRate());
+
+                Gdx.app.log(TAG,"--------------------------------------------------------- DURATION ! "+ durationInSecs);
+
+
+            } catch (LineUnavailableException e) {
+                e.printStackTrace();
+            }
+
+        } catch (UnsupportedAudioFileException e) {
+            e.printStackTrace();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+
+    }
+
+
+
+    public void playNewBlockSong()  {
+
+        get_Duration();
         nb_sound.play(defaultVolSound);
 
     }
@@ -128,6 +186,8 @@ public class AudioManager {
         }
         else {
             soundToPlay = Assets.instance.sounds.addblock;
+
+
         }
         soundToPlay.play(defaultVolSound);
     }
