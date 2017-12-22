@@ -6,7 +6,13 @@ import com.badlogic.gdx.assets.AssetErrorListener;
 import com.badlogic.gdx.assets.AssetManager;
 import com.badlogic.gdx.audio.Music;
 import com.badlogic.gdx.audio.Sound;
+import com.badlogic.gdx.utils.ArrayMap;
 import com.badlogic.gdx.utils.Disposable;
+import javax.sound.sampled.*;
+import java.io.File;
+import java.io.IOException;
+
+import java.io.File;
 
 /**
  * Created by ewe on 8/10/17.
@@ -18,6 +24,9 @@ public class Assets implements Disposable, AssetErrorListener {
 
     public AssetSounds sounds;
     public AssetMusic music;
+    public ArrayMap<Sound,Double> s_duration = new ArrayMap<>();
+    public ArrayMap<Music,Double> m_duration = new ArrayMap<>();
+
 
     private Assets() {
     }
@@ -71,7 +80,7 @@ public class Assets implements Disposable, AssetErrorListener {
         assetManager.load("sounds/menosPiezas.wav", Sound.class);
 
         //--------------------------------------------------------/
-
+/*
         assetManager.load("sounds/e1.wav", Sound.class);
         assetManager.load("sounds/e2.wav", Sound.class);
         assetManager.load("sounds/e3.wav", Sound.class);
@@ -161,9 +170,7 @@ public class Assets implements Disposable, AssetErrorListener {
         assetManager.load("sounds/s29.wav", Sound.class);
         assetManager.load("sounds/s30.wav", Sound.class);
 
-
-
-
+*/
 
         assetManager.finishLoading();
 
@@ -180,7 +187,6 @@ public class Assets implements Disposable, AssetErrorListener {
         Gdx.app.error(TAG, "Couldn't load asset '" +  asset.fileName + "'", (Exception) throwable);
     }
 
-
     public class AssetSounds {
         public final Sound f1, f2, f3, f4, f5, f6, f7, f8, f9, f10, f11, f12, f13, f14, f15;
         public final Sound oneDo, oneRe, oneMi, oneFa, oneSol;
@@ -188,7 +194,7 @@ public class Assets implements Disposable, AssetErrorListener {
         public final Sound d1,d2,d3,d4,d5,d6,d7,d8,d9,d10;
 
 //---------------------------------------------------------------------------------------------------------//
-
+/*  audio prueba
         public final Sound e1,e2,e3,e4,e5,e6,e7,e8,e9,e10;
         public final Sound d11,d12,d13,d14,d15,d16,d17,d18,d19,d20;
         public final Sound d21,d22,d23,d24,d25,d26,d27,d28,d29,d30;
@@ -198,16 +204,137 @@ public class Assets implements Disposable, AssetErrorListener {
 
         public final Sound s1,s2,s3,s4,s5,s6,s7,s8,s9,s10;
         public final Sound s11,s12,s13,s14,s15,s16,s17,s18,s19,s20;
-        public final Sound s21,s22,s23,s24,s25,s26,s27,s28,s29,s30;
-
-
+        public final Sound s21,s22,s23,s24,s25,s26,s27,s28,s29,s30;*/
 
 
         //-----------------------------------------------------------------------------//
 
+
+
+
+        public double get_Duration(String sound_path) {
+
+            File soundFile = new File(sound_path);
+            double durationInSecs =0;
+
+            try {
+                AudioInputStream sound = AudioSystem.getAudioInputStream(soundFile);
+                AudioFormat format = sound.getFormat();
+
+                if (format.getEncoding() != AudioFormat.Encoding.PCM_SIGNED) {
+                    format = new AudioFormat(AudioFormat.Encoding.PCM_SIGNED, format
+                            .getSampleRate(), format.getSampleSizeInBits() * 2, format
+                            .getChannels(), format.getFrameSize() * 2, format
+                            .getFrameRate(), true); // big endian
+                    sound = AudioSystem.getAudioInputStream(format, sound);
+                }
+
+                DataLine.Info info = new DataLine.Info(Clip.class, sound.getFormat(),
+                        ((int) sound.getFrameLength() * format.getFrameSize()));
+
+                try {
+
+                    Clip clip = (Clip) AudioSystem.getLine(info);
+                    clip.close();
+
+                    durationInSecs = clip.getBufferSize()
+                            / (clip.getFormat().getFrameSize() * clip.getFormat()
+                            .getFrameRate());
+
+                    Gdx.app.log(TAG,"-------------------------------------------" + sound_path + " --DURATION ! "+ durationInSecs);
+
+                } catch (LineUnavailableException e) {
+                    e.printStackTrace();
+                }
+
+            } catch (UnsupportedAudioFileException e) {
+                e.printStackTrace();
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
+
+            soundFile.delete();
+            return durationInSecs;
+        }
+
+
+        public Sound Sound_with_Duration(String path, AssetManager am){
+
+            Sound sound_load;
+            sound_load = am.get(path, Sound.class);
+            s_duration.put(sound_load, get_Duration(path));
+
+            return sound_load;
+        }
+
+        public Music Music_with_Duration(String path, AssetManager am){
+
+            Music music_load;
+            music_load = am.get(path, Music.class);
+            m_duration.put(music_load, get_Duration(path));
+
+            return music_load;
+        }
+
+
+
+
         public AssetSounds (AssetManager am) {
 
-            f1 = am.get("sounds/1.wav", Sound.class);
+            f1 =  Sound_with_Duration("sounds/1.wav", am);
+            f2 =  Sound_with_Duration("sounds/2.wav", am);
+            f3 =  Sound_with_Duration("sounds/3.wav", am);
+            f4 =  Sound_with_Duration("sounds/4.wav", am);
+            f5 =  Sound_with_Duration("sounds/5.wav", am);
+            f6 =  Sound_with_Duration("sounds/6.wav", am);
+            f7 =  Sound_with_Duration("sounds/7.wav", am);
+            f8 =  Sound_with_Duration("sounds/8.wav", am);
+            f9 =  Sound_with_Duration("sounds/9.wav", am);
+            f10 = Sound_with_Duration("sounds/10.wav", am);
+            f11 = Sound_with_Duration("sounds/11.wav", am);
+            f12 = Sound_with_Duration("sounds/12.wav", am);
+            f13 = Sound_with_Duration("sounds/13.wav", am);
+            f14 = Sound_with_Duration("sounds/14.wav", am);
+            f15 = Sound_with_Duration("sounds/15.wav", am);
+
+            oneDo = Sound_with_Duration("sounds/do.wav", am);
+//            oneRe = am.get("sounds/re_trumpet.wav", Sound.class);
+//            oneMi = am.get("sounds/mi_guitar.wav", Sound.class);
+//            oneFa = am.get("sounds/fa_flaute.wav", Sound.class);
+//            oneSol = am.get("sounds/sol_harp.wav", Sound.class);
+            oneRe = Sound_with_Duration("sounds/re.wav", am);
+            oneMi = Sound_with_Duration("sounds/mi.wav", am);
+            oneFa = Sound_with_Duration("sounds/fa.wav", am);
+            oneSol = Sound_with_Duration("sounds/sol.wav", am);
+
+
+            puck = Sound_with_Duration("sounds/puck.mp3", am);
+            yuju = Sound_with_Duration("sounds/yuju.mp3", am);
+            tada = Sound_with_Duration("sounds/tada.mp3", am);
+
+          /*  puck = am.get("sounds/puck.mp3", Sound.class);
+            yuju = am.get("sounds/yuju.mp3", Sound.class);
+            tada = am.get("sounds/tada.mp3", Sound.class);
+*/
+            newblock = Sound_with_Duration("sounds/newblock.wav", am);
+            addblock = Sound_with_Duration("sounds/masPiezas.wav", am);
+            quitblock = Sound_with_Duration("sounds/menosPiezas.wav", am);
+
+
+            d1 = Sound_with_Duration("sounds/d1.wav", am);
+            d2 = Sound_with_Duration("sounds/d2.wav", am);
+            d3 = Sound_with_Duration("sounds/d3.wav", am);
+            d4 = Sound_with_Duration("sounds/d4.wav", am);
+            d5 = Sound_with_Duration("sounds/d5.wav", am);
+            d6 = Sound_with_Duration("sounds/d6.wav", am);
+            d7 = Sound_with_Duration("sounds/d7.wav", am);
+            d8 = Sound_with_Duration("sounds/d8.wav", am);
+            d9 = Sound_with_Duration("sounds/d9.wav", am);
+            d10 = Sound_with_Duration("sounds/d10.wav", am);
+
+
+
+            /*f1 = am.get("sounds/1.wav", Sound.class);
             f2 = am.get("sounds/2.wav", Sound.class);
             f3 = am.get("sounds/3.wav", Sound.class);
             f4 = am.get("sounds/4.wav", Sound.class);
@@ -253,8 +380,11 @@ public class Assets implements Disposable, AssetErrorListener {
             d7 = am.get("sounds/d7.wav", Sound.class);
             d8 = am.get("sounds/d8.wav", Sound.class);
             d9 = am.get("sounds/d9.wav", Sound.class);
-            d10 = am.get("sounds/d10.wav", Sound.class);
+            d10 = am.get("sounds/d10.wav", Sound.class); */
 
+
+//sound prueba
+/*===============================================================
 
             e1 = am.get("sounds/e1.wav", Sound.class);
             e2 = am.get("sounds/e2.wav", Sound.class);
@@ -277,8 +407,6 @@ public class Assets implements Disposable, AssetErrorListener {
             d18 = am.get("sounds/d18.wav", Sound.class);
             d19 = am.get("sounds/d19.wav", Sound.class);
             d20 = am.get("sounds/d20.wav", Sound.class);
-
-
 
             d21 = am.get("sounds/d21.wav", Sound.class);
             d22 = am.get("sounds/d22.wav", Sound.class);
@@ -349,8 +477,7 @@ public class Assets implements Disposable, AssetErrorListener {
             s28 = am.get("sounds/s28.wav", Sound.class);
             s29 = am.get("sounds/s29.wav", Sound.class);
             s30 = am.get("sounds/s30.wav", Sound.class);
-
-
+*/
         }
     }
 

@@ -3,10 +3,12 @@ package miceta.game.core.util;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.audio.Music;
 import com.badlogic.gdx.audio.Sound;
+import com.badlogic.gdx.files.FileHandle;
 import com.badlogic.gdx.scenes.scene2d.Actor;
 import com.badlogic.gdx.scenes.scene2d.Stage;
 import com.badlogic.gdx.scenes.scene2d.actions.Actions;
 import com.badlogic.gdx.scenes.scene2d.actions.SequenceAction;
+import com.badlogic.gdx.utils.ArrayMap;
 import miceta.game.core.Assets;
 import miceta.game.core.controllers.CvWorldController;
 import miceta.game.core.managers.CvBlocksManager;
@@ -39,7 +41,7 @@ public class AudioManager {
     private boolean delay_add = false;
     private boolean newblock_loop = false;
     private Sound   nb_sound = Assets.instance.sounds.newblock;
-    private Music   nb_sound_loop = Assets.instance.music.new_block_loop;
+    private Music  nb_sound_loop = Assets.instance.music.new_block_loop;
 
 
 
@@ -78,11 +80,6 @@ public class AudioManager {
         music.setLooping(true);
         music.setVolume(0.01f);
         music.play();
-
-
-
-
-
 
      /*   if (newblock_loop) {
             Sound nb_sound;
@@ -123,12 +120,12 @@ public class AudioManager {
         }
     }
 
+/*
+    public void get_Duration(String sound_name) {
 
-    public void get_Duration() {
-
+//        FileHandle handle = Gdx.files.internal("sounds/d1.wav");
 
         File soundFile = new File("sounds/d1.wav");
-
 
         try {
             AudioInputStream sound = AudioSystem.getAudioInputStream(soundFile);
@@ -156,7 +153,6 @@ public class AudioManager {
 
                 Gdx.app.log(TAG,"--------------------------------------------------------- DURATION ! "+ durationInSecs);
 
-
             } catch (LineUnavailableException e) {
                 e.printStackTrace();
             }
@@ -169,12 +165,19 @@ public class AudioManager {
 
     }
 
+    */
+
 
 
     public void playNewBlockSong()  {
 
-        get_Duration();
+        //get_Duration(nb_sound.toString());
         nb_sound.play(defaultVolSound);
+
+
+
+        //Gdx.app.log(TAG,"......................................................" + nb_sound. );
+
 
     }
 
