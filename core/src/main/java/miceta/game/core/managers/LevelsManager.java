@@ -34,12 +34,16 @@ public class LevelsManager {
     private LevelsManager(){
 
         level = GamePreferences.instance.getLast_level();
-        System.out.println("LEVEL " + level);
         operation_index = GamePreferences.instance.getOperation_index();
+
+        level = 1;
+        operation_index =0;
+
+        System.out.println("LEVEL " + level);
         FileHandle handle = Gdx.files.internal("levels/ejemploNiveles.csv");
         String s_level = handle.readString();
         Lines = s_level.split("\n");
-       // subLines = new String[10][6];
+        // subLines = new String[10][6];
         index = 0;
         level_tope = Lines.length;
 
@@ -51,6 +55,7 @@ public class LevelsManager {
         }
 
         subLines = new String[level_tope][index];
+
         index =0;
 
         for (int i = 1; i < Lines.length ; i++) {
@@ -60,10 +65,10 @@ public class LevelsManager {
 
             while ((scanner.hasNext())) {
 
-                    String text_aux = scanner.next();
-                    subLines[i][index] = text_aux;
-                    System.out.println("[" + i + "-" + index + " " + subLines[i][index] + "-]");
-                }
+                String text_aux = scanner.next();
+                subLines[i][index] = text_aux;
+                System.out.println("[" + i + "-" + index + " " + subLines[i][index] + "-]");
+            }
 
             scanner.close();
         }
@@ -77,7 +82,7 @@ public class LevelsManager {
             while ((scanner_2.hasNext())&&(index<5)) {
                 String text =  scanner_2.next();
                 subLines[j][index] = text;
-                System.out.println("[" + j + "-" + index + " " + subLines[j][index] + "-]");
+                System.out.println("------[" + j + "-" + index + " " + subLines[j][index] + "-]");
                 index++;
             }
 
@@ -88,73 +93,87 @@ public class LevelsManager {
 
 
 
-
-
-
-
     public void get_List_of_numbers(int level){
 
-            Integer number  = 0;
+        Integer number  = 0;
 
-            if (level == level_tope) {
-                level = 1; //reinicio los niveles
+        if (level == level_tope) {
+            level = 1; //reinicio los niveles
+        }
+        try {
+            Scanner scanner = new Scanner(subLines[level][4]);
+            list_to_play.clear();
+
+            while ((scanner.hasNext())) {
+
+                System.out.println("Number es :" + number);
+
+                number = (new Integer(scanner.next()).intValue());
+                list_to_play.add(number);
+                System.out.println(number.toString());
             }
-            try {
-                Scanner scanner = new Scanner(subLines[level][4]);
-                list_to_play.clear();
 
-                while ((scanner.hasNext())) {
+        }
 
-                    number = (new Integer(scanner.next()).intValue());
-                    list_to_play.add(number);
-                    System.out.println(number.toString());
+        catch (java.lang.NullPointerException e) {
+
+            Integer tope = (new Integer(subLines[level][3]).intValue());
+            System.out.println("Tope es" + tope);
+
+
+            for (int i=0; i < tope; i++){
+
+                Integer min = (new Integer(subLines[level][1]).intValue());
+                Integer max = (new Integer(subLines[level][2]).intValue());
+
+                if (min == 0){ //esto es es caso que el excel tenga valor 0
+                    min =1;
                 }
 
+                int rand = MathUtils.random(min,max);
+               // list_to_play.clear();
+                list_to_play.add(rand);
+                System.out.println("LEVEL" + level + "RAND " + rand);
+                System.out.flush();
             }
-
-                catch (java.lang.NullPointerException e) {
-                Integer tope = (new Integer(subLines[level][3]).intValue());
-
-                for (int i=0; i < tope; i++){
-
-                    Integer min = (new Integer(subLines[level][1]).intValue());
-                    Integer max = (new Integer(subLines[level][2]).intValue());
-
-                    if (min == 0){ //esto es es caso que el excel tenga valor 0
-                        min =1;
-                    }
-
-                    int rand = MathUtils.random(min,max);
-                    list_to_play.add(rand);
-                    System.out.flush();
-                }
-            }
+            operation_index =0;
+        }
     }
 
     public void up_level(){
 
+        System.out.println("level tope " + level_tope);
+
         if (level < level_tope) {
-        level++;
+            list_to_play.clear();
+            operation_index =0;
+
+            level++;
         }
         else{
+
             level = 1; //reinicio los niveles
         }
     }
 
     public int get_number_to_play(){
 
+        System.out.println("LISTA " + list_to_play.size());
         return list_to_play.get(operation_index);
     }
 
-    public void up_operation_index(){
+    public void up_operation_index(){ //REVISAR ESTA FUNCION
 
         operation_index ++;
+        System.out.println("========================================== Level: " + level);
 
-        System.out.println("Operation Index: " + operation_index);
+        System.out.println("========================================== Operation Index: " + operation_index);
 
         quantity_operation = (new Integer (subLines[level][3]).intValue());
 
-        if (operation_index == quantity_operation){
+        System.out.println("========================================== quantity_operation " + quantity_operation);
+
+        if (operation_index == quantity_operation){ //Ojo con Esto! puede que sea mejor el ==
 
             System.out.println("operation_index");
             up_level();
@@ -164,7 +183,7 @@ public class LevelsManager {
 
     }
 
-   public int get_level_size(){
+    public int get_level_size(){
 
         return level_tope;
     }
