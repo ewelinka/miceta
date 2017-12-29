@@ -23,7 +23,7 @@ public class Assets implements Disposable, AssetErrorListener {
     public AssetSounds sounds;
     public AssetMusic music;
     public ArrayMap<Sound,Double> s_duration = new ArrayMap<>();
-    public ArrayMap<Music,Double> m_duration = new ArrayMap<>();
+  //  public ArrayMap<Music,Double> m_duration = new ArrayMap<>();
 
 
     private Assets() {
@@ -82,6 +82,56 @@ public class Assets implements Disposable, AssetErrorListener {
         music = new AssetMusic(assetManager);
     }
 
+    private double get_Duration(String sound_path) {
+
+        File soundFile = new File(sound_path);
+        double durationInSecs =0;
+
+        try {
+            AudioInputStream sound = AudioSystem.getAudioInputStream(soundFile);
+            AudioFormat format = sound.getFormat();
+
+            if (format.getEncoding() != AudioFormat.Encoding.PCM_SIGNED) {
+                format = new AudioFormat(AudioFormat.Encoding.PCM_SIGNED, format
+                        .getSampleRate(), format.getSampleSizeInBits() * 2, format
+                        .getChannels(), format.getFrameSize() * 2, format
+                        .getFrameRate(), true); // big endian
+                sound = AudioSystem.getAudioInputStream(format, sound);
+            }
+
+            DataLine.Info info = new DataLine.Info(Clip.class, sound.getFormat(),
+                    ((int) sound.getFrameLength() * format.getFrameSize()));
+
+            try {
+
+                Clip clip = (Clip) AudioSystem.getLine(info);
+                clip.close();
+
+                durationInSecs = clip.getBufferSize()
+                        / (clip.getFormat().getFrameSize() * clip.getFormat()
+                        .getFrameRate());
+
+                Gdx.app.log(TAG,"-------------------------------------------" + sound_path + " --DURATION ! "+ durationInSecs);
+
+            } catch (LineUnavailableException e) {
+                e.printStackTrace();
+            }
+
+        } catch (UnsupportedAudioFileException e) {
+            e.printStackTrace();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+        // soundFile.delete();
+        return durationInSecs;
+    }
+
+    public float getSoundDuration(Sound soundToPlay){
+
+        return  s_duration.get(soundToPlay).floatValue();
+    }
+
+
     @Override
     public void dispose() {
         assetManager.dispose();
@@ -97,50 +147,6 @@ public class Assets implements Disposable, AssetErrorListener {
         public final Sound puck,yuju, newblock, addblock, quitblock, tada;
         public final Sound d1,d2,d3,d4,d5,d6,d7,d8,d9,d10;
 
-
-        private double get_Duration(String sound_path) {
-
-            File soundFile = new File(sound_path);
-            double durationInSecs =0;
-
-            try {
-                AudioInputStream sound = AudioSystem.getAudioInputStream(soundFile);
-                AudioFormat format = sound.getFormat();
-
-                if (format.getEncoding() != AudioFormat.Encoding.PCM_SIGNED) {
-                    format = new AudioFormat(AudioFormat.Encoding.PCM_SIGNED, format
-                            .getSampleRate(), format.getSampleSizeInBits() * 2, format
-                            .getChannels(), format.getFrameSize() * 2, format
-                            .getFrameRate(), true); // big endian
-                    sound = AudioSystem.getAudioInputStream(format, sound);
-                }
-
-                DataLine.Info info = new DataLine.Info(Clip.class, sound.getFormat(),
-                        ((int) sound.getFrameLength() * format.getFrameSize()));
-
-                try {
-
-                    Clip clip = (Clip) AudioSystem.getLine(info);
-                    clip.close();
-
-                    durationInSecs = clip.getBufferSize()
-                            / (clip.getFormat().getFrameSize() * clip.getFormat()
-                            .getFrameRate());
-
-                    Gdx.app.log(TAG,"-------------------------------------------" + sound_path + " --DURATION ! "+ durationInSecs);
-
-                } catch (LineUnavailableException e) {
-                    e.printStackTrace();
-                }
-
-            } catch (UnsupportedAudioFileException e) {
-                e.printStackTrace();
-            } catch (IOException e) {
-                e.printStackTrace();
-            }
-           // soundFile.delete();
-            return durationInSecs;
-        }
 
 
         public Sound Sound_with_Duration(String path, AssetManager am){
