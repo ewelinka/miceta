@@ -7,7 +7,7 @@ import miceta.game.core.util.GamePreferences;
 
 import java.util.ArrayList;
 import java.util.Scanner;
-
+ //
 public class LevelsManager {
 
     private int level;
