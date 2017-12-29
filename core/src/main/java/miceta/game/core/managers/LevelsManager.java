@@ -13,7 +13,6 @@ public class LevelsManager {
     private int level;
     private int operation_index =0;
     private int level_tope=0;
-    private String[] Lines;
     private String[][] subLines;
     private int index =0;
     private ArrayList<Integer> list_to_play = new ArrayList<Integer>();
@@ -34,20 +33,28 @@ public class LevelsManager {
     private LevelsManager(){
 
         level = GamePreferences.instance.getLast_level();
-        operation_index = GamePreferences.instance.getOperation_index();
-
-        level = 1;
-        operation_index =0;
 
         System.out.println("LEVEL " + level);
+        operation_index = GamePreferences.instance.getOperation_index();
+        load_csv();
+    }
+
+    private void load_csv(){
+
         FileHandle handle = Gdx.files.internal("levels/ejemploNiveles.csv");
         String s_level = handle.readString();
-        Lines = s_level.split("\n");
-        // subLines = new String[10][6];
-        index = 0;
-        level_tope = Lines.length;
 
-        Scanner scanner = new Scanner(Lines[0]);
+        String[] lines;
+        lines = s_level.split("\n");
+
+        index = 0;
+        level_tope = lines.length -1;
+
+        if (level > level_tope){
+            level =0;
+        }
+
+        Scanner scanner = new Scanner(lines[0]);
 
         while ((scanner.hasNext())) {
             index = index +1;
@@ -55,12 +62,11 @@ public class LevelsManager {
         }
 
         subLines = new String[level_tope][index];
-
         index =0;
 
-        for (int i = 1; i < Lines.length ; i++) {
+        for (int i = 0; i < level_tope; i++) {
 
-            scanner = new Scanner(Lines[i]);
+            scanner = new Scanner(lines[i+1]);
             scanner.useDelimiter("\\r");
 
             while ((scanner.hasNext())) {
@@ -69,11 +75,10 @@ public class LevelsManager {
                 subLines[i][index] = text_aux;
                 System.out.println("[" + i + "-" + index + " " + subLines[i][index] + "-]");
             }
-
             scanner.close();
         }
 
-        for (int j = 1; j < Lines.length ;j++){
+        for (int j = 0; j < level_tope;j++){
 
             index = 0;
             Scanner scanner_2 = new Scanner(subLines[j][index]);
@@ -82,14 +87,18 @@ public class LevelsManager {
             while ((scanner_2.hasNext())&&(index<5)) {
                 String text =  scanner_2.next();
                 subLines[j][index] = text;
-                System.out.println("------[" + j + "-" + index + " " + subLines[j][index] + "-]");
+                System.out.println("[" + j + "-" + index + " " + subLines[j][index] + "-]");
                 index++;
             }
 
             scanner_2.close();
         }
         get_List_of_numbers(level);
+
     }
+
+
+
 
 
 
@@ -98,7 +107,7 @@ public class LevelsManager {
         Integer number  = 0;
 
         if (level == level_tope) {
-            level = 1; //reinicio los niveles
+            level = 0; //reinicio los niveles
         }
         try {
             Scanner scanner = new Scanner(subLines[level][4]);
@@ -120,6 +129,8 @@ public class LevelsManager {
             Integer tope = (new Integer(subLines[level][3]).intValue());
             System.out.println("Tope es" + tope);
 
+            int rand =0;
+            int previus_rand = 0;
 
             for (int i=0; i < tope; i++){
 
@@ -130,8 +141,12 @@ public class LevelsManager {
                     min =1;
                 }
 
-                int rand = MathUtils.random(min,max);
-               // list_to_play.clear();
+                while ((rand == previus_rand)) {
+                    rand = MathUtils.random(min, max);
+                }
+
+                previus_rand = rand;
+                // list_to_play.clear();
                 list_to_play.add(rand);
                 System.out.println("LEVEL" + level + "RAND " + rand);
                 System.out.flush();
@@ -142,17 +157,16 @@ public class LevelsManager {
 
     public void up_level(){
 
-        System.out.println("level tope " + level_tope);
+        System.out.println("level tope esss " + level_tope);
 
-        if (level < level_tope) {
+        if (level < level_tope -1) {
             list_to_play.clear();
             operation_index =0;
-
             level++;
         }
         else{
-
-            level = 1; //reinicio los niveles
+            operation_index =0;
+            level = 0; //reinicio los niveles
         }
     }
 
