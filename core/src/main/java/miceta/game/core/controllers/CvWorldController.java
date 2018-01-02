@@ -3,12 +3,12 @@ package miceta.game.core.controllers;
 import com.badlogic.gdx.Application;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.InputAdapter;
-import com.badlogic.gdx.math.MathUtils;
 import com.badlogic.gdx.scenes.scene2d.Stage;
 import edu.ceta.vision.core.blocks.Block;
 import miceta.game.core.managers.CvBlocksManager;
 import miceta.game.core.managers.CvBlocksManagerAndroid;
 import miceta.game.core.managers.CvBlocksManagerDesktop;
+import miceta.game.core.managers.LevelsManager;
 import miceta.game.core.miCeta;
 import miceta.game.core.screens.FeedbackScreen;
 import miceta.game.core.screens.TestScreen;
@@ -16,7 +16,6 @@ import miceta.game.core.util.AudioManager;
 import miceta.game.core.util.Constants;
 import miceta.game.core.util.GamePreferences;
 
-import java.text.DecimalFormat;
 import java.util.ArrayList;
 import java.util.Set;
 
@@ -27,7 +26,8 @@ public class CvWorldController extends InputAdapter {
     private static final String TAG = CvWorldController.class.getName();
     protected Stage stage;
     public miCeta game;
-    private int randomNumber,previousRandomNumber;
+   // private int randomNumber,previousRandomNumber;
+    private int numberToPlay;
     private boolean lastAnswerRight;
     private int error_min = 0;
     private int error_max = 0;
@@ -52,31 +52,34 @@ public class CvWorldController extends InputAdapter {
             cvBlocksManager = new CvBlocksManagerDesktop(game, stage);
         }
         AudioManager.instance.setStage(stage); // we set current Stage in AudioManager, if not "reader" actor doesn't work
+
         initCommonVariables();
         init();
     }
 
     protected void init(){
-        Gdx.app.log(TAG,"init in the cv blocks manager");
-        randomNumber = getNewNumber();
-        AudioManager.instance.readFeedback(randomNumber, extraDelayBetweenFeedback); //first we read the random number
-        timeToWait = Constants.READ_ONE_UNIT_DURATION+ randomNumber*Constants.READ_ONE_UNIT_DURATION + waitAfterKnock /*+ ( randomNumber)*(0.3f)*/; // time we should wait before next loop starts
+        numberToPlay = LevelsManager.getInstance().get_number_to_play();
+        Gdx.app.log(TAG,"init, Number to Play: " + numberToPlay );
+
+        AudioManager.instance.readFeedback(numberToPlay, extraDelayBetweenFeedback); //first we read the random number
+        timeToWait = Constants.READ_ONE_UNIT_DURATION+ numberToPlay*Constants.READ_ONE_UNIT_DURATION + waitAfterKnock /*+ ( randomNumber)*(0.3f)*/; // time we should wait before next loop starts
         lastAnswerRight = false;
+
     }
 
     protected void initCommonVariables(){
         timePassed = 0;
+
         extraDelayBetweenFeedback = GamePreferences.instance.getExtraDelayBetweenFeedback();
         waitAfterKnock = GamePreferences.instance.getWaitAfterKnock();
+        waitAfterKnock = 3;
+
     }
 
     protected void updateCV(){
 
         if(cvBlocksManager.canBeUpdated()) { //ask before in order to not accumulate new threads.
             cvBlocksManager.updateDetected();
-
-
-
         }
 
         if(cvBlocksManager.isDetectionReady()){
@@ -96,14 +99,19 @@ public class CvWorldController extends InputAdapter {
 
         if(isTimeToStartNewLoop()){
             timePassed = 0; // start to count the time
-            Gdx.app.log(TAG,"new loop! with random number "+randomNumber);
+            Gdx.app.log(TAG,"new loop! with random number "+numberToPlay);
             if(lastAnswerRight){ // if las answer was correct, we get new random number
-                previousRandomNumber = randomNumber;
-                randomNumber = getNewNumber();
-               // timeToWait = Constants.READ_NUMBER_DURATION + randomNumber*Constants.READ_ONE_UNIT_DURATION + Constants.WAIT_AFTER_KNOCK ; // one extra second to read number and feedback
-                timeToWait = randomNumber*(Constants.READ_ONE_UNIT_DURATION+extraDelayBetweenFeedback) + waitAfterKnock; // read feedback and wait
+               // previousRandomNumber = randomNumber;
+                //randomNumber = getNewNumber();
 
-                AudioManager.instance.readFeedback(randomNumber, extraDelayBetweenFeedback);
+                LevelsManager.getInstance().up_operation_index();
+                numberToPlay = LevelsManager.getInstance().get_number_to_play();
+                saveLevel();
+
+                // timeToWait = Constants.READ_NUMBER_DURATION + randomNumber*Constants.READ_ONE_UNIT_DURATION + Constants.WAIT_AFTER_KNOCK ; // one extra second to read number and feedback
+                timeToWait = numberToPlay*(Constants.READ_ONE_UNIT_DURATION+extraDelayBetweenFeedback) + waitAfterKnock; // read feedback and wait
+
+                AudioManager.instance.readFeedback(numberToPlay, extraDelayBetweenFeedback);
                 lastAnswerRight = false;
 
                 resetErrorsAndInactivity(); // start from 0
@@ -113,27 +121,16 @@ public class CvWorldController extends InputAdapter {
                 currentSum = 0;
 
 
-
-
                 for (int i = 0; i < nowDetected.size(); i++)
                     currentSum += nowDetected.get(i); // we need to know the sum to decide if response is correct
 
                 checkForErrorsAndInactivity(currentSum, lastSum);
-                checkForCorrectAnswer(currentSum,randomNumber, nowDetected);
+                checkForCorrectAnswer(currentSum,numberToPlay, nowDetected);
             }
 
         }
     }
 
-
-    private int getNewNumber(){
-        int candidate = MathUtils.random(1,5);
-        if(candidate == previousRandomNumber)
-            candidate = (candidate+1)%6;
-        if(candidate == 0) candidate = 1;
-
-        return candidate;
-    }
 
     protected boolean isTimeToStartNewLoop(){
         return (timePassed > timeToWait );
@@ -144,7 +141,7 @@ public class CvWorldController extends InputAdapter {
     }
 
     public int getRandomNumber(){
-        return randomNumber;
+        return numberToPlay;
     }
 
 
@@ -152,7 +149,7 @@ public class CvWorldController extends InputAdapter {
         // check for errors
         if((currentSum != lastSum)){ // we count errors or reset inactivity only if (currentSum != lastSum)
             inactivityTime = 0;
-            if (currentSum > randomNumber) { //too much
+            if (currentSum > numberToPlay) { //too much
                 error_max++;
                 error_min = 0;
 
@@ -182,18 +179,18 @@ public class CvWorldController extends InputAdapter {
         }
     }
 
-    private void checkForCorrectAnswer(int currentSum, int randomNumber, ArrayList<Integer> nowDetected ) {
-        int biggerNumber =  (currentSum > randomNumber) ? currentSum : randomNumber;
+    private void checkForCorrectAnswer(int currentSum, int numberToPlay, ArrayList<Integer> nowDetected ) {
+        int biggerNumber =  (currentSum > numberToPlay) ? currentSum : numberToPlay;
         //Gdx.app.log(TAG,"wait after knock!!! "+waitAfterKnock);
         //timeToWait = Constants.READ_NUMBER_DURATION + biggerNumber * Constants.READ_ONE_UNIT_DURATION + Constants.WAIT_AFTER_KNOCK + feedback_delay;
         timeToWait = biggerNumber * (Constants.READ_ONE_UNIT_DURATION + extraDelayBetweenFeedback)+ waitAfterKnock + feedback_delay;
 
-        if (currentSum == randomNumber) { // correct answer! in next loop we will celebrate
+        if (currentSum == numberToPlay) { // correct answer! in next loop we will celebrate
             lastAnswerRight = true;
             timeToWait += (Constants.DELAY_FOR_TADA + Constants.DELAY_FOR_YUJU + Constants.WAIT_AFTER_CORRECT_ANSWER);
         }
 
-        AudioManager.instance.readAllFeedbacks(nowDetected, randomNumber, lastAnswerRight, extraDelayBetweenFeedback);
+        AudioManager.instance.readAllFeedbacks(nowDetected, numberToPlay, lastAnswerRight, extraDelayBetweenFeedback);
     }
 
     private void resetErrorsAndInactivity(){
@@ -298,6 +295,12 @@ public class CvWorldController extends InputAdapter {
     }
 
 
-
+    private void saveLevel() {
+        GamePreferences prefs = GamePreferences.instance;
+        prefs.load();
+        GamePreferences.instance.setLast_level(LevelsManager.getInstance().get_level());
+        GamePreferences.instance.setOperation_index(LevelsManager.getInstance().get_operation_index());
+        prefs.save();
+    }
 
 }

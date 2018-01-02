@@ -8,6 +8,7 @@ import com.badlogic.gdx.graphics.GL20;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 
+import miceta.game.core.managers.LevelsManager;
 import miceta.game.core.screens.DirectedGame;
 import miceta.game.core.screens.FeedbackScreen;
 import miceta.game.core.screens.TestScreen;
@@ -16,6 +17,8 @@ import miceta.game.core.transitions.ScreenTransitionFade;
 import miceta.game.core.util.AudioManager;
 import miceta.game.core.util.GamePreferences;
 import org.opencv.core.Mat;
+
+import java.util.logging.Level;
 
 
 public class miCeta extends DirectedGame {
@@ -26,6 +29,7 @@ public class miCeta extends DirectedGame {
 
 	@Override
 	public void create () {
+
 		this.frameBlocked = false;
 		Assets.instance.init(new AssetManager());
 		AudioManager.instance.play(Assets.instance.music.song01);
@@ -33,6 +37,7 @@ public class miCeta extends DirectedGame {
 		ScreenTransition transition = ScreenTransitionFade.init(1);
 		//setScreen(new TestScreen(this),transition);
 		setScreen(new FeedbackScreen(this),transition);
+		LevelsManager levelsManager = LevelsManager.getInstance(); // inicializate level manager -- no seria necesario porque es singleton.
 
 	}
 
