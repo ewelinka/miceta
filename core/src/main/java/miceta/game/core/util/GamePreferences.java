@@ -12,6 +12,8 @@ public class GamePreferences {
     private Preferences prefs;
     private float extraDelayBetweenFeedback;
     private float waitAfterKnock;
+    private int last_level;
+    private int operation_index;
 
     private GamePreferences () {
         prefs = Gdx.app.getPreferences(Constants.PREFERENCES);
@@ -19,12 +21,18 @@ public class GamePreferences {
     public void load () {
         extraDelayBetweenFeedback = prefs.getFloat("extraDelayBetweenFeedback",0);
         waitAfterKnock = prefs.getFloat("waitAfterKnock",Constants.WAIT_AFTER_KNOCK);
+
+        last_level = prefs.getInteger("last_level",0);
+        operation_index=0; // we should always start from the beginning!
+
         prefs.flush();
     }
 
     public void save(){
         prefs.putFloat("extraDelayBetweenFeedback",extraDelayBetweenFeedback);
         prefs.putFloat("waitAfterKnock",waitAfterKnock);
+        prefs.putInteger("last_level", last_level);
+
         prefs.flush();
     }
 
@@ -39,6 +47,17 @@ public class GamePreferences {
         prefs.flush();
     }
 
+
+    public void setLast_level(int new_level){
+        last_level = new_level;
+        prefs.putInteger("last_level",last_level);
+        prefs.flush();
+    }
+    public void setOperation_index(int new_operation_index){
+        operation_index = new_operation_index;
+    }
+
+
     public float getExtraDelayBetweenFeedback(){
         return extraDelayBetweenFeedback;
     }
@@ -46,5 +65,15 @@ public class GamePreferences {
     public float getWaitAfterKnock(){
         return waitAfterKnock;
     }
+
+
+    public int getLast_level(){
+        return last_level;
+    }
+
+    public int getOperation_index(){
+        return operation_index;
+    }
+
 
 }

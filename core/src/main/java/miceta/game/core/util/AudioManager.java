@@ -3,15 +3,20 @@ package miceta.game.core.util;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.audio.Music;
 import com.badlogic.gdx.audio.Sound;
+import com.badlogic.gdx.files.FileHandle;
 import com.badlogic.gdx.scenes.scene2d.Actor;
 import com.badlogic.gdx.scenes.scene2d.Stage;
 import com.badlogic.gdx.scenes.scene2d.actions.Actions;
 import com.badlogic.gdx.scenes.scene2d.actions.SequenceAction;
+import com.badlogic.gdx.utils.ArrayMap;
 import miceta.game.core.Assets;
 import miceta.game.core.controllers.CvWorldController;
 import miceta.game.core.managers.CvBlocksManager;
 
+import javax.sound.sampled.*;
 
+import java.io.File;
+import java.io.IOException;
 import java.util.ArrayList;
 
 import static com.badlogic.gdx.scenes.scene2d.actions.Actions.*;
@@ -36,14 +41,15 @@ public class AudioManager {
     private boolean delay_add = false;
     private boolean newblock_loop = false;
     private Sound   nb_sound = Assets.instance.sounds.newblock;
-    private Music   nb_sound_loop = Assets.instance.music.new_block_loop;
+    private Music  nb_sound_loop = Assets.instance.music.new_block_loop;
+
+
 
 
 
     private AudioManager () { }
 
     public void setStage(Stage stage){
-        Gdx.app.log(TAG,"set stage in AM");
         this.stage = stage;
         reader = new Actor(); // ractor that reads everything
         stage.addActor(reader);
@@ -114,10 +120,10 @@ public class AudioManager {
     }
 
 
-    public void playNewBlockSong(){
 
+
+    public void playNewBlockSong()  {
         nb_sound.play(defaultVolSound);
-
     }
 
     public void playQuitOrAddBlock(int i){
@@ -128,6 +134,8 @@ public class AudioManager {
         }
         else {
             soundToPlay = Assets.instance.sounds.addblock;
+
+
         }
         soundToPlay.play(defaultVolSound);
     }
@@ -144,7 +152,6 @@ public class AudioManager {
 
 
     public SequenceAction playNumber (int nr, SequenceAction readCorrectSolution) {
-        //Gdx.app.log(TAG,"play number "+nr);
         final Sound whichSound;
         switch(nr) {
             case 1:
@@ -235,12 +242,11 @@ public class AudioManager {
             }
         }));
 
-//&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&
+
         readBlocks.addAction(delay(readBlockDuration + extraDelayBetweenFeedback )); // we wait Xs because sound files with "do", "re" and "mi" have X duration
     }
 
     public void readSingleKnock(int whichKnock, SequenceAction readFeedback, float extraDelayBetweenFeedback){
-        //Gdx.app.log(TAG,"--- knock "+whichKnock+" block duration "+readBlockDuration);
         final Sound whichSound;
         switch(whichKnock) {
             case 1:
@@ -283,7 +289,7 @@ public class AudioManager {
                 playWithoutInterruption(whichSound); // knocks with which volume??
             }
         }));
-        //##########################################
+
         readFeedback.addAction(delay(readBlockDuration + extraDelayBetweenFeedback)); // we wait Xs because sound files with "do", "re" and "mi" have X duration
 
     }
@@ -308,7 +314,6 @@ public class AudioManager {
     }
 
     private void readFeedbackAndBlocks(ArrayList<Integer> toReadNums, int numToBuild, float extraDelayBetweenFeedback){
-        Gdx.app.log(TAG," read feedback and blocks! "+numToBuild);
         reader.clearActions();
         /////// blocks
         readBlocksAction = createReadBlocksAction(readBlocksAction, toReadNums, extraDelayBetweenFeedback);
@@ -341,7 +346,6 @@ public class AudioManager {
     }
 
     private void readFeedbackAndBlocksAndYuju(ArrayList<Integer> toReadNums, int numToBuild, float extraDelayBetweenFeedback){ //
-        Gdx.app.log(TAG," read feedback and blocks! "+numToBuild);
         reader.clearActions();
         /////// blocks
         readBlocksAction = createReadBlocksAction(readBlocksAction, toReadNums, extraDelayBetweenFeedback);
@@ -358,7 +362,6 @@ public class AudioManager {
     }
 
     private void readFeedbackAndBlocksAndTadaAndYuju(ArrayList<Integer> toReadNums, int numToBuild, float extraDelayBetweenFeedback){ //
-        Gdx.app.log(TAG," read feedback and blocks! "+numToBuild);
         reader.clearActions();
         /////// blocks
         readBlocksAction = createReadBlocksAction(readBlocksAction, toReadNums, extraDelayBetweenFeedback);
