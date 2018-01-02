@@ -62,7 +62,6 @@ public class CvBlocksManagerDesktop extends CvBlocksManager {
 
 
     public void updateDetected() {
-        Gdx.app.log(TAG,"update "+detectionReady+ " detectionInProgress " + detectionInProgress);
         if(!detectionInProgress) {
             detectionInProgress = true;
             new Thread(new Runnable() {
