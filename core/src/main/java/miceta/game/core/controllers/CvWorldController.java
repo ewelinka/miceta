@@ -2,6 +2,7 @@ package miceta.game.core.controllers;
 
 import com.badlogic.gdx.Application;
 import com.badlogic.gdx.Gdx;
+import com.badlogic.gdx.Input;
 import com.badlogic.gdx.InputAdapter;
 import com.badlogic.gdx.scenes.scene2d.Stage;
 import edu.ceta.vision.core.blocks.Block;
@@ -11,6 +12,7 @@ import miceta.game.core.managers.CvBlocksManagerDesktop;
 import miceta.game.core.managers.LevelsManager;
 import miceta.game.core.miCeta;
 import miceta.game.core.screens.FeedbackScreen;
+import miceta.game.core.screens.IntroScreen;
 import miceta.game.core.screens.TestScreen;
 import miceta.game.core.util.AudioManager;
 import miceta.game.core.util.Constants;
@@ -199,7 +201,7 @@ public class CvWorldController extends InputAdapter {
         inactivityTime = 0;
     }
 
-    private void touchDownAndroid(int screenX, int screenY){
+    private void touchDownAndroid(int screenX, int screenY, int button){
         if (screenX > 540 && screenY < 60) {
             game.setScreen(new TestScreen(game));
         }
@@ -221,7 +223,7 @@ public class CvWorldController extends InputAdapter {
         }
 
     }
-    private void touchDownDesktop(int screenX, int screenY){
+    private void touchDownDesktop(int screenX, int screenY, int button){
         if (screenX > 440 && screenY < 10) {
             game.setScreen(new TestScreen(game));
         }
@@ -242,6 +244,11 @@ public class CvWorldController extends InputAdapter {
         if ((screenX > 400 && screenX < 460)&& (screenY > (Constants.DESKTOP_HEIGHT-65) && screenY < (Constants.DESKTOP_HEIGHT-45))) {
             makeWaitSmaller();
         }
+        if(button == Input.Buttons.RIGHT){
+            game.setScreen(new IntroScreen(game));
+        }
+
+
     }
 
 
@@ -249,9 +256,9 @@ public class CvWorldController extends InputAdapter {
     public boolean touchDown (int screenX, int screenY, int pointer, int button) {
         Gdx.app.log(TAG," TOUCHED "+screenX+ " "+screenY);
         if (Gdx.app.getType() == Application.ApplicationType.Android) {
-            touchDownAndroid(screenX,screenY);
+            touchDownAndroid(screenX, screenY, button);
         }else {
-            touchDownDesktop(screenX,screenY);
+            touchDownDesktop(screenX, screenY, button);
         }
         return true;
     }

@@ -36,7 +36,13 @@ public class CvBlocksManagerDesktop extends CvBlocksManager {
        // Rect detectionZone = new Rect(0,0,640,480); // WARN my mac cam resolution!!
         // / TODO check the orientation of the frame
         Rect detectionZone = new Rect(0,0,1920,768); //positivo camera resolution
-        topCodeDetector = new TopCodeDetectorDesktop(50, true, 70, 5, true, false, true, detectionZone,true,false);
+        if(game.getTopCodeDetector() == null) {
+            Gdx.app.log(TAG, "NO DETECTORrrrrrrr");
+            topCodeDetector = new TopCodeDetectorDesktop(50, true, 70, 5, true, false, true, detectionZone, true, false);
+            game.setTopCodeDetector(topCodeDetector);
+        }else{
+            topCodeDetector = game.getTopCodeDetector();
+        }
         detectionReady = false;
         detectionInProgress = false;
         newDetectedCVBlocks = new ArrayList<Block>();
