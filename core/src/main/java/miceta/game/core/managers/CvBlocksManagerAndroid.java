@@ -36,7 +36,12 @@ public class CvBlocksManagerAndroid extends CvBlocksManager {
         tempList = null;
 
         Rect detectionZone = new Rect((640-480),0,480,480);
-        topCodeDetector = new TopCodeDetectorAndroid(50, true, 70, 5, true, false, false, true, detectionZone);
+        if(game.getTopCodeDetector() == null) {
+            topCodeDetector = new TopCodeDetectorAndroid(50, true, 70, 5, true, false, false, true, detectionZone);
+            game.setTopCodeDetector(topCodeDetector);
+        }else{
+            topCodeDetector = game.getTopCodeDetector();
+        }
         detectionReady = false;
         detectionInProgress = false;
         newDetectedCVBlocks = new ArrayList<Block>();

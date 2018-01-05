@@ -1,25 +1,16 @@
 package miceta.game.core;
 
 
-import com.badlogic.gdx.ApplicationAdapter;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.assets.AssetManager;
-import com.badlogic.gdx.graphics.GL20;
-import com.badlogic.gdx.graphics.Texture;
-import com.badlogic.gdx.graphics.g2d.SpriteBatch;
-
-import miceta.game.core.managers.LevelsManager;
+import edu.ceta.vision.core.topcode.TopCodeDetector;
 import miceta.game.core.screens.DirectedGame;
-import miceta.game.core.screens.FeedbackScreen;
 import miceta.game.core.screens.IntroScreen;
-import miceta.game.core.screens.TestScreen;
 import miceta.game.core.transitions.ScreenTransition;
 import miceta.game.core.transitions.ScreenTransitionFade;
 import miceta.game.core.util.AudioManager;
 import miceta.game.core.util.GamePreferences;
 import org.opencv.core.Mat;
-
-import java.util.logging.Level;
 
 
 public class miCeta extends DirectedGame {
@@ -27,6 +18,7 @@ public class miCeta extends DirectedGame {
 	private boolean frameBlocked, hasNewFrame;
 	private Mat lastFrame;//, previousFrame;
 	private Object syncObject = new Object();
+	private TopCodeDetector topCodeDetector;
 
 	@Override
 	public void create () {
@@ -36,9 +28,10 @@ public class miCeta extends DirectedGame {
 		AudioManager.instance.play(Assets.instance.music.song01);
 		GamePreferences.instance.load();
 		ScreenTransition transition = ScreenTransitionFade.init(1);
+		topCodeDetector = null;
 		//setScreen(new TestScreen(this),transition);
 		setScreen(new IntroScreen(this),transition);
-		LevelsManager levelsManager = LevelsManager.getInstance(); // inicializate level manager -- no seria necesario porque es singleton.
+		//LevelsManager levelsManager = LevelsManager.getInstance(); // inicializate level manager -- no seria necesario porque es singleton.
 
 	}
 
@@ -79,6 +72,9 @@ public class miCeta extends DirectedGame {
 	public boolean hasNewFrame(){
 		return hasNewFrame;
 	}
+
+	public TopCodeDetector getTopCodeDetector(){ return topCodeDetector;}
+	public void setTopCodeDetector(TopCodeDetector topCodeDetector){ this.topCodeDetector = topCodeDetector;}
 }
 
 
