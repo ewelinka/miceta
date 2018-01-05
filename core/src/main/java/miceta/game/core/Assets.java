@@ -1,22 +1,18 @@
 package miceta.game.core;
 
-import android.media.MediaPlayer;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.assets.AssetDescriptor;
 import com.badlogic.gdx.assets.AssetErrorListener;
 import com.badlogic.gdx.assets.AssetManager;
 import com.badlogic.gdx.audio.Music;
 import com.badlogic.gdx.audio.Sound;
-//import com.badlogic.gdx.backends.lwjgl.audio.OpenALSound;
 import com.badlogic.gdx.backends.lwjgl.audio.OpenALSound;
-import com.badlogic.gdx.files.FileHandle;
+import com.badlogic.gdx.graphics.g2d.TextureAtlas;
+import com.badlogic.gdx.scenes.scene2d.ui.ImageButton;
+import com.badlogic.gdx.scenes.scene2d.utils.TextureRegionDrawable;
 import com.badlogic.gdx.utils.ArrayMap;
 import com.badlogic.gdx.utils.Disposable;
-import com.badlogic.gdx.utils.QuickSelect;
-
-import javax.sound.sampled.*;
-import java.io.File;
-import java.io.IOException;
+import miceta.game.core.util.Constants;
 
 
 /**
@@ -29,7 +25,8 @@ public class Assets implements Disposable, AssetErrorListener {
     public AssetSounds sounds;
     public AssetMusic music;
     public ArrayMap<Sound,Float> s_duration = new ArrayMap<>();
-    //  public ArrayMap<Music,Double> m_duration = new ArrayMap<>();
+    public AssetButtons buttons;
+  //  public ArrayMap<Music,Double> m_duration = new ArrayMap<>();
 
 
     private Assets() {
@@ -38,6 +35,9 @@ public class Assets implements Disposable, AssetErrorListener {
         this.assetManager = assetManager;
         // set asset manager error handler
         assetManager.setErrorListener(this);
+        // load texture atlas
+        assetManager.load(Constants.TEXTURE_ATLAS_OBJECTS, TextureAtlas.class);
+        // load sounds
         assetManager.load("sounds/1.wav", Sound.class);
         assetManager.load("sounds/2.wav", Sound.class);
         assetManager.load("sounds/3.wav", Sound.class);
@@ -82,10 +82,17 @@ public class Assets implements Disposable, AssetErrorListener {
         assetManager.load("feedback/feedbackLoop.wav", Music.class);
         assetManager.load("sounds/masPiezas.wav", Sound.class);
         assetManager.load("sounds/menosPiezas.wav", Sound.class);
-
+        // start loading assets and wait until finished
         assetManager.finishLoading();
+
+        Gdx.app.debug(TAG, "# of assets loaded: " + assetManager.getAssetNames().size);
+        for (String a : assetManager.getAssetNames())
+            Gdx.app.debug(TAG, "asset: " + a);
+        TextureAtlas atlas = assetManager.get(Constants.TEXTURE_ATLAS_OBJECTS);
+        buttons = new AssetButtons(atlas);
         sounds = new AssetSounds(assetManager);
         music = new AssetMusic(assetManager);
+
     }
 
     public float getSoundDuration(Sound soundToPlay){
@@ -109,24 +116,16 @@ public class Assets implements Disposable, AssetErrorListener {
         public final Sound puck,yuju, newblock, addblock, quitblock, tada;
         public final Sound d1,d2,d3,d4,d5,d6,d7,d8,d9,d10;
 
-
-
         public Sound soundWithDuration(String path, AssetManager am) {
-
             Sound sound_load;
             sound_load = am.get(path, Sound.class);
-
             Gdx.app.log(TAG, "wowowowowoowow --> path " + path + " dura " + String.valueOf(((OpenALSound) (sound_load)).duration()));
             float soundDuration = ((OpenALSound) (sound_load)).duration();
             s_duration.put(sound_load, soundDuration);
-
             return sound_load;
         }
 
-
-
         public AssetSounds (AssetManager am) {
-
             f1 =  soundWithDuration("sounds/1.wav", am);
             f2 =  soundWithDuration("sounds/2.wav", am);
             f3 =  soundWithDuration("sounds/3.wav", am);
@@ -142,7 +141,6 @@ public class Assets implements Disposable, AssetErrorListener {
             f13 = soundWithDuration("sounds/13.wav", am);
             f14 = soundWithDuration("sounds/14.wav", am);
             f15 = soundWithDuration("sounds/15.wav", am);
-
 
             oneDo = soundWithDuration("sounds/do.wav", am);
 //            oneRe = am.get("sounds/re_trumpet.wav", Sound.class);
@@ -162,7 +160,6 @@ public class Assets implements Disposable, AssetErrorListener {
             yuju = soundWithDuration("sounds/yuju.mp3", am);
             tada = soundWithDuration("sounds/tada.mp3", am);
 
-
             newblock = soundWithDuration("sounds/newblock.wav", am);
             addblock = soundWithDuration("sounds/masPiezas.wav", am);
             quitblock = soundWithDuration("sounds/menosPiezas.wav", am);
@@ -177,7 +174,6 @@ public class Assets implements Disposable, AssetErrorListener {
             d8 = soundWithDuration("sounds/d8.wav", am);
             d9 = soundWithDuration("sounds/d9.wav", am);
             d10 = soundWithDuration("sounds/d10.wav", am);
-
         }
     }
 
@@ -192,5 +188,35 @@ public class Assets implements Disposable, AssetErrorListener {
             new_block_loop  = am.get("feedback/feedbackLoop.wav", Music.class);
 
         }
+    }
+
+    public class AssetButtons {
+        public final ImageButton.ImageButtonStyle playButtonStyle;
+        public final ImageButton.ImageButtonStyle newStartButtonStyle;
+        public final ImageButton.ImageButtonStyle exitButtonStyle;
+        public final ImageButton.ImageButtonStyle helpButtonStyle;
+
+        public  AssetButtons(TextureAtlas atlas) {
+            playButtonStyle = new ImageButton.ImageButtonStyle();  //Instaciate
+            playButtonStyle.up = new TextureRegionDrawable(atlas.findRegion("jugar-1")); //Set image for not pressed button
+            playButtonStyle.down= new TextureRegionDrawable(atlas.findRegion("jugar-2"));  //Set image for pressed
+            playButtonStyle.over= new TextureRegionDrawable(atlas.findRegion("jugar-2"));
+
+            exitButtonStyle = new ImageButton.ImageButtonStyle();  //Instaciate
+            exitButtonStyle.up = new TextureRegionDrawable(atlas.findRegion("salir-1")); //Set image for not pressed button
+            exitButtonStyle.down= new TextureRegionDrawable(atlas.findRegion("salir-2"));  //Set image for pressed
+            exitButtonStyle.over= new TextureRegionDrawable(atlas.findRegion("salir-2"));
+
+            newStartButtonStyle = new ImageButton.ImageButtonStyle();  //Instaciate
+            newStartButtonStyle.up = new TextureRegionDrawable(atlas.findRegion("reiniciar-1")); //Set image for not pressed button
+            newStartButtonStyle.down= new TextureRegionDrawable(atlas.findRegion("reiniciar-2"));  //Set image for pressed
+            newStartButtonStyle.over= new TextureRegionDrawable(atlas.findRegion("reiniciar-2"));
+
+            helpButtonStyle = new ImageButton.ImageButtonStyle();  //Instaciate
+            helpButtonStyle.up = new TextureRegionDrawable(atlas.findRegion("ayuda-1")); //Set image for not pressed button
+            helpButtonStyle.down= new TextureRegionDrawable(atlas.findRegion("ayuda-2"));  //Set image for pressed
+            helpButtonStyle.over= new TextureRegionDrawable(atlas.findRegion("ayuda-2"));
+        }
+
     }
 }
