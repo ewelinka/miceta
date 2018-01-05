@@ -11,6 +11,7 @@ import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import miceta.game.core.managers.LevelsManager;
 import miceta.game.core.screens.DirectedGame;
 import miceta.game.core.screens.FeedbackScreen;
+import miceta.game.core.screens.IntroScreen;
 import miceta.game.core.screens.TestScreen;
 import miceta.game.core.transitions.ScreenTransition;
 import miceta.game.core.transitions.ScreenTransitionFade;
@@ -36,7 +37,7 @@ public class miCeta extends DirectedGame {
 		GamePreferences.instance.load();
 		ScreenTransition transition = ScreenTransitionFade.init(1);
 		//setScreen(new TestScreen(this),transition);
-		setScreen(new FeedbackScreen(this),transition);
+		setScreen(new IntroScreen(this),transition);
 		LevelsManager levelsManager = LevelsManager.getInstance(); // inicializate level manager -- no seria necesario porque es singleton.
 
 	}

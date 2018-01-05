@@ -22,5 +22,5 @@ public class Constants {
     public static final int DESKTOP_HEIGHT = 768;
     public static final int ANDROID_WIDTH = 600;
     public static final int ANDROID_HEIGHT = 1024;
-    
+    public static final String  TEXTURE_ATLAS_OBJECTS ="images/pack.atlas";
 }
