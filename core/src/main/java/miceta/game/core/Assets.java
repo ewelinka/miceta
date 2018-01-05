@@ -1,13 +1,19 @@
 package miceta.game.core;
 
+import android.media.MediaPlayer;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.assets.AssetDescriptor;
 import com.badlogic.gdx.assets.AssetErrorListener;
 import com.badlogic.gdx.assets.AssetManager;
 import com.badlogic.gdx.audio.Music;
 import com.badlogic.gdx.audio.Sound;
+//import com.badlogic.gdx.backends.lwjgl.audio.OpenALSound;
+import com.badlogic.gdx.backends.lwjgl.audio.OpenALSound;
+import com.badlogic.gdx.files.FileHandle;
 import com.badlogic.gdx.utils.ArrayMap;
 import com.badlogic.gdx.utils.Disposable;
+import com.badlogic.gdx.utils.QuickSelect;
+
 import javax.sound.sampled.*;
 import java.io.File;
 import java.io.IOException;
@@ -22,8 +28,8 @@ public class Assets implements Disposable, AssetErrorListener {
     private AssetManager assetManager;
     public AssetSounds sounds;
     public AssetMusic music;
-    public ArrayMap<Sound,Double> s_duration = new ArrayMap<>();
-  //  public ArrayMap<Music,Double> m_duration = new ArrayMap<>();
+    public ArrayMap<Sound,Float> s_duration = new ArrayMap<>();
+    //  public ArrayMap<Music,Double> m_duration = new ArrayMap<>();
 
 
     private Assets() {
@@ -82,53 +88,9 @@ public class Assets implements Disposable, AssetErrorListener {
         music = new AssetMusic(assetManager);
     }
 
-    private double get_Duration(String sound_path) {
-
-        File soundFile = new File(sound_path);
-        double durationInSecs =0;
-
-        try {
-            AudioInputStream sound = AudioSystem.getAudioInputStream(soundFile);
-            AudioFormat format = sound.getFormat();
-
-            if (format.getEncoding() != AudioFormat.Encoding.PCM_SIGNED) {
-                format = new AudioFormat(AudioFormat.Encoding.PCM_SIGNED, format
-                        .getSampleRate(), format.getSampleSizeInBits() * 2, format
-                        .getChannels(), format.getFrameSize() * 2, format
-                        .getFrameRate(), true); // big endian
-                sound = AudioSystem.getAudioInputStream(format, sound);
-            }
-
-            DataLine.Info info = new DataLine.Info(Clip.class, sound.getFormat(),
-                    ((int) sound.getFrameLength() * format.getFrameSize()));
-
-            try {
-
-                Clip clip = (Clip) AudioSystem.getLine(info);
-                clip.close();
-
-                durationInSecs = clip.getBufferSize()
-                        / (clip.getFormat().getFrameSize() * clip.getFormat()
-                        .getFrameRate());
-
-                Gdx.app.log(TAG,"-------------------------------------------" + sound_path + " --DURATION ! "+ durationInSecs);
-
-            } catch (LineUnavailableException e) {
-                e.printStackTrace();
-            }
-
-        } catch (UnsupportedAudioFileException e) {
-            e.printStackTrace();
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
-        // soundFile.delete();
-        return durationInSecs;
-    }
-
     public float getSoundDuration(Sound soundToPlay){
 
-        return  s_duration.get(soundToPlay).floatValue();
+        return  s_duration.get(soundToPlay);
     }
 
 
@@ -149,67 +111,72 @@ public class Assets implements Disposable, AssetErrorListener {
 
 
 
-        public Sound Sound_with_Duration(String path, AssetManager am){
+        public Sound soundWithDuration(String path, AssetManager am) {
 
             Sound sound_load;
             sound_load = am.get(path, Sound.class);
-            s_duration.put(sound_load, get_Duration(path));
+
+            Gdx.app.log(TAG, "wowowowowoowow --> path " + path + " dura " + String.valueOf(((OpenALSound) (sound_load)).duration()));
+            float soundDuration = ((OpenALSound) (sound_load)).duration();
+            s_duration.put(sound_load, soundDuration);
 
             return sound_load;
         }
 
 
+
         public AssetSounds (AssetManager am) {
 
-            f1 =  Sound_with_Duration("sounds/1.wav", am);
-            f2 =  Sound_with_Duration("sounds/2.wav", am);
-            f3 =  Sound_with_Duration("sounds/3.wav", am);
-            f4 =  Sound_with_Duration("sounds/4.wav", am);
-            f5 =  Sound_with_Duration("sounds/5.wav", am);
-            f6 =  Sound_with_Duration("sounds/6.wav", am);
-            f7 =  Sound_with_Duration("sounds/7.wav", am);
-            f8 =  Sound_with_Duration("sounds/8.wav", am);
-            f9 =  Sound_with_Duration("sounds/9.wav", am);
-            f10 = Sound_with_Duration("sounds/10.wav", am);
-            f11 = Sound_with_Duration("sounds/11.wav", am);
-            f12 = Sound_with_Duration("sounds/12.wav", am);
-            f13 = Sound_with_Duration("sounds/13.wav", am);
-            f14 = Sound_with_Duration("sounds/14.wav", am);
-            f15 = Sound_with_Duration("sounds/15.wav", am);
+            f1 =  soundWithDuration("sounds/1.wav", am);
+            f2 =  soundWithDuration("sounds/2.wav", am);
+            f3 =  soundWithDuration("sounds/3.wav", am);
+            f4 =  soundWithDuration("sounds/4.wav", am);
+            f5 =  soundWithDuration("sounds/5.wav", am);
+            f6 =  soundWithDuration("sounds/6.wav", am);
+            f7 =  soundWithDuration("sounds/7.wav", am);
+            f8 =  soundWithDuration("sounds/8.wav", am);
+            f9 =  soundWithDuration("sounds/9.wav", am);
+            f10 = soundWithDuration("sounds/10.wav", am);
+            f11 = soundWithDuration("sounds/11.wav", am);
+            f12 = soundWithDuration("sounds/12.wav", am);
+            f13 = soundWithDuration("sounds/13.wav", am);
+            f14 = soundWithDuration("sounds/14.wav", am);
+            f15 = soundWithDuration("sounds/15.wav", am);
 
-            oneDo = Sound_with_Duration("sounds/do.wav", am);
+
+            oneDo = soundWithDuration("sounds/do.wav", am);
 //            oneRe = am.get("sounds/re_trumpet.wav", Sound.class);
 //            oneMi = am.get("sounds/mi_guitar.wav", Sound.class);
 //            oneFa = am.get("sounds/fa_flaute.wav", Sound.class);
 //            oneSol = am.get("sounds/sol_harp.wav", Sound.class);
-            oneRe = Sound_with_Duration("sounds/re.wav", am);
-            oneMi = Sound_with_Duration("sounds/mi.wav", am);
-            oneFa = Sound_with_Duration("sounds/fa.wav", am);
-            oneSol = Sound_with_Duration("sounds/sol.wav", am);
+            oneRe = soundWithDuration("sounds/re.wav", am);
+            oneMi = soundWithDuration("sounds/mi.wav", am);
+            oneFa = soundWithDuration("sounds/fa.wav", am);
+            oneSol = soundWithDuration("sounds/sol.wav", am);
 
-           /* puck = Sound_with_Duration("sounds/puck.mp3", am);
-            yuju = Sound_with_Duration("sounds/yuju.mp3", am);
-            tada = Sound_with_Duration("sounds/tada.mp3", am);
+           /* puck = soundWithDuration("sounds/puck.mp3", am);
+            yuju = soundWithDuration("sounds/yuju.mp3", am);
+            tada = soundWithDuration("sounds/tada.mp3", am);
 */
-            puck = am.get("sounds/puck.mp3", Sound.class);
-            yuju = am.get("sounds/yuju.mp3", Sound.class);
-            tada = am.get("sounds/tada.mp3", Sound.class);
+            puck = soundWithDuration("sounds/puck.mp3", am);
+            yuju = soundWithDuration("sounds/yuju.mp3", am);
+            tada = soundWithDuration("sounds/tada.mp3", am);
 
 
-            newblock = Sound_with_Duration("sounds/newblock.wav", am);
-            addblock = Sound_with_Duration("sounds/masPiezas.wav", am);
-            quitblock = Sound_with_Duration("sounds/menosPiezas.wav", am);
+            newblock = soundWithDuration("sounds/newblock.wav", am);
+            addblock = soundWithDuration("sounds/masPiezas.wav", am);
+            quitblock = soundWithDuration("sounds/menosPiezas.wav", am);
 
-            d1 = Sound_with_Duration("sounds/d1.wav", am);
-            d2 = Sound_with_Duration("sounds/d2.wav", am);
-            d3 = Sound_with_Duration("sounds/d3.wav", am);
-            d4 = Sound_with_Duration("sounds/d4.wav", am);
-            d5 = Sound_with_Duration("sounds/d5.wav", am);
-            d6 = Sound_with_Duration("sounds/d6.wav", am);
-            d7 = Sound_with_Duration("sounds/d7.wav", am);
-            d8 = Sound_with_Duration("sounds/d8.wav", am);
-            d9 = Sound_with_Duration("sounds/d9.wav", am);
-            d10 = Sound_with_Duration("sounds/d10.wav", am);
+            d1 = soundWithDuration("sounds/d1.wav", am);
+            d2 = soundWithDuration("sounds/d2.wav", am);
+            d3 = soundWithDuration("sounds/d3.wav", am);
+            d4 = soundWithDuration("sounds/d4.wav", am);
+            d5 = soundWithDuration("sounds/d5.wav", am);
+            d6 = soundWithDuration("sounds/d6.wav", am);
+            d7 = soundWithDuration("sounds/d7.wav", am);
+            d8 = soundWithDuration("sounds/d8.wav", am);
+            d9 = soundWithDuration("sounds/d9.wav", am);
+            d10 = soundWithDuration("sounds/d10.wav", am);
 
         }
     }

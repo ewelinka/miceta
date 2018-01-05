@@ -36,6 +36,11 @@
             <groupId>com.badlogicgames.gdx</groupId>
             <artifactId>gdx-backend-lwjgl</artifactId>
         </dependency>
+        <dependency>
+            <groupId>com.google.android</groupId>
+            <artifactId>android</artifactId>
+            <version>4.1.1.4</version>
+        </dependency>
     </dependencies>
 
 	<build>

@@ -9,6 +9,7 @@ import com.badlogic.gdx.scenes.scene2d.Stage;
 import com.badlogic.gdx.scenes.scene2d.actions.Actions;
 import com.badlogic.gdx.scenes.scene2d.actions.SequenceAction;
 import com.badlogic.gdx.utils.ArrayMap;
+
 import miceta.game.core.Assets;
 import miceta.game.core.controllers.CvWorldController;
 import miceta.game.core.managers.CvBlocksManager;
@@ -50,7 +51,6 @@ public class AudioManager {
     private AudioManager () { }
 
     public void setStage(Stage stage){
-        Gdx.app.log(TAG,"set stage in AM");
         this.stage = stage;
         reader = new Actor(); // ractor that reads everything
         stage.addActor(reader);
@@ -120,65 +120,11 @@ public class AudioManager {
         }
     }
 
-/*
-    public void get_Duration(String sound_name) {
-
-//        FileHandle handle = Gdx.files.internal("sounds/d1.wav");
-
-        File soundFile = new File("sounds/d1.wav");
-
-        try {
-            AudioInputStream sound = AudioSystem.getAudioInputStream(soundFile);
-            AudioFormat format = sound.getFormat();
-
-            if (format.getEncoding() != AudioFormat.Encoding.PCM_SIGNED) {
-                format = new AudioFormat(AudioFormat.Encoding.PCM_SIGNED, format
-                        .getSampleRate(), format.getSampleSizeInBits() * 2, format
-                        .getChannels(), format.getFrameSize() * 2, format
-                        .getFrameRate(), true); // big endian
-                sound = AudioSystem.getAudioInputStream(format, sound);
-            }
-
-            DataLine.Info info = new DataLine.Info(Clip.class, sound.getFormat(),
-                    ((int) sound.getFrameLength() * format.getFrameSize()));
-
-            try {
-
-                Clip clip = (Clip) AudioSystem.getLine(info);
-                clip.close();
-
-                double durationInSecs = clip.getBufferSize()
-                        / (clip.getFormat().getFrameSize() * clip.getFormat()
-                        .getFrameRate());
-
-                Gdx.app.log(TAG,"--------------------------------------------------------- DURATION ! "+ durationInSecs);
-
-            } catch (LineUnavailableException e) {
-                e.printStackTrace();
-            }
-
-        } catch (UnsupportedAudioFileException e) {
-            e.printStackTrace();
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
-
-    }
-
-    */
 
 
 
     public void playNewBlockSong()  {
-
-        //get_Duration(nb_sound.toString());
         nb_sound.play(defaultVolSound);
-
-
-
-        //Gdx.app.log(TAG,"......................................................" + nb_sound. );
-
-
     }
 
     public void playQuitOrAddBlock(int i){
@@ -207,7 +153,6 @@ public class AudioManager {
 
 
     public SequenceAction playNumber (int nr, SequenceAction readCorrectSolution) {
-        //Gdx.app.log(TAG,"play number "+nr);
         final Sound whichSound;
         switch(nr) {
             case 1:
@@ -303,7 +248,6 @@ public class AudioManager {
     }
 
     public void readSingleKnock(int whichKnock, SequenceAction readFeedback, float extraDelayBetweenFeedback){
-        //Gdx.app.log(TAG,"--- knock "+whichKnock+" block duration "+readBlockDuration);
         final Sound whichSound;
         switch(whichKnock) {
             case 1:
@@ -371,7 +315,6 @@ public class AudioManager {
     }
 
     private void readFeedbackAndBlocks(ArrayList<Integer> toReadNums, int numToBuild, float extraDelayBetweenFeedback){
-        Gdx.app.log(TAG," read feedback and blocks! "+numToBuild);
         reader.clearActions();
         /////// blocks
         readBlocksAction = createReadBlocksAction(readBlocksAction, toReadNums, extraDelayBetweenFeedback);
@@ -404,7 +347,6 @@ public class AudioManager {
     }
 
     private void readFeedbackAndBlocksAndYuju(ArrayList<Integer> toReadNums, int numToBuild, float extraDelayBetweenFeedback){ //
-        Gdx.app.log(TAG," read feedback and blocks! "+numToBuild);
         reader.clearActions();
         /////// blocks
         readBlocksAction = createReadBlocksAction(readBlocksAction, toReadNums, extraDelayBetweenFeedback);
@@ -421,7 +363,6 @@ public class AudioManager {
     }
 
     private void readFeedbackAndBlocksAndTadaAndYuju(ArrayList<Integer> toReadNums, int numToBuild, float extraDelayBetweenFeedback){ //
-        Gdx.app.log(TAG," read feedback and blocks! "+numToBuild);
         reader.clearActions();
         /////// blocks
         readBlocksAction = createReadBlocksAction(readBlocksAction, toReadNums, extraDelayBetweenFeedback);
@@ -506,6 +447,8 @@ public class AudioManager {
         return newblock_loop;
 
     }
+
+
 
 
 

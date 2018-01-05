@@ -3,7 +3,6 @@ package miceta.game.core.controllers;
 import com.badlogic.gdx.Application;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.InputAdapter;
-import com.badlogic.gdx.math.MathUtils;
 import com.badlogic.gdx.scenes.scene2d.Stage;
 import edu.ceta.vision.core.blocks.Block;
 import miceta.game.core.managers.CvBlocksManager;
@@ -17,7 +16,6 @@ import miceta.game.core.util.AudioManager;
 import miceta.game.core.util.Constants;
 import miceta.game.core.util.GamePreferences;
 
-import java.text.DecimalFormat;
 import java.util.ArrayList;
 import java.util.Set;
 
@@ -60,12 +58,8 @@ public class CvWorldController extends InputAdapter {
     }
 
     protected void init(){
-
-
-        Gdx.app.log(TAG,"init in the cv blocks manager");
-
         numberToPlay = LevelsManager.getInstance().get_number_to_play();
-        Gdx.app.log(TAG,"Number to Play: " + numberToPlay );
+        Gdx.app.log(TAG,"init, Number to Play: " + numberToPlay );
 
         AudioManager.instance.readFeedback(numberToPlay, extraDelayBetweenFeedback); //first we read the random number
         timeToWait = Constants.READ_ONE_UNIT_DURATION+ numberToPlay*Constants.READ_ONE_UNIT_DURATION + waitAfterKnock /*+ ( randomNumber)*(0.3f)*/; // time we should wait before next loop starts
