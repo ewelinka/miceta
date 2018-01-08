@@ -31,7 +31,7 @@ public class AudioManager {
     public static final AudioManager instance = new AudioManager();
     private Music playingMusic;
     private Sound currentSound;
-    private SequenceAction readFeedbackAction, readBlocksAction, readCorrectSolutionAction;
+    private SequenceAction readFeedbackAction, readBlocksAction, readCorrectSolutionAction, readTutorialAction;
     private float defaultVolSound = 0.5f;
     private float firstNoteVol = 1.0f;
     private Actor reader;
@@ -44,9 +44,7 @@ public class AudioManager {
     private Sound   nb_sound = Assets.instance.sounds.newblock;
     private Music  nb_sound_loop = Assets.instance.music.new_block_loop;
 
-
-
-
+    private ArrayList<Sound> SoundsToReproduce = new ArrayList<Sound>();
 
     private AudioManager () { }
 
@@ -57,6 +55,7 @@ public class AudioManager {
         readFeedbackAction = new SequenceAction(); // for feedback reading
         readBlocksAction = new SequenceAction(); // for detected blocks reading
         readCorrectSolutionAction = new SequenceAction(); // for correct number and yuju
+        readTutorialAction = new SequenceAction();
     }
 
     public void play (Sound sound) {
@@ -76,10 +75,13 @@ public class AudioManager {
     public void play (Music music) {
         stopMusic();
         playingMusic = music;
-
         music.setLooping(true);
         music.setVolume(0.01f);
         music.play();
+
+
+       //
+
 
      /*   if (newblock_loop) {
             Sound nb_sound;
@@ -108,11 +110,9 @@ public class AudioManager {
     public void playNewBlockSong_loop(){
 
         if (newblock_loop){
-
             nb_sound_loop.setLooping(true);
             nb_sound_loop.setVolume(0.1f);
             nb_sound_loop.play();
-
         }
         else{
             nb_sound_loop.pause();
@@ -121,9 +121,32 @@ public class AudioManager {
     }
 
 
+    public float reproduceSounds(ArrayList<Sound> SoundsToReproduce){
+        float duration_total =  0;
+        reader.addAction(readTutorialAction);
+        readTutorialAction.reset();
+        for (int i = 0; i < SoundsToReproduce.size(); i++){
 
+            float duration_aux = Assets.instance.getSoundDuration(SoundsToReproduce.get(i));
+            duration_total = duration_total + duration_aux;
+            final Sound aux = SoundsToReproduce.get(i);
+
+            readTutorialAction.addAction(run(new Runnable() {
+                public void run() {
+                    playWithoutInterruption(aux,true); // knocks with which volume??
+                }
+            }));
+             readTutorialAction.addAction((delay(duration_aux)));
+        }
+
+        Gdx.app.log(TAG, "============================= " + duration_total);
+
+        return duration_total;
+    }
 
     public void playNewBlockSong()  {
+
+
         nb_sound.play(defaultVolSound);
     }
 
@@ -136,9 +159,9 @@ public class AudioManager {
         else {
             soundToPlay = Assets.instance.sounds.addblock;
 
-
         }
         soundToPlay.play(defaultVolSound);
+
     }
 
     public void setDelay_quit(boolean hasDelay){
@@ -448,6 +471,26 @@ public class AudioManager {
 
     }
 
+
+    public void reproduce_concrete_tutorial(){
+
+
+        SoundsToReproduce.add(Assets.instance.sounds.ct_1);
+        SoundsToReproduce.add(Assets.instance.sounds.ct_2);
+        SoundsToReproduce.add(Assets.instance.sounds.newblock);
+        SoundsToReproduce.add(Assets.instance.sounds.ct_3);
+        SoundsToReproduce.add(Assets.instance.sounds.ct_4);
+        SoundsToReproduce.add(Assets.instance.sounds.ct_5);
+        SoundsToReproduce.add(Assets.instance.sounds.ct_6);
+        SoundsToReproduce.add(Assets.instance.sounds.ct_7);
+        SoundsToReproduce.add(Assets.instance.sounds.ct_8);
+        SoundsToReproduce.add(Assets.instance.sounds.ct_9);
+        SoundsToReproduce.add(Assets.instance.sounds.ct_10);
+        SoundsToReproduce.add(Assets.instance.sounds.ct_11);
+
+        AudioManager.instance.reproduceSounds(SoundsToReproduce);
+
+    }
 
 
 

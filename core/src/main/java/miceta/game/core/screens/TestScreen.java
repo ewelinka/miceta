@@ -3,6 +3,7 @@ package miceta.game.core.screens;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.InputMultiplexer;
 import com.badlogic.gdx.InputProcessor;
+import com.badlogic.gdx.audio.Sound;
 import com.badlogic.gdx.graphics.GL20;
 import com.badlogic.gdx.graphics.g2d.BitmapFont;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
@@ -10,6 +11,7 @@ import com.badlogic.gdx.graphics.glutils.ShapeRenderer;
 import com.badlogic.gdx.scenes.scene2d.Stage;
 import com.badlogic.gdx.utils.viewport.FitViewport;
 import edu.ceta.vision.core.blocks.Block;
+import miceta.game.core.Assets;
 import miceta.game.core.controllers.CvWorldController;
 import miceta.game.core.managers.FeedbackDrawManager;
 import miceta.game.core.miCeta;
@@ -18,6 +20,7 @@ import miceta.game.core.util.Constants;
 
 import java.math.RoundingMode;
 import java.text.DecimalFormat;
+import java.util.ArrayList;
 import java.util.Set;
 
 
@@ -48,6 +51,11 @@ public class TestScreen extends AbstractGameScreen {
         shapeRenderer = new ShapeRenderer();
         // android back key used to exit, we should not catch
         Gdx.input.setCatchBackKey(false);
+
+
+
+
+
     }
 
    // @android.annotation.TargetApi(android.os.Build.VERSION_CODES.GINGERBREAD)
@@ -106,7 +114,13 @@ public class TestScreen extends AbstractGameScreen {
         font.draw(spriteBatch,"menos tiempo",400,60);
 
 
+
+
         spriteBatch.end();
+
+
+
+
 
     }
 

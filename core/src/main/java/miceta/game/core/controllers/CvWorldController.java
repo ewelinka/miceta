@@ -67,6 +67,7 @@ public class CvWorldController extends InputAdapter {
         timeToWait = Constants.READ_ONE_UNIT_DURATION+ numberToPlay*Constants.READ_ONE_UNIT_DURATION + waitAfterKnock /*+ ( randomNumber)*(0.3f)*/; // time we should wait before next loop starts
         lastAnswerRight = false;
 
+
     }
 
     protected void initCommonVariables(){

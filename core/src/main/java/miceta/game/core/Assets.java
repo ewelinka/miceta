@@ -29,6 +29,7 @@ public class Assets implements Disposable, AssetErrorListener {
   //  public ArrayMap<Music,Double> m_duration = new ArrayMap<>();
 
 
+
     private Assets() {
     }
     public void init(AssetManager assetManager) {
@@ -82,6 +83,21 @@ public class Assets implements Disposable, AssetErrorListener {
         assetManager.load("feedback/feedbackLoop.wav", Music.class);
         assetManager.load("sounds/masPiezas.wav", Sound.class);
         assetManager.load("sounds/menosPiezas.wav", Sound.class);
+
+        assetManager.load("sounds/c_tutorial/1_intro.wav", Sound.class);
+        assetManager.load("sounds/c_tutorial/2_este_sonido.wav", Sound.class);
+        assetManager.load("sounds/c_tutorial/3_significa.wav", Sound.class);
+        assetManager.load("sounds/c_tutorial/4_pone.wav", Sound.class);
+        assetManager.load("sounds/c_tutorial/5_vamos.wav", Sound.class);
+        assetManager.load("sounds/c_tutorial/6_ahora.wav", Sound.class);
+        assetManager.load("sounds/c_tutorial/7_es_el_sonido.wav", Sound.class);
+        assetManager.load("sounds/c_tutorial/8_y_si_son_mas.wav", Sound.class);
+        assetManager.load("sounds/c_tutorial/9_oigamos.wav", Sound.class);
+        assetManager.load("sounds/c_tutorial/10_tambien_se.wav", Sound.class);
+        assetManager.load("sounds/c_tutorial/11_cuando_hay.wav", Sound.class);
+
+
+
         // start loading assets and wait until finished
         assetManager.finishLoading();
 
@@ -112,9 +128,15 @@ public class Assets implements Disposable, AssetErrorListener {
 
     public class AssetSounds {
         public final Sound f1, f2, f3, f4, f5, f6, f7, f8, f9, f10, f11, f12, f13, f14, f15;
+        public final Sound ct_1,ct_2,ct_3,ct_4,ct_5,ct_6,ct_7,ct_8,ct_9,ct_10, ct_11;
         public final Sound oneDo, oneRe, oneMi, oneFa, oneSol;
         public final Sound puck,yuju, newblock, addblock, quitblock, tada;
         public final Sound d1,d2,d3,d4,d5,d6,d7,d8,d9,d10;
+
+        //concrete tutorial
+
+
+
 
         public Sound soundWithDuration(String path, AssetManager am) {
             Sound sound_load;
@@ -174,6 +196,22 @@ public class Assets implements Disposable, AssetErrorListener {
             d8 = soundWithDuration("sounds/d8.wav", am);
             d9 = soundWithDuration("sounds/d9.wav", am);
             d10 = soundWithDuration("sounds/d10.wav", am);
+
+            ct_1 = soundWithDuration("sounds/c_tutorial/1_intro.wav", am);
+            ct_2 = soundWithDuration("sounds/c_tutorial/2_este_sonido.wav", am);
+            ct_3 = soundWithDuration("sounds/c_tutorial/3_significa.wav", am);
+            ct_4 = soundWithDuration("sounds/c_tutorial/4_pone.wav", am);
+            ct_5 = soundWithDuration("sounds/c_tutorial/5_vamos.wav", am);
+            ct_6 = soundWithDuration("sounds/c_tutorial/6_ahora.wav", am);
+            ct_7 = soundWithDuration("sounds/c_tutorial/7_es_el_sonido.wav", am);
+            ct_8 = soundWithDuration("sounds/c_tutorial/8_y_si_son_mas.wav", am);
+            ct_9 = soundWithDuration("sounds/c_tutorial/9_oigamos.wav", am);
+            ct_10 = soundWithDuration("sounds/c_tutorial/10_tambien_se.wav", am);
+            ct_11 = soundWithDuration("sounds/c_tutorial/11_cuando_hay.wav", am);
+
+
+
+
         }
     }
 
