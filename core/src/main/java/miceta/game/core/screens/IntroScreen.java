@@ -5,6 +5,8 @@ import com.badlogic.gdx.InputProcessor;
 import com.badlogic.gdx.audio.Sound;
 import com.badlogic.gdx.graphics.GL20;
 import com.badlogic.gdx.scenes.scene2d.Actor;
+import com.badlogic.gdx.scenes.scene2d.InputEvent;
+import com.badlogic.gdx.scenes.scene2d.InputListener;
 import com.badlogic.gdx.scenes.scene2d.Stage;
 import com.badlogic.gdx.scenes.scene2d.ui.ImageButton;
 import com.badlogic.gdx.scenes.scene2d.utils.ChangeListener;
@@ -94,6 +96,18 @@ public class IntroScreen extends AbstractGameScreen {
             @Override
             public void changed (ChangeEvent event, Actor actor) {
                 onBtnClicked("play");
+            }
+        });
+        btnPlay.addListener(new InputListener(){
+            @Override
+            public  void    enter(InputEvent event, float x, float y, int pointer, Actor fromActor){
+                if(pointer == -1) { // if not, on btn click the audio file is played again (without any need)
+                    AudioManager.instance.playWithoutInterruption(Assets.instance.sounds.newblock); // TODO change to "JUGAR" audio whan available
+                }
+            }
+            @Override
+            public void exit(InputEvent event, float x, float y, int pointer, Actor toActor) {
+                Gdx.app.log(TAG,"exit");
             }
         });
         stage.addActor(btnPlay);
