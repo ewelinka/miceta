@@ -147,7 +147,7 @@ public class IntroScreen extends AbstractGameScreen {
                 break;
             case "help":
                 // TODO implement tutorial and then go from here to this tutorial
-                game.setScreen(new FeedbackScreen(game),transition);
+                game.setScreen(new ConcreteTurorial(game),transition);
                 break;
         }
 
