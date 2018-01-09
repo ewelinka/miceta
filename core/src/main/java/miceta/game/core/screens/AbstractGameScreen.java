@@ -24,12 +24,7 @@ public abstract class AbstractGameScreen  implements Screen {
 
 
     public AbstractGameScreen (miCeta game){
-        this(game,0);
-    }
-
-    public AbstractGameScreen (miCeta game, int levelJson){
         this.game = game;
-        this.levelJson = levelJson;
         paused = false;
 
         if(Gdx.app.getType() == Application.ApplicationType.Android){

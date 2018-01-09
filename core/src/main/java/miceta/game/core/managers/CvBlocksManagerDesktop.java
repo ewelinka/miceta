@@ -2,6 +2,7 @@ package miceta.game.core.managers;
 
 import com.badlogic.gdx.Application;
 import com.badlogic.gdx.Gdx;
+import com.badlogic.gdx.audio.Sound;
 import com.badlogic.gdx.scenes.scene2d.Stage;
 import com.badlogic.gdx.utils.ArrayMap;
 import edu.ceta.vision.core.utils.BlocksMarkersMap;
@@ -63,6 +64,8 @@ public class CvBlocksManagerDesktop extends CvBlocksManager {
         tableIdValue = new ArrayMap<Integer,Integer>();
         initStrikesAndBlocksValues();
         currentBlocks = new HashSet<Block>();
+
+
 
     }
 
