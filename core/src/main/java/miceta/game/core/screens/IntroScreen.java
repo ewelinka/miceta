@@ -105,10 +105,6 @@ public class IntroScreen extends AbstractGameScreen {
                     AudioManager.instance.playWithoutInterruption(Assets.instance.sounds.newblock); // TODO change to "JUGAR" audio whan available
                 }
             }
-            @Override
-            public void exit(InputEvent event, float x, float y, int pointer, Actor toActor) {
-                Gdx.app.log(TAG,"exit");
-            }
         });
         stage.addActor(btnPlay);
     }
