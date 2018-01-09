@@ -2,6 +2,7 @@ package miceta.game.core.screens;
 
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.InputProcessor;
+import com.badlogic.gdx.audio.Sound;
 import com.badlogic.gdx.graphics.GL20;
 import com.badlogic.gdx.scenes.scene2d.Actor;
 import com.badlogic.gdx.scenes.scene2d.Stage;
@@ -12,6 +13,13 @@ import miceta.game.core.Assets;
 import miceta.game.core.miCeta;
 import miceta.game.core.transitions.ScreenTransition;
 import miceta.game.core.transitions.ScreenTransitionFade;
+import miceta.game.core.util.AudioManager;
+
+
+import javax.accessibility.Accessible;
+import javax.accessibility.AccessibleContext;
+import javax.swing.*;
+import java.util.ArrayList;
 
 /**
  * Created by ewe on 1/5/18.
@@ -26,11 +34,19 @@ public class IntroScreen extends AbstractGameScreen {
 
     @Override
     public void render(float deltaTime) {
-        Gdx.gl.glClearColor(0, 0, 0, 1);
+        //Gdx.gl.glClearColor(0, 0, 0, 1);
+
+
+
+        Gdx.gl.glClearColor(1, 1, 1, 0.5f);
+
         //Gdx.gl.glClearColor(0x64 / 255.0f, 0x95 / 255.0f,0xed / 255.0f, 0xff / 255.0f);
         Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT);
         stage.act(deltaTime);
         stage.draw();
+
+
+
 
     }
 
@@ -48,6 +64,10 @@ public class IntroScreen extends AbstractGameScreen {
         addBtnHelp(viewportWidth/2 - 300/2, 30 + (30 + 150)*1 );
         addBtnNewStart(viewportWidth/2 - 300/2, 30 +(30 + 150)*2);
         addBtnPlay(viewportWidth/2 - 300/2, 30 +(30 + 150)*3 ); // top button
+
+
+
+
 
     }
 
@@ -127,7 +147,7 @@ public class IntroScreen extends AbstractGameScreen {
                 break;
             case "help":
                 // TODO implement tutorial and then go from here to this tutorial
-                game.setScreen(new FeedbackScreen(game),transition);
+                game.setScreen(new ConcreteTurorial(game),transition);
                 break;
         }
 

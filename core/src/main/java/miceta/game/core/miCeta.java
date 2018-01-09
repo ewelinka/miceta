@@ -26,12 +26,19 @@ public class miCeta extends DirectedGame {
 		this.frameBlocked = false;
 		Assets.instance.init(new AssetManager());
 		AudioManager.instance.play(Assets.instance.music.song01);
+
+
 		GamePreferences.instance.load();
 		ScreenTransition transition = ScreenTransitionFade.init(1);
 		topCodeDetector = null;
 		//setScreen(new TestScreen(this),transition);
 		setScreen(new IntroScreen(this),transition);
 		//LevelsManager levelsManager = LevelsManager.getInstance(); // inicializate level manager -- no seria necesario porque es singleton.
+
+
+
+
+
 
 	}
 

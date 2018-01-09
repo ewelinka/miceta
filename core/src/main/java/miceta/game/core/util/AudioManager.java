@@ -9,6 +9,7 @@ import com.badlogic.gdx.scenes.scene2d.Stage;
 import com.badlogic.gdx.scenes.scene2d.actions.Actions;
 import com.badlogic.gdx.scenes.scene2d.actions.SequenceAction;
 import com.badlogic.gdx.utils.ArrayMap;
+
 import miceta.game.core.Assets;
 import miceta.game.core.controllers.CvWorldController;
 import miceta.game.core.managers.CvBlocksManager;
@@ -30,7 +31,7 @@ public class AudioManager {
     public static final AudioManager instance = new AudioManager();
     private Music playingMusic;
     private Sound currentSound;
-    private SequenceAction readFeedbackAction, readBlocksAction, readCorrectSolutionAction;
+    private SequenceAction readFeedbackAction, readBlocksAction, readCorrectSolutionAction, readTutorialAction;
     private float defaultVolSound = 0.5f;
     private float firstNoteVol = 1.0f;
     private Actor reader;
@@ -43,10 +44,6 @@ public class AudioManager {
     private Sound   nb_sound = Assets.instance.sounds.newblock;
     private Music  nb_sound_loop = Assets.instance.music.new_block_loop;
 
-
-
-
-
     private AudioManager () { }
 
     public void setStage(Stage stage){
@@ -56,6 +53,7 @@ public class AudioManager {
         readFeedbackAction = new SequenceAction(); // for feedback reading
         readBlocksAction = new SequenceAction(); // for detected blocks reading
         readCorrectSolutionAction = new SequenceAction(); // for correct number and yuju
+        readTutorialAction = new SequenceAction();
     }
 
     public void play (Sound sound) {
@@ -75,10 +73,13 @@ public class AudioManager {
     public void play (Music music) {
         stopMusic();
         playingMusic = music;
-
         music.setLooping(true);
         music.setVolume(0.01f);
         music.play();
+
+
+       //
+
 
      /*   if (newblock_loop) {
             Sound nb_sound;
@@ -107,11 +108,9 @@ public class AudioManager {
     public void playNewBlockSong_loop(){
 
         if (newblock_loop){
-
             nb_sound_loop.setLooping(true);
             nb_sound_loop.setVolume(0.1f);
             nb_sound_loop.play();
-
         }
         else{
             nb_sound_loop.pause();
@@ -120,9 +119,32 @@ public class AudioManager {
     }
 
 
+    public float reproduceSounds(ArrayList<Sound> SoundsToReproduce){
+        float duration_total =  0;
+        reader.addAction(readTutorialAction);
+        readTutorialAction.reset();
+        for (int i = 0; i < SoundsToReproduce.size(); i++){
 
+            float duration_aux = Assets.instance.getSoundDuration(SoundsToReproduce.get(i));
+            duration_total = duration_total + duration_aux;
+            final Sound aux = SoundsToReproduce.get(i);
+
+            readTutorialAction.addAction(run(new Runnable() {
+                public void run() {
+                    playWithoutInterruption(aux,true); // knocks with which volume??
+                }
+            }));
+             readTutorialAction.addAction((delay(duration_aux)));
+        }
+
+        Gdx.app.log(TAG, "============================= " + duration_total);
+
+        return duration_total;
+    }
 
     public void playNewBlockSong()  {
+
+
         nb_sound.play(defaultVolSound);
     }
 
@@ -135,9 +157,9 @@ public class AudioManager {
         else {
             soundToPlay = Assets.instance.sounds.addblock;
 
-
         }
         soundToPlay.play(defaultVolSound);
+
     }
 
     public void setDelay_quit(boolean hasDelay){
@@ -446,6 +468,28 @@ public class AudioManager {
         return newblock_loop;
 
     }
+
+
+    public float reproduce_concrete_tutorial(){
+        ArrayList<Sound> soundsToReproduce = new ArrayList<Sound>();
+
+        soundsToReproduce.add(Assets.instance.sounds.ct_1);
+        soundsToReproduce.add(Assets.instance.sounds.ct_2);
+        soundsToReproduce.add(Assets.instance.sounds.newblock);
+        soundsToReproduce.add(Assets.instance.sounds.ct_3);
+        soundsToReproduce.add(Assets.instance.sounds.ct_4);
+        soundsToReproduce.add(Assets.instance.sounds.ct_5);
+        soundsToReproduce.add(Assets.instance.sounds.ct_6);
+        soundsToReproduce.add(Assets.instance.sounds.ct_7);
+        soundsToReproduce.add(Assets.instance.sounds.ct_8);
+        soundsToReproduce.add(Assets.instance.sounds.ct_9);
+        soundsToReproduce.add(Assets.instance.sounds.ct_10);
+        soundsToReproduce.add(Assets.instance.sounds.ct_11);
+
+        return AudioManager.instance.reproduceSounds(soundsToReproduce);
+
+    }
+
 
 
 

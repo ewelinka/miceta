@@ -2,6 +2,7 @@ package miceta.game.core.managers;
 
 import com.badlogic.gdx.Application;
 import com.badlogic.gdx.Gdx;
+import com.badlogic.gdx.audio.Sound;
 import com.badlogic.gdx.scenes.scene2d.Stage;
 import com.badlogic.gdx.utils.ArrayMap;
 import edu.ceta.vision.core.utils.BlocksMarkersMap;
@@ -9,6 +10,7 @@ import edu.ceta.vision.android.topcode.TopCodeDetectorAndroid;
 import edu.ceta.vision.core.blocks.Block;
 import edu.ceta.vision.core.topcode.TopCodeDetector;
 import edu.ceta.vision.core.topcode.TopCodeDetectorDesktop;
+import miceta.game.core.Assets;
 import miceta.game.core.miCeta;
 import miceta.game.core.util.AudioManager;
 import miceta.game.core.util.Constants;
@@ -46,9 +48,18 @@ public abstract class CvBlocksManager {
     {
         this.game = game;
         init();
+
+
+
     }
 
-    public abstract void init();
+    public abstract void init(
+
+
+
+
+
+    );
     public abstract void updateDetected();
 
     public void analyseDetected(){
