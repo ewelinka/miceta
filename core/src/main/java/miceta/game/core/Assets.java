@@ -84,6 +84,9 @@ public class Assets implements Disposable, AssetErrorListener {
         assetManager.load("sounds/masPiezas.wav", Sound.class);
         assetManager.load("sounds/menosPiezas.wav", Sound.class);
 
+
+        /*
+
         assetManager.load("sounds/c_tutorial/1_intro.wav", Sound.class);
         assetManager.load("sounds/c_tutorial/2_este_sonido.wav", Sound.class);
         assetManager.load("sounds/c_tutorial/3_significa.wav", Sound.class);
@@ -95,6 +98,23 @@ public class Assets implements Disposable, AssetErrorListener {
         assetManager.load("sounds/c_tutorial/9_oigamos.wav", Sound.class);
         assetManager.load("sounds/c_tutorial/10_tambien_se.wav", Sound.class);
         assetManager.load("sounds/c_tutorial/11_cuando_hay.wav", Sound.class);
+*/
+        assetManager.load("sounds/concreto/1.mp3", Sound.class);
+        assetManager.load("sounds/concreto/2.mp3", Sound.class);
+        assetManager.load("sounds/concreto/3.mp3", Sound.class);
+        assetManager.load("sounds/concreto/4.mp3", Sound.class);
+        assetManager.load("sounds/concreto/5.mp3", Sound.class);
+        assetManager.load("sounds/concreto/6.mp3", Sound.class);
+        assetManager.load("sounds/concreto/7.mp3", Sound.class);
+        assetManager.load("sounds/concreto/8.mp3", Sound.class);
+        assetManager.load("sounds/concreto/9.mp3", Sound.class);
+
+       // assetManager.load("sounds/c_tutorial/10", Sound.class);
+        //assetManager.load("sounds/c_tutorial/11_cuando_hay.wav", Sound.class);
+
+
+
+
 
 
 
@@ -128,7 +148,7 @@ public class Assets implements Disposable, AssetErrorListener {
 
     public class AssetSounds {
         public final Sound f1, f2, f3, f4, f5, f6, f7, f8, f9, f10, f11, f12, f13, f14, f15;
-        public final Sound ct_1,ct_2,ct_3,ct_4,ct_5,ct_6,ct_7,ct_8,ct_9,ct_10, ct_11;
+        public final Sound ct_1,ct_2,ct_3,ct_4,ct_5,ct_6,ct_7,ct_8,ct_9; /*ct_10, ct_11;*/
         public final Sound oneDo, oneRe, oneMi, oneFa, oneSol;
         public final Sound puck,yuju, newblock, addblock, quitblock, tada;
         public final Sound d1,d2,d3,d4,d5,d6,d7,d8,d9,d10;
@@ -197,6 +217,7 @@ public class Assets implements Disposable, AssetErrorListener {
             d9 = soundWithDuration("sounds/d9.wav", am);
             d10 = soundWithDuration("sounds/d10.wav", am);
 
+            /*
             ct_1 = soundWithDuration("sounds/c_tutorial/1_intro.wav", am);
             ct_2 = soundWithDuration("sounds/c_tutorial/2_este_sonido.wav", am);
             ct_3 = soundWithDuration("sounds/c_tutorial/3_significa.wav", am);
@@ -208,7 +229,17 @@ public class Assets implements Disposable, AssetErrorListener {
             ct_9 = soundWithDuration("sounds/c_tutorial/9_oigamos.wav", am);
             ct_10 = soundWithDuration("sounds/c_tutorial/10_tambien_se.wav", am);
             ct_11 = soundWithDuration("sounds/c_tutorial/11_cuando_hay.wav", am);
+*/
 
+            ct_1 = soundWithDuration("sounds/concreto/1.mp3", am);
+            ct_2 = soundWithDuration("sounds/concreto/2.mp3", am);
+            ct_3 = soundWithDuration("sounds/concreto/3.mp3", am);
+            ct_4 = soundWithDuration("sounds/concreto/4.mp3", am);
+            ct_5 = soundWithDuration("sounds/concreto/5.mp3", am);
+            ct_6 = soundWithDuration("sounds/concreto/6.mp3", am);
+            ct_7 = soundWithDuration("sounds/concreto/7.mp3", am);
+            ct_8 = soundWithDuration("sounds/concreto/8.mp3", am);
+            ct_9 = soundWithDuration("sounds/concreto/9.mp3", am);
 
 
 

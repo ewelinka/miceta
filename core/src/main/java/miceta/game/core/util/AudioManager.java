@@ -119,28 +119,6 @@ public class AudioManager {
     }
 
 
-    public float reproduceSounds(ArrayList<Sound> SoundsToReproduce){
-        float duration_total =  0;
-        reader.addAction(readTutorialAction);
-        readTutorialAction.reset();
-        for (int i = 0; i < SoundsToReproduce.size(); i++){
-
-            float duration_aux = Assets.instance.getSoundDuration(SoundsToReproduce.get(i));
-            duration_total = duration_total + duration_aux;
-            final Sound aux = SoundsToReproduce.get(i);
-
-            readTutorialAction.addAction(run(new Runnable() {
-                public void run() {
-                    playWithoutInterruption(aux,true); // knocks with which volume??
-                }
-            }));
-             readTutorialAction.addAction((delay(duration_aux)));
-        }
-
-        Gdx.app.log(TAG, "============================= " + duration_total);
-
-        return duration_total;
-    }
 
     public void playNewBlockSong()  {
 
@@ -469,8 +447,31 @@ public class AudioManager {
 
     }
 
+    public float reproduceSounds(ArrayList<Sound> SoundsToReproduce, int start, int end){
+        float duration_total =  0;
+        reader.addAction(readTutorialAction);
+        readTutorialAction.reset();
+     //   for (int i = 0; i < SoundsToReproduce.size(); i++){
+        for (int i = start; i <= end; i++){
 
-    public float reproduce_concrete_tutorial(){
+            float duration_aux = Assets.instance.getSoundDuration(SoundsToReproduce.get(i));
+            duration_total = duration_total + duration_aux;
+            final Sound aux = SoundsToReproduce.get(i);
+
+            readTutorialAction.addAction(run(new Runnable() {
+                public void run() {
+                    playWithoutInterruption(aux,true); // knocks with which volume??
+                }
+            }));
+            readTutorialAction.addAction((delay(duration_aux)));
+        }
+
+        Gdx.app.log(TAG, "============================= " + duration_total);
+
+        return duration_total;
+    }
+
+    public float reproduce_concrete_tutorial(int start, int end){
         ArrayList<Sound> soundsToReproduce = new ArrayList<Sound>();
 
         soundsToReproduce.add(Assets.instance.sounds.ct_1);
@@ -480,17 +481,28 @@ public class AudioManager {
         soundsToReproduce.add(Assets.instance.sounds.ct_4);
         soundsToReproduce.add(Assets.instance.sounds.ct_5);
         soundsToReproduce.add(Assets.instance.sounds.ct_6);
-        soundsToReproduce.add(Assets.instance.sounds.ct_7);
-        soundsToReproduce.add(Assets.instance.sounds.ct_8);
-        soundsToReproduce.add(Assets.instance.sounds.ct_9);
-        soundsToReproduce.add(Assets.instance.sounds.ct_10);
-        soundsToReproduce.add(Assets.instance.sounds.ct_11);
 
-        return AudioManager.instance.reproduceSounds(soundsToReproduce);
+        soundsToReproduce.add(Assets.instance.sounds.oneDo);
+        soundsToReproduce.add(Assets.instance.sounds.oneRe);
+        soundsToReproduce.add(Assets.instance.sounds.oneMi);
+        soundsToReproduce.add(Assets.instance.sounds.oneFa);
+        soundsToReproduce.add(Assets.instance.sounds.oneSol);
+
+
+
+
+
+
+        //soundsToReproduce.add(Assets.instance.sounds.ct_7);
+        //soundsToReproduce.add(Assets.instance.sounds.ct_8);
+        //soundsToReproduce.add(Assets.instance.sounds.ct_9);
+        //oundsToReproduce.add(Assets.instance.sounds.ct_9);
+       // soundsToReproduce.add(Assets.instance.sounds.ct_9);
+        //soundsToReproduce.add(Assets.instance.sounds.ct_10);
+        //soundsToReproduce.add(Assets.instance.sounds.ct_11);
+
+        return AudioManager.instance.reproduceSounds(soundsToReproduce, start, end);
 
     }
-
-
-
 
 }

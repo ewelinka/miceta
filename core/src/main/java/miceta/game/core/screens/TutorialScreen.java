@@ -1,0 +1,34 @@
+package miceta.game.core.screens;
+
+import com.badlogic.gdx.Gdx;
+import com.badlogic.gdx.graphics.glutils.ShapeRenderer;
+import com.badlogic.gdx.scenes.scene2d.Stage;
+import com.badlogic.gdx.utils.viewport.FitViewport;
+import miceta.game.core.controllers.CvWorldController;
+import miceta.game.core.controllers.CvWorldControllerFeedback;
+import miceta.game.core.controllers.CvWorldControllerTutorial;
+import miceta.game.core.miCeta;
+import miceta.game.core.util.Constants;
+
+/**
+ * Created by ewe on 11/16/17.
+ */
+public class TutorialScreen extends TestScreen {
+    private static final String TAG = TutorialScreen.class.getName();
+
+    public TutorialScreen(miCeta game) {
+        super(game);
+    }
+
+    @Override
+    public void show() {
+        Gdx.app.log(TAG," we start the SHOW! "+Gdx.graphics.getWidth());
+        stage = new Stage(new FitViewport(viewportWidth , viewportHeight));
+        worldController = new CvWorldControllerTutorial(game,stage);
+        shapeRenderer = new ShapeRenderer();
+
+        // android back key used to exit, we should not catch
+        Gdx.input.setCatchBackKey(false);
+
+    }
+}
