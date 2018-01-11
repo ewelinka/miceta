@@ -44,8 +44,6 @@ public class AudioManager {
     private Sound   nb_sound = Assets.instance.sounds.newblock;
     private Music  nb_sound_loop = Assets.instance.music.new_block_loop;
 
-    private ArrayList<Sound> SoundsToReproduce = new ArrayList<Sound>();
-
     private AudioManager () { }
 
     public void setStage(Stage stage){
@@ -472,23 +470,23 @@ public class AudioManager {
     }
 
 
-    public void reproduce_concrete_tutorial(){
+    public float reproduce_concrete_tutorial(){
+        ArrayList<Sound> soundsToReproduce = new ArrayList<Sound>();
 
+        soundsToReproduce.add(Assets.instance.sounds.ct_1);
+        soundsToReproduce.add(Assets.instance.sounds.ct_2);
+        soundsToReproduce.add(Assets.instance.sounds.newblock);
+        soundsToReproduce.add(Assets.instance.sounds.ct_3);
+        soundsToReproduce.add(Assets.instance.sounds.ct_4);
+        soundsToReproduce.add(Assets.instance.sounds.ct_5);
+        soundsToReproduce.add(Assets.instance.sounds.ct_6);
+        soundsToReproduce.add(Assets.instance.sounds.ct_7);
+        soundsToReproduce.add(Assets.instance.sounds.ct_8);
+        soundsToReproduce.add(Assets.instance.sounds.ct_9);
+        soundsToReproduce.add(Assets.instance.sounds.ct_10);
+        soundsToReproduce.add(Assets.instance.sounds.ct_11);
 
-        SoundsToReproduce.add(Assets.instance.sounds.ct_1);
-        SoundsToReproduce.add(Assets.instance.sounds.ct_2);
-        SoundsToReproduce.add(Assets.instance.sounds.newblock);
-        SoundsToReproduce.add(Assets.instance.sounds.ct_3);
-        SoundsToReproduce.add(Assets.instance.sounds.ct_4);
-        SoundsToReproduce.add(Assets.instance.sounds.ct_5);
-        SoundsToReproduce.add(Assets.instance.sounds.ct_6);
-        SoundsToReproduce.add(Assets.instance.sounds.ct_7);
-        SoundsToReproduce.add(Assets.instance.sounds.ct_8);
-        SoundsToReproduce.add(Assets.instance.sounds.ct_9);
-        SoundsToReproduce.add(Assets.instance.sounds.ct_10);
-        SoundsToReproduce.add(Assets.instance.sounds.ct_11);
-
-        AudioManager.instance.reproduceSounds(SoundsToReproduce);
+        return AudioManager.instance.reproduceSounds(soundsToReproduce);
 
     }
 
