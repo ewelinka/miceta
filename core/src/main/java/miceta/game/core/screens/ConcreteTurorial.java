@@ -9,6 +9,7 @@ import miceta.game.core.miCeta;
 import miceta.game.core.util.AudioManager;
 
 import java.util.ArrayList;
+import java.util.Random;
 
 /**
  * Created by ewe on 1/9/18.
@@ -19,13 +20,12 @@ public class ConcreteTurorial extends AbstractGameScreen {
     private int part = 0;
     private int t_part = 0;
     private int t_aux_number =0;
+    private int knock_counter =0;
 
     public ConcreteTurorial(miCeta game, int part, int aux_number) {
-
         super(game);
         t_part = part;
         t_aux_number =  aux_number;
-
     }
 
     @Override
@@ -35,11 +35,67 @@ public class ConcreteTurorial extends AbstractGameScreen {
         Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT);
         stage.act(deltaTime);
         stage.draw();
-        if(timePassed > tutorialDuration){
+
+        if((t_part==0) && (timePassed > tutorialDuration)){
            // game.setScreen(new FeedbackScreen(game));
             game.setScreen(new TutorialScreen(game));
         }
+        else  if((t_part==1) && (timePassed > tutorialDuration)){
 
+            timePassed =0;
+            tutorialDuration = AudioManager.instance.reproduce_concrete_tutorial(7,7);
+            t_part = 3;
+        }
+        else if((t_part==3) && (timePassed > tutorialDuration)){
+
+            ArrayList<Integer>  nowDetected = new ArrayList<>();
+            nowDetected.add((t_aux_number));
+            AudioManager.instance.readBlocks(nowDetected, 0);
+
+            timePassed = 0;
+            tutorialDuration =0;
+            for (int i = 0; i < nowDetected.size(); i++) {
+                tutorialDuration = tutorialDuration + nowDetected.get(i);
+            }
+            t_part = 4;
+        }
+        else if((t_part==4) && (timePassed > tutorialDuration)){
+
+            timePassed = 0;
+            tutorialDuration = AudioManager.instance.reproduce_concrete_tutorial(8,8);
+            t_part = 5;
+        }
+        else if((t_part==5) && (timePassed > tutorialDuration)){
+
+            ArrayList<Integer>  nowDetected = new ArrayList<>();
+            nowDetected.add((t_aux_number));
+            nowDetected.add((4));
+            AudioManager.instance.readBlocks(nowDetected, 0);
+
+            timePassed = 0;
+            tutorialDuration =0;
+            for (int i = 0; i < nowDetected.size(); i++) {
+                tutorialDuration = tutorialDuration + nowDetected.get(i);
+            }
+            t_part = 6;
+        }
+
+        else if((t_part==6) && (timePassed > tutorialDuration)){
+            timePassed = 0;
+            tutorialDuration = AudioManager.instance.reproduce_concrete_tutorial(9,9);
+            t_part = 7;
+        }
+        else if((t_part==7) && (timePassed > tutorialDuration && ( knock_counter < t_aux_number))){
+
+            game.setScreen(new TestScreen(game));
+
+            // game.setScreen(new TutorialScreen(game));
+           // knock_counter ++;
+            //timePassed = 0;
+            //tutorialDuration = AudioManager.instance.reproduce_concrete_tutorial(10,10);
+            //tutorialDuration = 0.5f;
+
+        }
     }
 
     @Override
@@ -55,14 +111,20 @@ public class ConcreteTurorial extends AbstractGameScreen {
         AudioManager.instance.setStage(stage);
 
         if (t_part == 0){
-            tutorialDuration = AudioManager.instance.reproduce_concrete_tutorial(0,5);
+            tutorialDuration = AudioManager.instance.reproduce_concrete_tutorial(0,4);
         }
+
         else if (t_part == 1){
 
           ArrayList<Integer>  nowDetected = new ArrayList<>();
           nowDetected.add((t_aux_number));
           AudioManager.instance.readBlocks(nowDetected, 0);
-            tutorialDuration = 3; //calcular bien esto
+
+          tutorialDuration =0;
+          for (int i = 0; i < nowDetected.size(); i++) {
+              tutorialDuration = tutorialDuration + nowDetected.get(i);
+          }
+
 
         }
 

@@ -481,12 +481,16 @@ public class AudioManager {
         soundsToReproduce.add(Assets.instance.sounds.ct_4);
         soundsToReproduce.add(Assets.instance.sounds.ct_5);
         soundsToReproduce.add(Assets.instance.sounds.ct_6);
+        soundsToReproduce.add(Assets.instance.sounds.ct_7);
+        soundsToReproduce.add(Assets.instance.sounds.ct_8);
+        soundsToReproduce.add(Assets.instance.sounds.ct_9);
+        soundsToReproduce.add(Assets.instance.sounds.d1);
 
-        soundsToReproduce.add(Assets.instance.sounds.oneDo);
-        soundsToReproduce.add(Assets.instance.sounds.oneRe);
-        soundsToReproduce.add(Assets.instance.sounds.oneMi);
-        soundsToReproduce.add(Assets.instance.sounds.oneFa);
-        soundsToReproduce.add(Assets.instance.sounds.oneSol);
+
+
+
+
+
 
 
 

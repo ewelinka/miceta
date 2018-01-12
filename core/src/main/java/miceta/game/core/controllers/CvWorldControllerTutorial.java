@@ -27,6 +27,8 @@ public class CvWorldControllerTutorial extends CvWorldController {
     private float timePassed_t = 0;
     ArrayList<Integer> nowDetected;
     int suma = 0;
+    private int inactivity =0;
+
 
     @Override
     protected void init(){
@@ -73,6 +75,10 @@ public class CvWorldControllerTutorial extends CvWorldController {
             if( sum > 0){
 
                // AudioManager.instance.readBlocks(nowDetected, extraDelayBetweenFeedback);
+            }
+            if((timePassed_t> 5)) {
+                tutorialDuration = AudioManager.instance.reproduce_concrete_tutorial(5,5);
+                timePassed_t =0;
             }
 
 
