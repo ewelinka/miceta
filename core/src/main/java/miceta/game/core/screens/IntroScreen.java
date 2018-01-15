@@ -28,7 +28,7 @@ import java.util.ArrayList;
  */
 public class IntroScreen extends AbstractGameScreen {
     public static final String TAG = IntroScreen.class.getName();
-    private ImageButton btnPlay, btnExit, btnHelp, btnNewStart;
+    private ImageButton btnPlay, btnExit, btnHelp, btnNewStart, btnOrganicTutorial;
 
     public IntroScreen(miCeta game) {
         super(game);
@@ -49,6 +49,7 @@ public class IntroScreen extends AbstractGameScreen {
         stage = new Stage(new FitViewport(viewportWidth , viewportHeight));
         Gdx.input.setCatchBackKey(false);
         // btn 300 x 150, screen 1366 x 768
+        addBtnOrganicTutorial(30, 30 ); // TODO just for testing!
         addBtnExit(viewportWidth/2 - 300/2, 30 ); // last btn
         addBtnHelp(viewportWidth/2 - 300/2, 30 + (30 + 150)*1 );
         addBtnNewStart(viewportWidth/2 - 300/2, 30 +(30 + 150)*2);
@@ -113,6 +114,17 @@ public class IntroScreen extends AbstractGameScreen {
         });
         stage.addActor(btnHelp);
     }
+    private void addBtnOrganicTutorial(int x, int y){
+        btnOrganicTutorial = new ImageButton(Assets.instance.buttons.helpButtonStyle);
+        btnOrganicTutorial.setPosition(x,y);
+        btnOrganicTutorial.addListener(new ChangeListener() {
+            @Override
+            public void changed (ChangeEvent event, Actor actor) {
+                onBtnClicked("organic");
+            }
+        });
+        stage.addActor(btnOrganicTutorial);
+    }
 
     private void onBtnClicked(String btnType) {
         ScreenTransition transition = ScreenTransitionFade.init(1);
@@ -129,10 +141,15 @@ public class IntroScreen extends AbstractGameScreen {
                 break;
             case "help":
                 // TODO implement tutorial and then go from here to this tutorial
-                //game.setScreen(new ConcreteTurorial(game),transition);
+                game.setScreen(new ConcreteTurorial(game),transition);
+                break;
+            case "organic":
+                // TODO should not be in menu, we put it now for testing
+                //game.setScreen(new ConcreteTutorial(game),transition);
                 game.setScreen(new OrganicTutorial1AudioScreen(game,1,3),transition);
                 break;
         }
+
 
     }
 
