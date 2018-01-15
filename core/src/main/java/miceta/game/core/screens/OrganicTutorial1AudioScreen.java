@@ -3,11 +3,8 @@ package miceta.game.core.screens;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.InputProcessor;
 import com.badlogic.gdx.graphics.GL20;
-import com.badlogic.gdx.graphics.glutils.ShapeRenderer;
 import com.badlogic.gdx.scenes.scene2d.Stage;
 import com.badlogic.gdx.utils.viewport.FitViewport;
-import miceta.game.core.Assets;
-import miceta.game.core.controllers.CvWorldControllerFeedback;
 import miceta.game.core.miCeta;
 import miceta.game.core.util.AudioManager;
 

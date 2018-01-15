@@ -34,7 +34,7 @@ public class TestScreen extends AbstractGameScreen {
     private int shiftY =200;
     private BitmapFont font = new BitmapFont();
     private SpriteBatch spriteBatch  = new SpriteBatch();
-    private FeedbackDrawManager fd;
+    protected FeedbackDrawManager fd;
 
 
     public TestScreen(miCeta game){

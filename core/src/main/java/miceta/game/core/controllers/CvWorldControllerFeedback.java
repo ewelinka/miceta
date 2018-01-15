@@ -21,7 +21,6 @@ public class CvWorldControllerFeedback extends CvWorldController {
     protected void init(){
         Gdx.app.log(TAG,"init in the cv blocks manager");
         timeToWait = 2; // two seconds before we start!
-        AudioManager.instance.reproduce_concrete_tutorial();
     }
 
     @Override
@@ -37,9 +36,9 @@ public class CvWorldControllerFeedback extends CvWorldController {
             timeToWait =  sum*(Constants.READ_ONE_UNIT_DURATION + extraDelayBetweenFeedback)+ waitAfterKnock;
             timePassed = 0;
 
-            if(sum > 0)
+            if(sum > 0) {
                 AudioManager.instance.readBlocks(nowDetected, extraDelayBetweenFeedback);
-
+            }
         }
     }
 }
