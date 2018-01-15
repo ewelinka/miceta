@@ -98,6 +98,7 @@ public class Assets implements Disposable, AssetErrorListener {
         assetManager.load("sounds/c_tutorial/9_oigamos.wav", Sound.class);
         assetManager.load("sounds/c_tutorial/10_tambien_se.wav", Sound.class);
         assetManager.load("sounds/c_tutorial/11_cuando_hay.wav", Sound.class);
+
 */
         assetManager.load("sounds/concreto/1.mp3", Sound.class);
         assetManager.load("sounds/concreto/2.mp3", Sound.class);
@@ -113,6 +114,12 @@ public class Assets implements Disposable, AssetErrorListener {
         //assetManager.load("sounds/c_tutorial/11_cuando_hay.wav", Sound.class);
 
 
+
+        //micro mundo 1
+        assetManager.load("sounds/mm1_tutorial/mm1_1.mp3", Sound.class);
+        assetManager.load("sounds/mm1_tutorial/mm1_2.mp3", Sound.class);
+        assetManager.load("sounds/mm1_tutorial/mm1_tooMuch.mp3", Sound.class);
+        assetManager.load("sounds/mm1_tutorial/mm1_tooFew.mp3", Sound.class);
 
 
 
@@ -152,6 +159,7 @@ public class Assets implements Disposable, AssetErrorListener {
         public final Sound oneDo, oneRe, oneMi, oneFa, oneSol;
         public final Sound puck,yuju, newblock, addblock, quitblock, tada;
         public final Sound d1,d2,d3,d4,d5,d6,d7,d8,d9,d10;
+        public final Sound tmm1_1,tmm1_2,tmm1_tooMuch,tmm1_tooFew;
 
         //concrete tutorial
 
@@ -231,6 +239,7 @@ public class Assets implements Disposable, AssetErrorListener {
             ct_11 = soundWithDuration("sounds/c_tutorial/11_cuando_hay.wav", am);
 */
 
+
             ct_1 = soundWithDuration("sounds/concreto/1.mp3", am);
             ct_2 = soundWithDuration("sounds/concreto/2.mp3", am);
             ct_3 = soundWithDuration("sounds/concreto/3.mp3", am);
@@ -240,6 +249,12 @@ public class Assets implements Disposable, AssetErrorListener {
             ct_7 = soundWithDuration("sounds/concreto/7.mp3", am);
             ct_8 = soundWithDuration("sounds/concreto/8.mp3", am);
             ct_9 = soundWithDuration("sounds/concreto/9.mp3", am);
+
+
+            tmm1_1 = soundWithDuration("sounds/mm1_tutorial/mm1_1.mp3", am);
+            tmm1_2 = soundWithDuration("sounds/mm1_tutorial/mm1_2.mp3", am);
+            tmm1_tooMuch = soundWithDuration("sounds/mm1_tutorial/mm1_tooMuch.mp3", am);
+            tmm1_tooFew = soundWithDuration("sounds/mm1_tutorial/mm1_tooFew.mp3", am);
 
 
 
