@@ -122,7 +122,10 @@ public class Assets implements Disposable, AssetErrorListener {
         assetManager.load("sounds/mm1_tutorial/mm1_tooFew.mp3", Sound.class);
 
 
-
+        assetManager.load("sounds/opciones/jugar.wav", Sound.class);
+        assetManager.load("sounds/opciones/denuevo.wav", Sound.class);
+        assetManager.load("sounds/opciones/ayuda.wav", Sound.class);
+        assetManager.load("sounds/opciones/salir.wav", Sound.class);
 
 
         // start loading assets and wait until finished
@@ -160,6 +163,7 @@ public class Assets implements Disposable, AssetErrorListener {
         public final Sound puck,yuju, newblock, addblock, quitblock, tada;
         public final Sound d1,d2,d3,d4,d5,d6,d7,d8,d9,d10;
         public final Sound tmm1_1,tmm1_2,tmm1_tooMuch,tmm1_tooFew;
+        public final Sound jugar, denuevo, ayuda, salir;
 
         //concrete tutorial
 
@@ -255,6 +259,11 @@ public class Assets implements Disposable, AssetErrorListener {
             tmm1_2 = soundWithDuration("sounds/mm1_tutorial/mm1_2.mp3", am);
             tmm1_tooMuch = soundWithDuration("sounds/mm1_tutorial/mm1_tooMuch.mp3", am);
             tmm1_tooFew = soundWithDuration("sounds/mm1_tutorial/mm1_tooFew.mp3", am);
+
+            jugar = soundWithDuration("sounds/opciones/jugar.wav", am);
+            denuevo = soundWithDuration("sounds/opciones/denuevo.wav", am);
+            ayuda = soundWithDuration("sounds/opciones/ayuda.wav", am);
+            salir = soundWithDuration("sounds/opciones/salir.wav", am);
 
 
 

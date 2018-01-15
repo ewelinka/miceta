@@ -90,6 +90,18 @@ public class IntroScreen extends AbstractGameScreen {
                 onBtnClicked("exit");
             }
         });
+
+        btnExit.addListener(new InputListener(){
+            @Override
+            public  void    enter(InputEvent event, float x, float y, int pointer, Actor fromActor){
+                if(pointer == -1) { // if not, on btn click the audio file is played again (without any need)
+                    AudioManager.instance.playWithoutInterruption(Assets.instance.sounds.salir); // TODO change to "JUGAR" audio whan available
+                }
+            }
+        });
+
+
+
         stage.addActor(btnExit);
     }
     private void addBtnNewStart(int x, int y){
@@ -101,6 +113,15 @@ public class IntroScreen extends AbstractGameScreen {
                 onBtnClicked("restart");
             }
         });
+        btnNewStart.addListener(new InputListener(){
+            @Override
+            public  void    enter(InputEvent event, float x, float y, int pointer, Actor fromActor){
+                if(pointer == -1) { // if not, on btn click the audio file is played again (without any need)
+                    AudioManager.instance.playWithoutInterruption(Assets.instance.sounds.denuevo); // TODO change to "JUGAR" audio whan available
+                }
+            }
+        });
+
         stage.addActor(btnNewStart);
     }
     private void addBtnHelp(int x, int y){
@@ -112,6 +133,15 @@ public class IntroScreen extends AbstractGameScreen {
                 onBtnClicked("help");
             }
         });
+        btnHelp.addListener(new InputListener(){
+            @Override
+            public  void    enter(InputEvent event, float x, float y, int pointer, Actor fromActor){
+                if(pointer == -1) { // if not, on btn click the audio file is played again (without any need)
+                    AudioManager.instance.playWithoutInterruption(Assets.instance.sounds.ayuda); // TODO change to "JUGAR" audio whan available
+                }
+            }
+        });
+
         stage.addActor(btnHelp);
     }
     private void addBtnOrganicTutorial(int x, int y){
