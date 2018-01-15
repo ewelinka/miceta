@@ -102,7 +102,7 @@ public class IntroScreen extends AbstractGameScreen {
             @Override
             public  void    enter(InputEvent event, float x, float y, int pointer, Actor fromActor){
                 if(pointer == -1) { // if not, on btn click the audio file is played again (without any need)
-                    AudioManager.instance.playWithoutInterruption(Assets.instance.sounds.newblock); // TODO change to "JUGAR" audio whan available
+                    AudioManager.instance.playWithoutInterruption(Assets.instance.sounds.jugar); // TODO change to "JUGAR" audio whan available
                 }
             }
         });
