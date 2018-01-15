@@ -21,6 +21,8 @@ public class ConcreteTurorial extends AbstractGameScreen {
     private int t_part = 0;
     private int t_aux_number =0;
     private int knock_counter =0;
+    private ArrayList<Integer>  nowDetected = new ArrayList<>();
+
 
     public ConcreteTurorial(miCeta game, int part, int aux_number) {
         super(game);
@@ -50,13 +52,7 @@ public class ConcreteTurorial extends AbstractGameScreen {
 
             ArrayList<Integer>  nowDetected = new ArrayList<>();
             nowDetected.add((t_aux_number));
-            AudioManager.instance.readBlocks(nowDetected, 0);
-
-            timePassed = 0;
-            tutorialDuration =0;
-            for (int i = 0; i < nowDetected.size(); i++) {
-                tutorialDuration = tutorialDuration + nowDetected.get(i);
-            }
+            reproduceBlocks(nowDetected);
             t_part = 4;
         }
         else if((t_part==4) && (timePassed > tutorialDuration)){
@@ -70,13 +66,7 @@ public class ConcreteTurorial extends AbstractGameScreen {
             ArrayList<Integer>  nowDetected = new ArrayList<>();
             nowDetected.add((t_aux_number));
             nowDetected.add((4));
-            AudioManager.instance.readBlocks(nowDetected, 0);
-
-            timePassed = 0;
-            tutorialDuration =0;
-            for (int i = 0; i < nowDetected.size(); i++) {
-                tutorialDuration = tutorialDuration + nowDetected.get(i);
-            }
+            reproduceBlocks(nowDetected);
             t_part = 6;
         }
 
@@ -114,20 +104,23 @@ public class ConcreteTurorial extends AbstractGameScreen {
             tutorialDuration = AudioManager.instance.reproduce_concrete_tutorial(0,4);
         }
 
-        else if (t_part == 1){
+         else if (t_part == 1){
 
-          ArrayList<Integer>  nowDetected = new ArrayList<>();
+            ArrayList<Integer>  nowDetected = new ArrayList<>();
           nowDetected.add((t_aux_number));
-          AudioManager.instance.readBlocks(nowDetected, 0);
-
-          tutorialDuration =0;
-          for (int i = 0; i < nowDetected.size(); i++) {
-              tutorialDuration = tutorialDuration + nowDetected.get(i);
-          }
-
-
+          reproduceBlocks( nowDetected);
         }
+    }
 
+
+    private void reproduceBlocks(ArrayList<Integer>  nowDetected){
+
+        AudioManager.instance.readBlocks(nowDetected, 0);
+        timePassed = 0;
+        tutorialDuration =0;
+        for (int i = 0; i < nowDetected.size(); i++) {
+            tutorialDuration = tutorialDuration + nowDetected.get(i);
+        }
     }
 
     @Override
