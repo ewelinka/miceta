@@ -84,10 +84,6 @@ public class ConcreteTurorial extends AbstractGameScreen {
         }
     }
 
-    @Override
-    public void resize(int width, int height) {
-
-    }
 
     @Override
     public void show() {
@@ -123,16 +119,7 @@ public class ConcreteTurorial extends AbstractGameScreen {
         }
     }
 
-    @Override
-    public void hide() {
-        stage.dispose();
 
-    }
-
-    @Override
-    public void pause() {
-
-    }
 
     public void up_part() {
         part = part+1;

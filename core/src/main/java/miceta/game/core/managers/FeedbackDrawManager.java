@@ -15,7 +15,7 @@ public class FeedbackDrawManager {
 
         if((Gdx.app.getType() == Application.ApplicationType.Android)) {
 
-                     shapeRenderer.rect((float) block.getCenter().y+shiftX, (float) block.getCenter().x+shiftY,
+            shapeRenderer.rect((float) block.getCenter().y+shiftX, (float) block.getCenter().x+shiftY,
                     Constants.BASE * block.getValue(), Constants.BASE,
                     Constants.BASE * block.getValue() / 2, Constants.BASE / 2,
                     radianToStage(block.getOrientation()));

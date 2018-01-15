@@ -38,19 +38,40 @@ public abstract class AbstractGameScreen  implements Screen {
 
 
     public abstract void render (float deltaTime);
-    public abstract void resize (int width, int height);
-    public abstract void show ();
-    public abstract void hide ();
-    public abstract void pause ();
 
+    @Override
+    public void resize(int width, int height) {
+
+    }
+
+    @Override
+    public void hide() {
+        Gdx.app.log(TAG," we start the HIDE of the screen ! " +Gdx.graphics.getWidth()+" h "+Gdx.graphics.getHeight());
+        dispose();
+
+    }
+
+    @Override
+    public void pause() {
+        Gdx.app.log(TAG," we start the PAUSE of the screen ! " +Gdx.graphics.getWidth()+" h "+Gdx.graphics.getHeight());
+        paused =true;
+
+    }
+
+    @Override
     public void resume () {
-        Gdx.app.log(TAG,"== resume assets instance");
-        //Assets.instance.init(new AssetManager());
+        Gdx.app.log(TAG," we start the RESUME of the screen ! " +Gdx.graphics.getWidth()+" h "+Gdx.graphics.getHeight());
+        // Only called on Android!
+        paused = false;
     }
-    public void dispose () {
-        Gdx.app.log(TAG,"== dispose assets instance");
-        Assets.instance.dispose();
+
+    @Override
+    public void dispose(){
+        Gdx.app.log(TAG," we start the DISPOSE of the screen ! " +Gdx.graphics.getWidth()+" h "+Gdx.graphics.getHeight());
+        stage.dispose();
+
     }
+
     public abstract InputProcessor getInputProcessor ();
 
 

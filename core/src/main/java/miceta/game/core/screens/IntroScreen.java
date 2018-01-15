@@ -28,7 +28,7 @@ import java.util.ArrayList;
  */
 public class IntroScreen extends AbstractGameScreen {
     public static final String TAG = IntroScreen.class.getName();
-    private ImageButton btnPlay, btnExit, btnHelp, btnNewStart;
+    private ImageButton btnPlay, btnExit, btnHelp, btnNewStart, btnOrganicTutorial;
 
     public IntroScreen(miCeta game) {
         super(game);
@@ -36,53 +36,26 @@ public class IntroScreen extends AbstractGameScreen {
 
     @Override
     public void render(float deltaTime) {
-        //Gdx.gl.glClearColor(0, 0, 0, 1);
-
-
-
         Gdx.gl.glClearColor(1, 1, 1, 0.5f);
-
         //Gdx.gl.glClearColor(0x64 / 255.0f, 0x95 / 255.0f,0xed / 255.0f, 0xff / 255.0f);
         Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT);
         stage.act(deltaTime);
         stage.draw();
-
-
-
-
     }
 
-    @Override
-    public void resize(int width, int height) {
-
-    }
 
     @Override
     public void show() {
         stage = new Stage(new FitViewport(viewportWidth , viewportHeight));
         Gdx.input.setCatchBackKey(false);
         // btn 300 x 150, screen 1366 x 768
+        addBtnOrganicTutorial(30, 30 ); // TODO just for testing!
         addBtnExit(viewportWidth/2 - 300/2, 30 ); // last btn
         addBtnHelp(viewportWidth/2 - 300/2, 30 + (30 + 150)*1 );
         addBtnNewStart(viewportWidth/2 - 300/2, 30 +(30 + 150)*2);
         addBtnPlay(viewportWidth/2 - 300/2, 30 +(30 + 150)*3 ); // top button
-
-
-
-
-
     }
 
-    @Override
-    public void hide() {
-        stage.dispose();
-
-    }
-
-    @Override
-    public void pause() {
-
-    }
 
     @Override
     public InputProcessor getInputProcessor() {
@@ -141,6 +114,17 @@ public class IntroScreen extends AbstractGameScreen {
         });
         stage.addActor(btnHelp);
     }
+    private void addBtnOrganicTutorial(int x, int y){
+        btnOrganicTutorial = new ImageButton(Assets.instance.buttons.helpButtonStyle);
+        btnOrganicTutorial.setPosition(x,y);
+        btnOrganicTutorial.addListener(new ChangeListener() {
+            @Override
+            public void changed (ChangeEvent event, Actor actor) {
+                onBtnClicked("organic");
+            }
+        });
+        stage.addActor(btnOrganicTutorial);
+    }
 
     private void onBtnClicked(String btnType) {
         ScreenTransition transition = ScreenTransitionFade.init(1);
@@ -159,7 +143,13 @@ public class IntroScreen extends AbstractGameScreen {
                 // TODO implement tutorial and then go from here to this tutorial
                 game.setScreen(new ConcreteTurorial(game,0, 0),transition);
                 break;
+            case "organic":
+                // TODO should not be in menu, we put it now for testing
+                //game.setScreen(new ConcreteTutorial(game),transition);
+                game.setScreen(new OrganicTutorial1AudioScreen(game,1,3),transition);
+                break;
         }
+
 
     }
 
