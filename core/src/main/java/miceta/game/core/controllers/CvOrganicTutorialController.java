@@ -20,8 +20,8 @@ public class CvOrganicTutorialController extends CvWorldController {
     private static final String TAG = CvOrganicTutorialController.class.getName();
     private int correctAnswersNr;
     private int correctAnswersNeeded;
-    //TODO
-    // check #correct answers to proceed
+    private int maxValue, minValue;
+
 
     public CvOrganicTutorialController(miCeta game, Stage stage, String feedbackSoundName) {
         super(game, stage, feedbackSoundName, Assets.instance.sounds.tmm1_tooMuch,Assets.instance.sounds.tmm1_tooFew);
@@ -30,17 +30,20 @@ public class CvOrganicTutorialController extends CvWorldController {
 
     @Override
     protected void init(){
-        numberToPlay = getNewRandomNumber(0,1,3);
+        minValue =1;
+        maxValue =3;
+
+        numberToPlay = getNewRandomNumber(0,minValue,maxValue);
         correctAnswersNr = 0;
         correctAnswersNeeded = 10; // we need 10 correct answers!
-        Gdx.app.log(TAG,"init, Number to Play: " + numberToPlay );
 
         AudioManager.instance.readFeedback(numberToPlay, extraDelayBetweenFeedback, feedbackSoundName); //first we read the random number
         timeToWait = Constants.READ_ONE_UNIT_DURATION+ numberToPlay*Constants.READ_ONE_UNIT_DURATION + waitAfterKnock /*+ ( randomNumber)*(0.3f)*/; // time we should wait before next loop starts
         lastAnswerRight = false;
 
         inactivityLimit = 0; // we dont want to wait!
-        maxErrorsForHint = 2; // one error and we let you know!
+        maxErrorsForHint = 2; // two errors and we let you know!
+
 
     }
 
@@ -52,7 +55,7 @@ public class CvOrganicTutorialController extends CvWorldController {
             willGoToNextPart = true;
             game.setScreen(new OrganicTutorial1AudioScreen(game,3,3));
         }else {
-            numberToPlay = getNewRandomNumber(getRandomNumber(),1,5);
+            numberToPlay = getNewRandomNumber(getRandomNumber(),minValue,maxValue);
         }
 
     }
