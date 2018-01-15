@@ -121,28 +121,6 @@ public class AudioManager {
     }
 
 
-    public float reproduceSounds(ArrayList<Sound> SoundsToReproduce){
-        float duration_total =  0;
-        reader.addAction(readTutorialAction);
-        readTutorialAction.reset();
-        for (int i = 0; i < SoundsToReproduce.size(); i++){
-
-            float duration_aux = Assets.instance.getSoundDuration(SoundsToReproduce.get(i));
-            duration_total = duration_total + duration_aux;
-            final Sound aux = SoundsToReproduce.get(i);
-
-            readTutorialAction.addAction(run(new Runnable() {
-                public void run() {
-                    playWithoutInterruption(aux,true); // knocks with which volume??
-                }
-            }));
-             readTutorialAction.addAction((delay(duration_aux)));
-        }
-
-        Gdx.app.log(TAG, "============================= " + duration_total);
-
-        return duration_total;
-    }
 
     public void playNewBlockSong()  {
 
@@ -497,8 +475,53 @@ public class AudioManager {
 
     }
 
+    private float reproduceSoundsWithIndex(ArrayList<Sound> soundsToReproduce, int start, int end){
+        float duration_total =  0;
 
-    public float reproduce_concrete_tutorial(){
+        readTutorialAction.reset();
+     //   for (int i = 0; i < SoundsToReproduce.size(); i++){
+        for (int i = start; i <= end; i++){
+            float soundDuration = Assets.instance.getSoundDuration(soundsToReproduce.get(i));
+            duration_total = duration_total + soundDuration;
+            final Sound singleSound = soundsToReproduce.get(i);
+
+            readTutorialAction.addAction(run(new Runnable() {
+                public void run() {
+                    playWithoutInterruption(singleSound,true); // knocks with which volume??
+                }
+            }));
+            readTutorialAction.addAction((delay(soundDuration)));
+        }
+
+        Gdx.app.log(TAG, "============================= " + duration_total);
+        reader.addAction(readTutorialAction);
+        return duration_total;
+    }
+
+    private float reproduceSounds(ArrayList<Sound> soundsToReproduce){
+        float duration_total =  0;
+
+        readTutorialAction.reset();
+        for (int i = 0; i < soundsToReproduce.size(); i++){
+            float duration_aux = Assets.instance.getSoundDuration(soundsToReproduce.get(i));
+            duration_total = duration_total + duration_aux;
+            final Sound singleSound = soundsToReproduce.get(i);
+
+            readTutorialAction.addAction(run(new Runnable() {
+                public void run() {
+                    playWithoutInterruption(singleSound,true);
+                }
+            }));
+            readTutorialAction.addAction((delay(duration_aux)));
+        }
+
+        Gdx.app.log(TAG, "============================= " + duration_total);
+        reader.addAction(readTutorialAction);
+
+        return duration_total;
+    }
+
+    public float reproduce_concrete_tutorial(int start, int end) {
         ArrayList<Sound> soundsToReproduce = new ArrayList<Sound>();
 
         soundsToReproduce.add(Assets.instance.sounds.ct_1);
@@ -511,12 +534,10 @@ public class AudioManager {
         soundsToReproduce.add(Assets.instance.sounds.ct_7);
         soundsToReproduce.add(Assets.instance.sounds.ct_8);
         soundsToReproduce.add(Assets.instance.sounds.ct_9);
-        soundsToReproduce.add(Assets.instance.sounds.ct_10);
-        soundsToReproduce.add(Assets.instance.sounds.ct_11);
-
-        return AudioManager.instance.reproduceSounds(soundsToReproduce);
-
+        soundsToReproduce.add(Assets.instance.sounds.d1);
+        return AudioManager.instance.reproduceSoundsWithIndex(soundsToReproduce, start, end);
     }
+
 
     public float reproduce_organic_tutorial1(int tutorialPart){
         ArrayList<Sound> soundsToReproduce = new ArrayList<Sound>();
@@ -536,6 +557,20 @@ public class AudioManager {
         }
         return AudioManager.instance.reproduceSounds(soundsToReproduce);
     }
+
+
+
+
+
+
+        //soundsToReproduce.add(Assets.instance.sounds.ct_7);
+        //soundsToReproduce.add(Assets.instance.sounds.ct_8);
+        //soundsToReproduce.add(Assets.instance.sounds.ct_9);
+        //oundsToReproduce.add(Assets.instance.sounds.ct_9);
+       // soundsToReproduce.add(Assets.instance.sounds.ct_9);
+        //soundsToReproduce.add(Assets.instance.sounds.ct_10);
+        //soundsToReproduce.add(Assets.instance.sounds.ct_11);
+
 
 
 

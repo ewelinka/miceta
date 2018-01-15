@@ -30,7 +30,7 @@ public class CvOrganicTutorialController extends CvWorldController {
 
     @Override
     protected void init(){
-        numberToPlay = getNewRandomNumber(0,1,5);
+        numberToPlay = getNewRandomNumber(0,1,3);
         correctAnswersNr = 0;
         correctAnswersNeeded = 10; // we need 10 correct answers!
         Gdx.app.log(TAG,"init, Number to Play: " + numberToPlay );

@@ -141,7 +141,7 @@ public class IntroScreen extends AbstractGameScreen {
                 break;
             case "help":
                 // TODO implement tutorial and then go from here to this tutorial
-                game.setScreen(new ConcreteTurorial(game),transition);
+                game.setScreen(new ConcreteTurorial(game,0, 0),transition);
                 break;
             case "organic":
                 // TODO should not be in menu, we put it now for testing
