@@ -4,8 +4,11 @@ import com.badlogic.gdx.Application;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Input;
 import com.badlogic.gdx.InputAdapter;
+import com.badlogic.gdx.audio.Sound;
+import com.badlogic.gdx.math.MathUtils;
 import com.badlogic.gdx.scenes.scene2d.Stage;
 import edu.ceta.vision.core.blocks.Block;
+import miceta.game.core.Assets;
 import miceta.game.core.managers.CvBlocksManager;
 import miceta.game.core.managers.CvBlocksManagerAndroid;
 import miceta.game.core.managers.CvBlocksManagerDesktop;
@@ -29,8 +32,8 @@ public class CvWorldController extends InputAdapter {
     protected Stage stage;
     public miCeta game;
    // private int randomNumber,previousRandomNumber;
-    private int numberToPlay;
-    private boolean lastAnswerRight;
+    protected int numberToPlay;
+    protected boolean lastAnswerRight;
     private int error_min = 0;
     private int error_max = 0;
     private float inactivityTime =0; // time that passed since last move
@@ -41,11 +44,26 @@ public class CvWorldController extends InputAdapter {
     protected CvBlocksManager cvBlocksManager;
     protected float extraDelayBetweenFeedback;
     protected float waitAfterKnock;
+    protected String feedbackSoundName;
+    protected Sound tooMuchErrorSound, tooFewErrorSound;
+    protected int inactivityLimit;
+    protected int maxErrorsForHint;
+    protected boolean willGoToNextPart;
 
 
     public CvWorldController(miCeta game, Stage stage){
+        // knock by default
+        // too much and too many default values
+        this(game,stage,"knock", Assets.instance.sounds.quitblock, Assets.instance.sounds.addblock);
+    }
+
+    public CvWorldController(miCeta game, Stage stage, String feedbackSoundName,Sound tooMuchErrorSound,Sound tooFewErrorSound) {
         this.game = game;
         this.stage = stage;
+        this.feedbackSoundName = feedbackSoundName;
+        this.tooMuchErrorSound = tooMuchErrorSound;
+        this.tooFewErrorSound = tooFewErrorSound;
+
 
         if((Gdx.app.getType() == Application.ApplicationType.Android)) {
             cvBlocksManager = new CvBlocksManagerAndroid(game, stage);
@@ -57,16 +75,16 @@ public class CvWorldController extends InputAdapter {
 
         initCommonVariables();
         init();
+
     }
 
     protected void init(){
         numberToPlay = LevelsManager.getInstance().get_number_to_play();
         Gdx.app.log(TAG,"init, Number to Play: " + numberToPlay );
 
-        AudioManager.instance.readFeedback(numberToPlay, extraDelayBetweenFeedback); //first we read the random number
+        AudioManager.instance.readFeedback(numberToPlay, extraDelayBetweenFeedback, feedbackSoundName); //first we read the random number
         timeToWait = Constants.READ_ONE_UNIT_DURATION+ numberToPlay*Constants.READ_ONE_UNIT_DURATION + waitAfterKnock /*+ ( randomNumber)*(0.3f)*/; // time we should wait before next loop starts
         lastAnswerRight = false;
-
 
     }
 
@@ -76,6 +94,10 @@ public class CvWorldController extends InputAdapter {
         extraDelayBetweenFeedback = GamePreferences.instance.getExtraDelayBetweenFeedback();
         waitAfterKnock = GamePreferences.instance.getWaitAfterKnock();
         waitAfterKnock = 3;
+        inactivityTime = Constants.INACTIVITY_LIMIT;
+        maxErrorsForHint = Constants.ERRORS_FOT_HINT;
+
+        willGoToNextPart = false;
 
     }
 
@@ -97,41 +119,37 @@ public class CvWorldController extends InputAdapter {
         inactivityTime+=deltaTime;
         updateCV();
 
-        //AudioManager.instance.setNewblock_loop(false);
-        //AudioManager.instance.playNewBlockSong();
 
         if(isTimeToStartNewLoop()){
-            timePassed = 0; // start to count the time
-            Gdx.app.log(TAG,"new loop! with random number "+numberToPlay);
-            if(lastAnswerRight){ // if las answer was correct, we get new random number
-               // previousRandomNumber = randomNumber;
-                //randomNumber = getNewNumber();
-
-                LevelsManager.getInstance().up_operation_index();
-                numberToPlay = LevelsManager.getInstance().get_number_to_play();
-                saveLevel();
-
-                // timeToWait = Constants.READ_NUMBER_DURATION + randomNumber*Constants.READ_ONE_UNIT_DURATION + Constants.WAIT_AFTER_KNOCK ; // one extra second to read number and feedback
-                timeToWait = numberToPlay*(Constants.READ_ONE_UNIT_DURATION+extraDelayBetweenFeedback) + waitAfterKnock; // read feedback and wait
-
-                AudioManager.instance.readFeedback(numberToPlay, extraDelayBetweenFeedback);
+            if(lastAnswerRight){
+                onCorrectAnswer();
                 lastAnswerRight = false;
-
-                resetErrorsAndInactivity(); // start from 0
-            }else { // if last answer was wrong we check the detected values and read feedback and read blocks detected
+                resetErrorsAndInactivity();
+                currentSum = 0; // we "reset" current sum to detect errors
+            }
+            if(!willGoToNextPart) { // when we finish interactive part
+                timePassed = 0; // start to count the time
+                //Gdx.app.log(TAG,"new loop! with random number "+numberToPlay);
                 ArrayList<Integer> nowDetected = cvBlocksManager.getNewDetectedVals(); // to know the blocks on the table
                 lastSum = currentSum;
                 currentSum = 0;
 
-
                 for (int i = 0; i < nowDetected.size(); i++)
                     currentSum += nowDetected.get(i); // we need to know the sum to decide if response is correct
 
-                checkForErrorsAndInactivity(currentSum, lastSum);
-                checkForCorrectAnswer(currentSum,numberToPlay, nowDetected);
+                if (numberToPlay != currentSum)
+                    checkForErrorsAndInactivity(currentSum, lastSum);
+                checkForCorrectAnswer(currentSum, numberToPlay, nowDetected);
             }
 
+
         }
+    }
+
+    protected void onCorrectAnswer(){
+        LevelsManager.getInstance().up_operation_index();
+        numberToPlay = LevelsManager.getInstance().get_number_to_play();
+        saveLevel();
     }
 
 
@@ -147,10 +165,19 @@ public class CvWorldController extends InputAdapter {
         return numberToPlay;
     }
 
+    public int getNewRandomNumber(int previous_rand, int min, int max){
+        int rand = MathUtils.random(min, max);
+        while (rand == previous_rand) {
+            rand = MathUtils.random(min, max);
+        }
+        return rand;
+    }
+
 
     private void checkForErrorsAndInactivity(int currentSum, int lastSum){
+        Gdx.app.log(TAG,currentSum+" "+lastSum+" "+error_max+" "+error_min);
         // check for errors
-        if((currentSum != lastSum)){ // we count errors or reset inactivity only if (currentSum != lastSum)
+        if(currentSum != lastSum){ // we count errors or reset inactivity only if (currentSum != lastSum)
             inactivityTime = 0;
             if (currentSum > numberToPlay) { //too much
                 error_max++;
@@ -163,20 +190,20 @@ public class CvWorldController extends InputAdapter {
         }
         // check if there are sufficient errors and inactivity time
         feedback_delay = 0; // by default we assume that feedback delay should be 0
-        if(inactivityTime >= Constants.INACTIVITY_LIMIT){ // this condition is important for both: min and max
-            if (error_max >= Constants.ERRORS_FOT_HINT) {
-                AudioManager.instance.setDelay_add(true);
+        if(inactivityTime >= inactivityLimit){ // this condition is important for both: min and max
+            if (error_max >= maxErrorsForHint) {
+                AudioManager.instance.setDelay_add(tooMuchErrorSound);
                 Gdx.app.log(TAG,"%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%ERROR MAX ");
-                error_max = Constants.ERRORS_FOT_HINT-1;
-                error_min = Constants.ERRORS_FOT_HINT-1;
+                error_max = maxErrorsForHint-1;
+                error_min = maxErrorsForHint-1;
                 inactivityTime = 0;
                 feedback_delay = Constants.FEEDBACK_DELAY;
             }
-            if (error_min >= Constants.ERRORS_FOT_HINT){
-                AudioManager.instance.setDelay_quit(true);
+            if (error_min >= maxErrorsForHint){
+                AudioManager.instance.setDelay_quit(tooFewErrorSound);
                 Gdx.app.log(TAG,"########################################ERROR MIN ");
-                error_min = Constants.ERRORS_FOT_HINT-1;
-                error_max = Constants.ERRORS_FOT_HINT-1;
+                error_min = maxErrorsForHint-1;
+                error_max = maxErrorsForHint-1;
                 feedback_delay = Constants.FEEDBACK_DELAY;
             }
         }
@@ -193,7 +220,8 @@ public class CvWorldController extends InputAdapter {
             timeToWait += (Constants.DELAY_FOR_TADA + Constants.DELAY_FOR_YUJU + Constants.WAIT_AFTER_CORRECT_ANSWER);
         }
 
-        AudioManager.instance.readAllFeedbacks(nowDetected, numberToPlay, lastAnswerRight, extraDelayBetweenFeedback);
+        AudioManager.instance.readAllFeedbacks(nowDetected, numberToPlay, lastAnswerRight, extraDelayBetweenFeedback, feedbackSoundName);
+
     }
 
     private void resetErrorsAndInactivity(){

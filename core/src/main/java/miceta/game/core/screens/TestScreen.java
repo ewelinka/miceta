@@ -35,7 +35,6 @@ public class TestScreen extends AbstractGameScreen {
     private BitmapFont font = new BitmapFont();
     private SpriteBatch spriteBatch  = new SpriteBatch();
     private FeedbackDrawManager fd;
-    private boolean first_time = true;
 
 
     public TestScreen(miCeta game){
@@ -49,13 +48,9 @@ public class TestScreen extends AbstractGameScreen {
         stage = new Stage(new FitViewport(viewportWidth, viewportHeight));
         worldController = new CvWorldController(game,stage);
         shapeRenderer = new ShapeRenderer();
+        fd = new FeedbackDrawManager();
         // android back key used to exit, we should not catch
         Gdx.input.setCatchBackKey(false);
-
-
-
-
-
     }
 
    // @android.annotation.TargetApi(android.os.Build.VERSION_CODES.GINGERBREAD)
@@ -87,10 +82,7 @@ public class TestScreen extends AbstractGameScreen {
 
             for (Block block : cBlocks) {
                 setColorFromValue(block.getValue());
-                if (first_time){
-                    fd = new FeedbackDrawManager();
-                    first_time = false;
-                }
+
                 fd.setShapeRenderer(shapeRenderer, block, shiftX,shiftY);
 
             }
@@ -113,52 +105,12 @@ public class TestScreen extends AbstractGameScreen {
         font.draw(spriteBatch,"Tiempo: " + String.format("%.2g%n", worldController.getWaitAfterKnock()),250,60);
         font.draw(spriteBatch,"menos tiempo",400,60);
 
-
-
-
         spriteBatch.end();
 
-
-
-
-
     }
 
 
-    @Override
-    public void resize(int width, int height) {
 
-    }
-
-    @Override
-    public void hide() {
-        Gdx.app.log(TAG," we start the HIDE of the screen ! " +Gdx.graphics.getWidth()+" h "+Gdx.graphics.getHeight());
-        //   Gdx.input.setCatchBackKey(false);
-        dispose();
-
-    }
-
-    @Override
-    public void pause() {
-        Gdx.app.log(TAG," we start the PAUSE of the screen ! " +Gdx.graphics.getWidth()+" h "+Gdx.graphics.getHeight());
-        paused =true;
-
-    }
-
-    @Override
-    public void resume () {
-        Gdx.app.log(TAG," we start the RESUME of the screen ! " +Gdx.graphics.getWidth()+" h "+Gdx.graphics.getHeight());
-        super.resume();
-        // Only called on Android!
-        paused = false;
-    }
-
-    @Override
-    public void dispose(){
-        Gdx.app.log(TAG," we start the DISPOSE of the screen ! " +Gdx.graphics.getWidth()+" h "+Gdx.graphics.getHeight());
-        stage.dispose();
-
-    }
 
     @Override
     public InputProcessor getInputProcessor() {
