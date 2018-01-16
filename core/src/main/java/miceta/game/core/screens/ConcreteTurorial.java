@@ -21,6 +21,8 @@ public class ConcreteTurorial extends AbstractGameScreen {
     private int t_part = 0;
     private int t_aux_number =0;
     private int knock_counter =0;
+    private ArrayList<Integer>  nowDetected = new ArrayList<>();
+
 
     public ConcreteTurorial(miCeta game, int part, int aux_number) {
         super(game);
@@ -48,15 +50,7 @@ public class ConcreteTurorial extends AbstractGameScreen {
         }
         else if((t_part==3) && (timePassed > tutorialDuration)){
 
-            ArrayList<Integer>  nowDetected = new ArrayList<>();
-            nowDetected.add((t_aux_number));
-            AudioManager.instance.readBlocks(nowDetected, 0);
-
-            timePassed = 0;
-            tutorialDuration =0;
-            for (int i = 0; i < nowDetected.size(); i++) {
-                tutorialDuration = tutorialDuration + nowDetected.get(i);
-            }
+            reproduceBlocks(false);
             t_part = 4;
         }
         else if((t_part==4) && (timePassed > tutorialDuration)){
@@ -67,20 +61,12 @@ public class ConcreteTurorial extends AbstractGameScreen {
         }
         else if((t_part==5) && (timePassed > tutorialDuration)){
 
-            ArrayList<Integer>  nowDetected = new ArrayList<>();
-            nowDetected.add((t_aux_number));
-            nowDetected.add((4));
-            AudioManager.instance.readBlocks(nowDetected, 0);
-
-            timePassed = 0;
-            tutorialDuration =0;
-            for (int i = 0; i < nowDetected.size(); i++) {
-                tutorialDuration = tutorialDuration + nowDetected.get(i);
-            }
+            reproduceBlocks(true);
             t_part = 6;
         }
 
         else if((t_part==6) && (timePassed > tutorialDuration)){
+
             timePassed = 0;
             tutorialDuration = AudioManager.instance.reproduce_concrete_tutorial(9,9);
             t_part = 7;
@@ -110,20 +96,27 @@ public class ConcreteTurorial extends AbstractGameScreen {
             tutorialDuration = AudioManager.instance.reproduce_concrete_tutorial(0,4);
         }
 
-        else if (t_part == 1){
-
-          ArrayList<Integer>  nowDetected = new ArrayList<>();
-          nowDetected.add((t_aux_number));
-          AudioManager.instance.readBlocks(nowDetected, 0);
-
-          tutorialDuration =0;
-          for (int i = 0; i < nowDetected.size(); i++) {
-              tutorialDuration = tutorialDuration + nowDetected.get(i);
-          }
+         else if (t_part == 1){
+          reproduceBlocks(false);
+        }
+    }
 
 
+    private void reproduceBlocks(boolean add_adicional){
+
+        ArrayList<Integer>  nowDetected = new ArrayList<>();
+        nowDetected.add((t_aux_number));
+
+        if(add_adicional){
+            nowDetected.add((4));
         }
 
+        AudioManager.instance.readBlocks(nowDetected, 0);
+        timePassed = 0;
+        tutorialDuration =0;
+        for (int i = 0; i < nowDetected.size(); i++) {
+            tutorialDuration = tutorialDuration + nowDetected.get(i);
+        }
     }
 
 
