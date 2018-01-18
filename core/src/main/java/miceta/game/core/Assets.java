@@ -60,7 +60,7 @@ public class Assets implements Disposable, AssetErrorListener {
         assetManager.load("sounds/feedback/piano/mi.wav", Sound.class);
         assetManager.load("sounds/feedback/piano/fa.wav", Sound.class);
         assetManager.load("sounds/feedback/piano/sol.wav", Sound.class);
-        
+
         assetManager.load("sounds/feedback/puck.mp3", Sound.class);
         assetManager.load("sounds/feedback/yuju.mp3", Sound.class);
         assetManager.load("sounds/feedback/tada.mp3", Sound.class);
@@ -80,8 +80,8 @@ public class Assets implements Disposable, AssetErrorListener {
         assetManager.load("sounds/concreto/8.mp3", Sound.class);
         assetManager.load("sounds/concreto/9.mp3", Sound.class);
         //micro mundo 1
-        assetManager.load("sounds/mm1_tutorial/mm1_1.mp3", Sound.class);
-        assetManager.load("sounds/mm1_tutorial/mm1_2.mp3", Sound.class);
+        assetManager.load("sounds/mm1_tutorial/mm1_intro1.mp3", Sound.class);
+        assetManager.load("sounds/mm1_tutorial/mm1_intro2.mp3", Sound.class);
         assetManager.load("sounds/mm1_tutorial/mm1_tooMuch.mp3", Sound.class);
         assetManager.load("sounds/mm1_tutorial/mm1_tooFew.mp3", Sound.class);
 
@@ -189,8 +189,8 @@ public class Assets implements Disposable, AssetErrorListener {
             ct_9 = soundWithDuration("sounds/concreto/9.mp3", am);
 
 
-            tmm1_1 = soundWithDuration("sounds/mm1_tutorial/mm1_1.mp3", am);
-            tmm1_2 = soundWithDuration("sounds/mm1_tutorial/mm1_2.mp3", am);
+            tmm1_1 = soundWithDuration("sounds/mm1_tutorial/mm1_intro1.mp3", am);
+            tmm1_2 = soundWithDuration("sounds/mm1_tutorial/mm1_intro2.mp3", am);
             tmm1_tooMuch = soundWithDuration("sounds/mm1_tutorial/mm1_tooMuch.mp3", am);
             tmm1_tooFew = soundWithDuration("sounds/mm1_tutorial/mm1_tooFew.mp3", am);
 
