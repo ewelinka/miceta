@@ -55,10 +55,6 @@ public class Assets implements Disposable, AssetErrorListener {
         assetManager.load("sounds/14.wav", Sound.class);
         assetManager.load("sounds/15.wav", Sound.class);
         assetManager.load("sounds/do.wav", Sound.class);
-//        assetManager.load("sounds/re_trumpet.wav", Sound.class);
-//        assetManager.load("sounds/mi_guitar.wav", Sound.class);
-//        assetManager.load("sounds/fa_flaute.wav", Sound.class);
-//        assetManager.load("sounds/sol_harp.wav", Sound.class);
         assetManager.load("sounds/re.wav", Sound.class);
         assetManager.load("sounds/mi.wav", Sound.class);
         assetManager.load("sounds/fa.wav", Sound.class);
@@ -121,6 +117,10 @@ public class Assets implements Disposable, AssetErrorListener {
         assetManager.load("sounds/mm1_tutorial/mm1_tooMuch.mp3", Sound.class);
         assetManager.load("sounds/mm1_tutorial/mm1_tooFew.mp3", Sound.class);
 
+        // Game 1
+        assetManager.load("sounds/mm1_game/game_1.mp3", Sound.class);
+        assetManager.load("sounds/mm1_game/game_1_tooFew.mp3", Sound.class);
+        assetManager.load("sounds/mm1_game/game_1_tooMuch.mp3", Sound.class);
 
         assetManager.load("sounds/opciones/jugar.wav", Sound.class);
         assetManager.load("sounds/opciones/denuevo.wav", Sound.class);
@@ -164,6 +164,7 @@ public class Assets implements Disposable, AssetErrorListener {
         public final Sound d1,d2,d3,d4,d5,d6,d7,d8,d9,d10;
         public final Sound tmm1_1,tmm1_2,tmm1_tooMuch,tmm1_tooFew;
         public final Sound jugar, denuevo, ayuda, salir;
+        public final Sound game_1, game_1_tooFew, game_1_tooMuch;
 
         //concrete tutorial
 
@@ -265,6 +266,9 @@ public class Assets implements Disposable, AssetErrorListener {
             ayuda = soundWithDuration("sounds/opciones/ayuda.wav", am);
             salir = soundWithDuration("sounds/opciones/salir.wav", am);
 
+            game_1 = soundWithDuration("sounds/mm1_game/game_1.mp3", am);
+            game_1_tooFew = soundWithDuration("sounds/mm1_game/game_1_tooFew.mp3", am);
+            game_1_tooMuch = soundWithDuration("sounds/mm1_game/game_1_tooMuch.mp3", am);
 
 
         }

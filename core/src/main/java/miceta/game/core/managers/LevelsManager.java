@@ -31,17 +31,30 @@ public class LevelsManager {
     }
 
     private LevelsManager(){
-        level = GamePreferences.instance.getLast_level();
+
+       // level = GamePreferences.instance.getLast_level();
+        level =0;
         System.out.println("LEVEL " + level);
-        operation_index = GamePreferences.instance.getOperation_index();
+        //operation_index = GamePreferences.instance.getOperation_index();
+        operation_index =0;
         load_csv();
         get_List_of_numbers(level);
     }
 
     private void load_csv(){
-        FileHandle handle = Gdx.files.internal("levels/ejemploNiveles.csv");
-        String s_level = handle.readString();
 
+        //FileHandle handle = Gdx.files.internal("levels/ejemploNiveles.csv");
+
+        switch(level) {
+            case 0:
+                FileHandle handle = Gdx.files.internal("levels/world_1.csv");
+                break;
+
+        }
+
+        FileHandle handle = Gdx.files.internal("levels/world_1.csv");
+
+        String s_level = handle.readString();
         String[] lines;
         lines = s_level.split("\n");
 

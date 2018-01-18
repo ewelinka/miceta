@@ -61,6 +61,7 @@ public class CvWorldController extends InputAdapter {
         this.game = game;
         this.stage = stage;
         this.feedbackSoundName = feedbackSoundName;
+
         this.tooMuchErrorSound = tooMuchErrorSound;
         this.tooFewErrorSound = tooFewErrorSound;
 
@@ -190,6 +191,8 @@ public class CvWorldController extends InputAdapter {
         }
         // check if there are sufficient errors and inactivity time
         feedback_delay = 0; // by default we assume that feedback delay should be 0
+
+        //ciudado con esto
         if(inactivityTime >= inactivityLimit){ // this condition is important for both: min and max
             if (error_max >= maxErrorsForHint) {
                 AudioManager.instance.setDelay_add(tooMuchErrorSound);

@@ -160,7 +160,9 @@ public class IntroScreen extends AbstractGameScreen {
         ScreenTransition transition = ScreenTransitionFade.init(1);
         switch(btnType){
             case "play":
-                game.setScreen(new TestScreen(game),transition);
+                //game.setScreen(new TestScreen(game),transition);
+                game.setScreen(new World_1_AudioScreen(game,0, 0),transition);
+
                 break;
             case "exit":
                 Gdx.app.exit();

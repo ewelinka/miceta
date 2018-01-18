@@ -79,10 +79,6 @@ public class AudioManager {
         music.setVolume(0.01f);
         music.play();
 
-
-       //
-
-
      /*   if (newblock_loop) {
             Sound nb_sound;
             nb_sound = Assets.instance.sounds.newblock;
@@ -559,7 +555,16 @@ public class AudioManager {
     }
 
 
+    public float reproduce_Game_1(int start, int end) {
 
+        ArrayList<Sound> soundsToReproduce = new ArrayList<Sound>();
+
+        soundsToReproduce.add(Assets.instance.sounds.game_1);
+        soundsToReproduce.add(Assets.instance.sounds.game_1_tooFew);
+        soundsToReproduce.add(Assets.instance.sounds.game_1_tooMuch);
+
+        return AudioManager.instance.reproduceSoundsWithIndex(soundsToReproduce, start, end);
+    }
 
 
 
