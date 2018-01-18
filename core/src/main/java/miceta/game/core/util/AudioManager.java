@@ -157,52 +157,52 @@ public class AudioManager {
         final Sound whichSound;
         switch(nr) {
             case 1:
-                whichSound = Assets.instance.sounds.f1;
+                whichSound = Assets.instance.sounds.number1;
                 break;
             case 2:
-                whichSound = Assets.instance.sounds.f2;
+                whichSound = Assets.instance.sounds.number2;
                 break;
             case 3:
-                whichSound = Assets.instance.sounds.f3;
+                whichSound = Assets.instance.sounds.number3;
                 break;
             case 4:
-                whichSound = Assets.instance.sounds.f4;
+                whichSound = Assets.instance.sounds.number4;
                 break;
             case 5:
-                whichSound = Assets.instance.sounds.f5;
+                whichSound = Assets.instance.sounds.number5;
                 break;
             case 6:
-                whichSound = Assets.instance.sounds.f6;
+                whichSound = Assets.instance.sounds.number6;
                 break;
             case 7:
-                whichSound = Assets.instance.sounds.f7;
+                whichSound = Assets.instance.sounds.number7;
                 break;
             case 8:
-                whichSound = Assets.instance.sounds.f8;
+                whichSound = Assets.instance.sounds.number8;
                 break;
             case 9:
-                whichSound = Assets.instance.sounds.f9;
+                whichSound = Assets.instance.sounds.number9;
                 break;
             case 10:
-                whichSound = Assets.instance.sounds.f10;
+                whichSound = Assets.instance.sounds.number10;
                 break;
             case 11:
-                whichSound = Assets.instance.sounds.f11;
+                whichSound = Assets.instance.sounds.number11;
                 break;
             case 12:
-                whichSound = Assets.instance.sounds.f12;
+                whichSound = Assets.instance.sounds.number12;
                 break;
             case 13:
-                whichSound = Assets.instance.sounds.f13;
+                whichSound = Assets.instance.sounds.number13;
                 break;
             case 14:
-                whichSound = Assets.instance.sounds.f14;
+                whichSound = Assets.instance.sounds.number14;
                 break;
             case 15:
-                whichSound = Assets.instance.sounds.f15;
+                whichSound = Assets.instance.sounds.number15;
                 break;
             default:
-                whichSound = Assets.instance.sounds.f15; // should never be used because we count to 15 max
+                whichSound = Assets.instance.sounds.number15; // should never be used because we count to 15 max
                 break;
         }
 
@@ -275,50 +275,13 @@ public class AudioManager {
 
     }
     private void readSingleKnock(int whichKnock, SequenceAction readFeedback, float extraDelayBetweenFeedback){
-        final Sound whichSound;
-        switch(whichKnock) {
-            case 1:
-                whichSound = Assets.instance.sounds.d1;
-                break;
-            case 2:
-                whichSound = Assets.instance.sounds.d1;
-                break;
-            case 3:
-                whichSound = Assets.instance.sounds.d1;
-                break;
-            case 4:
-                whichSound = Assets.instance.sounds.d1;
-                break;
-            case 5:
-                whichSound = Assets.instance.sounds.d1;
-                break;
-            case 6:
-                whichSound = Assets.instance.sounds.d1;
-                break;
-            case 7:
-                whichSound = Assets.instance.sounds.d1;
-                break;
-            case 8:
-                whichSound = Assets.instance.sounds.d1;
-                break;
-            case 9:
-                whichSound = Assets.instance.sounds.d1;
-                break;
-            case 10:
-                whichSound = Assets.instance.sounds.d1;
-                break;
-            default:
-                whichSound = Assets.instance.sounds.d1;
-                break;
-
-        }
         readFeedback.addAction(run(new Runnable() {
             public void run() {
-                playWithoutInterruption(whichSound); // knocks with which volume??
+                playWithoutInterruption(Assets.instance.sounds.knock); // TODO change when we have drop sound
             }
         }));
 
-        readFeedback.addAction(delay(readBlockDuration + extraDelayBetweenFeedback)); // we wait Xs because sound files with "do", "re" and "mi" have X duration
+        readFeedback.addAction(delay(readBlockDuration + extraDelayBetweenFeedback)); // we wait Xs because sound files with "knock" have X duration
 
     }
 
@@ -534,7 +497,7 @@ public class AudioManager {
         soundsToReproduce.add(Assets.instance.sounds.ct_7);
         soundsToReproduce.add(Assets.instance.sounds.ct_8);
         soundsToReproduce.add(Assets.instance.sounds.ct_9);
-        soundsToReproduce.add(Assets.instance.sounds.d1);
+        soundsToReproduce.add(Assets.instance.sounds.knock);
         return AudioManager.instance.reproduceSoundsWithIndex(soundsToReproduce, start, end);
     }
 
@@ -559,17 +522,6 @@ public class AudioManager {
     }
 
 
-
-
-
-
-        //soundsToReproduce.add(Assets.instance.sounds.ct_7);
-        //soundsToReproduce.add(Assets.instance.sounds.ct_8);
-        //soundsToReproduce.add(Assets.instance.sounds.ct_9);
-        //oundsToReproduce.add(Assets.instance.sounds.ct_9);
-       // soundsToReproduce.add(Assets.instance.sounds.ct_9);
-        //soundsToReproduce.add(Assets.instance.sounds.ct_10);
-        //soundsToReproduce.add(Assets.instance.sounds.ct_11);
 
 
 

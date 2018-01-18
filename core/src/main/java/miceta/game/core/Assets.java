@@ -39,67 +39,37 @@ public class Assets implements Disposable, AssetErrorListener {
         // load texture atlas
         assetManager.load(Constants.TEXTURE_ATLAS_OBJECTS, TextureAtlas.class);
         // load sounds
-        assetManager.load("sounds/1.wav", Sound.class);
-        assetManager.load("sounds/2.wav", Sound.class);
-        assetManager.load("sounds/3.wav", Sound.class);
-        assetManager.load("sounds/4.wav", Sound.class);
-        assetManager.load("sounds/5.wav", Sound.class);
-        assetManager.load("sounds/6.wav", Sound.class);
-        assetManager.load("sounds/7.wav", Sound.class);
-        assetManager.load("sounds/8.wav", Sound.class);
-        assetManager.load("sounds/9.wav", Sound.class);
-        assetManager.load("sounds/10.wav", Sound.class);
-        assetManager.load("sounds/11.wav", Sound.class);
-        assetManager.load("sounds/12.wav", Sound.class);
-        assetManager.load("sounds/13.wav", Sound.class);
-        assetManager.load("sounds/14.wav", Sound.class);
-        assetManager.load("sounds/15.wav", Sound.class);
-        assetManager.load("sounds/do.wav", Sound.class);
-//        assetManager.load("sounds/re_trumpet.wav", Sound.class);
-//        assetManager.load("sounds/mi_guitar.wav", Sound.class);
-//        assetManager.load("sounds/fa_flaute.wav", Sound.class);
-//        assetManager.load("sounds/sol_harp.wav", Sound.class);
-        assetManager.load("sounds/re.wav", Sound.class);
-        assetManager.load("sounds/mi.wav", Sound.class);
-        assetManager.load("sounds/fa.wav", Sound.class);
-        assetManager.load("sounds/sol.wav", Sound.class);
-        assetManager.load("sounds/puck.mp3", Sound.class);
-        assetManager.load("music/song1.mp3", Music.class);
-        assetManager.load("music/song2.mp3", Music.class);
-        assetManager.load("sounds/yuju.mp3", Sound.class);
-        assetManager.load("sounds/tada.mp3", Sound.class);
+        assetManager.load("sounds/numeros/1.wav", Sound.class);
+        assetManager.load("sounds/numeros/2.wav", Sound.class);
+        assetManager.load("sounds/numeros/3.wav", Sound.class);
+        assetManager.load("sounds/numeros/4.wav", Sound.class);
+        assetManager.load("sounds/numeros/5.wav", Sound.class);
+        assetManager.load("sounds/numeros/6.wav", Sound.class);
+        assetManager.load("sounds/numeros/7.wav", Sound.class);
+        assetManager.load("sounds/numeros/8.wav", Sound.class);
+        assetManager.load("sounds/numeros/9.wav", Sound.class);
+        assetManager.load("sounds/numeros/10.wav", Sound.class);
+        assetManager.load("sounds/numeros/11.wav", Sound.class);
+        assetManager.load("sounds/numeros/12.wav", Sound.class);
+        assetManager.load("sounds/numeros/13.wav", Sound.class);
+        assetManager.load("sounds/numeros/14.wav", Sound.class);
+        assetManager.load("sounds/numeros/15.wav", Sound.class);
 
-        assetManager.load("sounds/d1.wav", Sound.class);
-        assetManager.load("sounds/d2.wav", Sound.class);
-        assetManager.load("sounds/d3.wav", Sound.class);
-        assetManager.load("sounds/d4.wav", Sound.class);
-        assetManager.load("sounds/d5.wav", Sound.class);
-        assetManager.load("sounds/d6.wav", Sound.class);
-        assetManager.load("sounds/d7.wav", Sound.class);
-        assetManager.load("sounds/d8.wav", Sound.class);
-        assetManager.load("sounds/d9.wav", Sound.class);
-        assetManager.load("sounds/d10.wav", Sound.class);
-        assetManager.load("sounds/newblock.wav", Sound.class);
-        assetManager.load("feedback/feedbackLoop.wav", Music.class);
-        assetManager.load("sounds/masPiezas.wav", Sound.class);
-        assetManager.load("sounds/menosPiezas.wav", Sound.class);
+        assetManager.load("sounds/feedback/piano/do.wav", Sound.class);
+        assetManager.load("sounds/feedback/piano/re.wav", Sound.class);
+        assetManager.load("sounds/feedback/piano/mi.wav", Sound.class);
+        assetManager.load("sounds/feedback/piano/fa.wav", Sound.class);
+        assetManager.load("sounds/feedback/piano/sol.wav", Sound.class);
 
+        assetManager.load("sounds/feedback/puck.mp3", Sound.class);
+        assetManager.load("sounds/feedback/yuju.mp3", Sound.class);
+        assetManager.load("sounds/feedback/tada.mp3", Sound.class);
+        assetManager.load("sounds/feedback/newblock.wav", Sound.class);
+        assetManager.load("sounds/feedback/feedbackLoop.wav", Music.class);
+        assetManager.load("sounds/feedback/masPiezas.wav", Sound.class);
+        assetManager.load("sounds/feedback/menosPiezas.wav", Sound.class);
+        assetManager.load("sounds/feedback/knock.wav", Sound.class);
 
-        /*
-
-        assetManager.load("sounds/c_tutorial/1_intro.wav", Sound.class);
-        assetManager.load("sounds/c_tutorial/2_este_sonido.wav", Sound.class);
-        assetManager.load("sounds/c_tutorial/3_significa.wav", Sound.class);
-        assetManager.load("sounds/c_tutorial/4_pone.wav", Sound.class);
-        assetManager.load("sounds/c_tutorial/5_vamos.wav", Sound.class);
-        assetManager.load("sounds/c_tutorial/6_ahora.wav", Sound.class);
-        assetManager.load("sounds/c_tutorial/7_es_el_sonido.wav", Sound.class);
-        assetManager.load("sounds/c_tutorial/8_y_si_son_mas.wav", Sound.class);
-        assetManager.load("sounds/c_tutorial/9_oigamos.wav", Sound.class);
-        assetManager.load("sounds/c_tutorial/10_tambien_se.wav", Sound.class);
-        assetManager.load("sounds/c_tutorial/11_cuando_hay.wav", Sound.class);
-
-*/
         assetManager.load("sounds/concreto/1.mp3", Sound.class);
         assetManager.load("sounds/concreto/2.mp3", Sound.class);
         assetManager.load("sounds/concreto/3.mp3", Sound.class);
@@ -109,25 +79,19 @@ public class Assets implements Disposable, AssetErrorListener {
         assetManager.load("sounds/concreto/7.mp3", Sound.class);
         assetManager.load("sounds/concreto/8.mp3", Sound.class);
         assetManager.load("sounds/concreto/9.mp3", Sound.class);
-
-       // assetManager.load("sounds/c_tutorial/10", Sound.class);
-        //assetManager.load("sounds/c_tutorial/11_cuando_hay.wav", Sound.class);
-
-
-
         //micro mundo 1
-        assetManager.load("sounds/mm1_tutorial/mm1_1.mp3", Sound.class);
-        assetManager.load("sounds/mm1_tutorial/mm1_2.mp3", Sound.class);
+        assetManager.load("sounds/mm1_tutorial/mm1_intro1.mp3", Sound.class);
+        assetManager.load("sounds/mm1_tutorial/mm1_intro2.mp3", Sound.class);
         assetManager.load("sounds/mm1_tutorial/mm1_tooMuch.mp3", Sound.class);
         assetManager.load("sounds/mm1_tutorial/mm1_tooFew.mp3", Sound.class);
-
 
         assetManager.load("sounds/opciones/jugar.wav", Sound.class);
         assetManager.load("sounds/opciones/denuevo.wav", Sound.class);
         assetManager.load("sounds/opciones/ayuda.wav", Sound.class);
         assetManager.load("sounds/opciones/salir.wav", Sound.class);
 
-
+        assetManager.load("music/song1.mp3", Music.class);
+        assetManager.load("music/song2.mp3", Music.class);
         // start loading assets and wait until finished
         assetManager.finishLoading();
 
@@ -157,11 +121,11 @@ public class Assets implements Disposable, AssetErrorListener {
     }
 
     public class AssetSounds {
-        public final Sound f1, f2, f3, f4, f5, f6, f7, f8, f9, f10, f11, f12, f13, f14, f15;
+        public final  Sound number1, number2, number3, number4, number5, number6, number7, number8, number9, number10, number11, number12, number13, number14, number15;
         public final Sound ct_1,ct_2,ct_3,ct_4,ct_5,ct_6,ct_7,ct_8,ct_9; /*ct_10, ct_11;*/
         public final Sound oneDo, oneRe, oneMi, oneFa, oneSol;
         public final Sound puck,yuju, newblock, addblock, quitblock, tada;
-        public final Sound d1,d2,d3,d4,d5,d6,d7,d8,d9,d10;
+        public final Sound knock;
         public final Sound tmm1_1,tmm1_2,tmm1_tooMuch,tmm1_tooFew;
         public final Sound jugar, denuevo, ayuda, salir;
 
@@ -180,68 +144,38 @@ public class Assets implements Disposable, AssetErrorListener {
         }
 
         public AssetSounds (AssetManager am) {
-            f1 =  soundWithDuration("sounds/1.wav", am);
-            f2 =  soundWithDuration("sounds/2.wav", am);
-            f3 =  soundWithDuration("sounds/3.wav", am);
-            f4 =  soundWithDuration("sounds/4.wav", am);
-            f5 =  soundWithDuration("sounds/5.wav", am);
-            f6 =  soundWithDuration("sounds/6.wav", am);
-            f7 =  soundWithDuration("sounds/7.wav", am);
-            f8 =  soundWithDuration("sounds/8.wav", am);
-            f9 =  soundWithDuration("sounds/9.wav", am);
-            f10 = soundWithDuration("sounds/10.wav", am);
-            f11 = soundWithDuration("sounds/11.wav", am);
-            f12 = soundWithDuration("sounds/12.wav", am);
-            f13 = soundWithDuration("sounds/13.wav", am);
-            f14 = soundWithDuration("sounds/14.wav", am);
-            f15 = soundWithDuration("sounds/15.wav", am);
 
-            oneDo = soundWithDuration("sounds/do.wav", am);
-//            oneRe = am.get("sounds/re_trumpet.wav", Sound.class);
-//            oneMi = am.get("sounds/mi_guitar.wav", Sound.class);
-//            oneFa = am.get("sounds/fa_flaute.wav", Sound.class);
-//            oneSol = am.get("sounds/sol_harp.wav", Sound.class);
-            oneRe = soundWithDuration("sounds/re.wav", am);
-            oneMi = soundWithDuration("sounds/mi.wav", am);
-            oneFa = soundWithDuration("sounds/fa.wav", am);
-            oneSol = soundWithDuration("sounds/sol.wav", am);
+            number1 =  soundWithDuration("sounds/numeros/1.wav", am);
+            number2 =  soundWithDuration("sounds/numeros/2.wav", am);
+            number3 =  soundWithDuration("sounds/numeros/3.wav", am);
+            number4 =  soundWithDuration("sounds/numeros/4.wav", am);
+            number5 =  soundWithDuration("sounds/numeros/5.wav", am);
+            number6 =  soundWithDuration("sounds/numeros/6.wav", am);
+            number7 =  soundWithDuration("sounds/numeros/7.wav", am);
+            number8 =  soundWithDuration("sounds/numeros/8.wav", am);
+            number9 =  soundWithDuration("sounds/numeros/9.wav", am);
+            number10 = soundWithDuration("sounds/numeros/10.wav", am);
+            number11 = soundWithDuration("sounds/numeros/11.wav", am);
+            number12 = soundWithDuration("sounds/numeros/12.wav", am);
+            number13 = soundWithDuration("sounds/numeros/13.wav", am);
+            number14 = soundWithDuration("sounds/numeros/14.wav", am);
+            number15 = soundWithDuration("sounds/numeros/15.wav", am);
 
-           /* puck = soundWithDuration("sounds/puck.mp3", am);
-            yuju = soundWithDuration("sounds/yuju.mp3", am);
-            tada = soundWithDuration("sounds/tada.mp3", am);
-*/
-            puck = soundWithDuration("sounds/puck.mp3", am);
-            yuju = soundWithDuration("sounds/yuju.mp3", am);
-            tada = soundWithDuration("sounds/tada.mp3", am);
+            oneDo = soundWithDuration("sounds/feedback/piano/do.wav", am);
+            oneRe = soundWithDuration("sounds/feedback/piano/re.wav", am);
+            oneMi = soundWithDuration("sounds/feedback/piano/mi.wav", am);
+            oneFa = soundWithDuration("sounds/feedback/piano/fa.wav", am);
+            oneSol = soundWithDuration("sounds/feedback/piano/sol.wav", am);
 
-            newblock = soundWithDuration("sounds/newblock.wav", am);
-            addblock = soundWithDuration("sounds/masPiezas.wav", am);
-            quitblock = soundWithDuration("sounds/menosPiezas.wav", am);
+            puck = soundWithDuration("sounds/feedback/puck.mp3", am);
+            yuju = soundWithDuration("sounds/feedback/yuju.mp3", am);
+            tada = soundWithDuration("sounds/feedback/tada.mp3", am);
 
-            d1 = soundWithDuration("sounds/d1.wav", am);
-            d2 = soundWithDuration("sounds/d2.wav", am);
-            d3 = soundWithDuration("sounds/d3.wav", am);
-            d4 = soundWithDuration("sounds/d4.wav", am);
-            d5 = soundWithDuration("sounds/d5.wav", am);
-            d6 = soundWithDuration("sounds/d6.wav", am);
-            d7 = soundWithDuration("sounds/d7.wav", am);
-            d8 = soundWithDuration("sounds/d8.wav", am);
-            d9 = soundWithDuration("sounds/d9.wav", am);
-            d10 = soundWithDuration("sounds/d10.wav", am);
+            newblock = soundWithDuration("sounds/feedback/newblock.wav", am);
+            addblock = soundWithDuration("sounds/feedback/masPiezas.wav", am);
+            quitblock = soundWithDuration("sounds/feedback/menosPiezas.wav", am);
 
-            /*
-            ct_1 = soundWithDuration("sounds/c_tutorial/1_intro.wav", am);
-            ct_2 = soundWithDuration("sounds/c_tutorial/2_este_sonido.wav", am);
-            ct_3 = soundWithDuration("sounds/c_tutorial/3_significa.wav", am);
-            ct_4 = soundWithDuration("sounds/c_tutorial/4_pone.wav", am);
-            ct_5 = soundWithDuration("sounds/c_tutorial/5_vamos.wav", am);
-            ct_6 = soundWithDuration("sounds/c_tutorial/6_ahora.wav", am);
-            ct_7 = soundWithDuration("sounds/c_tutorial/7_es_el_sonido.wav", am);
-            ct_8 = soundWithDuration("sounds/c_tutorial/8_y_si_son_mas.wav", am);
-            ct_9 = soundWithDuration("sounds/c_tutorial/9_oigamos.wav", am);
-            ct_10 = soundWithDuration("sounds/c_tutorial/10_tambien_se.wav", am);
-            ct_11 = soundWithDuration("sounds/c_tutorial/11_cuando_hay.wav", am);
-*/
+            knock = soundWithDuration("sounds/feedback/knock.wav", am);
 
 
             ct_1 = soundWithDuration("sounds/concreto/1.mp3", am);
@@ -255,8 +189,8 @@ public class Assets implements Disposable, AssetErrorListener {
             ct_9 = soundWithDuration("sounds/concreto/9.mp3", am);
 
 
-            tmm1_1 = soundWithDuration("sounds/mm1_tutorial/mm1_1.mp3", am);
-            tmm1_2 = soundWithDuration("sounds/mm1_tutorial/mm1_2.mp3", am);
+            tmm1_1 = soundWithDuration("sounds/mm1_tutorial/mm1_intro1.mp3", am);
+            tmm1_2 = soundWithDuration("sounds/mm1_tutorial/mm1_intro2.mp3", am);
             tmm1_tooMuch = soundWithDuration("sounds/mm1_tutorial/mm1_tooMuch.mp3", am);
             tmm1_tooFew = soundWithDuration("sounds/mm1_tutorial/mm1_tooFew.mp3", am);
 
@@ -278,7 +212,7 @@ public class Assets implements Disposable, AssetErrorListener {
         public AssetMusic (AssetManager am) {
             song01 = am.get("music/song1.mp3", Music.class);
             song02 = am.get("music/song2.mp3", Music.class);
-            new_block_loop  = am.get("feedback/feedbackLoop.wav", Music.class);
+            new_block_loop  = am.get("sounds/feedback/feedbackLoop.wav", Music.class);
 
         }
     }

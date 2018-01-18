@@ -7,6 +7,8 @@ import miceta.game.core.miCeta;
  * Created by ewe on 1/12/18.
  */
 public class OrganicTutorial1Screen extends AbstractGameScreen {
+    // organic tutorial = audioIntro + interactive part + audio tada
+
     protected int tutorialPart;
     protected int totalTutorialParts;
     public OrganicTutorial1Screen(miCeta game, int tutorialPart, int totalTutorialParts) {

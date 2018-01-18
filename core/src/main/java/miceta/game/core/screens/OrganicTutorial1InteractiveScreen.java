@@ -4,14 +4,18 @@ import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.InputProcessor;
 import com.badlogic.gdx.graphics.GL20;
 import com.badlogic.gdx.scenes.scene2d.Stage;
+import com.badlogic.gdx.utils.Array;
 import com.badlogic.gdx.utils.viewport.FitViewport;
 import miceta.game.core.controllers.CvOrganicTutorialController;
 import miceta.game.core.miCeta;
+
+import java.util.ArrayList;
 
 /**
  * Created by ewe on 1/12/18.
  */
 public class OrganicTutorial1InteractiveScreen extends OrganicTutorial1Screen {
+    private int[] part2operations = {1,2,3,4,5,6,10,9,8,7};
 
     public OrganicTutorial1InteractiveScreen(miCeta game, int tutorialPart, int totalTutorialParts) {
         super(game, tutorialPart, totalTutorialParts);
@@ -20,7 +24,7 @@ public class OrganicTutorial1InteractiveScreen extends OrganicTutorial1Screen {
     @Override
     public void show() {
         stage = new Stage(new FitViewport(viewportWidth, viewportHeight));
-        worldController = new CvOrganicTutorialController(game,stage,getFeedbackSoundNameFromTutorialPart(tutorialPart));
+        worldController = new CvOrganicTutorialController(game,stage,getFeedbackSoundNameFromTutorialPart(tutorialPart), getOperationsFromTutorialPart(tutorialPart));
         // android back key used to exit, we should not catch
         Gdx.input.setCatchBackKey(false);
 
@@ -48,9 +52,18 @@ public class OrganicTutorial1InteractiveScreen extends OrganicTutorial1Screen {
     private String getFeedbackSoundNameFromTutorialPart(int tutorialPartNr){
         switch(tutorialPartNr){
             case 2:
-                return "drop";
+                return "drop"; // TODO here goes steps
             default:
                 return "knock";
+        }
+    }
+
+    private int[] getOperationsFromTutorialPart(int tutorialPartNr){
+        switch(tutorialPartNr){
+            case 2:
+                return part2operations;
+            default:
+                return part2operations ;
         }
     }
 }

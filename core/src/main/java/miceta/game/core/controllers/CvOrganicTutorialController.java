@@ -21,29 +21,19 @@ public class CvOrganicTutorialController extends CvWorldController {
     private int correctAnswersNr;
     private int correctAnswersNeeded;
     private int maxValue, minValue;
+    private int[] tutorialOperations;
 
-
-    public CvOrganicTutorialController(miCeta game, Stage stage, String feedbackSoundName) {
+    public CvOrganicTutorialController(miCeta game, Stage stage, String feedbackSoundName, int[] operations) {
         super(game, stage, feedbackSoundName, Assets.instance.sounds.tmm1_tooMuch,Assets.instance.sounds.tmm1_tooFew);
+        initTutorialVariables(operations);
     }
 
 
     @Override
     protected void init(){
-        minValue =1;
-        maxValue =3;
-
-        numberToPlay = getNewRandomNumber(0,minValue,maxValue);
-        correctAnswersNr = 0;
-        correctAnswersNeeded = 10; // we need 10 correct answers!
-
-        AudioManager.instance.readFeedback(numberToPlay, extraDelayBetweenFeedback, feedbackSoundName); //first we read the random number
-        timeToWait = Constants.READ_ONE_UNIT_DURATION+ numberToPlay*Constants.READ_ONE_UNIT_DURATION + waitAfterKnock /*+ ( randomNumber)*(0.3f)*/; // time we should wait before next loop starts
         lastAnswerRight = false;
-
         inactivityLimit = 0; // we dont want to wait!
         maxErrorsForHint = 2; // two errors and we let you know!
-
 
     }
 
@@ -55,8 +45,21 @@ public class CvOrganicTutorialController extends CvWorldController {
             willGoToNextPart = true;
             game.setScreen(new OrganicTutorial1AudioScreen(game,3,3));
         }else {
-            numberToPlay = getNewRandomNumber(getRandomNumber(),minValue,maxValue);
+            numberToPlay = tutorialOperations[correctAnswersNr];
         }
+
+    }
+
+    private void initTutorialVariables(int[] operations){
+        tutorialOperations = operations;
+        correctAnswersNr = 0;
+        correctAnswersNeeded = tutorialOperations.length; // we need X correct answers!
+        numberToPlay = tutorialOperations[correctAnswersNr];
+
+
+        AudioManager.instance.readFeedback(numberToPlay, extraDelayBetweenFeedback, feedbackSoundName); //first we read the random number
+        timeToWait = Constants.READ_ONE_UNIT_DURATION+ numberToPlay*Constants.READ_ONE_UNIT_DURATION + waitAfterKnock /*+ ( randomNumber)*(0.3f)*/; // time we should wait before next loop starts
+
 
     }
 }
