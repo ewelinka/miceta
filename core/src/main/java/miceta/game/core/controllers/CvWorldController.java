@@ -230,6 +230,7 @@ public class CvWorldController extends InputAdapter {
             }
         }
         // check if there are sufficient errors and inactivity time
+
         if(inactivityTime >= inactivityLimit){ // this condition is important for both: min and max
             if (error_max >= maxErrorsForHint) {
                 AudioManager.instance.setDelay_add(tooMuchErrorSound);
