@@ -8,6 +8,7 @@ import com.badlogic.gdx.utils.Array;
 import com.badlogic.gdx.utils.viewport.FitViewport;
 import miceta.game.core.controllers.CvOrganicTutorialController;
 import miceta.game.core.miCeta;
+import miceta.game.core.util.FeedbackSoundType;
 
 import java.util.ArrayList;
 
@@ -24,7 +25,7 @@ public class OrganicTutorial1InteractiveScreen extends OrganicTutorial1Screen {
     @Override
     public void show() {
         stage = new Stage(new FitViewport(viewportWidth, viewportHeight));
-        worldController = new CvOrganicTutorialController(game,stage,getFeedbackSoundNameFromTutorialPart(tutorialPart), getOperationsFromTutorialPart(tutorialPart));
+        worldController = new CvOrganicTutorialController(game,stage, FeedbackSoundType.KNOCK, getOperationsFromTutorialPart(tutorialPart));
         // android back key used to exit, we should not catch
         Gdx.input.setCatchBackKey(false);
 

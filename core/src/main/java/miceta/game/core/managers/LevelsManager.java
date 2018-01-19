@@ -90,6 +90,7 @@ public class LevelsManager {
 
 
     public void get_List_of_numbers(int level){
+        quantity_operation = (new Integer (subLines[level][3]).intValue());
         list_to_play.clear();
         Integer number  = 0;
 
@@ -133,6 +134,7 @@ public class LevelsManager {
             }
             operation_index =0;
         }
+
     }
 
     public void up_level(){
@@ -153,7 +155,6 @@ public class LevelsManager {
 
     public void up_operation_index(){
         operation_index ++;
-        quantity_operation = (new Integer (subLines[level][3]).intValue());
 
         if (operation_index >= quantity_operation){ //Ojo con Esto! puede que sea mejor el ==
             Gdx.app.log(TAG, "all operations ready! "+operation_index);
@@ -161,6 +162,9 @@ public class LevelsManager {
 
         }
     }
+    public int get_quantity_operation(){
+         return quantity_operation;
+     }
 
     public int get_level_size(){
         return level_tope;
@@ -173,6 +177,8 @@ public class LevelsManager {
     public int get_operation_index(){
         return operation_index;
     }
+
+
 
 
 

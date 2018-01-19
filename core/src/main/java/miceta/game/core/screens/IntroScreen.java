@@ -28,7 +28,7 @@ import java.util.ArrayList;
  */
 public class IntroScreen extends AbstractGameScreen {
     public static final String TAG = IntroScreen.class.getName();
-    private ImageButton btnPlay, btnExit, btnHelp, btnNewStart, btnOrganicTutorial;
+    private ImageButton btnPlay, btnExit, btnHelp, btnNewStart, btnOrganicTutorial, btnIngredients;
 
     public IntroScreen(miCeta game) {
         super(game);
@@ -50,10 +50,12 @@ public class IntroScreen extends AbstractGameScreen {
         Gdx.input.setCatchBackKey(false);
         // btn 300 x 150, screen 1366 x 768
         addBtnOrganicTutorial(30, 30 ); // TODO just for testing!
+        addBtnIngredients(30,90); // TODO just for testing!
         addBtnExit(viewportWidth/2 - 300/2, 30 ); // last btn
         addBtnHelp(viewportWidth/2 - 300/2, 30 + (30 + 150)*1 );
         addBtnNewStart(viewportWidth/2 - 300/2, 30 +(30 + 150)*2);
         addBtnPlay(viewportWidth/2 - 300/2, 30 +(30 + 150)*3 ); // top button
+
     }
 
 
@@ -156,6 +158,19 @@ public class IntroScreen extends AbstractGameScreen {
         stage.addActor(btnOrganicTutorial);
     }
 
+    private void addBtnIngredients(int x, int y){
+        btnIngredients = new ImageButton(Assets.instance.buttons.helpButtonStyle);
+        btnIngredients.setPosition(x,y);
+        btnIngredients.addListener(new ChangeListener() {
+            @Override
+            public void changed (ChangeEvent event, Actor actor) {
+                onBtnClicked("ingredients");
+            }
+        });
+        stage.addActor(btnIngredients);
+
+    }
+
     private void onBtnClicked(String btnType) {
         ScreenTransition transition = ScreenTransitionFade.init(1);
         switch(btnType){
@@ -177,6 +192,11 @@ public class IntroScreen extends AbstractGameScreen {
                 // TODO should not be in menu, we put it now for testing
                 //game.setScreen(new ConcreteTutorial(game),transition);
                 game.setScreen(new OrganicTutorial1AudioScreen(game,1,3),transition);
+                break;
+            case "ingredients":
+                // TODO should not be in menu, we put it now for testing
+                //game.setScreen(new ConcreteTutorial(game),transition);
+                game.setScreen(new IngredientsScreen(game),transition);
                 break;
         }
 

@@ -80,10 +80,23 @@ public class Assets implements Disposable, AssetErrorListener {
         assetManager.load("sounds/concreto/8.mp3", Sound.class);
         assetManager.load("sounds/concreto/9.mp3", Sound.class);
         //micro mundo 1
-        assetManager.load("sounds/mm1_tutorial/mm1_intro1.mp3", Sound.class);
-        assetManager.load("sounds/mm1_tutorial/mm1_intro2.mp3", Sound.class);
-        assetManager.load("sounds/mm1_tutorial/mm1_tooMuch.mp3", Sound.class);
-        assetManager.load("sounds/mm1_tutorial/mm1_tooFew.mp3", Sound.class);
+        assetManager.load("sounds/mm1/tutorial/mm1_intro1.mp3", Sound.class);
+        assetManager.load("sounds/mm1/tutorial/mm1_intro2.mp3", Sound.class);
+        assetManager.load("sounds/mm1/tutorial/mm1_tooMuch.mp3", Sound.class);
+        assetManager.load("sounds/mm1/tutorial/mm1_tooFew.mp3", Sound.class);
+
+        assetManager.load("sounds/mm1/ingredientes/1intro.mp3", Sound.class);
+        assetManager.load("sounds/mm1/ingredientes/cocodrilo.mp3", Sound.class);
+        assetManager.load("sounds/mm1/ingredientes/final.mp3", Sound.class);
+        assetManager.load("sounds/mm1/ingredientes/gato.mp3", Sound.class);
+        assetManager.load("sounds/mm1/ingredientes/hormiga.mp3", Sound.class);
+        assetManager.load("sounds/mm1/ingredientes/lama.mp3", Sound.class);
+        assetManager.load("sounds/mm1/ingredientes/masRunas.mp3", Sound.class);
+        assetManager.load("sounds/mm1/ingredientes/menosRunas.mp3", Sound.class);
+        assetManager.load("sounds/mm1/ingredientes/positivo.mp3", Sound.class);
+        assetManager.load("sounds/mm1/ingredientes/rana.mp3", Sound.class);
+        assetManager.load("sounds/mm1/ingredientes/vaca.mp3", Sound.class);
+        assetManager.load("sounds/mm1/ingredientes/vinagre.mp3", Sound.class);
 
         assetManager.load("sounds/opciones/jugar.wav", Sound.class);
         assetManager.load("sounds/opciones/denuevo.wav", Sound.class);
@@ -128,6 +141,7 @@ public class Assets implements Disposable, AssetErrorListener {
         public final Sound knock;
         public final Sound tmm1_1,tmm1_2,tmm1_tooMuch,tmm1_tooFew;
         public final Sound jugar, denuevo, ayuda, salir;
+        public final Sound ingredientsIntro,ingredientsCrocodile,ingredientsCat,ingredientsAnt,ingredientsLama,ingredientsFrog,ingredientsCow, ingredientsVinegar,ingredientsMore,ingredientsLess, ingredientsPositive,ingredientsFinal;
 
         //concrete tutorial
 
@@ -189,10 +203,23 @@ public class Assets implements Disposable, AssetErrorListener {
             ct_9 = soundWithDuration("sounds/concreto/9.mp3", am);
 
 
-            tmm1_1 = soundWithDuration("sounds/mm1_tutorial/mm1_intro1.mp3", am);
-            tmm1_2 = soundWithDuration("sounds/mm1_tutorial/mm1_intro2.mp3", am);
-            tmm1_tooMuch = soundWithDuration("sounds/mm1_tutorial/mm1_tooMuch.mp3", am);
-            tmm1_tooFew = soundWithDuration("sounds/mm1_tutorial/mm1_tooFew.mp3", am);
+            tmm1_1 = soundWithDuration("sounds/mm1/tutorial/mm1_intro1.mp3", am);
+            tmm1_2 = soundWithDuration("sounds/mm1/tutorial/mm1_intro2.mp3", am);
+            tmm1_tooMuch = soundWithDuration("sounds/mm1/tutorial/mm1_tooMuch.mp3", am);
+            tmm1_tooFew = soundWithDuration("sounds/mm1/tutorial/mm1_tooFew.mp3", am);
+
+            ingredientsIntro = soundWithDuration("sounds/mm1/ingredientes/1intro.mp3", am);
+            ingredientsCrocodile = soundWithDuration("sounds/mm1/ingredientes/cocodrilo.mp3", am);
+            ingredientsCat = soundWithDuration("sounds/mm1/ingredientes/gato.mp3", am);
+            ingredientsAnt = soundWithDuration("sounds/mm1/ingredientes/hormiga.mp3", am);
+            ingredientsLama = soundWithDuration("sounds/mm1/ingredientes/lama.mp3", am);
+            ingredientsFrog = soundWithDuration("sounds/mm1/ingredientes/rana.mp3", am);
+            ingredientsCow = soundWithDuration("sounds/mm1/ingredientes/vaca.mp3", am);
+            ingredientsVinegar = soundWithDuration("sounds/mm1/ingredientes/vinagre.mp3", am);
+            ingredientsMore = soundWithDuration("sounds/mm1/ingredientes/masRunas.mp3", am);
+            ingredientsLess = soundWithDuration("sounds/mm1/ingredientes/menosRunas.mp3", am);
+            ingredientsPositive = soundWithDuration("sounds/mm1/ingredientes/positivo.mp3", am);
+            ingredientsFinal = soundWithDuration("sounds/mm1/ingredientes/final.mp3", am);
 
             jugar = soundWithDuration("sounds/opciones/jugar.wav", am);
             denuevo = soundWithDuration("sounds/opciones/denuevo.wav", am);
