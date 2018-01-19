@@ -19,10 +19,15 @@ import miceta.game.core.screens.IntroScreen;
 import miceta.game.core.screens.TestScreen;
 import miceta.game.core.util.AudioManager;
 import miceta.game.core.util.Constants;
+import miceta.game.core.util.FeedbackSoundType;
 import miceta.game.core.util.GamePreferences;
 
 import java.util.ArrayList;
 import java.util.Set;
+
+import static miceta.game.core.util.TooMuchTooFew.TOO_FEW;
+import static miceta.game.core.util.TooMuchTooFew.TOO_MUCH;
+
 
 /**
  * Created by ewe on 8/10/17.
@@ -33,34 +38,37 @@ public class CvWorldController extends InputAdapter {
     public miCeta game;
    // private int randomNumber,previousRandomNumber;
     protected int numberToPlay;
-    protected boolean lastAnswerRight;
+    protected boolean answerRight;
     private int error_min = 0;
     private int error_max = 0;
-    private float inactivityTime =0; // time that passed since last move
-    private int feedback_delay=0;
-    private int currentSum=0;
-    private int lastSum=0;
+    protected float inactivityTime =0; // time that passed since last move
+
+    protected int currentSum=0;
+    protected int lastSum=0;
     protected float timeToWait, timePassed;
     protected CvBlocksManager cvBlocksManager;
     protected float extraDelayBetweenFeedback;
     protected float waitAfterKnock;
-    protected String feedbackSoundName;
     protected Sound tooMuchErrorSound, tooFewErrorSound;
+    protected FeedbackSoundType feedbackSound;
     protected int inactivityLimit;
     protected int maxErrorsForHint;
     protected boolean willGoToNextPart;
+    protected float delayForPositiveFeedback;
+    protected int correctAnswersNow;
+    protected int correctAnswersNeeded;
 
 
     public CvWorldController(miCeta game, Stage stage){
         // knock by default
         // too much and too many default values
-        this(game,stage,"knock", Assets.instance.sounds.quitblock, Assets.instance.sounds.addblock);
+        this(game,stage,FeedbackSoundType.KNOCK, Assets.instance.sounds.quitblock, Assets.instance.sounds.addblock);
     }
 
-    public CvWorldController(miCeta game, Stage stage, String feedbackSoundName,Sound tooMuchErrorSound,Sound tooFewErrorSound) {
+    public CvWorldController(miCeta game, Stage stage, FeedbackSoundType feedbackSound, Sound tooMuchErrorSound, Sound tooFewErrorSound) {
         this.game = game;
         this.stage = stage;
-        this.feedbackSoundName = feedbackSoundName;
+        this.feedbackSound = feedbackSound;
         this.tooMuchErrorSound = tooMuchErrorSound;
         this.tooFewErrorSound = tooFewErrorSound;
 
@@ -72,41 +80,47 @@ public class CvWorldController extends InputAdapter {
             cvBlocksManager = new CvBlocksManagerDesktop(game, stage);
         }
         AudioManager.instance.setStage(stage); // we set current Stage in AudioManager, if not "reader" actor doesn't work
-
+        initCustomSounds();
         initCommonVariables();
         init();
+        initAnswersNeeded();
 
+    }
+
+    protected void initCustomSounds(){
+        AudioManager.instance.setCustomSound(tooFewErrorSound, TOO_FEW);
+        AudioManager.instance.setCustomSound(tooMuchErrorSound, TOO_MUCH);
+        AudioManager.instance.setFeedbackSoundType(FeedbackSoundType.KNOCK);
+    }
+
+    protected void initAnswersNeeded(){
+        correctAnswersNow = 0;
+        correctAnswersNeeded = LevelsManager.getInstance().get_level_size();
     }
 
     protected void init(){
         numberToPlay = LevelsManager.getInstance().get_number_to_play();
+        setDelayForPositiveFeedback();
         Gdx.app.log(TAG,"init, Number to Play: " + numberToPlay );
-
-        AudioManager.instance.readFeedback(numberToPlay, extraDelayBetweenFeedback, feedbackSoundName); //first we read the random number
+        AudioManager.instance.readFeedback(numberToPlay, extraDelayBetweenFeedback); //first we read the random number
         timeToWait = Constants.READ_ONE_UNIT_DURATION+ numberToPlay*Constants.READ_ONE_UNIT_DURATION + waitAfterKnock /*+ ( randomNumber)*(0.3f)*/; // time we should wait before next loop starts
-        lastAnswerRight = false;
-
+        answerRight = false;
     }
 
     protected void initCommonVariables(){
         timePassed = 0;
-
         extraDelayBetweenFeedback = GamePreferences.instance.getExtraDelayBetweenFeedback();
         waitAfterKnock = GamePreferences.instance.getWaitAfterKnock();
         waitAfterKnock = 3;
         inactivityTime = Constants.INACTIVITY_LIMIT;
         maxErrorsForHint = Constants.ERRORS_FOT_HINT;
-
         willGoToNextPart = false;
-
     }
 
     protected void updateCV(){
-
         if(cvBlocksManager.canBeUpdated()) { //ask before in order to not accumulate new threads.
             cvBlocksManager.updateDetected();
         }
-
         if(cvBlocksManager.isDetectionReady()){
             cvBlocksManager.analyseDetected();
         }
@@ -119,17 +133,9 @@ public class CvWorldController extends InputAdapter {
         inactivityTime+=deltaTime;
         updateCV();
 
-
         if(isTimeToStartNewLoop()){
-            if(lastAnswerRight){
-                onCorrectAnswer();
-                lastAnswerRight = false;
-                resetErrorsAndInactivity();
-                currentSum = 0; // we "reset" current sum to detect errors
-            }
-            if(!willGoToNextPart) { // when we finish interactive part
+            if(!willGoToNextPart) {
                 timePassed = 0; // start to count the time
-                //Gdx.app.log(TAG,"new loop! with random number "+numberToPlay);
                 ArrayList<Integer> nowDetected = cvBlocksManager.getNewDetectedVals(); // to know the blocks on the table
                 lastSum = currentSum;
                 currentSum = 0;
@@ -137,13 +143,30 @@ public class CvWorldController extends InputAdapter {
                 for (int i = 0; i < nowDetected.size(); i++)
                     currentSum += nowDetected.get(i); // we need to know the sum to decide if response is correct
 
-                if (numberToPlay != currentSum)
+                answerRight = (currentSum == numberToPlay);
+                timeToWait = calculateTimeToWait(currentSum, numberToPlay);
+                if (answerRight) {
+                    correctAnswersNow+=1;
+                    addPositiveFeedbackTimeToTimeToWait();
+                    reproduceAllFeedbacksAndPositive(nowDetected, numberToPlay);
+                    if(correctAnswersNow == correctAnswersNeeded) {
+                        willGoToNextPart = true;
+                    }
+                    onCorrectAnswer(); //change number!
+                    resetErrorsAndInactivity();
+                    currentSum = 0; // we "reset" current sum to detect errors
+                } else {
                     checkForErrorsAndInactivity(currentSum, lastSum);
-                checkForCorrectAnswer(currentSum, numberToPlay, nowDetected);
+                    reproduceAllFeedbacks(nowDetected, numberToPlay);
+                }
+            }else{
+                game.setScreen(new IntroScreen(game));
             }
-
-
         }
+    }
+
+    protected void reproduceAllFeedbacks(ArrayList<Integer> nowDetected, int numberToPlay ){
+        AudioManager.instance.readAllFeedbacks(nowDetected, numberToPlay, extraDelayBetweenFeedback);
     }
 
     protected void onCorrectAnswer(){
@@ -151,6 +174,24 @@ public class CvWorldController extends InputAdapter {
         numberToPlay = LevelsManager.getInstance().get_number_to_play();
         saveLevel();
     }
+
+    protected void addPositiveFeedbackTimeToTimeToWait(){
+            timeToWait += (delayForPositiveFeedback + Constants.WAIT_AFTER_CORRECT_ANSWER);
+    }
+
+    protected float calculateTimeToWait( int currentSum, int numberToPlay){
+        int biggerNumber =  (currentSum > numberToPlay) ? currentSum : numberToPlay;
+        float currentTimeToWait = biggerNumber * (Constants.READ_ONE_UNIT_DURATION + extraDelayBetweenFeedback)+ waitAfterKnock;
+
+        return currentTimeToWait;
+
+    }
+
+    protected void reproduceAllFeedbacksAndPositive(ArrayList<Integer> nowDetected, int numberToPlay ){
+        AudioManager.instance.readAllFeedbacksAndPositive(nowDetected, numberToPlay, extraDelayBetweenFeedback);
+    }
+
+
 
 
     protected boolean isTimeToStartNewLoop(){
@@ -174,7 +215,7 @@ public class CvWorldController extends InputAdapter {
     }
 
 
-    private void checkForErrorsAndInactivity(int currentSum, int lastSum){
+    protected void checkForErrorsAndInactivity(int currentSum, int lastSum){
         Gdx.app.log(TAG,currentSum+" "+lastSum+" "+error_max+" "+error_min);
         // check for errors
         if(currentSum != lastSum){ // we count errors or reset inactivity only if (currentSum != lastSum)
@@ -189,7 +230,6 @@ public class CvWorldController extends InputAdapter {
             }
         }
         // check if there are sufficient errors and inactivity time
-        feedback_delay = 0; // by default we assume that feedback delay should be 0
         if(inactivityTime >= inactivityLimit){ // this condition is important for both: min and max
             if (error_max >= maxErrorsForHint) {
                 AudioManager.instance.setDelay_add(tooMuchErrorSound);
@@ -197,34 +237,29 @@ public class CvWorldController extends InputAdapter {
                 error_max = maxErrorsForHint-1;
                 error_min = maxErrorsForHint-1;
                 inactivityTime = 0;
-                feedback_delay = Constants.FEEDBACK_DELAY;
+                addFeedbackDelayToTimeToWait();
             }
             if (error_min >= maxErrorsForHint){
                 AudioManager.instance.setDelay_quit(tooFewErrorSound);
                 Gdx.app.log(TAG,"########################################ERROR MIN ");
                 error_min = maxErrorsForHint-1;
                 error_max = maxErrorsForHint-1;
-                feedback_delay = Constants.FEEDBACK_DELAY;
+                addFeedbackDelayToTimeToWait();
+
             }
         }
     }
 
-    private void checkForCorrectAnswer(int currentSum, int numberToPlay, ArrayList<Integer> nowDetected ) {
-        int biggerNumber =  (currentSum > numberToPlay) ? currentSum : numberToPlay;
-        //Gdx.app.log(TAG,"wait after knock!!! "+waitAfterKnock);
-        //timeToWait = Constants.READ_NUMBER_DURATION + biggerNumber * Constants.READ_ONE_UNIT_DURATION + Constants.WAIT_AFTER_KNOCK + feedback_delay;
-        timeToWait = biggerNumber * (Constants.READ_ONE_UNIT_DURATION + extraDelayBetweenFeedback)+ waitAfterKnock + feedback_delay;
-
-        if (currentSum == numberToPlay) { // correct answer! in next loop we will celebrate
-            lastAnswerRight = true;
-            timeToWait += (Constants.DELAY_FOR_TADA + Constants.DELAY_FOR_YUJU + Constants.WAIT_AFTER_CORRECT_ANSWER);
-        }
-
-        AudioManager.instance.readAllFeedbacks(nowDetected, numberToPlay, lastAnswerRight, extraDelayBetweenFeedback, feedbackSoundName);
-
+    private void addFeedbackDelayToTimeToWait(){
+        timeToWait += Constants.FEEDBACK_DELAY;
     }
 
-    private void resetErrorsAndInactivity(){
+
+
+
+
+
+    protected void resetErrorsAndInactivity(){
         error_min = 0;
         error_max = 0;
         inactivityTime = 0;
@@ -331,12 +366,16 @@ public class CvWorldController extends InputAdapter {
     }
 
 
-    private void saveLevel() {
+    protected void saveLevel() {
         GamePreferences prefs = GamePreferences.instance;
         prefs.load();
         GamePreferences.instance.setLast_level(LevelsManager.getInstance().get_level());
         GamePreferences.instance.setOperation_index(LevelsManager.getInstance().get_operation_index());
         prefs.save();
+    }
+
+    protected void setDelayForPositiveFeedback(){
+        delayForPositiveFeedback = Constants.DELAY_FOR_TADA + Constants.DELAY_FOR_YUJU;
     }
 
 }
