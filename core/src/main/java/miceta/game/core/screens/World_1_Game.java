@@ -17,6 +17,7 @@ import miceta.game.core.managers.FeedbackDrawManager;
 import miceta.game.core.miCeta;
 import miceta.game.core.util.AudioManager;
 import miceta.game.core.util.Constants;
+import miceta.game.core.util.FeedbackSoundType;
 
 import java.math.RoundingMode;
 import java.text.DecimalFormat;
@@ -27,7 +28,7 @@ import java.util.Set;
 /**
  * Created by ewe on 8/10/17.
  */
-public class TestScreen extends AbstractGameScreen {
+public class World_1_Game extends AbstractGameScreen {
     private static final String TAG = TestScreen.class.getName();
     protected ShapeRenderer shapeRenderer;
     private int shiftX =70; //70
@@ -37,7 +38,7 @@ public class TestScreen extends AbstractGameScreen {
     protected FeedbackDrawManager fd;
 
 
-    public TestScreen(miCeta game){
+    public World_1_Game (miCeta game){
         super(game);
     }
 
@@ -46,14 +47,19 @@ public class TestScreen extends AbstractGameScreen {
 
         Gdx.app.log(TAG," we start the SHOW! "+Gdx.graphics.getWidth());
         stage = new Stage(new FitViewport(viewportWidth, viewportHeight));
-        worldController = new CvWorldController(game,stage);
+
+        Sound a = Assets.instance.sounds.game_1_tooFew;
+        Sound b = Assets.instance.sounds.game_1_tooMuch;
+
+        worldController = new CvWorldController(game,stage, FeedbackSoundType.KNOCK, a,b);
+
         shapeRenderer = new ShapeRenderer();
         fd = new FeedbackDrawManager();
         // android back key used to exit, we should not catch
         Gdx.input.setCatchBackKey(false);
     }
 
-   // @android.annotation.TargetApi(android.os.Build.VERSION_CODES.GINGERBREAD)
+    // @android.annotation.TargetApi(android.os.Build.VERSION_CODES.GINGERBREAD)
     @Override
     public void render(float deltaTime) {
         //Gdx.gl.glClearColor(0, 0, 0, 1);

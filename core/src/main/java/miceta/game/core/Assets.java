@@ -39,6 +39,7 @@ public class Assets implements Disposable, AssetErrorListener {
         // load texture atlas
         assetManager.load(Constants.TEXTURE_ATLAS_OBJECTS, TextureAtlas.class);
         // load sounds
+
         assetManager.load("sounds/numeros/1.wav", Sound.class);
         assetManager.load("sounds/numeros/2.wav", Sound.class);
         assetManager.load("sounds/numeros/3.wav", Sound.class);
@@ -70,6 +71,7 @@ public class Assets implements Disposable, AssetErrorListener {
         assetManager.load("sounds/feedback/menosPiezas.wav", Sound.class);
         assetManager.load("sounds/feedback/knock.wav", Sound.class);
 
+
         assetManager.load("sounds/concreto/1.mp3", Sound.class);
         assetManager.load("sounds/concreto/2.mp3", Sound.class);
         assetManager.load("sounds/concreto/3.mp3", Sound.class);
@@ -80,6 +82,7 @@ public class Assets implements Disposable, AssetErrorListener {
         assetManager.load("sounds/concreto/8.mp3", Sound.class);
         assetManager.load("sounds/concreto/9.mp3", Sound.class);
         //micro mundo 1
+
         assetManager.load("sounds/mm1/tutorial/mm1_intro1.mp3", Sound.class);
         assetManager.load("sounds/mm1/tutorial/mm1_intro2.mp3", Sound.class);
         assetManager.load("sounds/mm1/tutorial/mm1_tooMuch.mp3", Sound.class);
@@ -97,6 +100,17 @@ public class Assets implements Disposable, AssetErrorListener {
         assetManager.load("sounds/mm1/ingredientes/rana.mp3", Sound.class);
         assetManager.load("sounds/mm1/ingredientes/vaca.mp3", Sound.class);
         assetManager.load("sounds/mm1/ingredientes/vinagre.mp3", Sound.class);
+
+        assetManager.load("sounds/mm1_tutorial/mm1_1.mp3", Sound.class);
+        assetManager.load("sounds/mm1_tutorial/mm1_2.mp3", Sound.class);
+        assetManager.load("sounds/mm1_tutorial/mm1_tooMuch.mp3", Sound.class);
+        assetManager.load("sounds/mm1_tutorial/mm1_tooFew.mp3", Sound.class);
+
+        // Game 1
+        assetManager.load("sounds/mm1_game/game_1.mp3", Sound.class);
+        assetManager.load("sounds/mm1_game/game_1_tooFew.mp3", Sound.class);
+        assetManager.load("sounds/mm1_game/game_1_tooMuch.mp3", Sound.class);
+
 
         assetManager.load("sounds/opciones/jugar.wav", Sound.class);
         assetManager.load("sounds/opciones/denuevo.wav", Sound.class);
@@ -141,7 +155,11 @@ public class Assets implements Disposable, AssetErrorListener {
         public final Sound knock;
         public final Sound tmm1_1,tmm1_2,tmm1_tooMuch,tmm1_tooFew;
         public final Sound jugar, denuevo, ayuda, salir;
+
         public final Sound ingredientsIntro,ingredientsCrocodile,ingredientsCat,ingredientsAnt,ingredientsLama,ingredientsFrog,ingredientsCow, ingredientsVinegar,ingredientsMore,ingredientsLess, ingredientsPositive,ingredientsFinal;
+
+        public final Sound game_1, game_1_tooFew, game_1_tooMuch;
+
 
         //concrete tutorial
 
@@ -226,6 +244,9 @@ public class Assets implements Disposable, AssetErrorListener {
             ayuda = soundWithDuration("sounds/opciones/ayuda.wav", am);
             salir = soundWithDuration("sounds/opciones/salir.wav", am);
 
+            game_1 = soundWithDuration("sounds/mm1_game/game_1.mp3", am);
+            game_1_tooFew = soundWithDuration("sounds/mm1_game/game_1_tooFew.mp3", am);
+            game_1_tooMuch = soundWithDuration("sounds/mm1_game/game_1_tooMuch.mp3", am);
 
 
         }
