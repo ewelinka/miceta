@@ -25,8 +25,9 @@ import miceta.game.core.util.GamePreferences;
 import java.util.ArrayList;
 import java.util.Set;
 
-import static miceta.game.core.util.TooMuchTooFew.TOO_FEW;
-import static miceta.game.core.util.TooMuchTooFew.TOO_MUCH;
+import static miceta.game.core.util.CommonFeedbacks.POSITIVE;
+import static miceta.game.core.util.CommonFeedbacks.TOO_FEW;
+import static miceta.game.core.util.CommonFeedbacks.TOO_MUCH;
 
 
 /**
@@ -49,7 +50,7 @@ public class CvWorldController extends InputAdapter {
     protected CvBlocksManager cvBlocksManager;
     protected float extraDelayBetweenFeedback;
     protected float waitAfterKnock;
-    protected Sound tooMuchErrorSound, tooFewErrorSound;
+    protected Sound tooMuchErrorSound, tooFewErrorSound, positiveFeedback;
     protected FeedbackSoundType feedbackSound;
     protected int inactivityLimit;
     protected int maxErrorsForHint;
@@ -62,15 +63,20 @@ public class CvWorldController extends InputAdapter {
     public CvWorldController(miCeta game, Stage stage){
         // knock by default
         // too much and too many default values
-        this(game,stage,FeedbackSoundType.KNOCK, Assets.instance.sounds.quitblock, Assets.instance.sounds.addblock);
+        this(game,stage,FeedbackSoundType.KNOCK, Assets.instance.sounds.quitblock, Assets.instance.sounds.addblock, Assets.instance.sounds.yuju);
+    }
+    public CvWorldController(miCeta game, Stage stage, FeedbackSoundType feedbackSound, Sound tooMuchErrorSound, Sound tooFewErrorSound){
+        // yuju by default
+        this(game,stage,feedbackSound, tooMuchErrorSound ,tooFewErrorSound, Assets.instance.sounds.yuju);
     }
 
-    public CvWorldController(miCeta game, Stage stage, FeedbackSoundType feedbackSound, Sound tooMuchErrorSound, Sound tooFewErrorSound) {
+    public CvWorldController(miCeta game, Stage stage, FeedbackSoundType feedbackSound, Sound tooMuchErrorSound, Sound tooFewErrorSound, Sound positiveFeedback) {
         this.game = game;
         this.stage = stage;
         this.feedbackSound = feedbackSound;
         this.tooMuchErrorSound = tooMuchErrorSound;
         this.tooFewErrorSound = tooFewErrorSound;
+        this.positiveFeedback = positiveFeedback;
 
 
         if((Gdx.app.getType() == Application.ApplicationType.Android)) {
@@ -90,6 +96,7 @@ public class CvWorldController extends InputAdapter {
     protected void initCustomSounds(){
         AudioManager.instance.setCustomSound(tooFewErrorSound, TOO_FEW);
         AudioManager.instance.setCustomSound(tooMuchErrorSound, TOO_MUCH);
+        AudioManager.instance.setCustomSound(positiveFeedback, POSITIVE);
         AudioManager.instance.setFeedbackSoundType(FeedbackSoundType.KNOCK);
     }
 
@@ -376,7 +383,7 @@ public class CvWorldController extends InputAdapter {
     }
 
     protected void setDelayForPositiveFeedback(){
-        delayForPositiveFeedback = Constants.DELAY_FOR_TADA + Constants.DELAY_FOR_YUJU;
+        delayForPositiveFeedback = Assets.instance.getSoundDuration(Assets.instance.sounds.yuju);
     }
 
 }
