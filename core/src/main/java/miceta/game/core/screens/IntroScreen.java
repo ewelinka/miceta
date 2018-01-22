@@ -50,7 +50,7 @@ public class IntroScreen extends AbstractGameScreen {
         Gdx.input.setCatchBackKey(false);
         // btn 300 x 150, screen 1366 x 768
         addBtnOrganicTutorial(30, 30 ); // TODO just for testing!
-        addBtnIngredients(30,90); // TODO just for testing!
+        addBtnIngredients(30,30 + (30 + 150)*1); // TODO just for testing!
         addBtnExit(viewportWidth/2 - 300/2, 30 ); // last btn
         addBtnHelp(viewportWidth/2 - 300/2, 30 + (30 + 150)*1 );
         addBtnNewStart(viewportWidth/2 - 300/2, 30 +(30 + 150)*2);

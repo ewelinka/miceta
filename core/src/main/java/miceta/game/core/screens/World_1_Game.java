@@ -51,7 +51,7 @@ public class World_1_Game extends AbstractGameScreen {
         Sound a = Assets.instance.sounds.game_1_tooFew;
         Sound b = Assets.instance.sounds.game_1_tooMuch;
 
-        worldController = new CvWorldController(game,stage, FeedbackSoundType.KNOCK, a,b);
+        worldController = new CvWorldController(game,stage, FeedbackSoundType.KNOCK, b,a);
 
         shapeRenderer = new ShapeRenderer();
         fd = new FeedbackDrawManager();

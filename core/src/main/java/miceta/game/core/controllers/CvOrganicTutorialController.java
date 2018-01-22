@@ -23,11 +23,10 @@ public class CvOrganicTutorialController extends CvWorldController {
     private static final String TAG = CvOrganicTutorialController.class.getName();
     private int correctAnswersNr;
     private int correctAnswersNeeded;
-    private int maxValue, minValue;
     private int[] tutorialOperations;
 
     public CvOrganicTutorialController(miCeta game, Stage stage, FeedbackSoundType feedbackSoundName, int[] operations) {
-        super(game, stage, feedbackSoundName, Assets.instance.sounds.tmm1_tooMuch,Assets.instance.sounds.tmm1_tooFew);
+        super(game, stage, feedbackSoundName, Assets.instance.sounds.tmm1_tooMuch,Assets.instance.sounds.tmm1_tooFew, Assets.instance.sounds.tmm1_positive);
         initTutorialVariables(operations);
     }
 

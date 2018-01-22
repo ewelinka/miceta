@@ -3,21 +3,12 @@ package miceta.game.core.util;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.audio.Music;
 import com.badlogic.gdx.audio.Sound;
-import com.badlogic.gdx.files.FileHandle;
 import com.badlogic.gdx.scenes.scene2d.Actor;
 import com.badlogic.gdx.scenes.scene2d.Stage;
-import com.badlogic.gdx.scenes.scene2d.actions.Actions;
 import com.badlogic.gdx.scenes.scene2d.actions.SequenceAction;
-import com.badlogic.gdx.utils.ArrayMap;
 
 import miceta.game.core.Assets;
-import miceta.game.core.controllers.CvWorldController;
-import miceta.game.core.managers.CvBlocksManager;
 
-import javax.sound.sampled.*;
-
-import java.io.File;
-import java.io.IOException;
 import java.util.ArrayList;
 
 import static com.badlogic.gdx.scenes.scene2d.actions.Actions.*;
@@ -44,7 +35,7 @@ public class AudioManager {
     private Sound   nb_sound = Assets.instance.sounds.newblock;
     private Music  nb_sound_loop = Assets.instance.music.new_block_loop;
     private FeedbackSoundType feedbackSoundType;
-    private Sound tooMuchErrorSound, tooFewErrorSound;
+    private Sound tooMuchErrorSound, tooFewErrorSound, positiveFeedback;
 
 //    public static enum FeedbackType {
 //        KNOCK, DROP
@@ -150,7 +141,7 @@ public class AudioManager {
         delay_add= true;
     }
 
-    public void setCustomSound(Sound nowSound, TooMuchTooFew soundType){
+    public void setCustomSound(Sound nowSound, CommonFeedbacks soundType){
         switch (soundType){
             case TOO_MUCH:
                 this.tooMuchErrorSound = nowSound;
@@ -158,6 +149,10 @@ public class AudioManager {
             case TOO_FEW:
                 this.tooFewErrorSound = nowSound;
                 break;
+            case POSITIVE:
+                this.positiveFeedback = nowSound;
+                break;
+
 
         }
     }
@@ -316,7 +311,7 @@ public class AudioManager {
     }
 
     public void readAllFeedbacksAndPositive(ArrayList<Integer> toReadNums, int numToBuild, float extraDelayBetweenFeedback){
-        readFeedbackAndBlocksAndTadaAndYuju(toReadNums,numToBuild, extraDelayBetweenFeedback);
+        readFeedbackAndBlocksAndPositive(toReadNums,numToBuild, extraDelayBetweenFeedback);
     }
 
     public void readAllFeedbacksAndPositiveWithNewIngredient(ArrayList<Integer> toReadNums, int numToBuild, float extraDelayBetweenFeedback, final int ingredientIndex) {
@@ -424,6 +419,23 @@ public class AudioManager {
         readFeedbackAction.addAction(run(new Runnable() {
             public void run() {
                 playWithoutInterruption(Assets.instance.sounds.yuju); //after correct answer comes "yuju"
+            }
+        }));
+
+        reader.addAction(parallel(readBlocksAction,readFeedbackAction)); // we read feedback and the blocks in parallel
+    }
+
+    private void readFeedbackAndBlocksAndPositive(ArrayList<Integer> toReadNums, int numToBuild, float extraDelayBetweenFeedback){
+        reader.clearActions();
+        /////// blocks
+        readBlocksAction = createReadBlocksAction(readBlocksAction, toReadNums, extraDelayBetweenFeedback);
+        /////////// feedback
+        readFeedbackAction = createReadFeedbackAction(readFeedbackAction, numToBuild, extraDelayBetweenFeedback);
+
+        final Sound positiveNow = this.positiveFeedback;
+        readFeedbackAction.addAction(run(new Runnable() {
+            public void run() {
+                playWithoutInterruption(positiveNow); //after correct answer comes positive feedback
             }
         }));
 
