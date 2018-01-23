@@ -15,13 +15,8 @@ import miceta.game.core.Assets;
 import miceta.game.core.controllers.CvWorldController;
 import miceta.game.core.managers.FeedbackDrawManager;
 import miceta.game.core.miCeta;
-import miceta.game.core.util.AudioManager;
-import miceta.game.core.util.Constants;
 import miceta.game.core.util.FeedbackSoundType;
 
-import java.math.RoundingMode;
-import java.text.DecimalFormat;
-import java.util.ArrayList;
 import java.util.Set;
 
 
@@ -29,7 +24,7 @@ import java.util.Set;
  * Created by ewe on 8/10/17.
  */
 public class World_1_Game extends AbstractGameScreen {
-    private static final String TAG = TestScreen.class.getName();
+    private static final String TAG = BaseScreen.class.getName();
     protected ShapeRenderer shapeRenderer;
     private int shiftX =70; //70
     private int shiftY =200;

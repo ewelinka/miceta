@@ -39,7 +39,7 @@ public class OrganicTutorial1AudioScreen extends OrganicTutorial1Screen {
         stage.draw();
         if(timePassed > tutorialDuration){
             if(tutorialPart==totalTutorialParts) {
-                game.setScreen(new IntroScreen(game)); // TODO when micro mundo 1 ready, go to it!
+                game.goToNextScreen();
             } else
                 game.setScreen(new OrganicTutorial1InteractiveScreen(game,tutorialPart+1,totalTutorialParts));
         }

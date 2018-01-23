@@ -22,8 +22,8 @@ public class CvIngredientsController extends CvWorldController{
     private static final String TAG = CvIngredientsController.class.getName();
 
 
-    public CvIngredientsController(miCeta game, Stage stage, FeedbackSoundType feedbackSoundName, Sound tooMuchErrorSound, Sound tooFewErrorSound) {
-        super(game, stage, feedbackSoundName, tooMuchErrorSound, tooFewErrorSound);
+    public CvIngredientsController(miCeta game, Stage stage, FeedbackSoundType feedbackSoundName, Sound tooMuchErrorSound, Sound tooFewErrorSound, Sound finalSound) {
+        super(game, stage, feedbackSoundName, tooMuchErrorSound, tooFewErrorSound, Assets.instance.sounds.yuju, finalSound); //yuju won't be used but we have to set it
         initAnswersNeeded();
     }
 
@@ -38,12 +38,12 @@ public class CvIngredientsController extends CvWorldController{
 
     @Override
     protected void reproduceAllFeedbacksAndPositive(ArrayList<Integer> nowDetected, int numberToPlay ){
-        if(correctAnswersNow == correctAnswersNeeded)
-            AudioManager.instance.readAllFeedbacksAndFinalIngredientsScreen(nowDetected, numberToPlay, extraDelayBetweenFeedback, correctAnswersNow);
-        else
-            AudioManager.instance.readAllFeedbacksAndPositiveWithNewIngredient(nowDetected, numberToPlay, extraDelayBetweenFeedback, correctAnswersNow);
+        AudioManager.instance.readAllFeedbacksAndPositiveWithNewIngredient(nowDetected, numberToPlay, extraDelayBetweenFeedback, correctAnswersNow);
+    }
 
-
+    @Override
+    protected void reproduceAllFeedbacksAndFinal(ArrayList<Integer> nowDetected, int numberToPlay ){
+        AudioManager.instance.readAllFeedbacksAndFinal(nowDetected, numberToPlay, extraDelayBetweenFeedback);
     }
 
 

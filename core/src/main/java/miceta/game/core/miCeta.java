@@ -4,12 +4,16 @@ package miceta.game.core;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.assets.AssetManager;
 import edu.ceta.vision.core.topcode.TopCodeDetector;
+import miceta.game.core.managers.LevelsManager;
+import miceta.game.core.screens.AbstractGameScreen;
+import miceta.game.core.screens.AutoInitScreen;
 import miceta.game.core.screens.DirectedGame;
 import miceta.game.core.screens.IntroScreen;
 import miceta.game.core.transitions.ScreenTransition;
 import miceta.game.core.transitions.ScreenTransitionFade;
 import miceta.game.core.util.AudioManager;
 import miceta.game.core.util.GamePreferences;
+import miceta.game.core.util.RepresentationToScreenMapper;
 import org.opencv.core.Mat;
 
 
@@ -19,6 +23,7 @@ public class miCeta extends DirectedGame {
 	private Mat lastFrame;//, previousFrame;
 	private Object syncObject = new Object();
 	private TopCodeDetector topCodeDetector;
+	private RepresentationToScreenMapper representationToScreenMapper;
 
 	@Override
 	public void create () {
@@ -26,19 +31,15 @@ public class miCeta extends DirectedGame {
 		this.frameBlocked = false;
 		Assets.instance.init(new AssetManager());
 		AudioManager.instance.play(Assets.instance.music.song01);
-
-
 		GamePreferences.instance.load();
+		LevelsManager.instance.init();
+		representationToScreenMapper = new RepresentationToScreenMapper(this);
 		ScreenTransition transition = ScreenTransitionFade.init(1);
 		topCodeDetector = null;
-		//setScreen(new TestScreen(this),transition);
+		//setScreen(new BaseScreen(this),transition);
 		setScreen(new IntroScreen(this),transition);
+		//setScreen(new AutoInitScreen(this));
 		//LevelsManager levelsManager = LevelsManager.getInstance(); // inicializate level manager -- no seria necesario porque es singleton.
-
-
-
-
-
 
 	}
 
@@ -82,6 +83,14 @@ public class miCeta extends DirectedGame {
 
 	public TopCodeDetector getTopCodeDetector(){ return topCodeDetector;}
 	public void setTopCodeDetector(TopCodeDetector topCodeDetector){ this.topCodeDetector = topCodeDetector;}
+
+	public RepresentationToScreenMapper getRepresentationToScreenMapper(){ return representationToScreenMapper;}
+
+	public void goToNextScreen(){
+		LevelsManager.instance.upLevelAndLoadParams();
+		AbstractGameScreen nowScreen = getRepresentationToScreenMapper().getScreenFromRepresentation(LevelsManager.instance.getRepresentation());
+		setScreen(nowScreen);
+	}
 }
 
 

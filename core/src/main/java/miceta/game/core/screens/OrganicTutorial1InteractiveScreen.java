@@ -1,12 +1,15 @@
 package miceta.game.core.screens;
 
 import com.badlogic.gdx.Gdx;
+import com.badlogic.gdx.InputMultiplexer;
 import com.badlogic.gdx.InputProcessor;
 import com.badlogic.gdx.graphics.GL20;
 import com.badlogic.gdx.scenes.scene2d.Stage;
 import com.badlogic.gdx.utils.Array;
 import com.badlogic.gdx.utils.viewport.FitViewport;
+import miceta.game.core.Assets;
 import miceta.game.core.controllers.CvOrganicTutorialController;
+import miceta.game.core.managers.LevelsManager;
 import miceta.game.core.miCeta;
 import miceta.game.core.util.FeedbackSoundType;
 
@@ -25,7 +28,7 @@ public class OrganicTutorial1InteractiveScreen extends OrganicTutorial1Screen {
     @Override
     public void show() {
         stage = new Stage(new FitViewport(viewportWidth, viewportHeight));
-        worldController = new CvOrganicTutorialController(game,stage, FeedbackSoundType.KNOCK, getOperationsFromTutorialPart(tutorialPart));
+        worldController = new CvOrganicTutorialController(game,stage, FeedbackSoundType.KNOCK, Assets.instance.sounds.tmm1_tooMuch,Assets.instance.sounds.tmm1_tooFew, Assets.instance.sounds.tmm1_positive, Assets.instance.sounds.tada);
         // android back key used to exit, we should not catch
         Gdx.input.setCatchBackKey(false);
 
@@ -47,7 +50,10 @@ public class OrganicTutorial1InteractiveScreen extends OrganicTutorial1Screen {
 
     @Override
     public InputProcessor getInputProcessor() {
-        return null;
+        InputMultiplexer multiplexer = new InputMultiplexer();
+        multiplexer.addProcessor(stage);
+        multiplexer.addProcessor(worldController);
+        return multiplexer;
     }
 
     private String getFeedbackSoundNameFromTutorialPart(int tutorialPartNr){
@@ -59,12 +65,4 @@ public class OrganicTutorial1InteractiveScreen extends OrganicTutorial1Screen {
         }
     }
 
-    private int[] getOperationsFromTutorialPart(int tutorialPartNr){
-        switch(tutorialPartNr){
-            case 2:
-                return part2operations;
-            default:
-                return part2operations ;
-        }
-    }
 }

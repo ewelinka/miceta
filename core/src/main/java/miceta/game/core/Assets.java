@@ -165,7 +165,6 @@ public class Assets implements Disposable, AssetErrorListener {
         public Sound soundWithDuration(String path, AssetManager am) {
             Sound sound_load;
             sound_load = am.get(path, Sound.class);
-            Gdx.app.log(TAG, "wowowowowoowow --> path " + path + " dura " + String.valueOf(((OpenALSound) (sound_load)).duration()));
             float soundDuration = ((OpenALSound) (sound_load)).duration();
             s_duration.put(sound_load, soundDuration);
             return sound_load;

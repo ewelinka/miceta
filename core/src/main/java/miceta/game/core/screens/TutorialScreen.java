@@ -11,7 +11,7 @@ import miceta.game.core.miCeta;
 /**
  * Created by ewe on 11/16/17.
  */
-public class TutorialScreen extends TestScreen {
+public class TutorialScreen extends BaseScreen {
     private static final String TAG = TutorialScreen.class.getName();
 
     public TutorialScreen(miCeta game) {
