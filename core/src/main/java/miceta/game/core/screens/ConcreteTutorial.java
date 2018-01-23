@@ -5,6 +5,7 @@ import com.badlogic.gdx.InputProcessor;
 import com.badlogic.gdx.graphics.GL20;
 import com.badlogic.gdx.scenes.scene2d.Stage;
 import com.badlogic.gdx.utils.viewport.FitViewport;
+import miceta.game.core.managers.LevelsManager;
 import miceta.game.core.miCeta;
 import miceta.game.core.util.AudioManager;
 
@@ -14,7 +15,7 @@ import java.util.Random;
 /**
  * Created by ewe on 1/9/18.
  */
-public class ConcreteTurorial extends AbstractGameScreen {
+public class ConcreteTutorial extends AbstractGameScreen {
     private float timePassed;
     private float tutorialDuration;
     private int part = 0;
@@ -24,7 +25,7 @@ public class ConcreteTurorial extends AbstractGameScreen {
     private ArrayList<Integer>  nowDetected = new ArrayList<>();
 
 
-    public ConcreteTurorial(miCeta game, int part, int aux_number) {
+    public ConcreteTutorial(miCeta game, int part, int aux_number) {
         super(game);
         t_part = part;
         t_aux_number =  aux_number;
@@ -72,8 +73,7 @@ public class ConcreteTurorial extends AbstractGameScreen {
             t_part = 7;
         }
         else if((t_part==7) && (timePassed > tutorialDuration && ( knock_counter < t_aux_number))){
-
-            game.setScreen(new TestScreen(game));
+            game.goToNextScreen();
 
             // game.setScreen(new TutorialScreen(game));
            // knock_counter ++;

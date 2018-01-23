@@ -23,7 +23,8 @@ public class GamePreferences {
     public void load () {
         extraDelayBetweenFeedback = prefs.getFloat("extraDelayBetweenFeedback",0);
         waitAfterKnock = prefs.getFloat("waitAfterKnock",Constants.WAIT_AFTER_KNOCK);
-        last_level = prefs.getInteger("last_level",0);
+        last_level = prefs.getInteger("last_level",1);
+       // last_level = 1;
         world = prefs.getInteger("world",0);
         operation_index=0; // we should always start from the beginning!
 

@@ -2,6 +2,7 @@ package miceta.game.core.controllers;
 
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.InputAdapter;
+import com.badlogic.gdx.audio.Sound;
 import com.badlogic.gdx.scenes.scene2d.Stage;
 import miceta.game.core.Assets;
 import miceta.game.core.managers.CvBlocksManager;
@@ -21,48 +22,12 @@ import java.util.ArrayList;
  */
 public class CvOrganicTutorialController extends CvWorldController {
     private static final String TAG = CvOrganicTutorialController.class.getName();
-    private int correctAnswersNr;
-    private int correctAnswersNeeded;
-    private int[] tutorialOperations;
 
-    public CvOrganicTutorialController(miCeta game, Stage stage, FeedbackSoundType feedbackSoundName, int[] operations) {
-        super(game, stage, feedbackSoundName, Assets.instance.sounds.tmm1_tooMuch,Assets.instance.sounds.tmm1_tooFew, Assets.instance.sounds.tmm1_positive);
-        initTutorialVariables(operations);
-    }
-
-
-    @Override
-    protected void init(){
-        answerRight = false;
+    public CvOrganicTutorialController(miCeta game, Stage stage, FeedbackSoundType feedbackSoundName, Sound tooMuch, Sound tooFew, Sound positive, Sound finalFeedabck) {
+        super(game, stage, feedbackSoundName, tooMuch, tooFew, positive, finalFeedabck);
+        //initTutorialVariables(operations);
         inactivityLimit = 0; // we dont want to wait!
         maxErrorsForHint = 2; // two errors and we let you know!
-
-    }
-
-    @Override
-    protected void onCorrectAnswer(){
-        correctAnswersNr+=1;
-        if(correctAnswersNr == correctAnswersNeeded){
-            Gdx.app.log(TAG,"we did it!!");
-            willGoToNextPart = true;
-            game.setScreen(new OrganicTutorial1AudioScreen(game,3,3));
-        }else {
-            numberToPlay = tutorialOperations[correctAnswersNr];
-        }
-
-    }
-
-    private void initTutorialVariables(int[] operations){
-        tutorialOperations = operations;
-        correctAnswersNr = 0;
-        correctAnswersNeeded = tutorialOperations.length; // we need X correct answers!
-        numberToPlay = tutorialOperations[correctAnswersNr];
-
-
-        AudioManager.instance.readFeedback(numberToPlay, extraDelayBetweenFeedback); //first we read the random number
-        timeToWait = Constants.READ_ONE_UNIT_DURATION+ numberToPlay*Constants.READ_ONE_UNIT_DURATION + waitAfterKnock /*+ ( randomNumber)*(0.3f)*/; // time we should wait before next loop starts
-
-
     }
 
 }

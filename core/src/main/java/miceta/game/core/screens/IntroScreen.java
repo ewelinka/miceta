@@ -2,7 +2,6 @@ package miceta.game.core.screens;
 
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.InputProcessor;
-import com.badlogic.gdx.audio.Sound;
 import com.badlogic.gdx.graphics.GL20;
 import com.badlogic.gdx.scenes.scene2d.Actor;
 import com.badlogic.gdx.scenes.scene2d.InputEvent;
@@ -16,12 +15,6 @@ import miceta.game.core.miCeta;
 import miceta.game.core.transitions.ScreenTransition;
 import miceta.game.core.transitions.ScreenTransitionFade;
 import miceta.game.core.util.AudioManager;
-
-
-import javax.accessibility.Accessible;
-import javax.accessibility.AccessibleContext;
-import javax.swing.*;
-import java.util.ArrayList;
 
 /**
  * Created by ewe on 1/5/18.
@@ -175,7 +168,7 @@ public class IntroScreen extends AbstractGameScreen {
         ScreenTransition transition = ScreenTransitionFade.init(1);
         switch(btnType){
             case "play":
-                //game.setScreen(new TestScreen(game),transition);
+                //game.setScreen(new BaseScreen(game),transition);
                 game.setScreen(new World_1_AudioScreen(game,0, 0),transition);
 
                 break;
@@ -188,7 +181,7 @@ public class IntroScreen extends AbstractGameScreen {
                 break;
             case "help":
                 // TODO implement tutorial and then go from here to this tutorial
-                game.setScreen(new ConcreteTurorial(game,0, 0),transition);
+                game.setScreen(new ConcreteTutorial(game,0, 0),transition);
                 break;
             case "organic":
                 // TODO should not be in menu, we put it now for testing

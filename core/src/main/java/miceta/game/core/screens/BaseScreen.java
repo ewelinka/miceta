@@ -3,7 +3,6 @@ package miceta.game.core.screens;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.InputMultiplexer;
 import com.badlogic.gdx.InputProcessor;
-import com.badlogic.gdx.audio.Sound;
 import com.badlogic.gdx.graphics.GL20;
 import com.badlogic.gdx.graphics.g2d.BitmapFont;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
@@ -11,24 +10,18 @@ import com.badlogic.gdx.graphics.glutils.ShapeRenderer;
 import com.badlogic.gdx.scenes.scene2d.Stage;
 import com.badlogic.gdx.utils.viewport.FitViewport;
 import edu.ceta.vision.core.blocks.Block;
-import miceta.game.core.Assets;
 import miceta.game.core.controllers.CvWorldController;
 import miceta.game.core.managers.FeedbackDrawManager;
 import miceta.game.core.miCeta;
-import miceta.game.core.util.AudioManager;
-import miceta.game.core.util.Constants;
 
-import java.math.RoundingMode;
-import java.text.DecimalFormat;
-import java.util.ArrayList;
 import java.util.Set;
 
 
 /**
  * Created by ewe on 8/10/17.
  */
-public class TestScreen extends AbstractGameScreen {
-    private static final String TAG = TestScreen.class.getName();
+public class BaseScreen extends AbstractGameScreen {
+    private static final String TAG = BaseScreen.class.getName();
     protected ShapeRenderer shapeRenderer;
     private int shiftX =70; //70
     private int shiftY =200;
@@ -37,7 +30,7 @@ public class TestScreen extends AbstractGameScreen {
     protected FeedbackDrawManager fd;
 
 
-    public TestScreen(miCeta game){
+    public BaseScreen(miCeta game){
         super(game);
     }
 

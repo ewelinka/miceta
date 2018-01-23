@@ -3,14 +3,9 @@ package miceta.game.core.controllers;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.scenes.scene2d.Stage;
 import miceta.game.core.miCeta;
-import miceta.game.core.screens.ConcreteTurorial;
-import miceta.game.core.screens.TestScreen;
-import miceta.game.core.screens.TutorialScreen;
+import miceta.game.core.screens.ConcreteTutorial;
 import miceta.game.core.util.AudioManager;
 import miceta.game.core.util.Constants;
-
-import miceta.game.core.transitions.ScreenTransition;
-import miceta.game.core.transitions.ScreenTransitionFade;
 
 import java.util.ArrayList;
 
@@ -42,7 +37,7 @@ public class CvWorldControllerTutorial extends CvWorldController {
 
         if ((!first_time) && (timePassed_t > tutorialDuration)){
 
-               game.setScreen(new ConcreteTurorial(game,1,suma));
+               game.setScreen(new ConcreteTutorial(game,1,suma));
              //  AudioManager.instance.readBlocks(nowDetected, extraDelayBetweenFeedback);
                //first_time = false;
         }

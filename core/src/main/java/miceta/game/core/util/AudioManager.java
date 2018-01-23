@@ -22,24 +22,20 @@ public class AudioManager {
     public static final AudioManager instance = new AudioManager();
     private Music playingMusic;
     private Sound currentSound;
-    private SequenceAction readFeedbackAction, readBlocksAction, readCorrectSolutionAction, readTutorialAction;
+    private SequenceAction readFeedbackAction, readBlocksAction, readTutorialAction;
     private float defaultVolSound = 0.5f;
     private float firstNoteVol = 1.0f;
     private Actor reader;
     private Stage stage;
-    private float readBlockDuration = Constants.READ_ONE_UNIT_DURATION;
-    private int feedback_delay=0;
+    private float readBlockDuration;
     private boolean delay_quit = false;
     private boolean delay_add = false;
     private boolean newblock_loop = false;
     private Sound   nb_sound = Assets.instance.sounds.newblock;
     private Music  nb_sound_loop = Assets.instance.music.new_block_loop;
     private FeedbackSoundType feedbackSoundType;
-    private Sound tooMuchErrorSound, tooFewErrorSound, positiveFeedback;
+    private Sound tooMuchErrorSound, tooFewErrorSound, positiveFeedback, finalFeedback;
 
-//    public static enum FeedbackType {
-//        KNOCK, DROP
-//    }
 
     private AudioManager () { }
 
@@ -49,8 +45,8 @@ public class AudioManager {
         stage.addActor(reader);
         readFeedbackAction = new SequenceAction(); // for feedback reading
         readBlocksAction = new SequenceAction(); // for detected blocks reading
-        readCorrectSolutionAction = new SequenceAction(); // for correct number and yuju
         readTutorialAction = new SequenceAction();
+        readBlockDuration = Constants.READ_ONE_UNIT_DURATION;
     }
 
     public void play (Sound sound) {
@@ -99,7 +95,6 @@ public class AudioManager {
     }
 
     public void playNewBlockSong_loop(){
-
         if (newblock_loop){
             nb_sound_loop.setLooping(true);
             nb_sound_loop.setVolume(0.1f);
@@ -121,7 +116,6 @@ public class AudioManager {
 
     public void playQuitOrAddBlock(int i){
         final Sound soundToPlay;
-        feedback_delay=Constants.FEEDBACK_DELAY;
         if (i == 0) {
             soundToPlay = tooMuchErrorSound;
         }
@@ -133,11 +127,11 @@ public class AudioManager {
 
     }
 
-    public void setDelay_quit(Sound tooFewErrorSound){
+    public void setDelay_quit(){
         delay_quit= true;
     }
 
-    public void setDelay_add(Sound tooMuchErrorSound){
+    public void setDelay_add(){
         delay_add= true;
     }
 
@@ -151,6 +145,9 @@ public class AudioManager {
                 break;
             case POSITIVE:
                 this.positiveFeedback = nowSound;
+                break;
+            case FINAL:
+                this.finalFeedback = nowSound;
                 break;
 
 
@@ -337,7 +334,8 @@ public class AudioManager {
         reader.addAction(parallel(readBlocksAction,readFeedbackAction)); // we read feedback and the blocks in parallel
     }
 
-    public void readAllFeedbacksAndFinalIngredientsScreen(ArrayList<Integer> toReadNums, int numToBuild, float extraDelayBetweenFeedback, final int ingredientIndex) {
+
+    public void readAllFeedbacksAndFinal(ArrayList<Integer> toReadNums, int numToBuild, float extraDelayBetweenFeedback) {
         reader.clearActions();
         /////// blocks
         readBlocksAction = createReadBlocksAction(readBlocksAction, toReadNums, extraDelayBetweenFeedback);
@@ -345,17 +343,17 @@ public class AudioManager {
         readFeedbackAction = createReadFeedbackAction(readFeedbackAction, numToBuild, extraDelayBetweenFeedback);
 
 
-        final Sound ingredientSound = getIngredientFromIndex(ingredientIndex);
+        final Sound finalSound = this.finalFeedback;
         readFeedbackAction.addAction(run(new Runnable() {
             public void run() {
-                playWithoutInterruption(ingredientSound); //after correct answer comes "yuju"
+                playWithoutInterruption(finalSound); //after correct answer comes "yuju"
             }
         }));
 
         reader.addAction(parallel(readBlocksAction,readFeedbackAction)); // we read feedback and the blocks in parallel
     }
 
-        private void readFeedbackAndBlocks(ArrayList<Integer> toReadNums, int numToBuild, float extraDelayBetweenFeedback){
+    private void readFeedbackAndBlocks(ArrayList<Integer> toReadNums, int numToBuild, float extraDelayBetweenFeedback){
         reader.clearActions();
         /////// blocks
         readBlocksAction = createReadBlocksAction(readBlocksAction, toReadNums, extraDelayBetweenFeedback);
@@ -383,22 +381,6 @@ public class AudioManager {
             delay_quit = false;
             delay_add = false;
          }
-
-        reader.addAction(parallel(readBlocksAction,readFeedbackAction)); // we read feedback and the blocks in parallel
-    }
-
-    private void readFeedbackAndBlocksAndYuju(ArrayList<Integer> toReadNums, int numToBuild, float extraDelayBetweenFeedback){ //
-        reader.clearActions();
-        /////// blocks
-        readBlocksAction = createReadBlocksAction(readBlocksAction, toReadNums, extraDelayBetweenFeedback);
-        /////////// feedback
-        readFeedbackAction = createReadFeedbackAction(readFeedbackAction, numToBuild, extraDelayBetweenFeedback);
-
-        readFeedbackAction.addAction(run(new Runnable() {
-            public void run() {
-                playWithoutInterruption(Assets.instance.sounds.yuju); //after correct answer comes "yuju"
-            }
-        }));
 
         reader.addAction(parallel(readBlocksAction,readFeedbackAction)); // we read feedback and the blocks in parallel
     }
