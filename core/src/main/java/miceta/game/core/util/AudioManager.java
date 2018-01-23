@@ -624,6 +624,19 @@ public class AudioManager {
 
     }
 
+    public float reproduce_Game_5(int start, int end) {
+
+        ArrayList<Sound> soundsToReproduce = new ArrayList<Sound>();
+
+        soundsToReproduce.add(Assets.instance.sounds.game_5);
+        soundsToReproduce.add(Assets.instance.sounds.game_5_resolution);
+
+
+
+        return AudioManager.instance.reproduceSoundsWithIndex(soundsToReproduce, start, end);
+
+    }
+
 
 
 

@@ -247,11 +247,8 @@ public abstract class CvBlocksManager {
                p_resetStrikes(newId);
             }
         }
-
         for(int i=0;i<newBlocksIds.size();i++){
             checkStrikesAndDecideIfAdd(newBlocksIds.get(i));
         }
     }
-
-
 }

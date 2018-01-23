@@ -107,6 +107,8 @@ public class Assets implements Disposable, AssetErrorListener {
         assetManager.load("sounds/mm1/golpes/masRunas.mp3", Sound.class);
         assetManager.load("sounds/mm1/golpes/menosRunas.mp3", Sound.class);
 
+        assetManager.load("sounds/mm1/timbre/introduccion_timbre.mp3", Sound.class);
+        assetManager.load("sounds/mm1/timbre/resolucion_timbre.mp3", Sound.class);
 
         assetManager.load("sounds/opciones/jugar.wav", Sound.class);
         assetManager.load("sounds/opciones/denuevo.wav", Sound.class);
@@ -155,6 +157,7 @@ public class Assets implements Disposable, AssetErrorListener {
         public final Sound ingredientsIntro,ingredientsCrocodile,ingredientsCat,ingredientsAnt,ingredientsLama,ingredientsFrog,ingredientsCow, ingredientsVinegar,ingredientsMore,ingredientsLess, ingredientsPositive,ingredientsFinal;
 
         public final Sound game_1, game_1_tooFew, game_1_tooMuch;
+        public final Sound game_5, game_5_resolution;
 
 
         //concrete tutorial
@@ -245,6 +248,8 @@ public class Assets implements Disposable, AssetErrorListener {
             game_1_tooFew = soundWithDuration("sounds/mm1/golpes/masRunas.mp3", am);
             game_1_tooMuch = soundWithDuration("sounds/mm1/golpes/menosRunas.mp3", am);
 
+            game_5 = soundWithDuration("sounds/mm1/timbre/introduccion_timbre.mp3", am);
+            game_5_resolution = soundWithDuration("sounds/mm1/timbre/resolucion_timbre.mp3", am);
 
         }
     }

@@ -33,7 +33,7 @@ public class LevelsManager {
     private LevelsManager(){
 
        // level = GamePreferences.instance.getLast_level();
-        level =0;
+        level = 11;
         System.out.println("LEVEL " + level);
         //operation_index = GamePreferences.instance.getOperation_index();
         operation_index =0;
