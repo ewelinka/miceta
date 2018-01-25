@@ -27,7 +27,7 @@ public class IngredientsScreen extends TestScreen {
 
         Gdx.app.log(TAG," we start the SHOW! "+Gdx.graphics.getWidth());
         stage = new Stage(new FitViewport(viewportWidth, viewportHeight));
-        worldController = new CvIngredientsController(game,stage, FeedbackSoundType.DROP,Assets.instance.sounds.ingredientsLess,Assets.instance.sounds.ingredientsMore);
+        worldController = new CvIngredientsController(game,stage, FeedbackSoundType.DROP,Assets.instance.sounds.ingredientsLess,Assets.instance.sounds.ingredientsMore,  Assets.instance.sounds.game_5_resolution);
         shapeRenderer = new ShapeRenderer();
         fd = new FeedbackDrawManager();
         // android back key used to exit, we should not catch

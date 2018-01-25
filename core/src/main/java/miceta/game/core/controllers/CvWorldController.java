@@ -43,10 +43,10 @@ public class CvWorldController extends InputAdapter {
     private int error_min = 0;
     private int error_max = 0;
     protected float inactivityTime =0; // time that passed since last move
-
+    private Sound test_res;
     protected int currentSum=0;
     protected int lastSum=0;
-    protected float timeToWait, timePassed;
+    protected float timeToWait, timePassed, time_to_go;
     protected CvBlocksManager cvBlocksManager;
     protected float extraDelayBetweenFeedback;
     protected float waitAfterKnock;
@@ -58,26 +58,32 @@ public class CvWorldController extends InputAdapter {
     protected float delayForPositiveFeedback;
     protected int correctAnswersNow;
     protected int correctAnswersNeeded;
+    private float time_resolution =0;
+    private boolean go_to_intro = false;
 
 
     public CvWorldController(miCeta game, Stage stage){
         // knock by default
         // too much and too many default values
+
         this(game,stage,FeedbackSoundType.KNOCK, Assets.instance.sounds.quitblock, Assets.instance.sounds.addblock, Assets.instance.sounds.yuju);
+        test_res =  Assets.instance.sounds.yuju;
     }
-    public CvWorldController(miCeta game, Stage stage, FeedbackSoundType feedbackSound, Sound tooMuchErrorSound, Sound tooFewErrorSound){
+    public CvWorldController(miCeta game, Stage stage, FeedbackSoundType feedbackSound, Sound tooMuchErrorSound, Sound tooFewErrorSound, Sound test_resolution){
         // yuju by default
-        this(game,stage,feedbackSound, tooMuchErrorSound ,tooFewErrorSound, Assets.instance.sounds.yuju);
+       // this(game,stage,feedbackSound, tooMuchErrorSound ,tooFewErrorSound, Assets.instance.sounds.yuju);
+        this(game,stage,feedbackSound, tooMuchErrorSound ,tooFewErrorSound, Assets.instance.sounds.game_5_test, test_resolution);
+        test_res =  test_resolution;
     }
 
-    public CvWorldController(miCeta game, Stage stage, FeedbackSoundType feedbackSound, Sound tooMuchErrorSound, Sound tooFewErrorSound, Sound positiveFeedback) {
+    public CvWorldController(miCeta game, Stage stage, FeedbackSoundType feedbackSound, Sound tooMuchErrorSound, Sound tooFewErrorSound, Sound positiveFeedback,  Sound test_resolution) {
         this.game = game;
         this.stage = stage;
         this.feedbackSound = feedbackSound;
         this.tooMuchErrorSound = tooMuchErrorSound;
         this.tooFewErrorSound = tooFewErrorSound;
         this.positiveFeedback = positiveFeedback;
-
+        test_res =  test_resolution;
 
         if((Gdx.app.getType() == Application.ApplicationType.Android)) {
             cvBlocksManager = new CvBlocksManagerAndroid(game, stage);
@@ -133,9 +139,18 @@ public class CvWorldController extends InputAdapter {
         }
     }
 
+    public void render(float deltaTime) {
 
 
-    public void update(float deltaTime) {
+        if ((go_to_intro)&&(timePassed > time_to_go)) {
+            game.setScreen(new IntroScreen(game));
+        }
+
+        //Gdx.gl.glClearColor(0, 0, 0, 1);
+    }
+
+
+        public void update(float deltaTime) {
         timePassed+=deltaTime; // variable used to check in isTimeToStartNewLoop() to decide if new feedback loop should be started
         inactivityTime+=deltaTime;
         updateCV();
@@ -167,7 +182,14 @@ public class CvWorldController extends InputAdapter {
                     reproduceAllFeedbacks(nowDetected, numberToPlay);
                 }
             }else{
-                game.setScreen(new IntroScreen(game));
+                timePassed = 0;
+                go_to_intro = true;
+                //ojo con esto, debe variar segun el juego
+                time_to_go = AudioManager.instance.reproduce_Game_5(1,1);
+
+
+                // game.setScreen(new IntroScreen(game));
+
             }
         }
     }
@@ -383,7 +405,8 @@ public class CvWorldController extends InputAdapter {
     }
 
     protected void setDelayForPositiveFeedback(){
-        delayForPositiveFeedback = Assets.instance.getSoundDuration(Assets.instance.sounds.yuju);
+//        delayForPositiveFeedback = Assets.instance.getSoundDuration(Assets.instance.sounds.yuju);
+        delayForPositiveFeedback = Assets.instance.getSoundDuration(test_res);
     }
 
 }

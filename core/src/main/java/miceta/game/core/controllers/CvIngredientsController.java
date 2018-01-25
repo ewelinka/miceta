@@ -22,8 +22,8 @@ public class CvIngredientsController extends CvWorldController{
     private static final String TAG = CvIngredientsController.class.getName();
 
 
-    public CvIngredientsController(miCeta game, Stage stage, FeedbackSoundType feedbackSoundName, Sound tooMuchErrorSound, Sound tooFewErrorSound) {
-        super(game, stage, feedbackSoundName, tooMuchErrorSound, tooFewErrorSound);
+    public CvIngredientsController(miCeta game, Stage stage, FeedbackSoundType feedbackSoundName, Sound tooMuchErrorSound, Sound tooFewErrorSound,  Sound test_resolution) {
+        super(game, stage, feedbackSoundName, tooMuchErrorSound, tooFewErrorSound, test_resolution);
         initAnswersNeeded();
     }
 
