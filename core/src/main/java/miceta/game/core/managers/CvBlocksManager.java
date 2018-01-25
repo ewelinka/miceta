@@ -43,7 +43,7 @@ public abstract class CvBlocksManager {
     public ArrayMap<Integer,Integer> tableIdValue;
     public Set<Block> currentBlocks;
 
-//
+    //
     public CvBlocksManager(miCeta game, Stage stage)
     {
         this.game = game;
@@ -63,14 +63,14 @@ public abstract class CvBlocksManager {
     public abstract void updateDetected();
 
     public void analyseDetected(){
-       //- Gdx.app.log(TAG,"analyse -> detectionReady " + detectionReady + " detectionInProgress " + detectionInProgress);
+        //- Gdx.app.log(TAG,"analyse -> detectionReady " + detectionReady + " detectionInProgress " + detectionInProgress);
         if(detectionReady) {
             if(results.size() > 0) {
                 currentBlocks = results.get(0); //here we have our set of detected blocks
                 tempList = new HashSet<Block>(currentBlocks);
             }
             else {
-               //- Gdx.app.error(TAG," very very wrong -> empty result!");
+                //- Gdx.app.error(TAG," very very wrong -> empty result!");
                 currentBlocks =  new HashSet<Block>();
                 tempList = new HashSet<Block>();
 
@@ -129,13 +129,13 @@ public abstract class CvBlocksManager {
     private void checkStrikesAndDecideIfRemove(int id){
 
 
-            if(strikes.get(id) > maxStrikes ) {
-           //-      Gdx.app.log(TAG, " remove block with id: " + id + "because its gone and has max strikes!");
+        if(strikes.get(id) > maxStrikes ) {
+            //-      Gdx.app.log(TAG, " remove block with id: " + id + "because its gone and has max strikes!");
 
-                if (stableIds.contains(id)) {
+            if (stableIds.contains(id)) {
 
-                    p_resetStrikes(id);
-                    stableIds.remove((Integer) id);
+                p_resetStrikes(id);
+                stableIds.remove((Integer) id);
 
 //                    if (stableIds.size()==0){
 //
@@ -143,12 +143,12 @@ public abstract class CvBlocksManager {
 //                        AudioManager.instance.playNewBlockSong_loop();
 //                    }
 
-                }
             }
-             else{
-                 updateStrikes(id);
-              //-  Gdx.app.log(TAG," STRIKE "+ strikes.get(id) + "for:" + id);
-           }
+        }
+        else{
+            updateStrikes(id);
+            //-  Gdx.app.log(TAG," STRIKE "+ strikes.get(id) + "for:" + id);
+        }
     }
 
     public void initStrikesAndBlocksValues(){
@@ -163,7 +163,7 @@ public abstract class CvBlocksManager {
             }
         }
 
-       // Gdx.app.log(TAG," idToVal "+idToValue);
+        // Gdx.app.log(TAG," idToVal "+idToValue);
 //
     }
 
@@ -228,7 +228,7 @@ public abstract class CvBlocksManager {
 //                AudioManager.instance.playNewBlockSong_loop();
 //            }
 
-           //- Gdx.app.log(TAG, " ADD BLOCK: " + id + "BECAUSE HAS POSITIVE STRIKES!");
+            //- Gdx.app.log(TAG, " ADD BLOCK: " + id + "BECAUSE HAS POSITIVE STRIKES!");
 
         }
 
@@ -244,14 +244,11 @@ public abstract class CvBlocksManager {
                 p_updateStrikes(newId);
             }
             else{
-               p_resetStrikes(newId);
+                p_resetStrikes(newId);
             }
         }
-
         for(int i=0;i<newBlocksIds.size();i++){
             checkStrikesAndDecideIfAdd(newBlocksIds.get(i));
         }
     }
-
-
 }

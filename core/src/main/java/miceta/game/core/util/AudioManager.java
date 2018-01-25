@@ -305,7 +305,7 @@ public class AudioManager {
     }
 
     public void readAllFeedbacks(ArrayList<Integer> toReadNums, int numToBuild, float extraDelayBetweenFeedback){
-            //readFeedbackAndBlocksAndYuju(toReadNums,numToBuild);
+        //readFeedbackAndBlocksAndYuju(toReadNums,numToBuild);
         readFeedbackAndBlocks(toReadNums, numToBuild, extraDelayBetweenFeedback);
 
     }
@@ -355,7 +355,7 @@ public class AudioManager {
         reader.addAction(parallel(readBlocksAction,readFeedbackAction)); // we read feedback and the blocks in parallel
     }
 
-        private void readFeedbackAndBlocks(ArrayList<Integer> toReadNums, int numToBuild, float extraDelayBetweenFeedback){
+    private void readFeedbackAndBlocks(ArrayList<Integer> toReadNums, int numToBuild, float extraDelayBetweenFeedback){
         reader.clearActions();
         /////// blocks
         readBlocksAction = createReadBlocksAction(readBlocksAction, toReadNums, extraDelayBetweenFeedback);
@@ -382,7 +382,7 @@ public class AudioManager {
             }));
             delay_quit = false;
             delay_add = false;
-         }
+        }
 
         reader.addAction(parallel(readBlocksAction,readFeedbackAction)); // we read feedback and the blocks in parallel
     }
@@ -505,7 +505,7 @@ public class AudioManager {
         float duration_total =  0;
 
         readTutorialAction.reset();
-     //   for (int i = 0; i < SoundsToReproduce.size(); i++){
+        //   for (int i = 0; i < SoundsToReproduce.size(); i++){
         for (int i = start; i <= end; i++){
             float soundDuration = Assets.instance.getSoundDuration(soundsToReproduce.get(i));
             duration_total = duration_total + soundDuration;
@@ -619,6 +619,19 @@ public class AudioManager {
         soundsToReproduce.add(Assets.instance.sounds.game_1);
         soundsToReproduce.add(Assets.instance.sounds.game_1_tooFew);
         soundsToReproduce.add(Assets.instance.sounds.game_1_tooMuch);
+
+        return AudioManager.instance.reproduceSoundsWithIndex(soundsToReproduce, start, end);
+
+    }
+
+    public float reproduce_Game_5(int start, int end) {
+
+        ArrayList<Sound> soundsToReproduce = new ArrayList<Sound>();
+
+        soundsToReproduce.add(Assets.instance.sounds.game_5);
+        soundsToReproduce.add(Assets.instance.sounds.game_5_resolution);
+
+
 
         return AudioManager.instance.reproduceSoundsWithIndex(soundsToReproduce, start, end);
 

@@ -37,7 +37,7 @@ public class CvWorldController extends InputAdapter {
     private static final String TAG = CvWorldController.class.getName();
     protected Stage stage;
     public miCeta game;
-   // private int randomNumber,previousRandomNumber;
+    // private int randomNumber,previousRandomNumber;
     protected int numberToPlay;
     protected boolean answerRight;
     private int error_min = 0;
@@ -183,7 +183,7 @@ public class CvWorldController extends InputAdapter {
     }
 
     protected void addPositiveFeedbackTimeToTimeToWait(){
-            timeToWait += (delayForPositiveFeedback + Constants.WAIT_AFTER_CORRECT_ANSWER);
+        timeToWait += (delayForPositiveFeedback + Constants.WAIT_AFTER_CORRECT_ANSWER);
     }
 
     protected float calculateTimeToWait( int currentSum, int numberToPlay){

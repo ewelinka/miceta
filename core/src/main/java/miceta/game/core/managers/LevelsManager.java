@@ -7,9 +7,9 @@ import miceta.game.core.util.GamePreferences;
 
 import java.util.ArrayList;
 import java.util.Scanner;
- //
+//
 public class LevelsManager {
-     public static final String TAG = LevelsManager.class.getName();
+    public static final String TAG = LevelsManager.class.getName();
 
     private int level;
     private int operation_index =0;
@@ -32,8 +32,8 @@ public class LevelsManager {
 
     private LevelsManager(){
 
-       // level = GamePreferences.instance.getLast_level();
-        level =0;
+        // level = GamePreferences.instance.getLast_level();
+        level = 11;
         System.out.println("LEVEL " + level);
         //operation_index = GamePreferences.instance.getOperation_index();
         operation_index =0;
@@ -94,7 +94,7 @@ public class LevelsManager {
             while ((scanner_2.hasNext())&&(index<5)) {
                 String text =  scanner_2.next();
                 subLines[j][index] = text;
-               // System.out.println("[j-> " + j + "- index -> " + index + " sub[j][index]->" + subLines[j][index] + "-]");
+                // System.out.println("[j-> " + j + "- index -> " + index + " sub[j][index]->" + subLines[j][index] + "-]");
                 index++;
             }
             scanner_2.close();
@@ -176,8 +176,8 @@ public class LevelsManager {
         }
     }
     public int get_quantity_operation(){
-         return quantity_operation;
-     }
+        return quantity_operation;
+    }
 
     public int get_level_size(){
         return level_tope;

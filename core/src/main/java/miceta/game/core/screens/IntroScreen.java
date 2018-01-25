@@ -28,7 +28,7 @@ import java.util.ArrayList;
  */
 public class IntroScreen extends AbstractGameScreen {
     public static final String TAG = IntroScreen.class.getName();
-    private ImageButton btnPlay, btnExit, btnHelp, btnNewStart, btnOrganicTutorial, btnIngredients;
+    private ImageButton btnPlay, btnExit, btnHelp, btnNewStart, btnOrganicTutorial, btnIngredients, btnGame_5;
 
     public IntroScreen(miCeta game) {
         super(game);
@@ -54,7 +54,10 @@ public class IntroScreen extends AbstractGameScreen {
         addBtnExit(viewportWidth/2 - 300/2, 30 ); // last btn
         addBtnHelp(viewportWidth/2 - 300/2, 30 + (30 + 150)*1 );
         addBtnNewStart(viewportWidth/2 - 300/2, 30 +(30 + 150)*2);
-        addBtnPlay(viewportWidth/2 - 300/2, 30 +(30 + 150)*3 ); // top button
+        addBtnPlay(viewportWidth/2 - 300/2, 30 +(30 + 150)*3 );
+        addBtnGame_5(30,400);
+
+// top button
 
     }
 
@@ -171,13 +174,24 @@ public class IntroScreen extends AbstractGameScreen {
 
     }
 
+    private void addBtnGame_5(int x, int y){
+        btnGame_5 = new ImageButton(Assets.instance.buttons.helpButtonStyle);
+        btnGame_5.setPosition(x,y);
+        btnGame_5.addListener(new ChangeListener() {
+            @Override
+            public void changed (ChangeEvent event, Actor actor) {
+                onBtnClicked("game_5");
+            }
+        });
+        stage.addActor(btnGame_5);
+
+    }
+
     private void onBtnClicked(String btnType) {
         ScreenTransition transition = ScreenTransitionFade.init(1);
         switch(btnType){
             case "play":
-                //game.setScreen(new TestScreen(game),transition);
-                game.setScreen(new World_1_AudioScreen(game,0, 0),transition);
-
+                game.setScreen(new World_1_AudioScreen(game,0, 0,5),transition);
                 break;
             case "exit":
                 Gdx.app.exit();
@@ -199,6 +213,12 @@ public class IntroScreen extends AbstractGameScreen {
                 // TODO should not be in menu, we put it now for testing
                 //game.setScreen(new ConcreteTutorial(game),transition);
                 game.setScreen(new IngredientsScreen(game),transition);
+                break;
+            case "game_5":
+                // TODO should not be in menu, we put it now for testing
+                //game.setScreen(new ConcreteTutorial(game),transition);
+                game.setScreen(new World_1_AudioScreen(game,0, 0,5),transition);
+
                 break;
         }
 

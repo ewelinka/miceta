@@ -36,10 +36,14 @@ public class World_1_Game extends AbstractGameScreen {
     private BitmapFont font = new BitmapFont();
     private SpriteBatch spriteBatch  = new SpriteBatch();
     protected FeedbackDrawManager fd;
+    private Sound tooFew, tooMuch;
+    private int _game;
 
 
-    public World_1_Game (miCeta game){
+    public World_1_Game (miCeta game, int game_level){
         super(game);
+        _game = game_level;
+
     }
 
     @Override
@@ -48,10 +52,19 @@ public class World_1_Game extends AbstractGameScreen {
         Gdx.app.log(TAG," we start the SHOW! "+Gdx.graphics.getWidth());
         stage = new Stage(new FitViewport(viewportWidth, viewportHeight));
 
-        Sound a = Assets.instance.sounds.game_1_tooFew;
-        Sound b = Assets.instance.sounds.game_1_tooMuch;
+        //clasifico en niveles!
+        if ((_game== 1)){
+            tooFew = Assets.instance.sounds.game_1_tooFew;
+            tooMuch = Assets.instance.sounds.game_1_tooMuch;
+        }
+        else
+        if ((_game== 5)){
+            tooFew = Assets.instance.sounds.game_5_tooFew;
+            tooMuch = Assets.instance.sounds.game_5_tooMuch;
+        }
 
-        worldController = new CvWorldController(game,stage, FeedbackSoundType.KNOCK, b,a);
+
+        worldController = new CvWorldController(game,stage, FeedbackSoundType.KNOCK, tooMuch,tooFew);
 
         shapeRenderer = new ShapeRenderer();
         fd = new FeedbackDrawManager();

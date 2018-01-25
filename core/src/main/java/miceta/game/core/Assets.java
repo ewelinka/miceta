@@ -26,7 +26,7 @@ public class Assets implements Disposable, AssetErrorListener {
     public AssetMusic music;
     public ArrayMap<Sound,Float> s_duration = new ArrayMap<>();
     public AssetButtons buttons;
-  //  public ArrayMap<Music,Double> m_duration = new ArrayMap<>();
+    //  public ArrayMap<Music,Double> m_duration = new ArrayMap<>();
 
 
 
@@ -107,6 +107,13 @@ public class Assets implements Disposable, AssetErrorListener {
         assetManager.load("sounds/mm1/golpes/masRunas.mp3", Sound.class);
         assetManager.load("sounds/mm1/golpes/menosRunas.mp3", Sound.class);
 
+        assetManager.load("sounds/mm1/timbre/introduccion_timbre.mp3", Sound.class);
+        assetManager.load("sounds/mm1/timbre/resolucion_timbre.mp3", Sound.class);
+
+
+        assetManager.load("sounds/mm1/timbre/timbre_masRunas.mp3", Sound.class);
+        assetManager.load("sounds/mm1/timbre/timbre_menosRunas.mp3", Sound.class);
+
 
         assetManager.load("sounds/opciones/jugar.wav", Sound.class);
         assetManager.load("sounds/opciones/denuevo.wav", Sound.class);
@@ -151,10 +158,9 @@ public class Assets implements Disposable, AssetErrorListener {
         public final Sound knock;
         public final Sound tmm1_1,tmm1_2,tmm1_tooMuch,tmm1_tooFew, tmm1_positive;
         public final Sound jugar, denuevo, ayuda, salir;
-
         public final Sound ingredientsIntro,ingredientsCrocodile,ingredientsCat,ingredientsAnt,ingredientsLama,ingredientsFrog,ingredientsCow, ingredientsVinegar,ingredientsMore,ingredientsLess, ingredientsPositive,ingredientsFinal;
-
         public final Sound game_1, game_1_tooFew, game_1_tooMuch;
+        public final Sound game_5, game_5_resolution, game_5_tooFew, game_5_tooMuch;
 
 
         //concrete tutorial
@@ -205,7 +211,6 @@ public class Assets implements Disposable, AssetErrorListener {
 
             knock = soundWithDuration("sounds/feedback/knock.wav", am);
 
-
             ct_1 = soundWithDuration("sounds/concreto/1.mp3", am);
             ct_2 = soundWithDuration("sounds/concreto/2.mp3", am);
             ct_3 = soundWithDuration("sounds/concreto/3.mp3", am);
@@ -215,7 +220,6 @@ public class Assets implements Disposable, AssetErrorListener {
             ct_7 = soundWithDuration("sounds/concreto/7.mp3", am);
             ct_8 = soundWithDuration("sounds/concreto/8.mp3", am);
             ct_9 = soundWithDuration("sounds/concreto/9.mp3", am);
-
 
             tmm1_1 = soundWithDuration("sounds/mm1/tutorial/mm1_intro1.mp3", am);
             tmm1_2 = soundWithDuration("sounds/mm1/tutorial/mm1_intro2.mp3", am);
@@ -240,11 +244,14 @@ public class Assets implements Disposable, AssetErrorListener {
             denuevo = soundWithDuration("sounds/opciones/denuevo.wav", am);
             ayuda = soundWithDuration("sounds/opciones/ayuda.wav", am);
             salir = soundWithDuration("sounds/opciones/salir.wav", am);
-
             game_1 = soundWithDuration("sounds/mm1/golpes/intro.mp3", am);
             game_1_tooFew = soundWithDuration("sounds/mm1/golpes/masRunas.mp3", am);
             game_1_tooMuch = soundWithDuration("sounds/mm1/golpes/menosRunas.mp3", am);
+            game_5 = soundWithDuration("sounds/mm1/timbre/introduccion_timbre.mp3", am);
+            game_5_resolution = soundWithDuration("sounds/mm1/timbre/resolucion_timbre.mp3", am);
 
+            game_5_tooFew = soundWithDuration("sounds/mm1/timbre/timbre_masRunas.mp3", am);
+            game_5_tooMuch = soundWithDuration("sounds/mm1/timbre/timbre_menosRunas.mp3", am);
 
         }
     }
