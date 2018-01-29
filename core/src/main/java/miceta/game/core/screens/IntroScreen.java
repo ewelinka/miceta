@@ -258,7 +258,7 @@ public class IntroScreen extends AbstractGameScreen {
             case "game_4":
                 // TODO should not be in menu, we put it now for testing
                 //game.setScreen(new ConcreteTutorial(game),transition);
-                GamePreferences.instance.setLast_level(4);
+                GamePreferences.instance.setLast_level(12);
                 game.setScreen(new World_1_AudioScreen(game,0, 0,4),transition);
 
                 break;
