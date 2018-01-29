@@ -23,7 +23,7 @@ public class CvIngredientsController extends CvWorldController{
 
 
     public CvIngredientsController(miCeta game, Stage stage, FeedbackSoundType feedbackSoundName, Sound tooMuchErrorSound, Sound tooFewErrorSound,  Sound test_resolution) {
-        super(game, stage, feedbackSoundName, tooMuchErrorSound, tooFewErrorSound, test_resolution);
+        super(game, stage, feedbackSoundName, tooMuchErrorSound, tooFewErrorSound, test_resolution,0);
         initAnswersNeeded();
     }
 

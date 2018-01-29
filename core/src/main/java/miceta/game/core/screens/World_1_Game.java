@@ -36,7 +36,7 @@ public class World_1_Game extends AbstractGameScreen {
     private BitmapFont font = new BitmapFont();
     private SpriteBatch spriteBatch  = new SpriteBatch();
     protected FeedbackDrawManager fd;
-    private Sound tooFew, tooMuch;
+    private Sound tooFew, tooMuch, test_resolution;
     private int _game;
     private boolean go_to_intro = false;
 
@@ -57,18 +57,28 @@ public class World_1_Game extends AbstractGameScreen {
         if ((_game== 1)){
             tooFew = Assets.instance.sounds.game_1_tooFew;
             tooMuch = Assets.instance.sounds.game_1_tooMuch;
+            test_resolution = Assets.instance.sounds.game_3_test;
+
         }
         else
         if ((_game== 5)){
             tooFew = Assets.instance.sounds.game_5_tooFew;
             tooMuch = Assets.instance.sounds.game_5_tooMuch;
+            test_resolution = Assets.instance.sounds.game_3_test;
+        }
+        if ((_game== 4)){
+            tooFew = Assets.instance.sounds.game_4_tooFew;
+            tooMuch = Assets.instance.sounds.game_4_tooMuch;
+            test_resolution = Assets.instance.sounds.game_4_test;
+        }
+        else
+        if ((_game== 3)){
+            tooFew = Assets.instance.sounds.game_3_tooFew;
+            tooMuch = Assets.instance.sounds.game_3_tooMuch;
+            test_resolution = Assets.instance.sounds.game_3_resolution;
         }
 
-
-
-
-        worldController = new CvWorldController(game,stage, FeedbackSoundType.KNOCK, tooMuch,tooFew, Assets.instance.sounds.game_5_test);
-
+        worldController = new CvWorldController(game,stage, FeedbackSoundType.KNOCK, tooMuch,tooFew, test_resolution, _game);
         shapeRenderer = new ShapeRenderer();
         fd = new FeedbackDrawManager();
         // android back key used to exit, we should not catch
@@ -104,11 +114,8 @@ public class World_1_Game extends AbstractGameScreen {
 
             for (Block block : cBlocks) {
                 setColorFromValue(block.getValue());
-
                 fd.setShapeRenderer(shapeRenderer, block, shiftX,shiftY);
-
             }
-
         }
 
         shapeRenderer.end();
@@ -130,8 +137,6 @@ public class World_1_Game extends AbstractGameScreen {
         spriteBatch.end();
 
     }
-
-
 
 
     @Override

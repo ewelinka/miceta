@@ -16,6 +16,7 @@ import miceta.game.core.miCeta;
 import miceta.game.core.transitions.ScreenTransition;
 import miceta.game.core.transitions.ScreenTransitionFade;
 import miceta.game.core.util.AudioManager;
+import miceta.game.core.util.GamePreferences;
 
 
 import javax.accessibility.Accessible;
@@ -28,7 +29,7 @@ import java.util.ArrayList;
  */
 public class IntroScreen extends AbstractGameScreen {
     public static final String TAG = IntroScreen.class.getName();
-    private ImageButton btnPlay, btnExit, btnHelp, btnNewStart, btnOrganicTutorial, btnIngredients, btnGame_5;
+    private ImageButton btnPlay, btnExit, btnHelp, btnNewStart, btnOrganicTutorial, btnIngredients, btnGame_5, btnGame_3, btnGame_4;
 
     public IntroScreen(miCeta game) {
         super(game);
@@ -56,6 +57,8 @@ public class IntroScreen extends AbstractGameScreen {
         addBtnNewStart(viewportWidth/2 - 300/2, 30 +(30 + 150)*2);
         addBtnPlay(viewportWidth/2 - 300/2, 30 +(30 + 150)*3 );
         addBtnGame_5(30,400);
+        addBtnGame_3(30,600);
+        addBtnGame_4(900,600);
 
 // top button
 
@@ -174,6 +177,19 @@ public class IntroScreen extends AbstractGameScreen {
 
     }
 
+    private void addBtnGame_3(int x, int y){
+        btnGame_3 = new ImageButton(Assets.instance.buttons.helpButtonStyle);
+        btnGame_3.setPosition(x,y);
+        btnGame_3.addListener(new ChangeListener() {
+            @Override
+            public void changed (ChangeEvent event, Actor actor) {
+                onBtnClicked("game_3");
+            }
+        });
+        stage.addActor(btnGame_3);
+    }
+
+
     private void addBtnGame_5(int x, int y){
         btnGame_5 = new ImageButton(Assets.instance.buttons.helpButtonStyle);
         btnGame_5.setPosition(x,y);
@@ -184,8 +200,20 @@ public class IntroScreen extends AbstractGameScreen {
             }
         });
         stage.addActor(btnGame_5);
-
     }
+
+    private void addBtnGame_4(int x, int y){
+        btnGame_4 = new ImageButton(Assets.instance.buttons.helpButtonStyle);
+        btnGame_4.setPosition(x,y);
+        btnGame_4.addListener(new ChangeListener() {
+            @Override
+            public void changed (ChangeEvent event, Actor actor) {
+                onBtnClicked("game_4");
+            }
+        });
+        stage.addActor(btnGame_4);
+    }
+
 
     private void onBtnClicked(String btnType) {
         ScreenTransition transition = ScreenTransitionFade.init(1);
@@ -217,7 +245,21 @@ public class IntroScreen extends AbstractGameScreen {
             case "game_5":
                 // TODO should not be in menu, we put it now for testing
                 //game.setScreen(new ConcreteTutorial(game),transition);
+                GamePreferences.instance.setLast_level(11);
                 game.setScreen(new World_1_AudioScreen(game,0, 0,5),transition);
+
+                break;
+            case "game_3":
+                // TODO should not be in menu, we put it now for testing
+                //game.setScreen(new ConcreteTutorial(game),transition);
+                GamePreferences.instance.setLast_level(4);
+                game.setScreen(new World_1_AudioScreen(game,0, 0,3),transition);
+
+            case "game_4":
+                // TODO should not be in menu, we put it now for testing
+                //game.setScreen(new ConcreteTutorial(game),transition);
+                GamePreferences.instance.setLast_level(4);
+                game.setScreen(new World_1_AudioScreen(game,0, 0,4),transition);
 
                 break;
         }

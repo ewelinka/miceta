@@ -49,8 +49,6 @@ public abstract class CvBlocksManager {
         this.game = game;
         init();
 
-
-
     }
 
     public abstract void init(

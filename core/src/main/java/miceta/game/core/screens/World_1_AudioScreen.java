@@ -44,6 +44,14 @@ public class World_1_AudioScreen extends AbstractGameScreen {
             game.setScreen(new World_1_Game(game,1));
         }
         else
+        if((game_number ==3) && (t_part==0) && (timePassed > tutorialDuration)){
+            game.setScreen(new World_1_Game(game,3));
+        }
+        else
+        if((game_number ==4) && (t_part==0) && (timePassed > tutorialDuration)){
+            game.setScreen(new World_1_Game(game,4));
+        }
+        else
         if((game_number ==5) && (t_part==0) && (timePassed > tutorialDuration)){
             game.setScreen(new World_1_Game(game,5));
         }
@@ -63,6 +71,14 @@ public class World_1_AudioScreen extends AbstractGameScreen {
         else
         if ((t_part == 0) && (game_number == 5)){
             tutorialDuration = AudioManager.instance.reproduce_Game_5(0,0);
+        }
+        else
+        if ((t_part == 0) && (game_number == 3)){
+            tutorialDuration = AudioManager.instance.reproduce_Game_3(0,0);
+        }
+        else
+        if ((t_part == 0) && (game_number == 4)){
+            tutorialDuration = AudioManager.instance.reproduce_Game_4(0,0);
         }
     }
 

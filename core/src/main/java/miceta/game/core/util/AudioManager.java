@@ -615,7 +615,6 @@ public class AudioManager {
     public float reproduce_Game_1(int start, int end) {
 
         ArrayList<Sound> soundsToReproduce = new ArrayList<Sound>();
-
         soundsToReproduce.add(Assets.instance.sounds.game_1);
         soundsToReproduce.add(Assets.instance.sounds.game_1_tooFew);
         soundsToReproduce.add(Assets.instance.sounds.game_1_tooMuch);
@@ -627,14 +626,28 @@ public class AudioManager {
     public float reproduce_Game_5(int start, int end) {
 
         ArrayList<Sound> soundsToReproduce = new ArrayList<Sound>();
-
         soundsToReproduce.add(Assets.instance.sounds.game_5);
         soundsToReproduce.add(Assets.instance.sounds.game_5_resolution);
 
+        return AudioManager.instance.reproduceSoundsWithIndex(soundsToReproduce, start, end);
+    }
 
+    public float reproduce_Game_3(int start, int end) {
+
+        ArrayList<Sound> soundsToReproduce = new ArrayList<Sound>();
+        soundsToReproduce.add(Assets.instance.sounds.game_3);
+        soundsToReproduce.add(Assets.instance.sounds.game_3_resolution);
 
         return AudioManager.instance.reproduceSoundsWithIndex(soundsToReproduce, start, end);
+    }
 
+    public float reproduce_Game_4(int start, int end) {
+
+        ArrayList<Sound> soundsToReproduce = new ArrayList<Sound>();
+        soundsToReproduce.add(Assets.instance.sounds.game_4);
+        soundsToReproduce.add(Assets.instance.sounds.game_4_resolution);
+
+        return AudioManager.instance.reproduceSoundsWithIndex(soundsToReproduce, start, end);
     }
 
 

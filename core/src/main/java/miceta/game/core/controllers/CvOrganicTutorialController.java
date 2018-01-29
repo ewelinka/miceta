@@ -26,7 +26,7 @@ public class CvOrganicTutorialController extends CvWorldController {
     private int[] tutorialOperations;
 
     public CvOrganicTutorialController(miCeta game, Stage stage, FeedbackSoundType feedbackSoundName, int[] operations) {
-        super(game, stage, feedbackSoundName, Assets.instance.sounds.tmm1_tooMuch,Assets.instance.sounds.tmm1_tooFew, Assets.instance.sounds.tmm1_positive);
+        super(game, stage, feedbackSoundName, Assets.instance.sounds.tmm1_tooMuch,Assets.instance.sounds.tmm1_tooFew, Assets.instance.sounds.tmm1_positive,0);
         initTutorialVariables(operations);
     }
 

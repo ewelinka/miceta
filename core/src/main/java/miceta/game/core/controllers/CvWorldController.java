@@ -44,6 +44,7 @@ public class CvWorldController extends InputAdapter {
     private int error_max = 0;
     protected float inactivityTime =0; // time that passed since last move
     private Sound test_res;
+    private int game_number;
     protected int currentSum=0;
     protected int lastSum=0;
     protected float timeToWait, timePassed, time_to_go;
@@ -66,17 +67,18 @@ public class CvWorldController extends InputAdapter {
         // knock by default
         // too much and too many default values
 
-        this(game,stage,FeedbackSoundType.KNOCK, Assets.instance.sounds.quitblock, Assets.instance.sounds.addblock, Assets.instance.sounds.yuju);
+        this(game,stage,FeedbackSoundType.KNOCK, Assets.instance.sounds.quitblock, Assets.instance.sounds.addblock, Assets.instance.sounds.yuju, 0);
         test_res =  Assets.instance.sounds.yuju;
     }
-    public CvWorldController(miCeta game, Stage stage, FeedbackSoundType feedbackSound, Sound tooMuchErrorSound, Sound tooFewErrorSound, Sound test_resolution){
+    public CvWorldController(miCeta game, Stage stage, FeedbackSoundType feedbackSound, Sound tooMuchErrorSound, Sound tooFewErrorSound, Sound test_resolution,  int game_n){
         // yuju by default
        // this(game,stage,feedbackSound, tooMuchErrorSound ,tooFewErrorSound, Assets.instance.sounds.yuju);
-        this(game,stage,feedbackSound, tooMuchErrorSound ,tooFewErrorSound, Assets.instance.sounds.game_5_test, test_resolution);
+        this(game,stage,feedbackSound, tooMuchErrorSound ,tooFewErrorSound, test_resolution, test_resolution, game_n);
         test_res =  test_resolution;
+        game_number = game_n;
     }
 
-    public CvWorldController(miCeta game, Stage stage, FeedbackSoundType feedbackSound, Sound tooMuchErrorSound, Sound tooFewErrorSound, Sound positiveFeedback,  Sound test_resolution) {
+    public CvWorldController(miCeta game, Stage stage, FeedbackSoundType feedbackSound, Sound tooMuchErrorSound, Sound tooFewErrorSound, Sound positiveFeedback,  Sound test_resolution, int game_n) {
         this.game = game;
         this.stage = stage;
         this.feedbackSound = feedbackSound;
@@ -84,6 +86,7 @@ public class CvWorldController extends InputAdapter {
         this.tooFewErrorSound = tooFewErrorSound;
         this.positiveFeedback = positiveFeedback;
         test_res =  test_resolution;
+        game_number = game_n;
 
         if((Gdx.app.getType() == Application.ApplicationType.Android)) {
             cvBlocksManager = new CvBlocksManagerAndroid(game, stage);
@@ -184,12 +187,19 @@ public class CvWorldController extends InputAdapter {
             }else{
                 timePassed = 0;
                 go_to_intro = true;
-                //ojo con esto, debe variar segun el juego
-                time_to_go = AudioManager.instance.reproduce_Game_5(1,1);
 
+                //audio de resolucion antes de cambiar la pantalla
 
-                // game.setScreen(new IntroScreen(game));
-
+                switch(game_number){
+                    case 2:
+                    case 3:
+                        time_to_go = AudioManager.instance.reproduce_Game_3(1,1);
+                    case 4:
+                        time_to_go = AudioManager.instance.reproduce_Game_4(1,1);
+                    case 5:
+                        time_to_go = AudioManager.instance.reproduce_Game_5(1,1);
+                }
+               // time_to_go = AudioManager.instance.reproduce_Game_5(1,1);
             }
         }
     }
