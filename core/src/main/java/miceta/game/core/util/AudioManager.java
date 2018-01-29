@@ -34,7 +34,7 @@ public class AudioManager {
     private Sound   nb_sound = Assets.instance.sounds.newblock;
     private Music  nb_sound_loop = Assets.instance.music.new_block_loop;
     private FeedbackSoundType feedbackSoundType;
-    private Sound tooMuchErrorSound, tooFewErrorSound, positiveFeedback, finalFeedback;
+    private Sound tooMuchErrorSound, tooFewErrorSound, positiveFeedback, finalFeedback, introSound;
 
 
     private AudioManager () { }
@@ -148,6 +148,8 @@ public class AudioManager {
                 break;
             case FINAL:
                 this.finalFeedback = nowSound;
+            case INTRO:
+                this.introSound = nowSound;
                 break;
 
 
@@ -588,28 +590,29 @@ public class AudioManager {
         }
     }
 
+    public float reproduceIntro(){
+        ArrayList<Sound> soundsToReproduce = new ArrayList<Sound>();
+        soundsToReproduce.add(this.introSound);
+        return AudioManager.instance.reproduceSounds(soundsToReproduce);
+
+    }
+
     public float reproduce_ingredients_intro() {
         ArrayList<Sound> soundsToReproduce = new ArrayList<Sound>();
         soundsToReproduce.add(Assets.instance.sounds.ingredientsIntro);
         soundsToReproduce.add(Assets.instance.sounds.ingredientsAnt);
         return AudioManager.instance.reproduceSounds(soundsToReproduce);
     }
+
     public float reproduce_Game_1(int start, int end) {
 
         ArrayList<Sound> soundsToReproduce = new ArrayList<Sound>();
-
-        soundsToReproduce.add(Assets.instance.sounds.game_1);
-        soundsToReproduce.add(Assets.instance.sounds.game_1_tooFew);
-        soundsToReproduce.add(Assets.instance.sounds.game_1_tooMuch);
+        soundsToReproduce.add(Assets.instance.sounds.knockIntro);
+        soundsToReproduce.add(Assets.instance.sounds.knockTooFew);
+        soundsToReproduce.add(Assets.instance.sounds.knockTooMuch);
 
         return AudioManager.instance.reproduceSoundsWithIndex(soundsToReproduce, start, end);
-
     }
-
-
-
-
-
 
 
 }

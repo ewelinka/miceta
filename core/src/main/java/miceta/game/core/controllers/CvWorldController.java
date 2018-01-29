@@ -47,8 +47,9 @@ public class CvWorldController extends InputAdapter {
     protected float timeToWait, timePassed;
     protected CvBlocksManager cvBlocksManager;
     protected float extraDelayBetweenFeedback;
+    protected float feedbackDelay;
     protected float waitAfterKnock;
-    protected Sound tooMuchErrorSound, tooFewErrorSound, positiveFeedback, finalFeedback;
+    protected Sound tooMuchErrorSound, tooFewErrorSound, positiveFeedback, finalFeedback, introSound;
     protected FeedbackSoundType feedbackSound;
     protected int inactivityLimit;
     protected int maxErrorsForHint;
@@ -61,14 +62,14 @@ public class CvWorldController extends InputAdapter {
     public CvWorldController(miCeta game, Stage stage){
         // knock by default
         // too much and too many default values
-        this(game,stage,FeedbackSoundType.KNOCK, Assets.instance.sounds.quitblock, Assets.instance.sounds.addblock, Assets.instance.sounds.yuju, Assets.instance.sounds.yuju);
+        this(game,stage,FeedbackSoundType.KNOCK, Assets.instance.sounds.newblock, Assets.instance.sounds.yuju, Assets.instance.sounds.addblock, Assets.instance.sounds.quitblock, Assets.instance.sounds.yuju);
     }
-    public CvWorldController(miCeta game, Stage stage, FeedbackSoundType feedbackSound, Sound tooMuchErrorSound, Sound tooFewErrorSound){
+    public CvWorldController(miCeta game, Stage stage, FeedbackSoundType feedbackSound,  Sound tooFewErrorSound, Sound tooMuchErrorSound){
         // yuju by default
-        this(game,stage,feedbackSound, tooMuchErrorSound ,tooFewErrorSound, Assets.instance.sounds.yuju, Assets.instance.sounds.yuju);
+        this(game,stage,feedbackSound, Assets.instance.sounds.newblock, Assets.instance.sounds.yuju, tooFewErrorSound, tooMuchErrorSound ,Assets.instance.sounds.yuju );
     }
 
-    public CvWorldController(miCeta game, Stage stage, FeedbackSoundType feedbackSound, Sound tooMuchErrorSound, Sound tooFewErrorSound, Sound positiveFeedback, Sound finalFeedback) {
+    public CvWorldController(miCeta game, Stage stage, FeedbackSoundType feedbackSound, Sound introSound, Sound positiveFeedback, Sound tooFewErrorSound,  Sound tooMuchErrorSound, Sound finalFeedback) {
         this.game = game;
         this.stage = stage;
         this.feedbackSound = feedbackSound;
@@ -76,6 +77,7 @@ public class CvWorldController extends InputAdapter {
         this.tooFewErrorSound = tooFewErrorSound;
         this.positiveFeedback = positiveFeedback;
         this.finalFeedback = finalFeedback;
+        this.introSound = introSound;
 
 
         if((Gdx.app.getType() == Application.ApplicationType.Android)) {
@@ -97,7 +99,8 @@ public class CvWorldController extends InputAdapter {
         AudioManager.instance.setCustomSound(tooMuchErrorSound, TOO_MUCH);
         AudioManager.instance.setCustomSound(positiveFeedback, POSITIVE);
         AudioManager.instance.setCustomSound(finalFeedback, FINAL);
-        AudioManager.instance.setFeedbackSoundType(FeedbackSoundType.KNOCK);
+        AudioManager.instance.setCustomSound(introSound, INTRO);
+        AudioManager.instance.setFeedbackSoundType(feedbackSound);
 
     }
 
@@ -122,6 +125,8 @@ public class CvWorldController extends InputAdapter {
         inactivityLimit = Constants.INACTIVITY_LIMIT;
         maxErrorsForHint = Constants.ERRORS_FOT_HINT;
         willGoToNextPart = false;
+        feedbackDelay = (Assets.instance.getSoundDuration(this.tooFewErrorSound) > Assets.instance.getSoundDuration(this.tooMuchErrorSound)) ? Assets.instance.getSoundDuration(this.tooFewErrorSound) : Assets.instance.getSoundDuration(this.tooMuchErrorSound);
+
     }
 
     protected void updateCV(){
@@ -269,7 +274,7 @@ public class CvWorldController extends InputAdapter {
     }
 
     private void addFeedbackDelayToTimeToWait(){
-        timeToWait += Constants.FEEDBACK_DELAY;
+        timeToWait += feedbackDelay;
     }
 
     protected void resetErrorsAndInactivity(){
@@ -379,7 +384,7 @@ public class CvWorldController extends InputAdapter {
     }
 
     protected void setDelayForPositiveFeedback(){
-        delayForPositiveFeedback = Assets.instance.getSoundDuration(Assets.instance.sounds.yuju);
+        delayForPositiveFeedback = Assets.instance.getSoundDuration(this.positiveFeedback);
     }
 
     private void goToNextLevel(){

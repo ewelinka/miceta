@@ -43,10 +43,7 @@ public class World_1_Game extends AbstractGameScreen {
         Gdx.app.log(TAG," we start the SHOW! "+Gdx.graphics.getWidth());
         stage = new Stage(new FitViewport(viewportWidth, viewportHeight));
 
-        Sound a = Assets.instance.sounds.game_1_tooFew;
-        Sound b = Assets.instance.sounds.game_1_tooMuch;
-
-        worldController = new CvWorldController(game,stage, FeedbackSoundType.KNOCK, b,a);
+        worldController = new CvWorldController(game,stage, FeedbackSoundType.KNOCK, Assets.instance.sounds.knockTooFew, Assets.instance.sounds.knockTooMuch);
 
         shapeRenderer = new ShapeRenderer();
         fd = new FeedbackDrawManager();

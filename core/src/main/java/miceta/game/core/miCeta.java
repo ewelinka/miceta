@@ -37,8 +37,8 @@ public class miCeta extends DirectedGame {
 		ScreenTransition transition = ScreenTransitionFade.init(1);
 		topCodeDetector = null;
 		//setScreen(new BaseScreen(this),transition);
-		setScreen(new IntroScreen(this),transition);
-		//setScreen(new AutoInitScreen(this));
+		//setScreen(new IntroScreen(this),transition);
+		setScreen(new AutoInitScreen(this));
 		//LevelsManager levelsManager = LevelsManager.getInstance(); // inicializate level manager -- no seria necesario porque es singleton.
 
 	}
@@ -88,6 +88,7 @@ public class miCeta extends DirectedGame {
 
 	public void goToNextScreen(){
 		LevelsManager.instance.upLevelAndLoadParams();
+		Gdx.app.log(TAG," got oto next level nr "+LevelsManager.instance.get_level()      	);
 		AbstractGameScreen nowScreen = getRepresentationToScreenMapper().getScreenFromRepresentation(LevelsManager.instance.getRepresentation());
 		setScreen(nowScreen);
 	}

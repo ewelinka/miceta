@@ -80,13 +80,13 @@ public class LevelsManager {
     }
 
     public void upLevelAndLoadParams(){
-        if (level < level_tope -1) {
+        if (level < level_tope) {
             operation_index =0;
             level++;
         }
         else{
             operation_index =0;
-            level = 0; //reinicio los niveles
+            level = 1; //reinicio los niveles
         }
         GamePreferences.instance.setLast_level(level);
         GamePreferences.instance.setOperation_index(operation_index);
