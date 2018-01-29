@@ -28,7 +28,7 @@ public class OrganicTutorial1InteractiveScreen extends OrganicTutorial1Screen {
     @Override
     public void show() {
         stage = new Stage(new FitViewport(viewportWidth, viewportHeight));
-        worldController = new CvOrganicTutorialController(game,stage, FeedbackSoundType.KNOCK, Assets.instance.sounds.tmm1_tooMuch,Assets.instance.sounds.tmm1_tooFew, Assets.instance.sounds.tmm1_positive, Assets.instance.sounds.tada);
+        worldController = new CvOrganicTutorialController(game,stage, FeedbackSoundType.KNOCK, Assets.instance.sounds.newblock, Assets.instance.sounds.tmm1_positive, Assets.instance.sounds.tmm1_tooMuch,Assets.instance.sounds.tmm1_tooFew, Assets.instance.sounds.tada);
         // android back key used to exit, we should not catch
         Gdx.input.setCatchBackKey(false);
 
@@ -56,13 +56,5 @@ public class OrganicTutorial1InteractiveScreen extends OrganicTutorial1Screen {
         return multiplexer;
     }
 
-    private String getFeedbackSoundNameFromTutorialPart(int tutorialPartNr){
-        switch(tutorialPartNr){
-            case 2:
-                return "drop"; // TODO here goes steps
-            default:
-                return "knock";
-        }
-    }
 
 }

@@ -26,7 +26,7 @@ public class IngredientsScreen extends BaseScreen {
 
         Gdx.app.log(TAG," we start the SHOW! "+Gdx.graphics.getWidth());
         stage = new Stage(new FitViewport(viewportWidth, viewportHeight));
-        worldController = new CvIngredientsController(game,stage, FeedbackSoundType.DROP,Assets.instance.sounds.ingredientsLess,Assets.instance.sounds.ingredientsMore,Assets.instance.sounds.ingredientsFinal);
+        worldController = new CvIngredientsController(game,stage, FeedbackSoundType.DROP,Assets.instance.sounds.ingredientsMore,Assets.instance.sounds.ingredientsLess,Assets.instance.sounds.ingredientsFinal);
         shapeRenderer = new ShapeRenderer();
         fd = new FeedbackDrawManager();
         // android back key used to exit, we should not catch

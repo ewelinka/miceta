@@ -22,9 +22,8 @@ public class CvIngredientsController extends CvWorldController{
     private static final String TAG = CvIngredientsController.class.getName();
 
 
-    public CvIngredientsController(miCeta game, Stage stage, FeedbackSoundType feedbackSoundName, Sound tooMuchErrorSound, Sound tooFewErrorSound, Sound finalSound) {
-        super(game, stage, feedbackSoundName, tooMuchErrorSound, tooFewErrorSound, Assets.instance.sounds.yuju, finalSound); //yuju won't be used but we have to set it
-        initAnswersNeeded();
+    public CvIngredientsController(miCeta game, Stage stage, FeedbackSoundType feedbackSoundName, Sound tooFewErrorSound, Sound tooMuchErrorSound, Sound finalSound) {
+        super(game, stage, feedbackSoundName, Assets.instance.sounds.tada, Assets.instance.sounds.yuju, tooFewErrorSound, tooMuchErrorSound, finalSound); //yuju won't be used but we have to set it
     }
 
     @Override
@@ -41,16 +40,12 @@ public class CvIngredientsController extends CvWorldController{
         AudioManager.instance.readAllFeedbacksAndPositiveWithNewIngredient(nowDetected, numberToPlay, extraDelayBetweenFeedback, correctAnswersNow);
     }
 
-    @Override
-    protected void reproduceAllFeedbacksAndFinal(ArrayList<Integer> nowDetected, int numberToPlay ){
-        AudioManager.instance.readAllFeedbacksAndFinal(nowDetected, numberToPlay, extraDelayBetweenFeedback);
-    }
 
 
     @Override
     protected void setDelayForPositiveFeedback(){
         Gdx.app.log(TAG,"setDelayForPositiveFeedback "+Assets.instance.getSoundDuration(Assets.instance.sounds.ingredientsPositive)+" === "+Assets.instance.getSoundDuration(Assets.instance.sounds.ingredientsCrocodile));
-        delayForPositiveFeedback = Assets.instance.getSoundDuration(Assets.instance.sounds.ingredientsPositive) + Assets.instance.getSoundDuration(Assets.instance.sounds.ingredientsCrocodile)  ; // TODO should we add new ingredient vocalization??
+        delayForPositiveFeedback = Assets.instance.getSoundDuration(Assets.instance.sounds.ingredientsPositive) + Assets.instance.getSoundDuration(Assets.instance.sounds.ingredientsCrocodile); // TODO check if crocodile is the longest audio!
     }
 
 

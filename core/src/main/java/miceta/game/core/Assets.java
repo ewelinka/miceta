@@ -26,8 +26,6 @@ public class Assets implements Disposable, AssetErrorListener {
     public AssetMusic music;
     public ArrayMap<Sound,Float> s_duration = new ArrayMap<>();
     public AssetButtons buttons;
-  //  public ArrayMap<Music,Double> m_duration = new ArrayMap<>();
-
 
 
     private Assets() {
@@ -106,6 +104,24 @@ public class Assets implements Disposable, AssetErrorListener {
         assetManager.load("sounds/mm1/golpes/intro.mp3", Sound.class);
         assetManager.load("sounds/mm1/golpes/masRunas.mp3", Sound.class);
         assetManager.load("sounds/mm1/golpes/menosRunas.mp3", Sound.class);
+        // door bell
+        assetManager.load("sounds/mm1/timbre/introduccion_timbre.mp3", Sound.class);
+        assetManager.load("sounds/mm1/timbre/resolucion_timbre.mp3", Sound.class);
+        assetManager.load("sounds/mm1/timbre/timbre_masRunas.mp3", Sound.class);
+        assetManager.load("sounds/mm1/timbre/timbre_menosRunas.mp3", Sound.class);
+        assetManager.load("sounds/mm1/timbre/res_ensayo_timbre.mp3", Sound.class);
+        // mixing
+        assetManager.load("sounds/mm1/revolver/revolver_explicacion.mp3", Sound.class);
+        assetManager.load("sounds/mm1/revolver/revolver_res_ensayo.mp3", Sound.class);
+        assetManager.load("sounds/mm1/revolver/revolver_masRunas.mp3", Sound.class);
+        assetManager.load("sounds/mm1/revolver/revolver_menosRunas.mp3", Sound.class);
+        assetManager.load("sounds/mm1/revolver/revolver_res_final.mp3", Sound.class);
+        // music
+        assetManager.load("sounds/mm1/instrumentos/instrumentos_introduccion.mp3", Sound.class);
+        assetManager.load("sounds/mm1/instrumentos/instrumentos_res_ensayo.mp3", Sound.class);
+        assetManager.load("sounds/mm1/instrumentos/instrumentos_masRunas.mp3", Sound.class);
+        assetManager.load("sounds/mm1/instrumentos/instrumentos_menosRunas.mp3", Sound.class);
+        assetManager.load("sounds/mm1/instrumentos/instrumentos_final.mp3", Sound.class);
 
 
         assetManager.load("sounds/opciones/jugar.wav", Sound.class);
@@ -154,10 +170,10 @@ public class Assets implements Disposable, AssetErrorListener {
 
         public final Sound ingredientsIntro,ingredientsCrocodile,ingredientsCat,ingredientsAnt,ingredientsLama,ingredientsFrog,ingredientsCow, ingredientsVinegar,ingredientsMore,ingredientsLess, ingredientsPositive,ingredientsFinal;
 
-        public final Sound game_1, game_1_tooFew, game_1_tooMuch;
-
-
-        //concrete tutorial
+        public final Sound knockIntro, knockTooFew, knockTooMuch;
+        public final Sound bellIntro, bellFinal, bellTooFew, bellTooMuch, bellPositive;
+        public final Sound mixingIntro, mixingFinal, mixingTooFew, mixingTooMuch, mixingPositive;
+        public final Sound musicIntro, musicFinal, musicTooFew, musicTooMuch, musicPositive;
 
 
 
@@ -222,6 +238,12 @@ public class Assets implements Disposable, AssetErrorListener {
             tmm1_tooFew = soundWithDuration("sounds/mm1/tutorial/mm1_tooFew.mp3", am);
             tmm1_positive = soundWithDuration("sounds/mm1/tutorial/mm1_positive.mp3", am);
 
+
+            knockIntro = soundWithDuration("sounds/mm1/golpes/intro.mp3", am);
+            knockTooFew = soundWithDuration("sounds/mm1/golpes/masRunas.mp3", am);
+            knockTooMuch = soundWithDuration("sounds/mm1/golpes/menosRunas.mp3", am);
+
+
             ingredientsIntro = soundWithDuration("sounds/mm1/ingredientes/1intro.mp3", am);
             ingredientsCrocodile = soundWithDuration("sounds/mm1/ingredientes/cocodrilo.mp3", am);
             ingredientsCat = soundWithDuration("sounds/mm1/ingredientes/gato.mp3", am);
@@ -235,14 +257,29 @@ public class Assets implements Disposable, AssetErrorListener {
             ingredientsPositive = soundWithDuration("sounds/mm1/ingredientes/positivo.mp3", am);
             ingredientsFinal = soundWithDuration("sounds/mm1/ingredientes/final.mp3", am);
 
+
+            mixingIntro = soundWithDuration("sounds/mm1/revolver/revolver_explicacion.mp3", am);
+            mixingPositive = soundWithDuration("sounds/mm1/revolver/revolver_res_ensayo.mp3", am);
+            mixingTooFew = soundWithDuration("sounds/mm1/revolver/revolver_masRunas.mp3", am);
+            mixingTooMuch = soundWithDuration("sounds/mm1/revolver/revolver_menosRunas.mp3", am);
+            mixingFinal = soundWithDuration("sounds/mm1/revolver/revolver_res_final.mp3", am);
+
+            musicIntro = soundWithDuration("sounds/mm1/instrumentos/instrumentos_introduccion.mp3", am);
+            musicPositive = soundWithDuration("sounds/mm1/instrumentos/instrumentos_res_ensayo.mp3", am);
+            musicTooFew = soundWithDuration("sounds/mm1/instrumentos/instrumentos_masRunas.mp3", am);
+            musicTooMuch = soundWithDuration("sounds/mm1/instrumentos/instrumentos_menosRunas.mp3", am);
+            musicFinal = soundWithDuration("sounds/mm1/instrumentos/instrumentos_final.mp3", am);
+
+            bellIntro = soundWithDuration("sounds/mm1/timbre/introduccion_timbre.mp3", am);
+            bellFinal = soundWithDuration("sounds/mm1/timbre/resolucion_timbre.mp3", am);
+            bellTooFew = soundWithDuration("sounds/mm1/timbre/timbre_masRunas.mp3", am);
+            bellTooMuch = soundWithDuration("sounds/mm1/timbre/timbre_menosRunas.mp3", am);
+            bellPositive = soundWithDuration("sounds/mm1/timbre/res_ensayo_timbre.mp3", am);
+
             jugar = soundWithDuration("sounds/opciones/jugar.wav", am);
             denuevo = soundWithDuration("sounds/opciones/denuevo.wav", am);
             ayuda = soundWithDuration("sounds/opciones/ayuda.wav", am);
             salir = soundWithDuration("sounds/opciones/salir.wav", am);
-
-            game_1 = soundWithDuration("sounds/mm1/golpes/intro.mp3", am);
-            game_1_tooFew = soundWithDuration("sounds/mm1/golpes/masRunas.mp3", am);
-            game_1_tooMuch = soundWithDuration("sounds/mm1/golpes/menosRunas.mp3", am);
 
 
         }

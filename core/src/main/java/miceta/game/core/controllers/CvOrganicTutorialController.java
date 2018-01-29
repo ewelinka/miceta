@@ -23,11 +23,10 @@ import java.util.ArrayList;
 public class CvOrganicTutorialController extends CvWorldController {
     private static final String TAG = CvOrganicTutorialController.class.getName();
 
-    public CvOrganicTutorialController(miCeta game, Stage stage, FeedbackSoundType feedbackSoundName, Sound tooMuch, Sound tooFew, Sound positive, Sound finalFeedabck) {
-        super(game, stage, feedbackSoundName, tooMuch, tooFew, positive, finalFeedabck);
-        //initTutorialVariables(operations);
+
+    public CvOrganicTutorialController(miCeta game, Stage stage, FeedbackSoundType feedbackSound, Sound introSound, Sound positiveFeedback, Sound tooFewErrorSound, Sound tooMuchErrorSound, Sound finalFeedback) {
+        super(game, stage, feedbackSound, introSound, positiveFeedback, tooFewErrorSound, tooMuchErrorSound, finalFeedback);
         inactivityLimit = 0; // we dont want to wait!
         maxErrorsForHint = 2; // two errors and we let you know!
     }
-
 }
