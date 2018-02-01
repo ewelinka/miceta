@@ -40,13 +40,18 @@ public class LevelsManager {
         csvLines = csvContentString.split("\n");
         level_tope = csvLines.length-1; // -1 because of the headers
         Gdx.app.log(TAG,"csvContentString "+csvContentString + " tope "+level_tope);
+//        for (int i=0;i<csvLines.length;i++){
+//            Gdx.app.log(TAG, "line "+i+" -- "+csvLines[i]);
+//        }
     }
 
 
     private LevelParams loadLevelParams(int levelNr){
+
         LevelParams levelParams = new LevelParams();
         String line = csvLines[levelNr];//0 for titles
         String [] splittedLine = line.split(",");
+
         levelParams.representation = Integer.parseInt(splittedLine[4]);
         levelParams.numberMin = Integer.parseInt(splittedLine[0]);
         levelParams.numberMax = Integer.parseInt(splittedLine[1]);

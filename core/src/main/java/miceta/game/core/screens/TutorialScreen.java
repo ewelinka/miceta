@@ -1,6 +1,7 @@
 package miceta.game.core.screens;
 
 import com.badlogic.gdx.Gdx;
+import com.badlogic.gdx.Input;
 import com.badlogic.gdx.graphics.glutils.ShapeRenderer;
 import com.badlogic.gdx.scenes.scene2d.Stage;
 import com.badlogic.gdx.utils.viewport.FitViewport;
@@ -30,4 +31,17 @@ public class TutorialScreen extends BaseScreen {
         Gdx.input.setCatchBackKey(false);
 
     }
+
+
+    public boolean touchDown (int screenX, int screenY, int pointer, int button) {
+
+        if (button == Input.Buttons.RIGHT){
+
+            game.setScreen(new IntroScreen(game));
+        }
+
+        return true;
+    }
+
 }
+

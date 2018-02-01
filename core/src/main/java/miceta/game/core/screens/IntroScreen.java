@@ -59,7 +59,7 @@ public class IntroScreen extends AbstractGameScreen {
 
     private void addBtnPlay(int x, int y){
         btnPlay = new ImageButton(Assets.instance.buttons.playButtonStyle);
-        btnPlay.setPosition(x,y);
+        btnPlay.setPosition(0,y);
         btnPlay.addListener(new ChangeListener() {
             @Override
             public void changed (ChangeEvent event, Actor actor) {
@@ -74,11 +74,13 @@ public class IntroScreen extends AbstractGameScreen {
                 }
             }
         });
+        btnPlay.setWidth(1500);
+        btnPlay.setHeight(180);
         stage.addActor(btnPlay);
     }
     private void addBtnExit(int x, int y){
         btnExit = new ImageButton(Assets.instance.buttons.exitButtonStyle);
-        btnExit.setPosition(x,y);
+        btnExit.setPosition(0,y);
         btnExit.addListener(new ChangeListener() {
             @Override
             public void changed (ChangeEvent event, Actor actor) {
@@ -95,13 +97,13 @@ public class IntroScreen extends AbstractGameScreen {
             }
         });
 
-
-
+        btnExit.setWidth(1500);
+        btnExit.setHeight(180);
         stage.addActor(btnExit);
     }
     private void addBtnNewStart(int x, int y){
         btnNewStart = new ImageButton(Assets.instance.buttons.newStartButtonStyle);
-        btnNewStart.setPosition(x,y);
+        btnNewStart.setPosition(0,y);
         btnNewStart.addListener(new ChangeListener() {
             @Override
             public void changed (ChangeEvent event, Actor actor) {
@@ -116,12 +118,13 @@ public class IntroScreen extends AbstractGameScreen {
                 }
             }
         });
-
+        btnNewStart.setWidth(1500);
+        btnNewStart.setHeight(180);
         stage.addActor(btnNewStart);
     }
     private void addBtnHelp(int x, int y){
         btnHelp = new ImageButton(Assets.instance.buttons.helpButtonStyle);
-        btnHelp.setPosition(x,y);
+        btnHelp.setPosition(0,y);
         btnHelp.addListener(new ChangeListener() {
             @Override
             public void changed (ChangeEvent event, Actor actor) {
@@ -137,6 +140,8 @@ public class IntroScreen extends AbstractGameScreen {
             }
         });
 
+        btnHelp.setWidth(1500);
+        btnHelp.setHeight(180);
         stage.addActor(btnHelp);
     }
     private void addBtnOrganicTutorial(int x, int y){
@@ -149,6 +154,7 @@ public class IntroScreen extends AbstractGameScreen {
             }
         });
         stage.addActor(btnOrganicTutorial);
+        //btnOrganicTutorial.setWidth(1500);
     }
 
     private void addBtnIngredients(int x, int y){
@@ -195,8 +201,6 @@ public class IntroScreen extends AbstractGameScreen {
                 break;
         }
 
-
     }
-
 
 }

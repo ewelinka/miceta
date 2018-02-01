@@ -1,6 +1,7 @@
 package miceta.game.core.controllers;
 
 import com.badlogic.gdx.Gdx;
+import com.badlogic.gdx.Input;
 import com.badlogic.gdx.InputAdapter;
 import com.badlogic.gdx.audio.Sound;
 import com.badlogic.gdx.scenes.scene2d.Stage;
@@ -29,4 +30,7 @@ public class CvOrganicTutorialController extends CvWorldController {
         inactivityLimit = 0; // we dont want to wait!
         maxErrorsForHint = 2; // two errors and we let you know!
     }
+
+
 }
+

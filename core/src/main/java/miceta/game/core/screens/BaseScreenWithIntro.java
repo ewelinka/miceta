@@ -1,6 +1,7 @@
 package miceta.game.core.screens;
 
 import com.badlogic.gdx.Gdx;
+import com.badlogic.gdx.Input;
 import com.badlogic.gdx.audio.Sound;
 import com.badlogic.gdx.graphics.glutils.ShapeRenderer;
 import com.badlogic.gdx.scenes.scene2d.Stage;
@@ -25,7 +26,8 @@ public class BaseScreenWithIntro extends BaseScreen {
     @Override
     public void show() {
 
-        Gdx.app.log(TAG," we start the SHOW! "+Gdx.graphics.getWidth());
+
+
         stage = new Stage(new FitViewport(viewportWidth, viewportHeight));
         int representationInCurrentLevel = LevelsManager.instance.getRepresentation();
         Sound[] nowSounds = game.getRepresentationToScreenMapper().getSoundsFromRepresentation(representationInCurrentLevel);
@@ -36,4 +38,7 @@ public class BaseScreenWithIntro extends BaseScreen {
         // android back key used to exit, we should not catch
         Gdx.input.setCatchBackKey(false);
     }
+
+
+
 }

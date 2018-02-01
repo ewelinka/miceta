@@ -1,9 +1,6 @@
 package miceta.game.core.screens;
 
-import com.badlogic.gdx.Application;
-import com.badlogic.gdx.Gdx;
-import com.badlogic.gdx.InputProcessor;
-import com.badlogic.gdx.Screen;
+import com.badlogic.gdx.*;
 import com.badlogic.gdx.scenes.scene2d.Stage;
 import miceta.game.core.Assets;
 import miceta.game.core.controllers.CvWorldController;
@@ -13,7 +10,7 @@ import miceta.game.core.util.Constants;
 /**
  * Created by ewe on 8/10/17.
  */
-public abstract class AbstractGameScreen  implements Screen {
+public abstract class AbstractGameScreen  extends InputAdapter implements Screen {
     public static final String TAG = AbstractGameScreen.class.getName();
     protected miCeta game;
     protected Stage stage;
@@ -72,7 +69,21 @@ public abstract class AbstractGameScreen  implements Screen {
 
     }
 
-    public abstract InputProcessor getInputProcessor ();
+    public abstract InputProcessor getInputProcessor (
+
+
+    );
+
+    @Override
+    public boolean touchDown (int screenX, int screenY, int pointer, int button) {
+
+        if (button == Input.Buttons.RIGHT){
+
+            game.setScreen(new IntroScreen(game));
+        }
+
+        return true;
+    }
 
 
 

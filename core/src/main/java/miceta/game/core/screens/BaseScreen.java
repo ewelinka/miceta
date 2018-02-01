@@ -1,6 +1,7 @@
 package miceta.game.core.screens;
 
 import com.badlogic.gdx.Gdx;
+import com.badlogic.gdx.Input;
 import com.badlogic.gdx.InputMultiplexer;
 import com.badlogic.gdx.InputProcessor;
 import com.badlogic.gdx.graphics.GL20;
@@ -50,6 +51,8 @@ public class BaseScreen extends AbstractGameScreen {
     @Override
     public void render(float deltaTime) {
         //Gdx.gl.glClearColor(0, 0, 0, 1);
+
+
 
         Gdx.gl.glClearColor(0x64 / 255.0f, 0x95 / 255.0f,0xed / 255.0f, 0xff / 255.0f);
 

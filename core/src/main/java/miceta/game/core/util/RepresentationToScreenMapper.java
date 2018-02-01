@@ -22,28 +22,43 @@ public class RepresentationToScreenMapper {
         switch (representation){
             case -1:
                 Gdx.app.log(TAG,"concrete!");
-                return new ConcreteTutorial(game,0, 0);
+              //  return new ConcreteTutorial(game,0, 0);
+                return new  IntroScreen(game);
             case 0:
                 Gdx.app.log(TAG,"organic!");
-                return new OrganicTutorial1AudioScreen(game,1,3);
+               // return new OrganicTutorial1AudioScreen(game,1,3);
+                return new  IntroScreen(game);
+
             case 1:
                 Gdx.app.log(TAG,"knock!");
-                return new World_1_AudioScreen(game,0,0);
+               // return new World_1_AudioScreen(game,0,0);
+                return new  IntroScreen(game);
+
             case 2:
                 Gdx.app.log(TAG,"ingredients!");
-                return new IngredientsScreen(game);
+              //  return new IngredientsScreen(game);
+                return new  IntroScreen(game);
+
             case 3:
                 Gdx.app.log(TAG,"mixing!");
-                return new BaseScreenWithIntro(game);
+              //  return new BaseScreenWithIntro(game);
+                return new  IntroScreen(game);
+
             case 4:
                 Gdx.app.log(TAG,"music!");
-                return new BaseScreenWithIntro(game);
+               // return new BaseScreenWithIntro(game);
+                return new  IntroScreen(game);
+
             case 5:
                 Gdx.app.log(TAG,"bell!");
-                return new BaseScreenWithIntro(game);
+              //  return new BaseScreenWithIntro(game);
+                return new  IntroScreen(game);
+
             default:
                 Gdx.app.log(TAG,"def!");
-                return new OrganicTutorial1AudioScreen(game,1,3);
+              //  return new OrganicTutorial1AudioScreen(game,1,3);
+                return new  IntroScreen(game);
+
         }
     }
 
