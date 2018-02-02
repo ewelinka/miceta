@@ -1,6 +1,7 @@
 package miceta.game.core.screens;
 
 import com.badlogic.gdx.Gdx;
+import com.badlogic.gdx.Input;
 import com.badlogic.gdx.InputMultiplexer;
 import com.badlogic.gdx.InputProcessor;
 import com.badlogic.gdx.audio.Sound;
@@ -124,6 +125,17 @@ public class World_1_Game extends AbstractGameScreen {
             d = 360 + d;
         return d;
     }
+
+    public boolean touchDown (int screenX, int screenY, int pointer, int button) {
+
+        if (button == Input.Buttons.RIGHT){
+
+            game.setScreen(new IntroScreen(game));
+        }
+
+        return true;
+    }
+
 
     private void setColorFromValue(int value){
         switch (value){

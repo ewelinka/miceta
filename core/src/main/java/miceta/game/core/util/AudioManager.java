@@ -59,8 +59,8 @@ public class AudioManager {
         play(sound, volume, pitch, 0);
     } // pan 0
     public void play (Sound sound, float volume, float pitch, float pan) {
-        currentSound = sound;
-        currentSound.play(defaultVolSound * volume, pitch, pan);
+        //currentSound = sound;
+        sound.play(defaultVolSound * volume, pitch, pan);
     }
 
     public void play (Music music) {
@@ -86,11 +86,13 @@ public class AudioManager {
     public void playWithoutInterruption(Sound sound, boolean firstNote) {
         if(firstNote)
             sound.play(firstNoteVol);// be default vol = 1
-        else
+        else{
             sound.play(defaultVolSound);
+        }
     }
 
     public void playWithoutInterruption(Sound sound){
+
         playWithoutInterruption(sound, false);
     }
 
@@ -504,6 +506,7 @@ public class AudioManager {
         }
 
         Gdx.app.log(TAG, "============================= " + duration_total);
+
         reader.addAction(readTutorialAction);
         return duration_total;
     }
@@ -614,5 +617,30 @@ public class AudioManager {
         return AudioManager.instance.reproduceSoundsWithIndex(soundsToReproduce, start, end);
     }
 
+    public void stop_sounds() {
 
+        //Es mejor pasarle el audio que se esta reproduciendo actualmente.
+
+        Assets.instance.sounds.ct_1.stop();
+        Assets.instance.sounds.ct_2.stop();
+        Assets.instance.sounds.ct_3.stop();
+        Assets.instance.sounds.ct_4.stop();
+        Assets.instance.sounds.ct_5.stop();
+        Assets.instance.sounds.ct_6.stop();
+        Assets.instance.sounds.ct_7.stop();
+        Assets.instance.sounds.ct_8.stop();
+        Assets.instance.sounds.ct_9.stop();
+
+
+        Assets.instance.sounds.knockIntro.stop();
+        Assets.instance.sounds.ingredientsIntro.stop();
+
+        Assets.instance.sounds.bellIntro.stop();
+        Assets.instance.sounds.musicIntro.stop();
+
+
+
+
+
+    }
 }

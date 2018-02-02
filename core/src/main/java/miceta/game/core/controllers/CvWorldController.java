@@ -336,14 +336,24 @@ public class CvWorldController extends InputAdapter {
 
     @Override
     public boolean touchDown (int screenX, int screenY, int pointer, int button) {
-        Gdx.app.log(TAG," TOUCHED "+screenX+ " "+screenY);
-        if (Gdx.app.getType() == Application.ApplicationType.Android) {
-            touchDownAndroid(screenX, screenY, button);
-        }else {
-            touchDownDesktop(screenX, screenY, button);
+
+        if (button == Input.Buttons.RIGHT){
+            AudioManager.instance.stop_sounds();
+            game.setScreen(new IntroScreen(game));
+            AudioManager.instance.stop_sounds();
+
+        }
+     else {
+            Gdx.app.log(TAG, " TOUCHED " + screenX + " " + screenY);
+            if (Gdx.app.getType() == Application.ApplicationType.Android) {
+                touchDownAndroid(screenX, screenY, button);
+            } else {
+                touchDownDesktop(screenX, screenY, button);
+            }
         }
         return true;
     }
+
 
 
     private void makeFeedbackSlower(){

@@ -24,7 +24,7 @@ public class GamePreferences {
         extraDelayBetweenFeedback = prefs.getFloat("extraDelayBetweenFeedback",0);
         waitAfterKnock = prefs.getFloat("waitAfterKnock",Constants.WAIT_AFTER_KNOCK);
         last_level = prefs.getInteger("last_level",1);
-        //last_level = 6;
+        last_level = 6;
         world = prefs.getInteger("world",0);
         operation_index=0; // we should always start from the beginning!
 
@@ -36,7 +36,6 @@ public class GamePreferences {
         prefs.putFloat("waitAfterKnock",waitAfterKnock);
         prefs.putInteger("last_level", last_level);
         prefs.putInteger("world", world);
-
         prefs.flush();
     }
 
@@ -90,6 +89,7 @@ public class GamePreferences {
     public int getOperation_index(){
         return operation_index;
     }
+
 
 
 }
