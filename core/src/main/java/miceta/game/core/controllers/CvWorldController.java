@@ -31,7 +31,7 @@ import static miceta.game.core.util.CommonFeedbacks.*;
 /**
  * Created by ewe on 8/10/17.
  */
-public class CvWorldController extends InputAdapter {
+public class CvWorldController {
     private static final String TAG = CvWorldController.class.getName();
     protected Stage stage;
     public miCeta game;
@@ -142,6 +142,7 @@ public class CvWorldController extends InputAdapter {
 
     public void update(float deltaTime) {
         timePassed+=deltaTime; // variable used to check in isTimeToStartNewLoop() to decide if new feedback loop should be started
+       // Gdx.app.log(TAG, "a verrr "+timePassed + " to wait "+timeToWait+ " delta "+deltaTime);
         inactivityTime+=deltaTime;
         updateCV();
 
@@ -177,9 +178,14 @@ public class CvWorldController extends InputAdapter {
                     reproduceAllFeedbacks(nowDetected, numberToPlay);
                 }
             }else{
-                game.goToNextScreen();
+                goToNextScreen();
+
             }
         }
+    }
+
+    protected void goToNextScreen(){
+        game.goToNextScreen();
     }
 
     protected void reproduceAllFeedbacks(ArrayList<Integer> nowDetected, int numberToPlay ){
@@ -283,7 +289,7 @@ public class CvWorldController extends InputAdapter {
         inactivityTime = 0;
     }
 
-    private void touchDownAndroid(int screenX, int screenY, int button){
+    public void touchDownAndroid(int screenX, int screenY, int button){
         if (screenX > 540 && screenY < 60) {
             game.setScreen(new BaseScreen(game));
         }
@@ -305,7 +311,7 @@ public class CvWorldController extends InputAdapter {
         }
 
     }
-    private void touchDownDesktop(int screenX, int screenY, int button){
+    public void touchDownDesktop(int screenX, int screenY, int button){
         if (screenX > 440 && screenY < 10) {
             game.setScreen(new BaseScreen(game));
         }
@@ -333,17 +339,27 @@ public class CvWorldController extends InputAdapter {
 
     }
 
+//
+//    @Override
+//    public boolean touchDown (int screenX, int screenY, int pointer, int button) {
+//
+//        if (button == Input.Buttons.RIGHT){
+//            AudioManager.instance.stop_sounds();
+//            game.setScreen(new IntroScreen(game));
+//            AudioManager.instance.stop_sounds();
+//
+//        }
+//     else {
+//            Gdx.app.log(TAG, " TOUCHED " + screenX + " " + screenY);
+//            if (Gdx.app.getType() == Application.ApplicationType.Android) {
+//                touchDownAndroid(screenX, screenY, button);
+//            } else {
+//                touchDownDesktop(screenX, screenY, button);
+//            }
+//        }
+//        return true;
+//    }
 
-    @Override
-    public boolean touchDown (int screenX, int screenY, int pointer, int button) {
-        Gdx.app.log(TAG," TOUCHED "+screenX+ " "+screenY);
-        if (Gdx.app.getType() == Application.ApplicationType.Android) {
-            touchDownAndroid(screenX, screenY, button);
-        }else {
-            touchDownDesktop(screenX, screenY, button);
-        }
-        return true;
-    }
 
 
     private void makeFeedbackSlower(){

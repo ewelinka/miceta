@@ -1,6 +1,7 @@
 package miceta.game.core.screens;
 
 import com.badlogic.gdx.Gdx;
+import com.badlogic.gdx.Input;
 import com.badlogic.gdx.InputMultiplexer;
 import com.badlogic.gdx.InputProcessor;
 import com.badlogic.gdx.graphics.GL20;
@@ -12,7 +13,9 @@ import com.badlogic.gdx.utils.viewport.FitViewport;
 import edu.ceta.vision.core.blocks.Block;
 import miceta.game.core.controllers.CvWorldController;
 import miceta.game.core.managers.FeedbackDrawManager;
+import miceta.game.core.managers.LevelsManager;
 import miceta.game.core.miCeta;
+import miceta.game.core.util.AudioManager;
 
 import java.util.Set;
 
@@ -50,6 +53,8 @@ public class BaseScreen extends AbstractGameScreen {
     @Override
     public void render(float deltaTime) {
         //Gdx.gl.glClearColor(0, 0, 0, 1);
+
+
 
         Gdx.gl.glClearColor(0x64 / 255.0f, 0x95 / 255.0f,0xed / 255.0f, 0xff / 255.0f);
 
@@ -100,17 +105,6 @@ public class BaseScreen extends AbstractGameScreen {
 
         spriteBatch.end();
 
-    }
-
-
-
-
-    @Override
-    public InputProcessor getInputProcessor() {
-        InputMultiplexer multiplexer = new InputMultiplexer();
-        multiplexer.addProcessor(stage);
-        multiplexer.addProcessor(worldController);
-        return multiplexer;
     }
 
     private float radianToStage(double r){

@@ -6,11 +6,11 @@ import com.badlogic.gdx.graphics.glutils.ShapeRenderer;
 import com.badlogic.gdx.scenes.scene2d.Stage;
 import com.badlogic.gdx.utils.viewport.FitViewport;
 import miceta.game.core.controllers.CvWithIntroController;
-import miceta.game.core.controllers.CvWorldController;
 import miceta.game.core.managers.FeedbackDrawManager;
 import miceta.game.core.managers.LevelsManager;
 import miceta.game.core.miCeta;
 import miceta.game.core.util.FeedbackSoundType;
+import miceta.game.core.util.GameScreen;
 
 /**
  * Created by ewe on 1/29/18.
@@ -24,16 +24,22 @@ public class BaseScreenWithIntro extends BaseScreen {
 
     @Override
     public void show() {
-
-        Gdx.app.log(TAG," we start the SHOW! "+Gdx.graphics.getWidth());
         stage = new Stage(new FitViewport(viewportWidth, viewportHeight));
-        int representationInCurrentLevel = LevelsManager.instance.getRepresentation();
-        Sound[] nowSounds = game.getRepresentationToScreenMapper().getSoundsFromRepresentation(representationInCurrentLevel);
-        FeedbackSoundType nowFeedback = game.getRepresentationToScreenMapper().getFeedbackTypeFromRepresentation(representationInCurrentLevel);
-        worldController = new CvWithIntroController(game,stage,nowFeedback, nowSounds[0],nowSounds[1],nowSounds[2], nowSounds[3],nowSounds[4]);
+        GameScreen gameScreen = game.getGameScreen();
+       // Sound[] nowSounds = game.getSoundsForCurrent();
+        worldController = new CvWithIntroController(game,stage,
+                gameScreen.feedbackSoundType,
+                gameScreen.intro,
+                gameScreen.positive,
+                gameScreen.tooFew,
+                gameScreen.tooMuch,
+                gameScreen.finalSound);
         shapeRenderer = new ShapeRenderer();
         fd = new FeedbackDrawManager();
         // android back key used to exit, we should not catch
         Gdx.input.setCatchBackKey(false);
     }
+
+
+
 }

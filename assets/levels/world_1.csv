@@ -1,8 +1,8 @@
-linea numerica empieza en:,termina en:,nro de operaciones,lista de operaciones,representacion
-1,10,5,,-1
-1,10,2,1 3,0
-1,10,2,5 7,1
-1,10,2,1 4,2
-1,10,2,4 2,3
-1,10,2,3 1,4
-1,13,2,2 3,5
+linea numerica empieza en:,termina en:,nro de operaciones,lista de operaciones,representacion,x
+1,10,5,,-1,0
+1,10,2,1 3,0,0
+1,10,2,5 7,1,0
+1,10,2,1 4,2,0
+1,10,2,4 2,3,0
+1,10,2,3 1,4,0
+1,13,2,2 3,5,0

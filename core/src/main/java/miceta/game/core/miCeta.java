@@ -6,14 +6,11 @@ import com.badlogic.gdx.assets.AssetManager;
 import edu.ceta.vision.core.topcode.TopCodeDetector;
 import miceta.game.core.managers.LevelsManager;
 import miceta.game.core.screens.AbstractGameScreen;
-import miceta.game.core.screens.AutoInitScreen;
 import miceta.game.core.screens.DirectedGame;
 import miceta.game.core.screens.IntroScreen;
 import miceta.game.core.transitions.ScreenTransition;
 import miceta.game.core.transitions.ScreenTransitionFade;
-import miceta.game.core.util.AudioManager;
-import miceta.game.core.util.GamePreferences;
-import miceta.game.core.util.RepresentationToScreenMapper;
+import miceta.game.core.util.*;
 import org.opencv.core.Mat;
 
 
@@ -23,7 +20,8 @@ public class miCeta extends DirectedGame {
 	private Mat lastFrame;//, previousFrame;
 	private Object syncObject = new Object();
 	private TopCodeDetector topCodeDetector;
-	private RepresentationToScreenMapper representationToScreenMapper;
+	private RepresentationMapper representationMapper;
+	private GameScreen gameScreen;
 
 	@Override
 	public void create () {
@@ -33,12 +31,13 @@ public class miCeta extends DirectedGame {
 		AudioManager.instance.play(Assets.instance.music.song01);
 		GamePreferences.instance.load();
 		LevelsManager.instance.init();
-		representationToScreenMapper = new RepresentationToScreenMapper(this);
+		representationMapper = new RepresentationMapper(this);
+		gameScreen = getRepresentationMapper().getGameScreenFromScreenName(LevelsManager.instance.getScreenName());
 		ScreenTransition transition = ScreenTransitionFade.init(1);
 		topCodeDetector = null;
 		//setScreen(new BaseScreen(this),transition);
-		//setScreen(new IntroScreen(this),transition);
-		setScreen(new AutoInitScreen(this));
+		setScreen(new IntroScreen(this),transition);
+		//setScreen(new AutoInitScreen(this));
 		//LevelsManager levelsManager = LevelsManager.getInstance(); // inicializate level manager -- no seria necesario porque es singleton.
 
 	}
@@ -84,12 +83,26 @@ public class miCeta extends DirectedGame {
 	public TopCodeDetector getTopCodeDetector(){ return topCodeDetector;}
 	public void setTopCodeDetector(TopCodeDetector topCodeDetector){ this.topCodeDetector = topCodeDetector;}
 
-	public RepresentationToScreenMapper getRepresentationToScreenMapper(){ return representationToScreenMapper;}
+	public RepresentationMapper getRepresentationMapper(){ return representationMapper;}
+
+//	public ScreenName getScreenName(){
+//		return gameScreen.screenName;
+//	}
+//
+	public GameScreen getGameScreen(){
+		return gameScreen;
+	}
+
+	public void updateGameScreen(){
+		gameScreen = getRepresentationMapper().getGameScreenFromScreenName(LevelsManager.instance.getScreenName());
+
+	}
 
 	public void goToNextScreen(){
 		LevelsManager.instance.upLevelAndLoadParams();
-		Gdx.app.log(TAG," got oto next level nr "+LevelsManager.instance.get_level()      	);
-		AbstractGameScreen nowScreen = getRepresentationToScreenMapper().getScreenFromRepresentation(LevelsManager.instance.getRepresentation());
+		gameScreen = getRepresentationMapper().getGameScreenFromScreenName(LevelsManager.instance.getScreenName());
+		Gdx.app.log(TAG," go to next level nr "+LevelsManager.instance.get_level()+" with screen "+gameScreen.screenName );
+		AbstractGameScreen nowScreen = getRepresentationMapper().getScreenFromScreenName(gameScreen.screenName);
 		setScreen(nowScreen);
 	}
 }
