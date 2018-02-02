@@ -122,26 +122,4 @@ public class ConcreteTutorial extends AbstractGameScreen {
     }
 
 
-
-    public void up_part() {
-        part = part+1;
-    }
-
-
-//    @Override
-  //  public InputProcessor getInputProcessor() {
-    //    return null;
-    //}
-
-    @Override
-    public InputProcessor getInputProcessor() {
-
-        InputMultiplexer multiplexer = new InputMultiplexer();
-        multiplexer.addProcessor(stage);
-        worldController = new CvWorldController(game,stage);
-        multiplexer.addProcessor(worldController);
-
-        return multiplexer;
-
-    }
 }

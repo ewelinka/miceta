@@ -552,25 +552,7 @@ public class AudioManager {
     }
 
 
-    public float reproduce_organic_tutorial1(int tutorialPart){
-        ArrayList<Sound> soundsToReproduce = new ArrayList<Sound>();
-        switch(tutorialPart){
-            case 0:
-                // we should repeat the intro because of errors
-                // "Volvimos al pasado! Empecemos una vez más!"
-                soundsToReproduce.add(Assets.instance.sounds.newblock); // TODO change this when we have audio file
-                break;
-            case 1:
-                soundsToReproduce.add(Assets.instance.sounds.tmm1_1);
-                soundsToReproduce.add(Assets.instance.sounds.tmm1_2);
-                break;
-            case 3:
-                soundsToReproduce.add(Assets.instance.sounds.tada); // we finished!!
-                break;
 
-        }
-        return AudioManager.instance.reproduceSounds(soundsToReproduce);
-    }
 
     private Sound getIngredientFromIndex(int ingredientIndex){
         switch(ingredientIndex){
@@ -617,30 +599,58 @@ public class AudioManager {
         return AudioManager.instance.reproduceSoundsWithIndex(soundsToReproduce, start, end);
     }
 
-    public void stop_sounds() {
+    public void stop_sounds(ScreenName whichScreen) {
+        switch (whichScreen){
+            case CONCRETE_TUTORIAL:
+                Assets.instance.sounds.ct_1.stop();
+                Assets.instance.sounds.ct_2.stop();
+                Assets.instance.sounds.ct_3.stop();
+                Assets.instance.sounds.ct_4.stop();
+                Assets.instance.sounds.ct_5.stop();
+                Assets.instance.sounds.ct_6.stop();
+                Assets.instance.sounds.ct_7.stop();
+                Assets.instance.sounds.ct_8.stop();
+                Assets.instance.sounds.ct_9.stop();
+                break;
+            case ORGANIC_TUTORIAL1:
+                // organic
+                Assets.instance.sounds.tmm1_intro.stop();
+                Assets.instance.sounds.tmm1_final.stop();
+                Assets.instance.sounds.tmm1_tooFew.stop();
+                Assets.instance.sounds.tmm1_tooMuch.stop();
+                Assets.instance.sounds.tmm1_positive.stop();
+                break;
+            case GAME_KNOCK:
+                Assets.instance.sounds.knockIntro.stop();
+                Assets.instance.sounds.knockTooFew.stop();
+                Assets.instance.sounds.knockTooMuch.stop();
+                break;
+            case GAME_INGREDIENTS:
+                Assets.instance.sounds.ingredientsIntro.stop();
+                Assets.instance.sounds.ingredientsLess.stop();
+                Assets.instance.sounds.ingredientsMore.stop();
+                Assets.instance.sounds.ingredientsPositive.stop();
+               break;
+            case GAME_MIXING:
+                Assets.instance.sounds.mixingIntro.stop();
+                Assets.instance.sounds.mixingTooFew.stop();
+                Assets.instance.sounds.mixingTooMuch.stop();
+                Assets.instance.sounds.mixingPositive.stop();
+                break;
+            case GAME_MUSIC:
+                Assets.instance.sounds.musicIntro.stop();
+                Assets.instance.sounds.musicTooFew.stop();
+                Assets.instance.sounds.musicTooMuch.stop();
+                Assets.instance.sounds.musicFinal.stop();
+                break;
+            case GAME_BELL:
+                Assets.instance.sounds.bellIntro.stop();
+                Assets.instance.sounds.bellTooFew.stop();
+                Assets.instance.sounds.bellTooMuch.stop();
+                Assets.instance.sounds.bellFinal.stop();
+                break;
 
-        //Es mejor pasarle el audio que se esta reproduciendo actualmente.
-
-        Assets.instance.sounds.ct_1.stop();
-        Assets.instance.sounds.ct_2.stop();
-        Assets.instance.sounds.ct_3.stop();
-        Assets.instance.sounds.ct_4.stop();
-        Assets.instance.sounds.ct_5.stop();
-        Assets.instance.sounds.ct_6.stop();
-        Assets.instance.sounds.ct_7.stop();
-        Assets.instance.sounds.ct_8.stop();
-        Assets.instance.sounds.ct_9.stop();
-
-
-        Assets.instance.sounds.knockIntro.stop();
-        Assets.instance.sounds.ingredientsIntro.stop();
-
-        Assets.instance.sounds.bellIntro.stop();
-        Assets.instance.sounds.musicIntro.stop();
-
-
-
-
+        }
 
     }
 }
