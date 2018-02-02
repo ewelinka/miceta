@@ -79,6 +79,11 @@ public class Assets implements Disposable, AssetErrorListener {
         assetManager.load("sounds/concreto/7.mp3", Sound.class);
         assetManager.load("sounds/concreto/8.mp3", Sound.class);
         assetManager.load("sounds/concreto/9.mp3", Sound.class);
+        assetManager.load("sounds/concreto/10.mp3", Sound.class);
+        assetManager.load("sounds/concreto/11.mp3", Sound.class);
+
+
+
         //micro mundo 1
         // organic tutorial
         assetManager.load("sounds/mm1/tutorial/mm1_intro1.mp3", Sound.class);
