@@ -128,7 +128,7 @@ public class IntroScreen extends AbstractGameScreen {
         btnHelp.addListener(new ChangeListener() {
             @Override
             public void changed (ChangeEvent event, Actor actor) {
-                onBtnClicked("organic");
+                onBtnClicked("help");
             }
         });
         btnHelp.addListener(new InputListener(){
