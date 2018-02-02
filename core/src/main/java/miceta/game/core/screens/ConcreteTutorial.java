@@ -1,10 +1,12 @@
 package miceta.game.core.screens;
 
 import com.badlogic.gdx.Gdx;
+import com.badlogic.gdx.InputMultiplexer;
 import com.badlogic.gdx.InputProcessor;
 import com.badlogic.gdx.graphics.GL20;
 import com.badlogic.gdx.scenes.scene2d.Stage;
 import com.badlogic.gdx.utils.viewport.FitViewport;
+import miceta.game.core.controllers.CvWorldController;
 import miceta.game.core.managers.LevelsManager;
 import miceta.game.core.miCeta;
 import miceta.game.core.util.AudioManager;
@@ -120,14 +122,4 @@ public class ConcreteTutorial extends AbstractGameScreen {
     }
 
 
-
-    public void up_part() {
-        part = part+1;
-    }
-
-
-    @Override
-    public InputProcessor getInputProcessor() {
-        return null;
-    }
 }

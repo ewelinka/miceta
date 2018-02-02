@@ -6,6 +6,8 @@ import com.badlogic.gdx.math.MathUtils;
 import miceta.game.core.screens.AbstractGameScreen;
 import miceta.game.core.util.GamePreferences;
 import miceta.game.core.util.LevelParams;
+import miceta.game.core.util.RepresentationMapper;
+import miceta.game.core.util.ScreenName;
 
 import java.util.ArrayList;
 import java.util.Scanner;
@@ -40,14 +42,19 @@ public class LevelsManager {
         csvLines = csvContentString.split("\n");
         level_tope = csvLines.length-1; // -1 because of the headers
         Gdx.app.log(TAG,"csvContentString "+csvContentString + " tope "+level_tope);
+//        for (int i=0;i<csvLines.length;i++){
+//            Gdx.app.log(TAG, "line "+i+" -- "+csvLines[i]);
+//        }
     }
 
 
     private LevelParams loadLevelParams(int levelNr){
+
         LevelParams levelParams = new LevelParams();
         String line = csvLines[levelNr];//0 for titles
         String [] splittedLine = line.split(",");
-        levelParams.representation = Integer.parseInt(splittedLine[4]);
+
+        levelParams.screenName = RepresentationMapper.getScreenNameFromRepresentation(Integer.parseInt(splittedLine[4]));
         levelParams.numberMin = Integer.parseInt(splittedLine[0]);
         levelParams.numberMax = Integer.parseInt(splittedLine[1]);
         levelParams.operationsToFinishLevel = Integer.parseInt(splittedLine[2]);
@@ -78,6 +85,12 @@ public class LevelsManager {
 
         return levelParams;
     }
+
+     public void forceLevelParams(int forcedLevelNr){
+         Gdx.app.log(TAG,"force ---> "+forcedLevelNr);
+         //level = forcedLevelNr;
+         currentLevelParams = loadLevelParams(forcedLevelNr);
+     }
 
     public void upLevelAndLoadParams(){
         if (level < level_tope) {
@@ -125,7 +138,7 @@ public class LevelsManager {
         return operation_index;
     }
 
-     public int getRepresentation(){return currentLevelParams.representation;}
+     public ScreenName getScreenName(){return currentLevelParams.screenName;}
 
      public int[] getOperations(){return currentLevelParams.operations;}
      public int getOperationsNumberToFinishLevel(){ return currentLevelParams.operationsToFinishLevel;}

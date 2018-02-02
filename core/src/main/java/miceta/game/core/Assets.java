@@ -81,11 +81,12 @@ public class Assets implements Disposable, AssetErrorListener {
         assetManager.load("sounds/concreto/9.mp3", Sound.class);
         //micro mundo 1
         // organic tutorial
-        assetManager.load("sounds/mm1/tutorial/mm1_intro1.mp3", Sound.class);
-        assetManager.load("sounds/mm1/tutorial/mm1_intro2.mp3", Sound.class);
+        assetManager.load("sounds/mm1/tutorial/mm1_intro.mp3", Sound.class);
         assetManager.load("sounds/mm1/tutorial/mm1_tooMuch.mp3", Sound.class);
         assetManager.load("sounds/mm1/tutorial/mm1_tooFew.mp3", Sound.class);
+        assetManager.load("sounds/mm1/tutorial/mm1_tooFewOne.mp3", Sound.class);
         assetManager.load("sounds/mm1/tutorial/mm1_positive.mp3", Sound.class);
+        assetManager.load("sounds/mm1/tutorial/mm1_final.mp3", Sound.class);
         // ingredients game
         assetManager.load("sounds/mm1/ingredientes/1intro.mp3", Sound.class);
         assetManager.load("sounds/mm1/ingredientes/cocodrilo.mp3", Sound.class);
@@ -165,7 +166,7 @@ public class Assets implements Disposable, AssetErrorListener {
         public final Sound oneDo, oneRe, oneMi, oneFa, oneSol;
         public final Sound puck,yuju, newblock, addblock, quitblock, tada;
         public final Sound knock;
-        public final Sound tmm1_1,tmm1_2,tmm1_tooMuch,tmm1_tooFew, tmm1_positive;
+        public final Sound tmm1_intro,tmm1_tooMuch,tmm1_tooFew, tmm1_tooFewOne, tmm1_positive, tmm1_final;
         public final Sound jugar, denuevo, ayuda, salir;
 
         public final Sound ingredientsIntro,ingredientsCrocodile,ingredientsCat,ingredientsAnt,ingredientsLama,ingredientsFrog,ingredientsCow, ingredientsVinegar,ingredientsMore,ingredientsLess, ingredientsPositive,ingredientsFinal;
@@ -232,11 +233,12 @@ public class Assets implements Disposable, AssetErrorListener {
             ct_9 = soundWithDuration("sounds/concreto/9.mp3", am);
 
 
-            tmm1_1 = soundWithDuration("sounds/mm1/tutorial/mm1_intro1.mp3", am);
-            tmm1_2 = soundWithDuration("sounds/mm1/tutorial/mm1_intro2.mp3", am);
+            tmm1_intro = soundWithDuration("sounds/mm1/tutorial/mm1_intro.mp3", am);
             tmm1_tooMuch = soundWithDuration("sounds/mm1/tutorial/mm1_tooMuch.mp3", am);
             tmm1_tooFew = soundWithDuration("sounds/mm1/tutorial/mm1_tooFew.mp3", am);
             tmm1_positive = soundWithDuration("sounds/mm1/tutorial/mm1_positive.mp3", am);
+            tmm1_final= soundWithDuration("sounds/mm1/tutorial/mm1_final.mp3", am);
+            tmm1_tooFewOne = soundWithDuration("sounds/mm1/tutorial/mm1_tooFewOne.mp3", am);
 
 
             knockIntro = soundWithDuration("sounds/mm1/golpes/intro.mp3", am);

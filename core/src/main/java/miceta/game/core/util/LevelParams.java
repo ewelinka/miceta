@@ -5,7 +5,7 @@ package miceta.game.core.util;
  */
 public class LevelParams {
     public int level;
-    public int representation;
+    public ScreenName screenName;
     public int numberMin;
     public int numberMax;
     public int operationsToFinishLevel; // operations that should APPEAR before level finish

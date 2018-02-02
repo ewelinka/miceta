@@ -1,7 +1,6 @@
 package miceta.game.core.screens;
 
 import com.badlogic.gdx.Gdx;
-import com.badlogic.gdx.InputProcessor;
 import com.badlogic.gdx.graphics.GL20;
 import com.badlogic.gdx.scenes.scene2d.Actor;
 import com.badlogic.gdx.scenes.scene2d.InputEvent;
@@ -11,6 +10,7 @@ import com.badlogic.gdx.scenes.scene2d.ui.ImageButton;
 import com.badlogic.gdx.scenes.scene2d.utils.ChangeListener;
 import com.badlogic.gdx.utils.viewport.FitViewport;
 import miceta.game.core.Assets;
+import miceta.game.core.managers.LevelsManager;
 import miceta.game.core.miCeta;
 import miceta.game.core.transitions.ScreenTransition;
 import miceta.game.core.transitions.ScreenTransitionFade;
@@ -51,15 +51,15 @@ public class IntroScreen extends AbstractGameScreen {
 
     }
 
-
-    @Override
-    public InputProcessor getInputProcessor() {
-        return stage;
-    }
+//
+//    @Override
+//    public InputProcessor getInputProcessor() {
+//        return stage;
+//    }
 
     private void addBtnPlay(int x, int y){
         btnPlay = new ImageButton(Assets.instance.buttons.playButtonStyle);
-        btnPlay.setPosition(x,y);
+        btnPlay.setPosition(0,y);
         btnPlay.addListener(new ChangeListener() {
             @Override
             public void changed (ChangeEvent event, Actor actor) {
@@ -74,11 +74,13 @@ public class IntroScreen extends AbstractGameScreen {
                 }
             }
         });
+        btnPlay.setWidth(1500);
+        btnPlay.setHeight(180);
         stage.addActor(btnPlay);
     }
     private void addBtnExit(int x, int y){
         btnExit = new ImageButton(Assets.instance.buttons.exitButtonStyle);
-        btnExit.setPosition(x,y);
+        btnExit.setPosition(0,y);
         btnExit.addListener(new ChangeListener() {
             @Override
             public void changed (ChangeEvent event, Actor actor) {
@@ -95,13 +97,13 @@ public class IntroScreen extends AbstractGameScreen {
             }
         });
 
-
-
+        btnExit.setWidth(1500);
+        btnExit.setHeight(180);
         stage.addActor(btnExit);
     }
     private void addBtnNewStart(int x, int y){
         btnNewStart = new ImageButton(Assets.instance.buttons.newStartButtonStyle);
-        btnNewStart.setPosition(x,y);
+        btnNewStart.setPosition(0,y);
         btnNewStart.addListener(new ChangeListener() {
             @Override
             public void changed (ChangeEvent event, Actor actor) {
@@ -116,16 +118,17 @@ public class IntroScreen extends AbstractGameScreen {
                 }
             }
         });
-
+        btnNewStart.setWidth(1500);
+        btnNewStart.setHeight(180);
         stage.addActor(btnNewStart);
     }
     private void addBtnHelp(int x, int y){
         btnHelp = new ImageButton(Assets.instance.buttons.helpButtonStyle);
-        btnHelp.setPosition(x,y);
+        btnHelp.setPosition(0,y);
         btnHelp.addListener(new ChangeListener() {
             @Override
             public void changed (ChangeEvent event, Actor actor) {
-                onBtnClicked("help");
+                onBtnClicked("organic");
             }
         });
         btnHelp.addListener(new InputListener(){
@@ -137,6 +140,8 @@ public class IntroScreen extends AbstractGameScreen {
             }
         });
 
+        btnHelp.setWidth(1500);
+        btnHelp.setHeight(180);
         stage.addActor(btnHelp);
     }
     private void addBtnOrganicTutorial(int x, int y){
@@ -149,6 +154,7 @@ public class IntroScreen extends AbstractGameScreen {
             }
         });
         stage.addActor(btnOrganicTutorial);
+        //btnOrganicTutorial.setWidth(1500);
     }
 
     private void addBtnIngredients(int x, int y){
@@ -168,8 +174,9 @@ public class IntroScreen extends AbstractGameScreen {
         ScreenTransition transition = ScreenTransitionFade.init(1);
         switch(btnType){
             case "play":
-                //game.setScreen(new BaseScreen(game),transition);
-                game.setScreen(new World_1_AudioScreen(game,0, 0),transition);
+                LevelsManager.instance.forceLevelParams(LevelsManager.instance.get_level());
+                AbstractGameScreen nowScreen = game.getRepresentationMapper().getScreenFromScreenName(LevelsManager.instance.getScreenName());
+                game.setScreen(nowScreen);
 
                 break;
             case "exit":
@@ -180,23 +187,24 @@ public class IntroScreen extends AbstractGameScreen {
                 game.setScreen(new FeedbackScreen(game),transition);
                 break;
             case "help":
-                // TODO implement tutorial and then go from here to this tutorial
-                game.setScreen(new ConcreteTutorial(game,0, 0),transition);
+                LevelsManager.instance.forceLevelParams(1);
+                game.updateGameScreen();
+                game.setScreen(new ConcreteTutorial(game,0, 0));
                 break;
             case "organic":
-                // TODO should not be in menu, we put it now for testing
                 //game.setScreen(new ConcreteTutorial(game),transition);
-                game.setScreen(new OrganicTutorial1AudioScreen(game,1,3),transition);
+                LevelsManager.instance.forceLevelParams(2);
+                game.updateGameScreen();
+                game.setScreen(new OrganicOneScreen(game),transition);
                 break;
             case "ingredients":
-                // TODO should not be in menu, we put it now for testing
                 //game.setScreen(new ConcreteTutorial(game),transition);
+                LevelsManager.instance.forceLevelParams(3);
+                game.updateGameScreen();
                 game.setScreen(new IngredientsScreen(game),transition);
                 break;
         }
 
-
     }
-
 
 }
