@@ -547,7 +547,11 @@ public class AudioManager {
         soundsToReproduce.add(Assets.instance.sounds.ct_7);
         soundsToReproduce.add(Assets.instance.sounds.ct_8);
         soundsToReproduce.add(Assets.instance.sounds.ct_9);
-        soundsToReproduce.add(Assets.instance.sounds.knock);
+
+        ///soundsToReproduce.add(Assets.instance.sounds.knock);
+        soundsToReproduce.add(Assets.instance.sounds.ct_10);
+        soundsToReproduce.add(Assets.instance.sounds.ct_11);
+
         return AudioManager.instance.reproduceSoundsWithIndex(soundsToReproduce, start, end);
     }
 

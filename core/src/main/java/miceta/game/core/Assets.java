@@ -83,7 +83,6 @@ public class Assets implements Disposable, AssetErrorListener {
         assetManager.load("sounds/concreto/11.mp3", Sound.class);
 
 
-
         //micro mundo 1
         // organic tutorial
         assetManager.load("sounds/mm1/tutorial/mm1_intro1.mp3", Sound.class);
@@ -166,15 +165,13 @@ public class Assets implements Disposable, AssetErrorListener {
 
     public class AssetSounds {
         public final  Sound number1, number2, number3, number4, number5, number6, number7, number8, number9, number10, number11, number12, number13, number14, number15;
-        public final Sound ct_1,ct_2,ct_3,ct_4,ct_5,ct_6,ct_7,ct_8,ct_9; /*ct_10, ct_11;*/
+        public final Sound ct_1,ct_2,ct_3,ct_4,ct_5,ct_6,ct_7,ct_8,ct_9, ct_10, ct_11;
         public final Sound oneDo, oneRe, oneMi, oneFa, oneSol;
         public final Sound puck,yuju, newblock, addblock, quitblock, tada;
         public final Sound knock;
         public final Sound tmm1_1,tmm1_2,tmm1_tooMuch,tmm1_tooFew, tmm1_positive;
         public final Sound jugar, denuevo, ayuda, salir;
-
         public final Sound ingredientsIntro,ingredientsCrocodile,ingredientsCat,ingredientsAnt,ingredientsLama,ingredientsFrog,ingredientsCow, ingredientsVinegar,ingredientsMore,ingredientsLess, ingredientsPositive,ingredientsFinal;
-
         public final Sound knockIntro, knockTooFew, knockTooMuch;
         public final Sound bellIntro, bellFinal, bellTooFew, bellTooMuch, bellPositive;
         public final Sound mixingIntro, mixingFinal, mixingTooFew, mixingTooMuch, mixingPositive;
@@ -235,6 +232,8 @@ public class Assets implements Disposable, AssetErrorListener {
             ct_7 = soundWithDuration("sounds/concreto/7.mp3", am);
             ct_8 = soundWithDuration("sounds/concreto/8.mp3", am);
             ct_9 = soundWithDuration("sounds/concreto/9.mp3", am);
+            ct_10 = soundWithDuration("sounds/concreto/10.mp3", am);
+            ct_11 = soundWithDuration("sounds/concreto/11.mp3", am);
 
 
             tmm1_1 = soundWithDuration("sounds/mm1/tutorial/mm1_intro1.mp3", am);
