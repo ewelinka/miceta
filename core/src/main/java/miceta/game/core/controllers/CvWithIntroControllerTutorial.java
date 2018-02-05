@@ -17,12 +17,10 @@ public class CvWithIntroControllerTutorial extends CvWithIntroController {
     public CvWithIntroControllerTutorial(miCeta game, Stage stage, FeedbackSoundType feedbackSound, Sound introSound, Sound positiveFeedback, Sound tooFewErrorSound, Sound tooMuchErrorSound, Sound finalFeedback) {
         super(game, stage, feedbackSound, introSound, positiveFeedback, tooFewErrorSound, tooMuchErrorSound, finalFeedback);
         inactivityLimit = 0; // we dont want to wait!
-        maxErrorsForHint = 2;
     }
 
     @Override
     protected void goToNextScreen(){
-        game.updateGameScreen();
         game.setScreen(new BaseScreenWithIntro(game));
     }
 

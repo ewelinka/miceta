@@ -134,6 +134,8 @@ public class LevelsManager {
         return level;
     }
 
+     public void forceLevel(int forcedLevel){level = forcedLevel;}
+
      public int get_operation_index(){
         return operation_index;
     }

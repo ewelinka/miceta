@@ -25,7 +25,6 @@ public class BaseScreenWithIntro extends BaseScreen {
     @Override
     public void show() {
         stage = new Stage(new FitViewport(viewportWidth, viewportHeight));
-        GameScreen gameScreen = game.getGameScreen();
        // Sound[] nowSounds = game.getSoundsForCurrent();
         worldController = new CvWithIntroController(game,stage,
                 gameScreen.feedbackSoundType,

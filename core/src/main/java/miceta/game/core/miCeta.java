@@ -93,8 +93,9 @@ public class miCeta extends DirectedGame {
 		return gameScreen;
 	}
 
-	public void updateGameScreen(){
+	public GameScreen updateGameScreen(){
 		gameScreen = getRepresentationMapper().getGameScreenFromScreenName(LevelsManager.instance.getScreenName());
+		return gameScreen;
 
 	}
 

@@ -244,7 +244,7 @@ public class CvWorldController {
 
 
     protected void checkForErrorsAndInactivity(int currentSum, int lastSum){
-        Gdx.app.log(TAG,currentSum+" "+lastSum+" "+error_max+" "+error_min);
+
         // check for errors
         if(currentSum != lastSum){ // we count errors or reset inactivity only if (currentSum != lastSum)
             inactivityTime = 0;
@@ -257,6 +257,7 @@ public class CvWorldController {
                 error_max =0;
             }
         }
+        Gdx.app.log(TAG,currentSum+" "+lastSum+" "+error_max+" "+error_min);
         // check if there are sufficient errors and inactivity time
 
         if(inactivityTime >= inactivityLimit){ // this condition is important for both: min and max
