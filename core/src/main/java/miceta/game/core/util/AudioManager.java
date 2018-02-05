@@ -547,7 +547,9 @@ public class AudioManager {
         soundsToReproduce.add(Assets.instance.sounds.ct_7);
         soundsToReproduce.add(Assets.instance.sounds.ct_8);
         soundsToReproduce.add(Assets.instance.sounds.ct_9);
-        soundsToReproduce.add(Assets.instance.sounds.knock);
+       // soundsToReproduce.add(Assets.instance.sounds.knock);
+        soundsToReproduce.add(Assets.instance.sounds.ct_10);
+        soundsToReproduce.add(Assets.instance.sounds.ct_11);
         return AudioManager.instance.reproduceSoundsWithIndex(soundsToReproduce, start, end);
     }
 
@@ -568,10 +570,8 @@ public class AudioManager {
                 return Assets.instance.sounds.ingredientsLama;
             case 6:
                 return Assets.instance.sounds.ingredientsVinegar;
-            case 7:
-                return Assets.instance.sounds.ingredientsFinal;
             default:
-                return Assets.instance.sounds.puck;
+                return Assets.instance.sounds.ingredientsVinegar;
         }
     }
 
@@ -611,6 +611,8 @@ public class AudioManager {
                 Assets.instance.sounds.ct_7.stop();
                 Assets.instance.sounds.ct_8.stop();
                 Assets.instance.sounds.ct_9.stop();
+                Assets.instance.sounds.ct_10.stop();
+                Assets.instance.sounds.ct_11.stop();
                 break;
             case ORGANIC_TUTORIAL1:
                 // organic

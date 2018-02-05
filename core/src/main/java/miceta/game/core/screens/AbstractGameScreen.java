@@ -6,6 +6,7 @@ import miceta.game.core.controllers.CvWorldController;
 import miceta.game.core.miCeta;
 import miceta.game.core.util.AudioManager;
 import miceta.game.core.util.Constants;
+import miceta.game.core.util.GameScreen;
 import miceta.game.core.util.ScreenName;
 
 /**
@@ -18,10 +19,13 @@ public abstract class AbstractGameScreen  extends InputAdapter implements Screen
     protected CvWorldController worldController;
     protected boolean paused;
     protected int viewportWidth, viewportHeight;
+    protected GameScreen gameScreen;
 
 
     public AbstractGameScreen (miCeta game){
         this.game = game;
+        Gdx.app.log(TAG,"game screen now updated!");
+        gameScreen = game.updateGameScreen();
         paused = false;
 
         if(Gdx.app.getType() == Application.ApplicationType.Android){
@@ -100,6 +104,19 @@ public abstract class AbstractGameScreen  extends InputAdapter implements Screen
         }
         return true;
     }
+    @Override
+    public boolean keyDown(int keycode)
+    {
+        switch (keycode)
+        {
+            case Input.Keys.ESCAPE:
+                stopCurrentSound();
+                game.setScreen(new MenuScreen(game));
+                break;
+        }
+        return true;
+    }
+
 
     public void stopCurrentSound(){
         AudioManager.instance.stop_sounds(game.getGameScreen().screenName);

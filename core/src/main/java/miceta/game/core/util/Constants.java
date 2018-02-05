@@ -13,7 +13,7 @@ public class Constants {
     public static final int STRIKE = 3;
     public static final int P_STRIKE = 3;
     public static final int INACTIVITY_LIMIT = 3;
-    public static final int ERRORS_FOT_HINT = 3;
+    public static final int ERRORS_FOT_HINT = 2;
     public static final int WAIT_AFTER_CORRECT_ANSWER = 2;
     public static final String PREFERENCES = "settings.prefs";
     public static final int DESKTOP_WIDTH = 1366;

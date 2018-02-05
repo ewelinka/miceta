@@ -10,6 +10,7 @@ import miceta.game.core.controllers.CvWorldController;
 import miceta.game.core.managers.LevelsManager;
 import miceta.game.core.miCeta;
 import miceta.game.core.util.AudioManager;
+import miceta.game.core.util.Constants;
 
 import java.util.ArrayList;
 import java.util.Random;
@@ -35,57 +36,69 @@ public class ConcreteTutorial extends AbstractGameScreen {
 
     @Override
     public void render(float deltaTime) {
-        timePassed+=deltaTime;
+        timePassed += deltaTime;
         Gdx.gl.glClearColor(1, 1, 1, 0.5f);
         Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT);
         stage.act(deltaTime);
         stage.draw();
 
-        if((t_part==0) && (timePassed > tutorialDuration)){
-           // game.setScreen(new FeedbackScreen(game));
+        if ((t_part == 0) && (timePassed > tutorialDuration)) {
+            // game.setScreen(new FeedbackScreen(game));
             game.setScreen(new TutorialScreen(game));
-        }
-        else  if((t_part==1) && (timePassed > tutorialDuration)){
+        } else if ((t_part == 1) && (timePassed > tutorialDuration)) {
 
-            timePassed =0;
-            tutorialDuration = AudioManager.instance.reproduce_concrete_tutorial(7,7);
+            timePassed = 0;
+            tutorialDuration = AudioManager.instance.reproduce_concrete_tutorial(7, 7);
             t_part = 3;
-        }
-        else if((t_part==3) && (timePassed > tutorialDuration)){
+        } else if ((t_part == 3) && (timePassed > tutorialDuration)) {
 
             reproduceBlocks(false);
             t_part = 4;
-        }
-        else if((t_part==4) && (timePassed > tutorialDuration)){
+        } else if ((t_part == 4) && (timePassed > tutorialDuration)) {
 
             timePassed = 0;
-            tutorialDuration = AudioManager.instance.reproduce_concrete_tutorial(8,8);
+            tutorialDuration = AudioManager.instance.reproduce_concrete_tutorial(8, 8);
             t_part = 5;
-        }
-        else if((t_part==5) && (timePassed > tutorialDuration)){
+        } else if ((t_part == 5) && (timePassed > tutorialDuration)) {
 
             reproduceBlocks(true);
             t_part = 6;
-        }
-
-        else if((t_part==6) && (timePassed > tutorialDuration)){
+        } else if ((t_part == 6) && (timePassed > tutorialDuration)) {
 
             timePassed = 0;
-            tutorialDuration = AudioManager.instance.reproduce_concrete_tutorial(9,9);
+            tutorialDuration = AudioManager.instance.reproduce_concrete_tutorial(9, 9);
             t_part = 7;
-        }
-        else if((t_part==7) && (timePassed > tutorialDuration && ( knock_counter < t_aux_number))){
-            game.goToNextScreen();
+        } else if ((t_part == 7) && (timePassed > tutorialDuration && (knock_counter < t_aux_number))) {
+            //game.goToNextScreen();
+            reproduceBlocks(false);
+            AudioManager.instance.readNumberAndFeedback(t_aux_number, 0);
+            // timePassed = 0;
+            t_part =8;
 
             // game.setScreen(new TutorialScreen(game));
-           // knock_counter ++;
+            // knock_counter ++;
             //timePassed = 0;
             //tutorialDuration = AudioManager.instance.reproduce_concrete_tutorial(10,10);
             //tutorialDuration = 0.5f;
 
+        } else if ((t_part == 8) && (timePassed > tutorialDuration && (knock_counter < t_aux_number))) {
+
+            timePassed = 0;
+            tutorialDuration = AudioManager.instance.reproduce_concrete_tutorial(10, 10);
+            t_part =9;
+        }
+        else if ((t_part == 9) && (timePassed > tutorialDuration && (knock_counter < t_aux_number))) {
+
+            reproduceBlocks(false);
+            AudioManager.instance.readNumberAndFeedback(t_aux_number, 0);
+            tutorialDuration =t_aux_number* Constants.READ_ONE_UNIT_DURATION + Constants.WAIT_AFTER_KNOCK;
+            timePassed = 0;
+            t_part =10;
+        }
+        else if ((t_part == 10) && (timePassed > tutorialDuration)){
+            game.goToNextScreen();
         }
     }
-
 
     @Override
     public void show() {
@@ -98,8 +111,8 @@ public class ConcreteTutorial extends AbstractGameScreen {
             tutorialDuration = AudioManager.instance.reproduce_concrete_tutorial(0,4);
         }
 
-         else if (t_part == 1){
-          reproduceBlocks(false);
+        else if (t_part == 1){
+            reproduceBlocks(false);
         }
     }
 

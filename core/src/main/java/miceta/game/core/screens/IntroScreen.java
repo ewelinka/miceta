@@ -15,6 +15,7 @@ import miceta.game.core.miCeta;
 import miceta.game.core.transitions.ScreenTransition;
 import miceta.game.core.transitions.ScreenTransitionFade;
 import miceta.game.core.util.AudioManager;
+import miceta.game.core.util.GamePreferences;
 
 /**
  * Created by ewe on 1/5/18.
@@ -42,8 +43,6 @@ public class IntroScreen extends AbstractGameScreen {
         stage = new Stage(new FitViewport(viewportWidth , viewportHeight));
         Gdx.input.setCatchBackKey(false);
         // btn 300 x 150, screen 1366 x 768
-        addBtnOrganicTutorial(30, 30 ); // TODO just for testing!
-        addBtnIngredients(30,30 + (30 + 150)*1); // TODO just for testing!
         addBtnExit(viewportWidth/2 - 300/2, 30 ); // last btn
         addBtnHelp(viewportWidth/2 - 300/2, 30 + (30 + 150)*1 );
         addBtnNewStart(viewportWidth/2 - 300/2, 30 +(30 + 150)*2);
@@ -74,7 +73,7 @@ public class IntroScreen extends AbstractGameScreen {
                 }
             }
         });
-        btnPlay.setWidth(1500);
+        btnPlay.setWidth(1366);
         btnPlay.setHeight(180);
         stage.addActor(btnPlay);
     }
@@ -97,7 +96,7 @@ public class IntroScreen extends AbstractGameScreen {
             }
         });
 
-        btnExit.setWidth(1500);
+        btnExit.setWidth(1366);
         btnExit.setHeight(180);
         stage.addActor(btnExit);
     }
@@ -118,7 +117,7 @@ public class IntroScreen extends AbstractGameScreen {
                 }
             }
         });
-        btnNewStart.setWidth(1500);
+        btnNewStart.setWidth(1366);
         btnNewStart.setHeight(180);
         stage.addActor(btnNewStart);
     }
@@ -140,35 +139,11 @@ public class IntroScreen extends AbstractGameScreen {
             }
         });
 
-        btnHelp.setWidth(1500);
+        btnHelp.setWidth(1366);
         btnHelp.setHeight(180);
         stage.addActor(btnHelp);
     }
-    private void addBtnOrganicTutorial(int x, int y){
-        btnOrganicTutorial = new ImageButton(Assets.instance.buttons.helpButtonStyle);
-        btnOrganicTutorial.setPosition(x,y);
-        btnOrganicTutorial.addListener(new ChangeListener() {
-            @Override
-            public void changed (ChangeEvent event, Actor actor) {
-                onBtnClicked("organic");
-            }
-        });
-        stage.addActor(btnOrganicTutorial);
-        //btnOrganicTutorial.setWidth(1500);
-    }
 
-    private void addBtnIngredients(int x, int y){
-        btnIngredients = new ImageButton(Assets.instance.buttons.helpButtonStyle);
-        btnIngredients.setPosition(x,y);
-        btnIngredients.addListener(new ChangeListener() {
-            @Override
-            public void changed (ChangeEvent event, Actor actor) {
-                onBtnClicked("ingredients");
-            }
-        });
-        stage.addActor(btnIngredients);
-
-    }
 
     private void onBtnClicked(String btnType) {
         ScreenTransition transition = ScreenTransitionFade.init(1);
@@ -177,31 +152,19 @@ public class IntroScreen extends AbstractGameScreen {
                 LevelsManager.instance.forceLevelParams(LevelsManager.instance.get_level());
                 AbstractGameScreen nowScreen = game.getRepresentationMapper().getScreenFromScreenName(LevelsManager.instance.getScreenName());
                 game.setScreen(nowScreen);
-
                 break;
             case "exit":
                 Gdx.app.exit();
                 break;
             case "restart":
-                // TODO implement game reset
-                game.setScreen(new FeedbackScreen(game),transition);
+                GamePreferences.instance.setLast_level(1);
+                LevelsManager.instance.forceLevel(1);
+                LevelsManager.instance.forceLevelParams(1);
+                game.setScreen(new ConcreteTutorial(game,0,0),transition);
                 break;
             case "help":
                 LevelsManager.instance.forceLevelParams(1);
-                game.updateGameScreen();
                 game.setScreen(new ConcreteTutorial(game,0, 0));
-                break;
-            case "organic":
-                //game.setScreen(new ConcreteTutorial(game),transition);
-                LevelsManager.instance.forceLevelParams(2);
-                game.updateGameScreen();
-                game.setScreen(new OrganicOneScreen(game),transition);
-                break;
-            case "ingredients":
-                //game.setScreen(new ConcreteTutorial(game),transition);
-                LevelsManager.instance.forceLevelParams(3);
-                game.updateGameScreen();
-                game.setScreen(new IngredientsScreen(game),transition);
                 break;
         }
 
