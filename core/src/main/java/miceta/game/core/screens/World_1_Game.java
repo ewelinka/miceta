@@ -109,31 +109,11 @@ public class World_1_Game extends AbstractGameScreen {
     }
 
 
-
-
-    @Override
-    public InputProcessor getInputProcessor() {
-        InputMultiplexer multiplexer = new InputMultiplexer();
-        multiplexer.addProcessor(stage);
-        multiplexer.addProcessor(worldController);
-        return multiplexer;
-    }
-
     private float radianToStage(double r){
         float d = (float) Math.toDegrees(r*-1 - Math.PI/2);
         if(d < 0)
             d = 360 + d;
         return d;
-    }
-
-    public boolean touchDown (int screenX, int screenY, int pointer, int button) {
-
-        if (button == Input.Buttons.RIGHT){
-
-            game.setScreen(new IntroScreen(game));
-        }
-
-        return true;
     }
 
 

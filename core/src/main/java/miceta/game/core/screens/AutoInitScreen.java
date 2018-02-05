@@ -1,10 +1,7 @@
 package miceta.game.core.screens;
 
-import com.badlogic.gdx.Gdx;
-import com.badlogic.gdx.InputProcessor;
 import miceta.game.core.managers.LevelsManager;
 import miceta.game.core.miCeta;
-import miceta.game.core.util.GamePreferences;
 
 /**
  * Created by ewe on 1/22/18.
@@ -20,13 +17,14 @@ public class AutoInitScreen extends AbstractGameScreen {
     }
 
     @Override
-    public void show() {
-        AbstractGameScreen nowScreen = game.getRepresentationToScreenMapper().getScreenFromRepresentation(LevelsManager.instance.getRepresentation());
-        game.setScreen(nowScreen);
+    public void stopCurrentSound() {
+        // nothing to stop!
     }
 
     @Override
-    public InputProcessor getInputProcessor() {
-        return null;
+    public void show() {
+        AbstractGameScreen nowScreen = game.getRepresentationMapper().getScreenFromScreenName(LevelsManager.instance.getScreenName());
+        game.setScreen(nowScreen);
     }
+
 }

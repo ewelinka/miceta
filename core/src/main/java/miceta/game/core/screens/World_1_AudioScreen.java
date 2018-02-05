@@ -72,31 +72,4 @@ public class World_1_AudioScreen extends AbstractGameScreen {
         part = part+1;
     }
 
-
-/*
-    //Override
-    public boolean touchDown (int screenX, int screenY, int pointer, int button) {
-
-        if (button == Input.Buttons.RIGHT){
-
-            game.setScreen(new IntroScreen(game));
-        }
-
-        return true;
-    } */
-
-
-
-    @Override
-    public InputProcessor getInputProcessor() {
-
-
-             InputMultiplexer multiplexer = new InputMultiplexer();
-             multiplexer.addProcessor(stage);
-             worldController = new CvWorldController(game,stage);
-             multiplexer.addProcessor(worldController);
-
-            return multiplexer;
-
-    }
 }
