@@ -1,7 +1,6 @@
 package miceta.game.core.screens;
 
 import com.badlogic.gdx.Gdx;
-import com.badlogic.gdx.Input;
 import com.badlogic.gdx.graphics.GL20;
 import com.badlogic.gdx.scenes.scene2d.Actor;
 import com.badlogic.gdx.scenes.scene2d.InputEvent;
@@ -20,11 +19,11 @@ import miceta.game.core.util.AudioManager;
 /**
  * Created by ewe on 1/5/18.
  */
-public class IntroScreen extends AbstractGameScreen {
+public class MenuScreen extends AbstractGameScreen {
     public static final String TAG = IntroScreen.class.getName();
     private ImageButton btnPlay, btnExit, btnHelp, btnNewStart, btnOrganicTutorial, btnIngredients;
 
-    public IntroScreen(miCeta game) {
+    public MenuScreen(miCeta game) {
         super(game);
     }
 
@@ -43,13 +42,12 @@ public class IntroScreen extends AbstractGameScreen {
         stage = new Stage(new FitViewport(viewportWidth , viewportHeight));
         Gdx.input.setCatchBackKey(false);
         // btn 300 x 150, screen 1366 x 768
-        addBtnOrganicTutorial(30, 30 ); // TODO just for testing!
-        addBtnIngredients(30,30 + (30 + 150)*1); // TODO just for testing!
-        addBtnExit(viewportWidth/2 - 300/2, 30 ); // last btn
-        addBtnHelp(viewportWidth/2 - 300/2, 30 + (30 + 150)*1 );
-        addBtnNewStart(viewportWidth/2 - 300/2, 30 +(30 + 150)*2);
-        addBtnPlay(viewportWidth/2 - 300/2, 30 +(30 + 150)*3 ); // top button
-
+        addBtnOrganicTutorial(30, 340 ); // TODO just for testing!
+        addBtnIngredients(30,110 + (240 + 150)*1); // TODO just for testing!
+        addBtnExit(viewportWidth/2 - 300/2, 250 ); // last btn
+        addBtnHelp(viewportWidth/2 - 300/2, 240 + (30 + 150)*1 );
+        addBtnNewStart(viewportWidth/2 - 300/2, 230 +(30 + 150)*2);
+        addBtnPlay(viewportWidth/2 - 300/2, 130 +(30 + 150)*3 ); // top button
     }
 
 //
@@ -75,8 +73,8 @@ public class IntroScreen extends AbstractGameScreen {
                 }
             }
         });
-        btnPlay.setWidth(1500);
-        btnPlay.setHeight(180);
+        btnPlay.setWidth(500);
+        btnPlay.setHeight(70);
         stage.addActor(btnPlay);
     }
     private void addBtnExit(int x, int y){
@@ -98,8 +96,8 @@ public class IntroScreen extends AbstractGameScreen {
             }
         });
 
-        btnExit.setWidth(1500);
-        btnExit.setHeight(180);
+        btnExit.setWidth(500);
+        btnExit.setHeight(70);
         stage.addActor(btnExit);
     }
     private void addBtnNewStart(int x, int y){
@@ -119,8 +117,8 @@ public class IntroScreen extends AbstractGameScreen {
                 }
             }
         });
-        btnNewStart.setWidth(1500);
-        btnNewStart.setHeight(180);
+        btnNewStart.setWidth(500);
+        btnNewStart.setHeight(70);
         stage.addActor(btnNewStart);
     }
     private void addBtnHelp(int x, int y){
@@ -141,32 +139,39 @@ public class IntroScreen extends AbstractGameScreen {
             }
         });
 
-        btnHelp.setWidth(1500);
-        btnHelp.setHeight(180);
+        btnHelp.setWidth(500);
+        btnHelp.setHeight(70);
         stage.addActor(btnHelp);
     }
     private void addBtnOrganicTutorial(int x, int y){
         btnOrganicTutorial = new ImageButton(Assets.instance.buttons.helpButtonStyle);
-        btnOrganicTutorial.setPosition(x,y);
+        btnOrganicTutorial.setPosition(0,y);
         btnOrganicTutorial.addListener(new ChangeListener() {
             @Override
             public void changed (ChangeEvent event, Actor actor) {
                 onBtnClicked("organic");
             }
         });
+
+        btnOrganicTutorial.setWidth(500);
+        btnOrganicTutorial.setHeight(70);
         stage.addActor(btnOrganicTutorial);
         //btnOrganicTutorial.setWidth(1500);
     }
 
     private void addBtnIngredients(int x, int y){
         btnIngredients = new ImageButton(Assets.instance.buttons.helpButtonStyle);
-        btnIngredients.setPosition(x,y);
+        btnIngredients.setPosition(0,y);
+
         btnIngredients.addListener(new ChangeListener() {
             @Override
             public void changed (ChangeEvent event, Actor actor) {
                 onBtnClicked("ingredients");
             }
         });
+
+        btnIngredients.setWidth(500);
+        btnIngredients.setHeight(70);
         stage.addActor(btnIngredients);
 
     }
@@ -206,19 +211,6 @@ public class IntroScreen extends AbstractGameScreen {
                 break;
         }
 
-    }
-
-    @Override
-    public boolean keyDown(int keycode)
-    {
-        switch (keycode)
-        {
-            case Input.Keys.ESCAPE:
-                stopCurrentSound();
-                game.setScreen(new MenuScreen(game));
-                break;
-        }
-        return true;
     }
 
 }

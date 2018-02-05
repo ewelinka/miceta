@@ -8,6 +8,7 @@ import miceta.game.core.managers.LevelsManager;
 import miceta.game.core.screens.AbstractGameScreen;
 import miceta.game.core.screens.DirectedGame;
 import miceta.game.core.screens.IntroScreen;
+import miceta.game.core.screens.MenuScreen;
 import miceta.game.core.transitions.ScreenTransition;
 import miceta.game.core.transitions.ScreenTransitionFade;
 import miceta.game.core.util.*;
@@ -36,7 +37,9 @@ public class miCeta extends DirectedGame {
 		ScreenTransition transition = ScreenTransitionFade.init(1);
 		topCodeDetector = null;
 		//setScreen(new BaseScreen(this),transition);
-		setScreen(new IntroScreen(this),transition);
+		//-setScreen(new IntroScreen(this),transition);
+		setScreen(new MenuScreen(this),transition);
+
 		//setScreen(new AutoInitScreen(this));
 		//LevelsManager levelsManager = LevelsManager.getInstance(); // inicializate level manager -- no seria necesario porque es singleton.
 

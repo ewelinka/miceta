@@ -82,10 +82,21 @@ public class ConcreteTutorial extends AbstractGameScreen {
 
         } else if ((t_part == 8) && (timePassed > tutorialDuration && (knock_counter < t_aux_number))) {
 
+            timePassed = 0;
             tutorialDuration = AudioManager.instance.reproduce_concrete_tutorial(10, 10);
             t_part =9;
-
         }
+        else if ((t_part == 9) && (timePassed > tutorialDuration && (knock_counter < t_aux_number))) {
+
+            reproduceBlocks(false);
+            AudioManager.instance.readNumberAndFeedback(t_aux_number, 0);
+            // timePassed = 0;
+            t_part =0;
+        }
+
+
+
+
     }
 
     @Override

@@ -604,6 +604,10 @@ public class AudioManager {
     }
 
     public void stop_sounds(ScreenName whichScreen) {
+
+        //quitar mas adelante, de momento sirve para parar la pantalla de ingredientes del menu extendido
+        Assets.instance.sounds.ingredientsIntro.stop();
+
         switch (whichScreen){
             case CONCRETE_TUTORIAL:
                 Assets.instance.sounds.ct_1.stop();

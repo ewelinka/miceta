@@ -101,6 +101,22 @@ public abstract class AbstractGameScreen  extends InputAdapter implements Screen
         return true;
     }
 
+
+
+    @Override
+    public boolean keyDown(int keycode)
+    {
+        switch (keycode)
+        {
+            case Input.Keys.ESCAPE:
+                stopCurrentSound();
+                game.setScreen(new MenuScreen(game));
+                break;
+        }
+        return true;
+    }
+
+
     public void stopCurrentSound(){
         AudioManager.instance.stop_sounds(game.getGameScreen().screenName);
     }
