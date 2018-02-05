@@ -121,7 +121,6 @@ public class CvWorldController {
         timePassed = 0;
         extraDelayBetweenFeedback = GamePreferences.instance.getExtraDelayBetweenFeedback();
         waitAfterKnock = GamePreferences.instance.getWaitAfterKnock();
-        waitAfterKnock = 3;
         inactivityLimit = Constants.INACTIVITY_LIMIT;
         maxErrorsForHint = Constants.ERRORS_FOT_HINT;
         willGoToNextPart = false;
