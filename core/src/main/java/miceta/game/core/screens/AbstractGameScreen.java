@@ -37,10 +37,7 @@ public abstract class AbstractGameScreen  extends InputAdapter implements Screen
         }
     }
 
-
     public abstract void render (float deltaTime);
-
-
 
     @Override
     public void resize(int width, int height) {
@@ -113,12 +110,18 @@ public abstract class AbstractGameScreen  extends InputAdapter implements Screen
                 stopCurrentSound();
                 game.setScreen(new MenuScreen(game));
                 break;
+            case Input.Keys.F1:
+                stopCurrentSound();
+                game.setScreen(new ConcreteTutorial(game,0, 0));
+                //   game.setScreen(new );
+                break;
         }
         return true;
     }
 
 
     public void stopCurrentSound(){
+
         AudioManager.instance.stop_sounds(game.getGameScreen().screenName);
     }
 
