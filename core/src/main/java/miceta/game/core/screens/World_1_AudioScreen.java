@@ -23,10 +23,9 @@ public class World_1_AudioScreen extends AbstractGameScreen {
     private int part = 0;
     private int t_part = 0;
     private int t_aux_number =0;
-    private int knock_counter =0;
+    //private int knock_counter =0;
     private boolean active = true;
-    private ArrayList<Integer>  nowDetected = new ArrayList<>();
-
+    //private ArrayList<Integer>  nowDetected = new ArrayList<>();
 
     public World_1_AudioScreen(miCeta game, int part, int aux_number) {
         super(game);
@@ -43,16 +42,13 @@ public class World_1_AudioScreen extends AbstractGameScreen {
         stage.act(deltaTime);
         stage.draw();
 
-
         if((t_part==0) && (timePassed > tutorialDuration)){
             game.setScreen(new World_1_Game(game));
         }
     }
 
-
     @Override
     public void show() {
-
 
         if (active){
             stage = new Stage(new FitViewport(viewportWidth, viewportHeight));
@@ -63,13 +59,12 @@ public class World_1_AudioScreen extends AbstractGameScreen {
             if (t_part == 0) {
                 tutorialDuration = AudioManager.instance.reproduce_Game_1(0, 0);
             }
-
         }
     }
 
 
-    public void up_part() {
-        part = part+1;
-    }
+    //public void up_part() {
+      //  part = part+1;
+    //}
 
 }

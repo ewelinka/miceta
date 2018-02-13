@@ -705,38 +705,42 @@ public class AudioManager {
                 Assets.instance.sounds.tmm1_tooFew.stop();
                 Assets.instance.sounds.tmm1_tooMuch.stop();
                 Assets.instance.sounds.tmm1_positive.stop();
+
                 break;
             case GAME_KNOCK:
                 Assets.instance.sounds.knockIntro.stop();
                 Assets.instance.sounds.knockTooFew.stop();
                 Assets.instance.sounds.knockTooMuch.stop();
+
                 break;
             case GAME_INGREDIENTS:
                 Assets.instance.sounds.ingredientsIntro.stop();
                 Assets.instance.sounds.ingredientsLess.stop();
                 Assets.instance.sounds.ingredientsMore.stop();
                 Assets.instance.sounds.ingredientsPositive.stop();
+
                break;
             case GAME_MIXING:
                 Assets.instance.sounds.mixingIntro.stop();
                 Assets.instance.sounds.mixingTooFew.stop();
                 Assets.instance.sounds.mixingTooMuch.stop();
                 Assets.instance.sounds.mixingPositive.stop();
+
                 break;
             case GAME_MUSIC:
                 Assets.instance.sounds.musicIntro.stop();
                 Assets.instance.sounds.musicTooFew.stop();
                 Assets.instance.sounds.musicTooMuch.stop();
                 Assets.instance.sounds.musicFinal.stop();
+
                 break;
             case GAME_BELL:
                 Assets.instance.sounds.bellIntro.stop();
                 Assets.instance.sounds.bellTooFew.stop();
                 Assets.instance.sounds.bellTooMuch.stop();
                 Assets.instance.sounds.bellFinal.stop();
+
                 break;
-
         }
-
     }
 }
