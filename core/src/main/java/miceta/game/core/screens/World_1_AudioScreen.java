@@ -21,16 +21,16 @@ public class World_1_AudioScreen extends AbstractGameScreen {
     private float timePassed;
     private float tutorialDuration;
     private int part = 0;
-    private int t_part = 0;
-    private int t_aux_number =0;
+    private int tutorialPart = 0;
+    private int tutorialAuxNumber =0;
     //private int knock_counter =0;
-    private boolean active = true;
+    private boolean isActive = true;
     //private ArrayList<Integer>  nowDetected = new ArrayList<>();
 
-    public World_1_AudioScreen(miCeta game, int part, int aux_number) {
+    public World_1_AudioScreen(miCeta game, int part, int auxNumber) {
         super(game);
-        t_part = part;
-        t_aux_number =  aux_number;
+        tutorialPart = part;
+        tutorialAuxNumber =  auxNumber;
     }
 
     @Override
@@ -42,7 +42,7 @@ public class World_1_AudioScreen extends AbstractGameScreen {
         stage.act(deltaTime);
         stage.draw();
 
-        if((t_part==0) && (timePassed > tutorialDuration)){
+        if((tutorialPart==0) && (timePassed > tutorialDuration)){
             game.setScreen(new World_1_Game(game));
         }
     }
@@ -50,13 +50,13 @@ public class World_1_AudioScreen extends AbstractGameScreen {
     @Override
     public void show() {
 
-        if (active){
+        if (isActive){
             stage = new Stage(new FitViewport(viewportWidth, viewportHeight));
             Gdx.input.setCatchBackKey(false);
             timePassed = 0;
             AudioManager.instance.setStage(stage);
 
-            if (t_part == 0) {
+            if (tutorialPart == 0) {
                 tutorialDuration = AudioManager.instance.reproduce_Game_1(0, 0);
             }
         }
