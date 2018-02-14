@@ -3,13 +3,11 @@ package miceta.game.core.screens;
 import com.badlogic.gdx.*;
 import com.badlogic.gdx.scenes.scene2d.Stage;
 import miceta.game.core.controllers.CvWorldController;
+import miceta.game.core.managers.LevelsManager;
 import miceta.game.core.miCeta;
 import miceta.game.core.util.AudioManager;
 import miceta.game.core.util.Constants;
 import miceta.game.core.util.GameScreen;
-import miceta.game.core.util.ScreenName;
-
-import static miceta.game.core.util.ScreenName.CONCRETE_TUTORIAL;
 
 /**
  * Created by ewe on 8/10/17.
@@ -108,14 +106,12 @@ public abstract class AbstractGameScreen  extends InputAdapter implements Screen
         switch (keycode)
         {
             case Input.Keys.ESCAPE:
-
-                //esto lo hago para que se pare en caso de haber entrado con f1, la manera puede de hacerlo puede mejorar.
-                AudioManager.instance.stop_sounds(CONCRETE_TUTORIAL);
                 stopCurrentSound();
                 game.setScreen(new MenuScreen(game));
                 break;
             case Input.Keys.F1:
                 stopCurrentSound();
+                LevelsManager.instance.forceLevelParams(1);
                 game.setScreen(new ConcreteTutorial(game,0, 0));
                 break;
             case Input.Keys.LEFT:

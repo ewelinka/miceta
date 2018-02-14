@@ -47,7 +47,6 @@ public class LevelsManager {
 //        }
     }
 
-
     private LevelParams loadLevelParams(int levelNr){
 
         LevelParams levelParams = new LevelParams();
@@ -63,6 +62,7 @@ public class LevelsManager {
         if(splittedLine[3].length() > 0){
             String operationsStr = splittedLine[3];
             String[] operationsStrSplit = operationsStr.split(" ");
+            levelParams.operationsToFinishLevel = operationsStrSplit.length; // if we have array, we check how long it is!
             operations = new int[operationsStrSplit.length];
             for(int i=0;i<operationsStrSplit.length;i++){
                 if(operationsStrSplit[i]!="")
@@ -82,12 +82,13 @@ public class LevelsManager {
         }
 
         levelParams.operations = operations;
+        operation_index = 0;
 
         return levelParams;
     }
 
      public void forceLevelParams(int forcedLevelNr){
-         Gdx.app.log(TAG,"force ---> "+forcedLevelNr);
+         Gdx.app.log(TAG," -- forceLevelParams ---> "+forcedLevelNr);
          //level = forcedLevelNr;
          currentLevelParams = loadLevelParams(forcedLevelNr);
      }
@@ -104,6 +105,7 @@ public class LevelsManager {
         GamePreferences.instance.setLast_level(level);
         GamePreferences.instance.setOperation_index(operation_index);
         GamePreferences.instance.save();
+
         currentLevelParams = loadLevelParams(level);
     }
 
