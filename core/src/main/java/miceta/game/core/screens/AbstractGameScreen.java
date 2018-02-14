@@ -3,11 +3,11 @@ package miceta.game.core.screens;
 import com.badlogic.gdx.*;
 import com.badlogic.gdx.scenes.scene2d.Stage;
 import miceta.game.core.controllers.CvWorldController;
+import miceta.game.core.managers.LevelsManager;
 import miceta.game.core.miCeta;
 import miceta.game.core.util.AudioManager;
 import miceta.game.core.util.Constants;
 import miceta.game.core.util.GameScreen;
-import miceta.game.core.util.ScreenName;
 
 /**
  * Created by ewe on 8/10/17.
@@ -37,10 +37,7 @@ public abstract class AbstractGameScreen  extends InputAdapter implements Screen
         }
     }
 
-
     public abstract void render (float deltaTime);
-
-
 
     @Override
     public void resize(int width, int height) {
@@ -105,25 +102,41 @@ public abstract class AbstractGameScreen  extends InputAdapter implements Screen
         return true;
     }
     @Override
-    public boolean keyDown(int keycode)
-    {
+    public boolean keyDown(int keycode){
         switch (keycode)
         {
             case Input.Keys.ESCAPE:
                 stopCurrentSound();
                 game.setScreen(new MenuScreen(game));
                 break;
+            case Input.Keys.F1:
+                stopCurrentSound();
+                LevelsManager.instance.forceLevelParams(1);
+                game.setScreen(new ConcreteTutorial(game,0, 0));
+                break;
+            case Input.Keys.LEFT:
+                AudioManager.instance.downFeedbackVolSound();
+                break;
+            case Input.Keys.RIGHT:
+                AudioManager.instance.upFeedbackVolSound();
+                break;
+            case Input.Keys.UP:
+                AudioManager.instance.upKnockNoteVol();
+                break;
+            case Input.Keys.DOWN:
+                AudioManager.instance.downKnockNoteVol();
+                break;
+
         }
         return true;
     }
 
 
     public void stopCurrentSound(){
+
         AudioManager.instance.stop_sounds(game.getGameScreen().screenName);
+
     }
-
-
-
 }
 
 
