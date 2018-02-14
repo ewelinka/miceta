@@ -18,13 +18,14 @@ import static com.badlogic.gdx.scenes.scene2d.actions.Actions.*;
  */
 public class AudioManager {
     public static final String TAG = AudioManager.class.getName();
-
     public static final AudioManager instance = new AudioManager();
     private Music playingMusic;
     private Sound currentSound;
     private SequenceAction readFeedbackAction, readBlocksAction, readTutorialAction;
     private float defaultVolSound = 0.5f;
     private float firstNoteVol = 1.0f;
+    private float feedbackVolSound = 0.5f;
+    private float knockNoteVol = 0.5f;
     private Actor reader;
     private Stage stage;
     private float readBlockDuration;
@@ -83,17 +84,42 @@ public class AudioManager {
         if (playingMusic != null) playingMusic.stop();
     }
 
-    public void playWithoutInterruption(Sound sound, boolean firstNote) {
+    public void playWithoutInterruption(Sound sound, boolean firstNote, float volume) {
         if(firstNote)
-            sound.play(firstNoteVol);// be default vol = 1
+            sound.play(volume);// be default vol = 1
         else{
-            sound.play(defaultVolSound);
+            sound.play(volume);
         }
+    }
+
+    public void upFeedbackVolSound(){
+
+        if (feedbackVolSound < 9)
+            feedbackVolSound =  feedbackVolSound * 2;
+    }
+
+    public void downFeedbackVolSound(){
+
+        if (feedbackVolSound > 0.05f)
+            feedbackVolSound =  feedbackVolSound / 2;
+    }
+
+
+    public void upKnockNoteVol(){
+
+        if (knockNoteVol < 9)
+            knockNoteVol = knockNoteVol*2;
+    }
+
+    public void downKnockNoteVol(){
+
+        if (knockNoteVol > 0.05f)
+            knockNoteVol = knockNoteVol/2;
     }
 
     public void playWithoutInterruption(Sound sound){
 
-        playWithoutInterruption(sound, false);
+        playWithoutInterruption(sound, false, defaultVolSound);
     }
 
     public void playNewBlockSong_loop(){
@@ -250,7 +276,7 @@ public class AudioManager {
         }
         readBlocks.addAction(run(new Runnable() {
             public void run() {
-                playWithoutInterruption(whichSound, firstNote);
+                playWithoutInterruption(whichSound, firstNote, feedbackVolSound);
             }
         }));
 
@@ -288,7 +314,7 @@ public class AudioManager {
     private void readSingleKnock( int whichKnock, final SequenceAction readFeedback, final float extraDelayBetweenFeedback){
         readFeedback.addAction(run(new Runnable() {
             public void run() {
-                playWithoutInterruption(Assets.instance.sounds.knock); // TODO change when we have drop sound
+                playWithoutInterruption(Assets.instance.sounds.knock,false, knockNoteVol); // TODO change when we have drop sound
             }
         }));
 
@@ -583,7 +609,7 @@ public class AudioManager {
 
             readTutorialAction.addAction(run(new Runnable() {
                 public void run() {
-                    playWithoutInterruption(singleSound,true); // knocks with which volume??
+                    playWithoutInterruption(singleSound,true,defaultVolSound); // knocks with which volume??
                 }
             }));
             readTutorialAction.addAction((delay(soundDuration)));
@@ -606,7 +632,7 @@ public class AudioManager {
 
             readTutorialAction.addAction(run(new Runnable() {
                 public void run() {
-                    playWithoutInterruption(singleSound,true);
+                    playWithoutInterruption(singleSound,true,defaultVolSound);
                 }
             }));
             readTutorialAction.addAction((delay(duration_aux)));
@@ -705,38 +731,42 @@ public class AudioManager {
                 Assets.instance.sounds.tmm1_tooFew.stop();
                 Assets.instance.sounds.tmm1_tooMuch.stop();
                 Assets.instance.sounds.tmm1_positive.stop();
+
                 break;
             case GAME_KNOCK:
                 Assets.instance.sounds.knockIntro.stop();
                 Assets.instance.sounds.knockTooFew.stop();
                 Assets.instance.sounds.knockTooMuch.stop();
+
                 break;
             case GAME_INGREDIENTS:
                 Assets.instance.sounds.ingredientsIntro.stop();
                 Assets.instance.sounds.ingredientsLess.stop();
                 Assets.instance.sounds.ingredientsMore.stop();
                 Assets.instance.sounds.ingredientsPositive.stop();
+
                break;
             case GAME_MIXING:
                 Assets.instance.sounds.mixingIntro.stop();
                 Assets.instance.sounds.mixingTooFew.stop();
                 Assets.instance.sounds.mixingTooMuch.stop();
                 Assets.instance.sounds.mixingPositive.stop();
+
                 break;
             case GAME_MUSIC:
                 Assets.instance.sounds.musicIntro.stop();
                 Assets.instance.sounds.musicTooFew.stop();
                 Assets.instance.sounds.musicTooMuch.stop();
                 Assets.instance.sounds.musicFinal.stop();
+
                 break;
             case GAME_BELL:
                 Assets.instance.sounds.bellIntro.stop();
                 Assets.instance.sounds.bellTooFew.stop();
                 Assets.instance.sounds.bellTooMuch.stop();
                 Assets.instance.sounds.bellFinal.stop();
+
                 break;
-
         }
-
     }
 }

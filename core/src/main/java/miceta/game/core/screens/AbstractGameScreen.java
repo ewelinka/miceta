@@ -9,6 +9,8 @@ import miceta.game.core.util.Constants;
 import miceta.game.core.util.GameScreen;
 import miceta.game.core.util.ScreenName;
 
+import static miceta.game.core.util.ScreenName.CONCRETE_TUTORIAL;
+
 /**
  * Created by ewe on 8/10/17.
  */
@@ -37,10 +39,7 @@ public abstract class AbstractGameScreen  extends InputAdapter implements Screen
         }
     }
 
-
     public abstract void render (float deltaTime);
-
-
 
     @Override
     public void resize(int width, int height) {
@@ -105,25 +104,43 @@ public abstract class AbstractGameScreen  extends InputAdapter implements Screen
         return true;
     }
     @Override
-    public boolean keyDown(int keycode)
-    {
+    public boolean keyDown(int keycode){
         switch (keycode)
         {
             case Input.Keys.ESCAPE:
+
+                //esto lo hago para que se pare en caso de haber entrado con f1, la manera puede de hacerlo puede mejorar.
+                AudioManager.instance.stop_sounds(CONCRETE_TUTORIAL);
                 stopCurrentSound();
                 game.setScreen(new MenuScreen(game));
                 break;
+            case Input.Keys.F1:
+                stopCurrentSound();
+                game.setScreen(new ConcreteTutorial(game,0, 0));
+                break;
+            case Input.Keys.LEFT:
+                AudioManager.instance.downFeedbackVolSound();
+                break;
+            case Input.Keys.RIGHT:
+                AudioManager.instance.upFeedbackVolSound();
+                break;
+            case Input.Keys.UP:
+                AudioManager.instance.upKnockNoteVol();
+                break;
+            case Input.Keys.DOWN:
+                AudioManager.instance.downKnockNoteVol();
+                break;
+
         }
         return true;
     }
 
 
     public void stopCurrentSound(){
+
         AudioManager.instance.stop_sounds(game.getGameScreen().screenName);
+
     }
-
-
-
 }
 
 

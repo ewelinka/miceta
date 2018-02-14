@@ -36,7 +36,6 @@ public class TutorialScreen extends BaseScreen {
     public boolean touchDown (int screenX, int screenY, int pointer, int button) {
 
         if (button == Input.Buttons.RIGHT){
-
             game.setScreen(new IntroScreen(game));
         }
 
