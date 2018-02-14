@@ -112,13 +112,25 @@ public abstract class AbstractGameScreen  extends InputAdapter implements Screen
                 //esto lo hago para que se pare en caso de haber entrado con f1, la manera puede de hacerlo puede mejorar.
                 AudioManager.instance.stop_sounds(CONCRETE_TUTORIAL);
                 stopCurrentSound();
-
                 game.setScreen(new MenuScreen(game));
                 break;
             case Input.Keys.F1:
                 stopCurrentSound();
                 game.setScreen(new ConcreteTutorial(game,0, 0));
                 break;
+            case Input.Keys.LEFT:
+                AudioManager.instance.downFeedbackVolSound();
+                break;
+            case Input.Keys.RIGHT:
+                AudioManager.instance.upFeedbackVolSound();
+                break;
+            case Input.Keys.UP:
+                AudioManager.instance.upKnockNoteVol();
+                break;
+            case Input.Keys.DOWN:
+                AudioManager.instance.downKnockNoteVol();
+                break;
+
         }
         return true;
     }
