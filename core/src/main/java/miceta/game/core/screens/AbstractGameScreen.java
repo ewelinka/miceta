@@ -141,10 +141,6 @@ public abstract class AbstractGameScreen  extends InputAdapter implements Screen
         AudioManager.instance.stop_sounds(game.getGameScreen().screenName);
 
     }
-
-
-
-
 }
 
 

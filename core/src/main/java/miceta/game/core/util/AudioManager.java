@@ -94,23 +94,27 @@ public class AudioManager {
 
     public void upFeedbackVolSound(){
 
-        feedbackVolSound =  feedbackVolSound * 2;
+        if (feedbackVolSound < 9)
+            feedbackVolSound =  feedbackVolSound * 2;
     }
 
     public void downFeedbackVolSound(){
 
-        feedbackVolSound =  feedbackVolSound / 2;
+        if (feedbackVolSound > 0.05f)
+            feedbackVolSound =  feedbackVolSound / 2;
     }
 
 
     public void upKnockNoteVol(){
 
-        knockNoteVol = knockNoteVol*2;
+        if (knockNoteVol < 9)
+            knockNoteVol = knockNoteVol*2;
     }
 
     public void downKnockNoteVol(){
 
-        knockNoteVol = knockNoteVol/2;
+        if (knockNoteVol > 0.05f)
+            knockNoteVol = knockNoteVol/2;
     }
 
     public void playWithoutInterruption(Sound sound){
