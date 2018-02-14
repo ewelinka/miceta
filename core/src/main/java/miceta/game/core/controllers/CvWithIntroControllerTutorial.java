@@ -20,7 +20,8 @@ public class CvWithIntroControllerTutorial extends CvWithIntroController {
     }
 
     @Override
-    protected void goToNextScreen(){
+    protected void goToNextLevel(){
+        willGoToNextPart = true;
         game.setScreen(new BaseScreenWithIntro(game));
     }
 

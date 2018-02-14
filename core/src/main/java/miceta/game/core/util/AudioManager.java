@@ -18,13 +18,13 @@ import static com.badlogic.gdx.scenes.scene2d.actions.Actions.*;
  */
 public class AudioManager {
     public static final String TAG = AudioManager.class.getName();
-
     public static final AudioManager instance = new AudioManager();
     private Music playingMusic;
     private Sound currentSound;
     private SequenceAction readFeedbackAction, readBlocksAction, readTutorialAction;
     private float defaultVolSound = 0.5f;
-    private float firstNoteVol = 1.0f;
+    private float feedbackVolSound = 0.5f;
+    private float knockNoteVol = 0.5f;
     private Actor reader;
     private Stage stage;
     private float readBlockDuration;
@@ -41,7 +41,7 @@ public class AudioManager {
 
     public void setStage(Stage stage){
         this.stage = stage;
-        reader = new Actor(); // ractor that reads everything
+        reader = new Actor(); // actor that reads everything
         stage.addActor(reader);
         readFeedbackAction = new SequenceAction(); // for feedback reading
         readBlocksAction = new SequenceAction(); // for detected blocks reading
@@ -83,17 +83,46 @@ public class AudioManager {
         if (playingMusic != null) playingMusic.stop();
     }
 
-    public void playWithoutInterruption(Sound sound, boolean firstNote) {
+    public void playWithoutInterruption(Sound sound, boolean firstNote, float volume) {
         if(firstNote)
-            sound.play(firstNoteVol);// be default vol = 1
+            sound.play(volume+0.2f); // first note louder!
         else{
-            sound.play(defaultVolSound);
+            sound.play(volume);
         }
+    }
+
+    public void upFeedbackVolSound(){
+        if (feedbackVolSound < 1.0f)
+            feedbackVolSound +=  0.1f;
+        feedbackVolSound = (float)roundMe(feedbackVolSound);
+    }
+
+    public void downFeedbackVolSound(){
+        if (feedbackVolSound > 0.2f)
+            feedbackVolSound -= 0.1f;
+        feedbackVolSound = (float)roundMe(feedbackVolSound);
+    }
+
+
+    public void upKnockNoteVol(){
+        if (knockNoteVol < 1.0f)
+            knockNoteVol += 0.1f;
+        knockNoteVol = (float)roundMe(knockNoteVol);
+    }
+
+    public void downKnockNoteVol(){
+        if (knockNoteVol > 0.2f)
+            knockNoteVol -= 0.1f;
+        knockNoteVol = (float)roundMe(knockNoteVol);
+    }
+
+    private double roundMe(float toRound){
+        return Math.round(toRound*100.0)/100.0;
     }
 
     public void playWithoutInterruption(Sound sound){
 
-        playWithoutInterruption(sound, false);
+        playWithoutInterruption(sound, false, defaultVolSound);
     }
 
     public void playNewBlockSong_loop(){
@@ -250,7 +279,7 @@ public class AudioManager {
         }
         readBlocks.addAction(run(new Runnable() {
             public void run() {
-                playWithoutInterruption(whichSound, firstNote);
+                playWithoutInterruption(whichSound, firstNote, feedbackVolSound);
             }
         }));
 
@@ -258,11 +287,10 @@ public class AudioManager {
         readBlocks.addAction(delay(readBlockDuration + extraDelayBetweenFeedback )); // we wait Xs because sound files with "do", "re" and "mi" have X duration
     }
 
-
-
     private void readSingleFeedbackSound(int whichNr, SequenceAction readFeedback, float extraDelayBetweenFeedback){
         switch(this.feedbackSoundType){
             case KNOCK:
+                //readSingleKnock(whichNr, readFeedback,extraDelayBetweenFeedback);
                 readSingleKnock(whichNr, readFeedback,extraDelayBetweenFeedback);
                 break;
             case DROP:
@@ -273,6 +301,7 @@ public class AudioManager {
                 break;
         }
     }
+
     private void readSingleDrop(int whichKnock, SequenceAction readFeedback, float extraDelayBetweenFeedback) {
         readFeedback.addAction(run(new Runnable() {
             public void run() {
@@ -284,16 +313,80 @@ public class AudioManager {
 
 
     }
-    private void readSingleKnock(int whichKnock, SequenceAction readFeedback, float extraDelayBetweenFeedback){
+
+    private void readSingleKnock( int whichKnock, final SequenceAction readFeedback, final float extraDelayBetweenFeedback){
         readFeedback.addAction(run(new Runnable() {
             public void run() {
+                playWithoutInterruption(Assets.instance.sounds.knock,false, knockNoteVol); // TODO change when we have drop sound
+            }
+        }));
+
+        readFeedback.addAction(delay(readBlockDuration + extraDelayBetweenFeedback)); // we wait Xs because sound files with "knock" have X duration
+    }
+
+
+
+    private void readSingleKnockWithNumber(final int number, final SequenceAction readFeedback, final float extraDelayBetweenFeedback){
+        readFeedback.addAction(run(new Runnable() {
+            public void run() {
+
+                switch(number) {
+                    case 1:
+                        playWithoutInterruption(Assets.instance.sounds.number1);
+                        break;
+                    case 2:
+                        playWithoutInterruption(Assets.instance.sounds.number2);
+                        break;
+                    case 3:
+                        playWithoutInterruption(Assets.instance.sounds.number3);
+                        break;
+                    case 4:
+                        playWithoutInterruption(Assets.instance.sounds.number4);
+                        break;
+                    case 5:
+                        playWithoutInterruption(Assets.instance.sounds.number5);
+                        break;
+                    case 6:
+                        playWithoutInterruption(Assets.instance.sounds.number6);
+                        break;
+                    case 7:
+                        playWithoutInterruption(Assets.instance.sounds.number7);
+                        break;
+                    case 8:
+                        playWithoutInterruption(Assets.instance.sounds.number8);
+                        break;
+                    case 9:
+                        playWithoutInterruption(Assets.instance.sounds.number9);
+                        break;
+                    case 10:
+                        playWithoutInterruption(Assets.instance.sounds.number10);
+                        break;
+                    case 11:
+                        playWithoutInterruption(Assets.instance.sounds.number11);
+                        break;
+                    case 12:
+                        playWithoutInterruption(Assets.instance.sounds.number12);
+                        break;
+                    case 13:
+                        playWithoutInterruption(Assets.instance.sounds.number13);
+                        break;
+                    case 14:
+                        playWithoutInterruption(Assets.instance.sounds.number14);
+                        break;
+                    case 15:
+                        playWithoutInterruption(Assets.instance.sounds.number15);
+                        break;
+                }
+
                 playWithoutInterruption(Assets.instance.sounds.knock); // TODO change when we have drop sound
             }
         }));
 
         readFeedback.addAction(delay(readBlockDuration + extraDelayBetweenFeedback)); // we wait Xs because sound files with "knock" have X duration
-
     }
+
+
+
 
 
 
@@ -452,6 +545,26 @@ public class AudioManager {
 
 
 
+    public void readNumberWithFeedback( int numToBuild, float extraDelayBetweenFeedback){ // we use this action at the beginning of new screen, we read feedback without blocks
+        reader.clearActions();
+        readFeedbackAction.reset();
+        // first read number then knocks
+        readFeedbackAction.addAction(delay(Constants.READ_ONE_UNIT_DURATION)); // wait before start read feedback
+        //readFeedbackAction = playNumber(1,readFeedbackAction);
+        //readFeedbackAction.addAction(delay(Constants.READ_NUMBER_DURATION)); // wait to finish read the number
+
+        for(int i = 1; i<=numToBuild;i++){ // if the number is 5 we have to knock 5 times
+            readSingleKnockWithNumber(i, readFeedbackAction, extraDelayBetweenFeedback); // we start with 1
+        }
+
+       // readFeedbackAction = addToReadFeedbackInSpace(numToBuild, readFeedbackAction, extraDelayBetweenFeedback);
+        // first read with small delay at the beginning
+        reader.addAction(readFeedbackAction);
+    }
+
+
+
+
     public void readBlocks(ArrayList<Integer> toReadNums, float extraDelayBetweenFeedback){
         reader.clearActions();
         readBlocksAction = createReadBlocksAction(readBlocksAction, toReadNums, extraDelayBetweenFeedback);
@@ -499,7 +612,7 @@ public class AudioManager {
 
             readTutorialAction.addAction(run(new Runnable() {
                 public void run() {
-                    playWithoutInterruption(singleSound,true); // knocks with which volume??
+                    playWithoutInterruption(singleSound,true,defaultVolSound); // knocks with which volume??
                 }
             }));
             readTutorialAction.addAction((delay(soundDuration)));
@@ -522,7 +635,7 @@ public class AudioManager {
 
             readTutorialAction.addAction(run(new Runnable() {
                 public void run() {
-                    playWithoutInterruption(singleSound,true);
+                    playWithoutInterruption(singleSound,true,defaultVolSound);
                 }
             }));
             readTutorialAction.addAction((delay(duration_aux)));
@@ -547,7 +660,6 @@ public class AudioManager {
         soundsToReproduce.add(Assets.instance.sounds.ct_7);
         soundsToReproduce.add(Assets.instance.sounds.ct_8);
         soundsToReproduce.add(Assets.instance.sounds.ct_9);
-       // soundsToReproduce.add(Assets.instance.sounds.knock);
         soundsToReproduce.add(Assets.instance.sounds.ct_10);
         soundsToReproduce.add(Assets.instance.sounds.ct_11);
         return AudioManager.instance.reproduceSoundsWithIndex(soundsToReproduce, start, end);
@@ -651,8 +763,6 @@ public class AudioManager {
                 Assets.instance.sounds.bellTooMuch.stop();
                 Assets.instance.sounds.bellFinal.stop();
                 break;
-
         }
-
     }
 }

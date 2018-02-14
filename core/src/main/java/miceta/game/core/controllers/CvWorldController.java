@@ -121,7 +121,6 @@ public class CvWorldController {
         timePassed = 0;
         extraDelayBetweenFeedback = GamePreferences.instance.getExtraDelayBetweenFeedback();
         waitAfterKnock = GamePreferences.instance.getWaitAfterKnock();
-        waitAfterKnock = 3;
         inactivityLimit = Constants.INACTIVITY_LIMIT;
         maxErrorsForHint = Constants.ERRORS_FOT_HINT;
         willGoToNextPart = false;
@@ -142,7 +141,6 @@ public class CvWorldController {
 
     public void update(float deltaTime) {
         timePassed+=deltaTime; // variable used to check in isTimeToStartNewLoop() to decide if new feedback loop should be started
-       // Gdx.app.log(TAG, "a verrr "+timePassed + " to wait "+timeToWait+ " delta "+deltaTime);
         inactivityTime+=deltaTime;
         updateCV();
 
@@ -178,14 +176,10 @@ public class CvWorldController {
                     reproduceAllFeedbacks(nowDetected, numberToPlay);
                 }
             }else{
-                goToNextScreen();
+                goToNextLevel();
 
             }
         }
-    }
-
-    protected void goToNextScreen(){
-        game.goToNextScreen();
     }
 
     protected void reproduceAllFeedbacks(ArrayList<Integer> nowDetected, int numberToPlay ){
@@ -340,28 +334,6 @@ public class CvWorldController {
 
     }
 
-//
-//    @Override
-//    public boolean touchDown (int screenX, int screenY, int pointer, int button) {
-//
-//        if (button == Input.Buttons.RIGHT){
-//            AudioManager.instance.stop_sounds();
-//            game.setScreen(new IntroScreen(game));
-//            AudioManager.instance.stop_sounds();
-//
-//        }
-//     else {
-//            Gdx.app.log(TAG, " TOUCHED " + screenX + " " + screenY);
-//            if (Gdx.app.getType() == Application.ApplicationType.Android) {
-//                touchDownAndroid(screenX, screenY, button);
-//            } else {
-//                touchDownDesktop(screenX, screenY, button);
-//            }
-//        }
-//        return true;
-//    }
-
-
 
     private void makeFeedbackSlower(){
         extraDelayBetweenFeedback =  extraDelayBetweenFeedback + 0.10f;
@@ -404,7 +376,7 @@ public class CvWorldController {
         delayForPositiveFeedback = Assets.instance.getSoundDuration(this.positiveFeedback);
     }
 
-    private void goToNextLevel(){
+    protected void goToNextLevel(){
         willGoToNextPart = true;
         game.goToNextScreen();
     }
