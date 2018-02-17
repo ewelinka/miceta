@@ -103,7 +103,7 @@ public class RepresentationMapper {
             case GAME_MIXING:
                 gameScreen.screenName = ScreenName.GAME_MIXING;
                 gameScreen.intro = Assets.instance.sounds.mixingIntro;
-                gameScreen.positive = Assets.instance.sounds.mixingPositive;
+                gameScreen.positive = Assets.instance.sounds.mixingPositive_1;
                 gameScreen.tooFew = Assets.instance.sounds.mixingTooFew;
                 gameScreen.tooMuch = Assets.instance.sounds.mixingTooMuch;
                 gameScreen.finalSound = Assets.instance.sounds.mixingFinal;
@@ -111,8 +111,11 @@ public class RepresentationMapper {
                 break;
             case GAME_MUSIC:
                 gameScreen.screenName = ScreenName.GAME_MUSIC;
-                gameScreen.intro = Assets.instance.sounds.musicIntro;
-                gameScreen.positive = Assets.instance.sounds.musicPositive;
+                gameScreen.intro = Assets.instance.sounds.musicIntro_1;
+                gameScreen.intro = Assets.instance.sounds.musicIntro_2;
+                gameScreen.positive = Assets.instance.sounds.musicPositive_1;
+                gameScreen.positive = Assets.instance.sounds.musicPositive_2;
+                gameScreen.positive = Assets.instance.sounds.musicPositive_3;
                 gameScreen.tooFew = Assets.instance.sounds.musicTooFew;
                 gameScreen.tooMuch = Assets.instance.sounds.musicTooMuch;
                 gameScreen.finalSound = Assets.instance.sounds.musicFinal;

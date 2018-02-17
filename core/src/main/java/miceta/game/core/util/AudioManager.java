@@ -417,11 +417,11 @@ public class AudioManager {
 
         readFeedbackAction.addAction(run(new Runnable() {
             public void run() {
-                playWithoutInterruption(Assets.instance.sounds.ingredientsPositive); //after correct answer comes "yuju"
+                playWithoutInterruption(Assets.instance.sounds.ingredientsPositive_1); //after correct answer comes "yuju"
             }
         }));
         final Sound ingredientSound = getIngredientFromIndex(ingredientIndex);
-        readFeedbackAction.addAction(delay(Assets.instance.getSoundDuration(Assets.instance.sounds.ingredientsPositive)));
+        readFeedbackAction.addAction(delay(Assets.instance.getSoundDuration(Assets.instance.sounds.ingredientsPositive_1)));
         readFeedbackAction.addAction(run(new Runnable() {
             public void run() {
                 playWithoutInterruption(ingredientSound); //after correct answer comes "yuju"
@@ -743,16 +743,16 @@ public class AudioManager {
                 Assets.instance.sounds.ingredientsIntro.stop();
                 Assets.instance.sounds.ingredientsLess.stop();
                 Assets.instance.sounds.ingredientsMore.stop();
-                Assets.instance.sounds.ingredientsPositive.stop();
+                Assets.instance.sounds.ingredientsPositive_1.stop();
                break;
             case GAME_MIXING:
                 Assets.instance.sounds.mixingIntro.stop();
                 Assets.instance.sounds.mixingTooFew.stop();
                 Assets.instance.sounds.mixingTooMuch.stop();
-                Assets.instance.sounds.mixingPositive.stop();
+                Assets.instance.sounds.mixingPositive_1.stop();
                 break;
             case GAME_MUSIC:
-                Assets.instance.sounds.musicIntro.stop();
+                Assets.instance.sounds.musicIntro_1.stop();
                 Assets.instance.sounds.musicTooFew.stop();
                 Assets.instance.sounds.musicTooMuch.stop();
                 Assets.instance.sounds.musicFinal.stop();

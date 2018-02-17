@@ -90,41 +90,56 @@ public class Assets implements Disposable, AssetErrorListener {
         assetManager.load("sounds/mm1/tutorial/mm1_positive.mp3", Sound.class);
         assetManager.load("sounds/mm1/tutorial/mm1_final.mp3", Sound.class);
         // ingredients game
-        assetManager.load("sounds/mm1/ingredientes/1intro.mp3", Sound.class);
-        assetManager.load("sounds/mm1/ingredientes/cocodrilo.mp3", Sound.class);
-        assetManager.load("sounds/mm1/ingredientes/final.mp3", Sound.class);
-        assetManager.load("sounds/mm1/ingredientes/gato.mp3", Sound.class);
-        assetManager.load("sounds/mm1/ingredientes/hormiga.mp3", Sound.class);
-        assetManager.load("sounds/mm1/ingredientes/lama.mp3", Sound.class);
-        assetManager.load("sounds/mm1/ingredientes/masRunas.mp3", Sound.class);
-        assetManager.load("sounds/mm1/ingredientes/menosRunas.mp3", Sound.class);
-        assetManager.load("sounds/mm1/ingredientes/positivo.mp3", Sound.class);
-        assetManager.load("sounds/mm1/ingredientes/rana.mp3", Sound.class);
-        assetManager.load("sounds/mm1/ingredientes/vaca.mp3", Sound.class);
-        assetManager.load("sounds/mm1/ingredientes/vinagre.mp3", Sound.class);
+        assetManager.load("sounds/mm1/ingredientes/MicroMundo_Juego1_1.mp3", Sound.class);
+        assetManager.load("sounds/mm1/ingredientes/MicroMundo_Juego1_Cocodrilo.mp3", Sound.class);
+        assetManager.load("sounds/mm1/ingredientes/MicroMundo_Juego1_ResolucionJuego.mp3", Sound.class);
+        assetManager.load("sounds/mm1/ingredientes/MicroMundo_Juego1_Gato.mp3", Sound.class);
+        assetManager.load("sounds/mm1/ingredientes/MicroMundo_Juego1_Hormiga.mp3", Sound.class);
+        assetManager.load("sounds/mm1/ingredientes/MicroMundo_Juego1_Lama.mp3", Sound.class);
+        assetManager.load("sounds/mm1/ingredientes/MicroMundo_Juego1_MasRunas.mp3", Sound.class);
+        assetManager.load("sounds/mm1/ingredientes/MicroMundo_Juego1_MenosRunas.mp3", Sound.class);
+        assetManager.load("sounds/mm1/ingredientes/MicroMundo_Juego1_ResolucionEnsayo0.mp3", Sound.class);
+        assetManager.load("sounds/mm1/ingredientes/MicroMundo_Juego1_ResolucionEnsayo1.mp3", Sound.class);
+        assetManager.load("sounds/mm1/ingredientes/MicroMundo_Juego1_ResolucionEnsayo2.mp3", Sound.class);
+        assetManager.load("sounds/mm1/ingredientes/MicroMundo_Juego1_ResolucionEnsayo3.mp3", Sound.class);
+        assetManager.load("sounds/mm1/ingredientes/MicroMundo_Juego1_Rana.mp3", Sound.class);
+        assetManager.load("sounds/mm1/ingredientes/MicroMundo_Juego1_Pezuña.mp3", Sound.class);
+        assetManager.load("sounds/mm1/ingredientes/MicroMundo_Juego1_Vinagre.mp3", Sound.class);
         // Game 1
         // knock at the door
-        assetManager.load("sounds/mm1/golpes/intro.mp3", Sound.class);
-        assetManager.load("sounds/mm1/golpes/masRunas.mp3", Sound.class);
-        assetManager.load("sounds/mm1/golpes/menosRunas.mp3", Sound.class);
+        assetManager.load("sounds/mm1/golpes/MicroMundo1_Juego0_Explicacion.mp3", Sound.class);
+        assetManager.load("sounds/mm1/golpes/MicroMundo1_Juego0_MasRunas.mp3", Sound.class);
+        assetManager.load("sounds/mm1/golpes/MicroMundo1_Juego0_MenosRunas.mp3", Sound.class);
+        assetManager.load("sounds/mm1/golpes/MicroMundo1_Juego0_ResolucionEnsayo1.mp3", Sound.class);
+        assetManager.load("sounds/mm1/golpes/MicroMundo1_Juego0_ResolucionEnsayo2.mp3", Sound.class);
+        assetManager.load("sounds/mm1/golpes/MicroMundo1_Juego0_ResolucionEnsayo3.mp3", Sound.class);
+        assetManager.load("sounds/mm1/golpes/MicroMundo1_Juego0_ResolucionJuego.mp3", Sound.class);
+
         // door bell
-        assetManager.load("sounds/mm1/timbre/introduccion_timbre.mp3", Sound.class);
-        assetManager.load("sounds/mm1/timbre/resolucion_timbre.mp3", Sound.class);
-        assetManager.load("sounds/mm1/timbre/timbre_masRunas.mp3", Sound.class);
-        assetManager.load("sounds/mm1/timbre/timbre_menosRunas.mp3", Sound.class);
-        assetManager.load("sounds/mm1/timbre/res_ensayo_timbre.mp3", Sound.class);
+        assetManager.load("sounds/mm1/timbre/MicroMundo1_Juego5_Introduccion.mp3", Sound.class);
+        assetManager.load("sounds/mm1/timbre/MicroMundo1_Juego5_ResolucionJuego.mp3", Sound.class);
+        assetManager.load("sounds/mm1/timbre/MicroMundo1_Juego5_MasRunas.mp3", Sound.class);
+        assetManager.load("sounds/mm1/timbre/MicroMundo1_Juego5_MenosRunas.mp3", Sound.class);
+        assetManager.load("sounds/mm1/timbre/MicroMundo1_Juego5_ResolucionEnsayo.mp3", Sound.class);
         // mixing
-        assetManager.load("sounds/mm1/revolver/revolver_explicacion.mp3", Sound.class);
-        assetManager.load("sounds/mm1/revolver/revolver_res_ensayo.mp3", Sound.class);
-        assetManager.load("sounds/mm1/revolver/revolver_masRunas.mp3", Sound.class);
-        assetManager.load("sounds/mm1/revolver/revolver_menosRunas.mp3", Sound.class);
-        assetManager.load("sounds/mm1/revolver/revolver_res_final.mp3", Sound.class);
+        assetManager.load("sounds/mm1/revolver/MicroMundo_Juego3_Explicacion.mp3", Sound.class);
+        assetManager.load("sounds/mm1/revolver/MicroMundo_Juego3_ResolucionEnsayo.mp3", Sound.class);
+        assetManager.load("sounds/mm1/revolver/MicroMundo_Juego3_MasRunas.mp3", Sound.class);
+        assetManager.load("sounds/mm1/revolver/MicroMundo_Juego3_MenosRunas.mp3", Sound.class);
+        assetManager.load("sounds/mm1/revolver/MicroMundo_Juego3_ResolucionJuego.mp3", Sound.class);
+        assetManager.load("sounds/mm1/revolver/MicroMundo_Juego3_ResolucionEnsayo1.mp3", Sound.class);
+        assetManager.load("sounds/mm1/revolver/MicroMundo_Juego3_ResolucionEnsayo2.mp3", Sound.class);
+        assetManager.load("sounds/mm1/revolver/MicroMundo_Juego3_ResolucionEnsayo3.mp3", Sound.class);
+
         // music
-        assetManager.load("sounds/mm1/instrumentos/instrumentos_introduccion.mp3", Sound.class);
-        assetManager.load("sounds/mm1/instrumentos/instrumentos_res_ensayo.mp3", Sound.class);
-        assetManager.load("sounds/mm1/instrumentos/instrumentos_masRunas.mp3", Sound.class);
-        assetManager.load("sounds/mm1/instrumentos/instrumentos_menosRunas.mp3", Sound.class);
-        assetManager.load("sounds/mm1/instrumentos/instrumentos_final.mp3", Sound.class);
+        assetManager.load("sounds/mm1/instrumentos/MicroMundo_Juego4_Inicio1.mp3", Sound.class);
+        assetManager.load("sounds/mm1/instrumentos/MicroMundo_Juego4_Inicio2.mp3", Sound.class);
+        assetManager.load("sounds/mm1/instrumentos/MicroMundo_Juego4_ResolucionEnsayo.mp3", Sound.class);
+        assetManager.load("sounds/mm1/instrumentos/MicroMundo_Juego4_ResolucionEnsayo1.mp3", Sound.class);
+        assetManager.load("sounds/mm1/instrumentos/MicroMundo_Juego4_ResolucionEnsayo2.mp3", Sound.class);
+        assetManager.load("sounds/mm1/instrumentos/MicroMundo_Juego4_MasRunas.mp3", Sound.class);
+        assetManager.load("sounds/mm1/instrumentos/MicroMundo_Juego4_MenosRunas.mp3", Sound.class);
+        assetManager.load("sounds/mm1/instrumentos/MicroMundo_Juego4_ResolucionJuego.mp3", Sound.class);
 
 
         assetManager.load("sounds/opciones/jugar.wav", Sound.class);
@@ -171,12 +186,11 @@ public class Assets implements Disposable, AssetErrorListener {
         public final Sound tmm1_intro,tmm1_tooMuch,tmm1_tooFew, tmm1_tooFewOne, tmm1_positive, tmm1_final;
         public final Sound jugar, denuevo, ayuda, salir;
 
-        public final Sound ingredientsIntro,ingredientsCrocodile,ingredientsCat,ingredientsAnt,ingredientsLama,ingredientsFrog,ingredientsCow, ingredientsVinegar,ingredientsMore,ingredientsLess, ingredientsPositive,ingredientsFinal;
-
-        public final Sound knockIntro, knockTooFew, knockTooMuch;
+        public final Sound ingredientsIntro,ingredientsCrocodile,ingredientsCat,ingredientsAnt,ingredientsLama,ingredientsFrog,ingredientsCow, ingredientsVinegar,ingredientsMore,ingredientsLess, ingredientsPositive_1,ingredientsPositive_2, ingredientsPositive_3, ingredientsPositive_4,ingredientsFinal;
+        public final Sound knockIntro, knockTooFew, knockTooMuch, knockPositive_1, knockPositive_2, knockPositive_3, knockFinal;
         public final Sound bellIntro, bellFinal, bellTooFew, bellTooMuch, bellPositive;
-        public final Sound mixingIntro, mixingFinal, mixingTooFew, mixingTooMuch, mixingPositive;
-        public final Sound musicIntro, musicFinal, musicTooFew, musicTooMuch, musicPositive;
+        public final Sound mixingIntro, mixingFinal, mixingTooFew, mixingTooMuch, mixingPositive_1, mixingPositive_2, mixingPositive_3, mixingPositive_4;
+        public final Sound musicIntro_1, musicIntro_2, musicFinal, musicTooFew, musicTooMuch, musicPositive_1, musicPositive_2, musicPositive_3;
 
 
 
@@ -244,42 +258,56 @@ public class Assets implements Disposable, AssetErrorListener {
             tmm1_tooFewOne = soundWithDuration("sounds/mm1/tutorial/mm1_tooFewOne.mp3", am);
 
 
-            knockIntro = soundWithDuration("sounds/mm1/golpes/intro.mp3", am);
-            knockTooFew = soundWithDuration("sounds/mm1/golpes/masRunas.mp3", am);
-            knockTooMuch = soundWithDuration("sounds/mm1/golpes/menosRunas.mp3", am);
+            knockIntro = soundWithDuration("sounds/mm1/golpes/MicroMundo1_Juego0_Explicacion.mp3", am);
+            knockTooFew = soundWithDuration("sounds/mm1/golpes/MicroMundo1_Juego0_MasRunas.mp3", am);
+            knockTooMuch = soundWithDuration("sounds/mm1/golpes/MicroMundo1_Juego0_MenosRunas.mp3", am);
+            knockPositive_1 = soundWithDuration("sounds/mm1/golpes/MicroMundo1_Juego0_ResolucionEnsayo1.mp3", am);
+            knockPositive_2 = soundWithDuration("sounds/mm1/golpes/MicroMundo1_Juego0_ResolucionEnsayo2.mp3", am);
+            knockPositive_3 = soundWithDuration("sounds/mm1/golpes/MicroMundo1_Juego0_ResolucionEnsayo3.mp3", am);
+            knockFinal = soundWithDuration("sounds/mm1/golpes/MicroMundo1_Juego0_ResolucionJuego.mp3", am);
 
 
-            ingredientsIntro = soundWithDuration("sounds/mm1/ingredientes/1intro.mp3", am);
-            ingredientsCrocodile = soundWithDuration("sounds/mm1/ingredientes/cocodrilo.mp3", am);
-            ingredientsCat = soundWithDuration("sounds/mm1/ingredientes/gato.mp3", am);
-            ingredientsAnt = soundWithDuration("sounds/mm1/ingredientes/hormiga.mp3", am);
-            ingredientsLama = soundWithDuration("sounds/mm1/ingredientes/lama.mp3", am);
-            ingredientsFrog = soundWithDuration("sounds/mm1/ingredientes/rana.mp3", am);
-            ingredientsCow = soundWithDuration("sounds/mm1/ingredientes/vaca.mp3", am);
-            ingredientsVinegar = soundWithDuration("sounds/mm1/ingredientes/vinagre.mp3", am);
-            ingredientsMore = soundWithDuration("sounds/mm1/ingredientes/masRunas.mp3", am);
-            ingredientsLess = soundWithDuration("sounds/mm1/ingredientes/menosRunas.mp3", am);
-            ingredientsPositive = soundWithDuration("sounds/mm1/ingredientes/positivo.mp3", am);
-            ingredientsFinal = soundWithDuration("sounds/mm1/ingredientes/final.mp3", am);
+
+            ingredientsIntro = soundWithDuration("sounds/mm1/ingredientes/MicroMundo_Juego1_1.mp3", am);
+            ingredientsCrocodile = soundWithDuration("sounds/mm1/ingredientes/MicroMundo_Juego1_Cocodrilo.mp3", am);
+            ingredientsCat = soundWithDuration("sounds/mm1/ingredientes/MicroMundo_Juego1_Gato.mp3", am);
+            ingredientsAnt = soundWithDuration("sounds/mm1/ingredientes/MicroMundo_Juego1_Hormiga.mp3", am);
+            ingredientsLama = soundWithDuration("sounds/mm1/ingredientes/MicroMundo_Juego1_Lama.mp3", am);
+            ingredientsFrog = soundWithDuration("sounds/mm1/ingredientes/MicroMundo_Juego1_Rana.mp3", am);
+            ingredientsCow = soundWithDuration("sounds/mm1/ingredientes/MicroMundo_Juego1_Pezuña.mp3", am);
+            ingredientsVinegar = soundWithDuration("sounds/mm1/ingredientes/MicroMundo_Juego1_Vinagre.mp3", am);
+            ingredientsMore = soundWithDuration("sounds/mm1/ingredientes/MicroMundo_Juego1_MasRunas.mp3", am);
+            ingredientsLess = soundWithDuration("sounds/mm1/ingredientes/MicroMundo_Juego1_MenosRunas.mp3", am);
+            ingredientsPositive_1 = soundWithDuration("sounds/mm1/ingredientes/MicroMundo_Juego1_ResolucionEnsayo0.mp3", am);
+            ingredientsPositive_2 = soundWithDuration("sounds/mm1/ingredientes/MicroMundo_Juego1_ResolucionEnsayo1.mp3", am);
+            ingredientsPositive_3 = soundWithDuration("sounds/mm1/ingredientes/MicroMundo_Juego1_ResolucionEnsayo2.mp3", am);
+            ingredientsPositive_4 = soundWithDuration("sounds/mm1/ingredientes/MicroMundo_Juego1_ResolucionEnsayo3.mp3", am);
+            ingredientsFinal = soundWithDuration("sounds/mm1/ingredientes/MicroMundo_Juego1_ResolucionJuego.mp3", am);
 
 
-            mixingIntro = soundWithDuration("sounds/mm1/revolver/revolver_explicacion.mp3", am);
-            mixingPositive = soundWithDuration("sounds/mm1/revolver/revolver_res_ensayo.mp3", am);
-            mixingTooFew = soundWithDuration("sounds/mm1/revolver/revolver_masRunas.mp3", am);
-            mixingTooMuch = soundWithDuration("sounds/mm1/revolver/revolver_menosRunas.mp3", am);
-            mixingFinal = soundWithDuration("sounds/mm1/revolver/revolver_res_final.mp3", am);
+            mixingIntro = soundWithDuration("sounds/mm1/revolver/MicroMundo_Juego3_Explicacion.mp3", am);
+            mixingPositive_1 = soundWithDuration("sounds/mm1/revolver/MicroMundo_Juego3_ResolucionEnsayo.mp3", am);
+            mixingPositive_2 = soundWithDuration("sounds/mm1/revolver/MicroMundo_Juego3_ResolucionEnsayo1.mp3", am);
+            mixingPositive_3 = soundWithDuration("sounds/mm1/revolver/MicroMundo_Juego3_ResolucionEnsayo2.mp3", am);
+            mixingPositive_4 = soundWithDuration("sounds/mm1/revolver/MicroMundo_Juego3_ResolucionEnsayo3.mp3", am);
+            mixingTooFew = soundWithDuration("sounds/mm1/revolver/MicroMundo_Juego3_MasRunas.mp3", am);
+            mixingTooMuch = soundWithDuration("sounds/mm1/revolver/MicroMundo_Juego3_MenosRunas.mp3", am);
+            mixingFinal = soundWithDuration("sounds/mm1/revolver/MicroMundo_Juego3_ResolucionJuego.mp3", am);
 
-            musicIntro = soundWithDuration("sounds/mm1/instrumentos/instrumentos_introduccion.mp3", am);
-            musicPositive = soundWithDuration("sounds/mm1/instrumentos/instrumentos_res_ensayo.mp3", am);
-            musicTooFew = soundWithDuration("sounds/mm1/instrumentos/instrumentos_masRunas.mp3", am);
-            musicTooMuch = soundWithDuration("sounds/mm1/instrumentos/instrumentos_menosRunas.mp3", am);
-            musicFinal = soundWithDuration("sounds/mm1/instrumentos/instrumentos_final.mp3", am);
+            musicIntro_1 = soundWithDuration("sounds/mm1/instrumentos/MicroMundo_Juego4_Inicio1.mp3", am);
+            musicIntro_2 = soundWithDuration("sounds/mm1/instrumentos/MicroMundo_Juego4_Inicio2.mp3", am);
+            musicPositive_1 = soundWithDuration("sounds/mm1/instrumentos/MicroMundo_Juego4_ResolucionEnsayo.mp3", am);
+            musicPositive_2 = soundWithDuration("sounds/mm1/instrumentos/MicroMundo_Juego4_ResolucionEnsayo1.mp3", am);
+            musicPositive_3 = soundWithDuration("sounds/mm1/instrumentos/MicroMundo_Juego4_ResolucionEnsayo2.mp3", am);
+            musicTooFew = soundWithDuration("sounds/mm1/instrumentos/MicroMundo_Juego4_MasRunas.mp3", am);
+            musicTooMuch = soundWithDuration("sounds/mm1/instrumentos/MicroMundo_Juego4_MenosRunas.mp3", am);
+            musicFinal = soundWithDuration("sounds/mm1/instrumentos/MicroMundo_Juego4_ResolucionJuego.mp3", am);
 
-            bellIntro = soundWithDuration("sounds/mm1/timbre/introduccion_timbre.mp3", am);
-            bellFinal = soundWithDuration("sounds/mm1/timbre/resolucion_timbre.mp3", am);
-            bellTooFew = soundWithDuration("sounds/mm1/timbre/timbre_masRunas.mp3", am);
-            bellTooMuch = soundWithDuration("sounds/mm1/timbre/timbre_menosRunas.mp3", am);
-            bellPositive = soundWithDuration("sounds/mm1/timbre/res_ensayo_timbre.mp3", am);
+            bellIntro = soundWithDuration("sounds/mm1/timbre/MicroMundo1_Juego5_Introduccion.mp3", am);
+            bellFinal = soundWithDuration("sounds/mm1/timbre/MicroMundo1_Juego5_ResolucionJuego.mp3", am);
+            bellTooFew = soundWithDuration("sounds/mm1/timbre/MicroMundo1_Juego5_MasRunas.mp3", am);
+            bellTooMuch = soundWithDuration("sounds/mm1/timbre/MicroMundo1_Juego5_MenosRunas.mp3", am);
+            bellPositive = soundWithDuration("sounds/mm1/timbre/MicroMundo1_Juego5_ResolucionEnsayo.mp3", am);
 
             jugar = soundWithDuration("sounds/opciones/jugar.wav", am);
             denuevo = soundWithDuration("sounds/opciones/denuevo.wav", am);

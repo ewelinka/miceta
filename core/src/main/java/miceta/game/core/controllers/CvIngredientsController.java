@@ -40,8 +40,8 @@ public class CvIngredientsController extends CvWorldController{
 
     @Override
     protected void setDelayForPositiveFeedback(){
-        Gdx.app.log(TAG,"setDelayForPositiveFeedback "+Assets.instance.getSoundDuration(Assets.instance.sounds.ingredientsPositive)+" === "+Assets.instance.getSoundDuration(Assets.instance.sounds.ingredientsCrocodile));
-        delayForPositiveFeedback = Assets.instance.getSoundDuration(Assets.instance.sounds.ingredientsPositive) + Assets.instance.getSoundDuration(Assets.instance.sounds.ingredientsCrocodile); // TODO check if crocodile is the longest audio!
+        Gdx.app.log(TAG,"setDelayForPositiveFeedback "+Assets.instance.getSoundDuration(Assets.instance.sounds.ingredientsPositive_1)+" === "+Assets.instance.getSoundDuration(Assets.instance.sounds.ingredientsCrocodile));
+        delayForPositiveFeedback = Assets.instance.getSoundDuration(Assets.instance.sounds.ingredientsPositive_1) + Assets.instance.getSoundDuration(Assets.instance.sounds.ingredientsCrocodile); // TODO check if crocodile is the longest audio!
     }
 
 
