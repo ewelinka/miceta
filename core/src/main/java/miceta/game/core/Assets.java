@@ -79,16 +79,25 @@ public class Assets implements Disposable, AssetErrorListener {
         assetManager.load("sounds/concreto/7.mp3", Sound.class);
         assetManager.load("sounds/concreto/8.mp3", Sound.class);
         assetManager.load("sounds/concreto/9.mp3", Sound.class);
-        assetManager.load("sounds/concreto/10.mp3", Sound.class);
+        assetManager.load("sounds/concreto/TutConcreto_10_otroVolumen.mp3", Sound.class);
         assetManager.load("sounds/concreto/11.mp3", Sound.class);
         //micro mundo 1
         // organic tutorial
+       // assetManager.load("sounds/mm1/tutorial/TutMicroMundo1_1.mp3", Sound.class);
+       // assetManager.load("sounds/mm1/tutorial/TutMicroMundo1_2.mp3", Sound.class);
+
         assetManager.load("sounds/mm1/tutorial/mm1_intro.mp3", Sound.class);
-        assetManager.load("sounds/mm1/tutorial/mm1_tooMuch.mp3", Sound.class);
-        assetManager.load("sounds/mm1/tutorial/mm1_tooFew.mp3", Sound.class);
-        assetManager.load("sounds/mm1/tutorial/mm1_tooFewOne.mp3", Sound.class);
-        assetManager.load("sounds/mm1/tutorial/mm1_positive.mp3", Sound.class);
-        assetManager.load("sounds/mm1/tutorial/mm1_final.mp3", Sound.class);
+        assetManager.load("sounds/mm1/tutorial/TutMicroMundo1_2_1.mp3", Sound.class);
+        assetManager.load("sounds/mm1/tutorial/TutMicroMundo1_3.mp3", Sound.class);
+        assetManager.load("sounds/mm1/tutorial/TutMicroMundo1_3_a.mp3", Sound.class);
+        assetManager.load("sounds/mm1/tutorial/TutMicroMundo1_4.mp3", Sound.class);
+        assetManager.load("sounds/mm1/tutorial/TutMicroMundo1_4_a.mp3", Sound.class);
+        assetManager.load("sounds/mm1/tutorial/TutMicroMundo1_ResEnsayo1.mp3", Sound.class);
+        assetManager.load("sounds/mm1/tutorial/TutMicroMundo1_ResEnsayo2.mp3", Sound.class);
+        assetManager.load("sounds/mm1/tutorial/TutMicroMundo1_ResJuego.mp3", Sound.class);
+        assetManager.load("sounds/mm1/tutorial/vueltaAlPasado_Reset.mp3", Sound.class);
+
+
         // ingredients game
         assetManager.load("sounds/mm1/ingredientes/MicroMundo_Juego1_1.mp3", Sound.class);
         assetManager.load("sounds/mm1/ingredientes/MicroMundo_Juego1_Cocodrilo.mp3", Sound.class);
@@ -178,12 +187,12 @@ public class Assets implements Disposable, AssetErrorListener {
     }
 
     public class AssetSounds {
-        public final  Sound number1, number2, number3, number4, number5, number6, number7, number8, number9, number10, number11, number12, number13, number14, number15;
+        public final Sound number1, number2, number3, number4, number5, number6, number7, number8, number9, number10, number11, number12, number13, number14, number15;
         public final Sound ct_1,ct_2,ct_3,ct_4,ct_5,ct_6,ct_7,ct_8,ct_9, ct_10, ct_11;
         public final Sound oneDo, oneRe, oneMi, oneFa, oneSol;
         public final Sound puck,yuju, newblock, addblock, quitblock, tada;
         public final Sound knock;
-        public final Sound tmm1_intro,tmm1_tooMuch,tmm1_tooFew, tmm1_tooFewOne, tmm1_positive, tmm1_final;
+        public final Sound tmm1_intro,tmm1_tooMuch_1,tmm1_tooFew_1, tmm1_tooMuch_2,tmm1_tooFew_2, tmm1_tooFewOne, tmm1_positive_1,tmm1_positive_2, tmm1_final, tmm1_firstPositive;
         public final Sound jugar, denuevo, ayuda, salir;
 
         public final Sound ingredientsIntro,ingredientsCrocodile,ingredientsCat,ingredientsAnt,ingredientsLama,ingredientsFrog,ingredientsCow, ingredientsVinegar,ingredientsMore,ingredientsLess, ingredientsPositive_1,ingredientsPositive_2, ingredientsPositive_3, ingredientsPositive_4,ingredientsFinal;
@@ -191,8 +200,6 @@ public class Assets implements Disposable, AssetErrorListener {
         public final Sound bellIntro, bellFinal, bellTooFew, bellTooMuch, bellPositive;
         public final Sound mixingIntro, mixingFinal, mixingTooFew, mixingTooMuch, mixingPositive_1, mixingPositive_2, mixingPositive_3, mixingPositive_4;
         public final Sound musicIntro_1, musicIntro_2, musicFinal, musicTooFew, musicTooMuch, musicPositive_1, musicPositive_2, musicPositive_3;
-
-
 
 
         public Sound soundWithDuration(String path, AssetManager am) {
@@ -247,16 +254,19 @@ public class Assets implements Disposable, AssetErrorListener {
             ct_7 = soundWithDuration("sounds/concreto/7.mp3", am);
             ct_8 = soundWithDuration("sounds/concreto/8.mp3", am);
             ct_9 = soundWithDuration("sounds/concreto/9.mp3", am);
-            ct_10 = soundWithDuration("sounds/concreto/10.mp3", am);
+            ct_10 = soundWithDuration("sounds/concreto/TutConcreto_10_otroVolumen.mp3", am);
             ct_11 = soundWithDuration("sounds/concreto/11.mp3", am);
 
             tmm1_intro = soundWithDuration("sounds/mm1/tutorial/mm1_intro.mp3", am);
-            tmm1_tooMuch = soundWithDuration("sounds/mm1/tutorial/mm1_tooMuch.mp3", am);
-            tmm1_tooFew = soundWithDuration("sounds/mm1/tutorial/mm1_tooFew.mp3", am);
-            tmm1_positive = soundWithDuration("sounds/mm1/tutorial/mm1_positive.mp3", am);
-            tmm1_final= soundWithDuration("sounds/mm1/tutorial/mm1_final.mp3", am);
-            tmm1_tooFewOne = soundWithDuration("sounds/mm1/tutorial/mm1_tooFewOne.mp3", am);
-
+            tmm1_tooMuch_1 = soundWithDuration("sounds/mm1/tutorial/TutMicroMundo1_4.mp3", am);
+            tmm1_tooFew_1 = soundWithDuration("sounds/mm1/tutorial/TutMicroMundo1_3.mp3", am);
+            tmm1_tooMuch_2 = soundWithDuration("sounds/mm1/tutorial/TutMicroMundo1_4_a.mp3", am);
+            tmm1_tooFew_2 = soundWithDuration("sounds/mm1/tutorial/TutMicroMundo1_3_a.mp3", am);
+            tmm1_positive_1 = soundWithDuration("sounds/mm1/tutorial/TutMicroMundo1_ResEnsayo1.mp3", am);
+            tmm1_positive_2 = soundWithDuration("sounds/mm1/tutorial/TutMicroMundo1_ResEnsayo2.mp3", am);
+            tmm1_final= soundWithDuration("sounds/mm1/tutorial/TutMicroMundo1_ResJuego.mp3", am);
+            tmm1_tooFewOne = tmm1_tooFew_1; // al parecer tooFewOne se elimino en los nuevos audios que subio Bruno
+            tmm1_firstPositive = soundWithDuration("sounds/mm1/tutorial/TutMicroMundo1_2_1.mp3", am);
 
             knockIntro = soundWithDuration("sounds/mm1/golpes/MicroMundo1_Juego0_Explicacion.mp3", am);
             knockTooFew = soundWithDuration("sounds/mm1/golpes/MicroMundo1_Juego0_MasRunas.mp3", am);
@@ -265,8 +275,6 @@ public class Assets implements Disposable, AssetErrorListener {
             knockPositive_2 = soundWithDuration("sounds/mm1/golpes/MicroMundo1_Juego0_ResolucionEnsayo2.mp3", am);
             knockPositive_3 = soundWithDuration("sounds/mm1/golpes/MicroMundo1_Juego0_ResolucionEnsayo3.mp3", am);
             knockFinal = soundWithDuration("sounds/mm1/golpes/MicroMundo1_Juego0_ResolucionJuego.mp3", am);
-
-
 
             ingredientsIntro = soundWithDuration("sounds/mm1/ingredientes/MicroMundo_Juego1_1.mp3", am);
             ingredientsCrocodile = soundWithDuration("sounds/mm1/ingredientes/MicroMundo_Juego1_Cocodrilo.mp3", am);
@@ -313,7 +321,6 @@ public class Assets implements Disposable, AssetErrorListener {
             denuevo = soundWithDuration("sounds/opciones/denuevo.wav", am);
             ayuda = soundWithDuration("sounds/opciones/ayuda.wav", am);
             salir = soundWithDuration("sounds/opciones/salir.wav", am);
-
 
         }
     }

@@ -730,9 +730,13 @@ public class AudioManager {
                 // organic
                 Assets.instance.sounds.tmm1_intro.stop();
                 Assets.instance.sounds.tmm1_final.stop();
-                Assets.instance.sounds.tmm1_tooFew.stop();
-                Assets.instance.sounds.tmm1_tooMuch.stop();
-                Assets.instance.sounds.tmm1_positive.stop();
+                Assets.instance.sounds.tmm1_tooFew_1.stop();
+                Assets.instance.sounds.tmm1_tooMuch_1.stop();
+                Assets.instance.sounds.tmm1_tooFew_2.stop();
+                Assets.instance.sounds.tmm1_tooMuch_2.stop();
+                Assets.instance.sounds.tmm1_positive_1.stop();
+                Assets.instance.sounds.tmm1_positive_2.stop();
+
                 break;
             case GAME_KNOCK:
                 Assets.instance.sounds.knockIntro.stop();

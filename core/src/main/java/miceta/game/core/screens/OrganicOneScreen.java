@@ -29,7 +29,7 @@ public class OrganicOneScreen  extends BaseScreenWithIntro {
                 Assets.instance.sounds.tmm1_intro,
                 Assets.instance.sounds.tada,
                 Assets.instance.sounds.tmm1_tooFewOne,
-                Assets.instance.sounds.tmm1_tooMuch,
+                Assets.instance.sounds.tmm1_tooMuch_1,
                 Assets.instance.sounds.tada
         );
         shapeRenderer = new ShapeRenderer();
