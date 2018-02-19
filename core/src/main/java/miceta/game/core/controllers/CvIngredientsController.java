@@ -19,7 +19,7 @@ public class CvIngredientsController extends CvWorldController{
 
 
     public CvIngredientsController(miCeta game, Stage stage, FeedbackSoundType feedbackSoundName, Sound tooFewErrorSound, Sound tooMuchErrorSound, Sound finalSound) {
-        super(game, stage, feedbackSoundName, Assets.instance.sounds.tada, Assets.instance.sounds.yuju, tooFewErrorSound, tooMuchErrorSound, finalSound); //yuju won't be used but we have to set it
+        super(game, stage, feedbackSoundName, Assets.instance.sounds.tada, Assets.instance.sounds.positivesFeedbacks, tooFewErrorSound, tooMuchErrorSound, finalSound); //yuju won't be used but we have to set it
     }
 
     @Override

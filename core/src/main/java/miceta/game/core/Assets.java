@@ -14,6 +14,8 @@ import com.badlogic.gdx.utils.ArrayMap;
 import com.badlogic.gdx.utils.Disposable;
 import miceta.game.core.util.Constants;
 
+import java.util.ArrayList;
+
 
 /**
  * Created by ewe on 8/10/17.
@@ -194,12 +196,18 @@ public class Assets implements Disposable, AssetErrorListener {
         public final Sound knock;
         public final Sound tmm1_intro,tmm1_tooMuch_1,tmm1_tooFew_1, tmm1_tooMuch_2,tmm1_tooFew_2, tmm1_tooFewOne, tmm1_positive_1,tmm1_positive_2, tmm1_final, tmm1_firstPositive;
         public final Sound jugar, denuevo, ayuda, salir;
-
         public final Sound ingredientsIntro,ingredientsCrocodile,ingredientsCat,ingredientsAnt,ingredientsLama,ingredientsFrog,ingredientsCow, ingredientsVinegar,ingredientsMore,ingredientsLess, ingredientsPositive_1,ingredientsPositive_2, ingredientsPositive_3, ingredientsPositive_4,ingredientsFinal;
         public final Sound knockIntro, knockTooFew, knockTooMuch, knockPositive_1, knockPositive_2, knockPositive_3, knockFinal;
         public final Sound bellIntro, bellFinal, bellTooFew, bellTooMuch, bellPositive;
         public final Sound mixingIntro, mixingFinal, mixingTooFew, mixingTooMuch, mixingPositive_1, mixingPositive_2, mixingPositive_3, mixingPositive_4;
-        public final Sound musicIntro_1, musicIntro_2, musicFinal, musicTooFew, musicTooMuch, musicPositive_1, musicPositive_2, musicPositive_3;
+        public final Sound  musicIntro_1, musicIntro_2, musicFinal, musicTooFew, musicTooMuch, musicPositive_1, musicPositive_2, musicPositive_3;
+        public final ArrayList<Sound> positivesIngredients = new ArrayList<Sound>();
+        public final ArrayList<Sound> positivesKnock = new ArrayList<Sound>();
+        public final ArrayList<Sound> positivesBell = new ArrayList<Sound>();
+        public final ArrayList<Sound> positivesMixing = new ArrayList<Sound>();
+        public final ArrayList<Sound> positivesMusic = new ArrayList<Sound>();
+        public final ArrayList<Sound> positivesTutorial = new ArrayList<Sound>();
+        public final ArrayList<Sound> positivesFeedbacks = new ArrayList<Sound>();
 
 
         public Sound soundWithDuration(String path, AssetManager am) {
@@ -267,6 +275,10 @@ public class Assets implements Disposable, AssetErrorListener {
             tmm1_final= soundWithDuration("sounds/mm1/tutorial/TutMicroMundo1_ResJuego.mp3", am);
             tmm1_tooFewOne = tmm1_tooFew_1; // al parecer tooFewOne se elimino en los nuevos audios que subio Bruno
             tmm1_firstPositive = soundWithDuration("sounds/mm1/tutorial/TutMicroMundo1_2_1.mp3", am);
+            positivesTutorial.add(tmm1_positive_1);
+            positivesTutorial.add(tmm1_positive_2);
+            //puede que sea necesario agregar tmm1_firstPositive
+
 
             knockIntro = soundWithDuration("sounds/mm1/golpes/MicroMundo1_Juego0_Explicacion.mp3", am);
             knockTooFew = soundWithDuration("sounds/mm1/golpes/MicroMundo1_Juego0_MasRunas.mp3", am);
@@ -275,6 +287,10 @@ public class Assets implements Disposable, AssetErrorListener {
             knockPositive_2 = soundWithDuration("sounds/mm1/golpes/MicroMundo1_Juego0_ResolucionEnsayo2.mp3", am);
             knockPositive_3 = soundWithDuration("sounds/mm1/golpes/MicroMundo1_Juego0_ResolucionEnsayo3.mp3", am);
             knockFinal = soundWithDuration("sounds/mm1/golpes/MicroMundo1_Juego0_ResolucionJuego.mp3", am);
+            positivesKnock.add(knockPositive_1);
+            positivesKnock.add(knockPositive_2);
+            positivesKnock.add(knockPositive_3);
+
 
             ingredientsIntro = soundWithDuration("sounds/mm1/ingredientes/MicroMundo_Juego1_1.mp3", am);
             ingredientsCrocodile = soundWithDuration("sounds/mm1/ingredientes/MicroMundo_Juego1_Cocodrilo.mp3", am);
@@ -291,6 +307,12 @@ public class Assets implements Disposable, AssetErrorListener {
             ingredientsPositive_3 = soundWithDuration("sounds/mm1/ingredientes/MicroMundo_Juego1_ResolucionEnsayo2.mp3", am);
             ingredientsPositive_4 = soundWithDuration("sounds/mm1/ingredientes/MicroMundo_Juego1_ResolucionEnsayo3.mp3", am);
             ingredientsFinal = soundWithDuration("sounds/mm1/ingredientes/MicroMundo_Juego1_ResolucionJuego.mp3", am);
+            positivesIngredients.add(ingredientsPositive_1);
+            positivesIngredients.add(ingredientsPositive_2);
+            positivesIngredients.add(ingredientsPositive_3);
+            positivesIngredients.add(ingredientsPositive_4);
+
+
 
 
             mixingIntro = soundWithDuration("sounds/mm1/revolver/MicroMundo_Juego3_Explicacion.mp3", am);
@@ -301,6 +323,10 @@ public class Assets implements Disposable, AssetErrorListener {
             mixingTooFew = soundWithDuration("sounds/mm1/revolver/MicroMundo_Juego3_MasRunas.mp3", am);
             mixingTooMuch = soundWithDuration("sounds/mm1/revolver/MicroMundo_Juego3_MenosRunas.mp3", am);
             mixingFinal = soundWithDuration("sounds/mm1/revolver/MicroMundo_Juego3_ResolucionJuego.mp3", am);
+            positivesMixing.add(mixingPositive_1);
+            positivesMixing.add(mixingPositive_2);
+            positivesMixing.add(mixingPositive_3);
+            positivesMixing.add(mixingPositive_4);
 
             musicIntro_1 = soundWithDuration("sounds/mm1/instrumentos/MicroMundo_Juego4_Inicio1.mp3", am);
             musicIntro_2 = soundWithDuration("sounds/mm1/instrumentos/MicroMundo_Juego4_Inicio2.mp3", am);
@@ -310,17 +336,25 @@ public class Assets implements Disposable, AssetErrorListener {
             musicTooFew = soundWithDuration("sounds/mm1/instrumentos/MicroMundo_Juego4_MasRunas.mp3", am);
             musicTooMuch = soundWithDuration("sounds/mm1/instrumentos/MicroMundo_Juego4_MenosRunas.mp3", am);
             musicFinal = soundWithDuration("sounds/mm1/instrumentos/MicroMundo_Juego4_ResolucionJuego.mp3", am);
+            positivesMusic.add(musicPositive_1);
+            positivesMusic.add(musicPositive_2);
+            positivesMusic.add(musicPositive_3);
+
+
 
             bellIntro = soundWithDuration("sounds/mm1/timbre/MicroMundo1_Juego5_Introduccion.mp3", am);
             bellFinal = soundWithDuration("sounds/mm1/timbre/MicroMundo1_Juego5_ResolucionJuego.mp3", am);
             bellTooFew = soundWithDuration("sounds/mm1/timbre/MicroMundo1_Juego5_MasRunas.mp3", am);
             bellTooMuch = soundWithDuration("sounds/mm1/timbre/MicroMundo1_Juego5_MenosRunas.mp3", am);
             bellPositive = soundWithDuration("sounds/mm1/timbre/MicroMundo1_Juego5_ResolucionEnsayo.mp3", am);
+            positivesBell.add(bellPositive);
 
             jugar = soundWithDuration("sounds/opciones/jugar.wav", am);
             denuevo = soundWithDuration("sounds/opciones/denuevo.wav", am);
             ayuda = soundWithDuration("sounds/opciones/ayuda.wav", am);
             salir = soundWithDuration("sounds/opciones/salir.wav", am);
+            positivesFeedbacks.add(yuju);
+
 
         }
     }

@@ -10,11 +10,13 @@ import miceta.game.core.util.AudioManager;
 import miceta.game.core.util.Constants;
 import miceta.game.core.util.FeedbackSoundType;
 
+import java.util.ArrayList;
+
 /**
  * Created by ewe on 2/2/18.
  */
 public class CvWithIntroControllerTutorial extends CvWithIntroController {
-    public CvWithIntroControllerTutorial(miCeta game, Stage stage, FeedbackSoundType feedbackSound, Sound introSound, Sound positiveFeedback, Sound tooFewErrorSound, Sound tooMuchErrorSound, Sound finalFeedback) {
+    public CvWithIntroControllerTutorial(miCeta game, Stage stage, FeedbackSoundType feedbackSound, Sound introSound, ArrayList<Sound> positiveFeedback, Sound tooFewErrorSound, Sound tooMuchErrorSound, Sound finalFeedback) {
         super(game, stage, feedbackSound, introSound, positiveFeedback, tooFewErrorSound, tooMuchErrorSound, finalFeedback);
         inactivityLimit = 0; // we dont want to wait!
     }

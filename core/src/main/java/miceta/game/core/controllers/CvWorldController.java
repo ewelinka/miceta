@@ -49,7 +49,8 @@ public class CvWorldController {
     protected float extraDelayBetweenFeedback;
     protected float feedbackDelay;
     protected float waitAfterKnock;
-    protected Sound tooMuchErrorSound, tooFewErrorSound, positiveFeedback, finalFeedback, introSound;
+    protected Sound tooMuchErrorSound, tooFewErrorSound, finalFeedback, introSound;
+    protected ArrayList<Sound>  positiveFeedback;
     protected FeedbackSoundType feedbackSound;
     protected int inactivityLimit;
     protected int maxErrorsForHint;
@@ -62,14 +63,16 @@ public class CvWorldController {
     public CvWorldController(miCeta game, Stage stage){
         // knock by default
         // too much and too many default values
-        this(game,stage,FeedbackSoundType.KNOCK, Assets.instance.sounds.newblock, Assets.instance.sounds.yuju, Assets.instance.sounds.addblock, Assets.instance.sounds.quitblock, Assets.instance.sounds.yuju);
+        this(game,stage,FeedbackSoundType.KNOCK, Assets.instance.sounds.newblock, Assets.instance.sounds.positivesFeedbacks, Assets.instance.sounds.addblock, Assets.instance.sounds.quitblock, Assets.instance.sounds.yuju);
     }
     public CvWorldController(miCeta game, Stage stage, FeedbackSoundType feedbackSound,  Sound tooFewErrorSound, Sound tooMuchErrorSound){
         // yuju by default
-        this(game,stage,feedbackSound, Assets.instance.sounds.newblock, Assets.instance.sounds.yuju, tooFewErrorSound, tooMuchErrorSound ,Assets.instance.sounds.yuju );
+
+       // Assets.instance.sounds.positivesFeedbacks.add(Assets.instance.sounds.yuju);
+        this(game,stage,feedbackSound, Assets.instance.sounds.newblock, Assets.instance.sounds.positivesFeedbacks, tooFewErrorSound, tooMuchErrorSound ,Assets.instance.sounds.yuju );
     }
 
-    public CvWorldController(miCeta game, Stage stage, FeedbackSoundType feedbackSound, Sound introSound, Sound positiveFeedback, Sound tooFewErrorSound,  Sound tooMuchErrorSound, Sound finalFeedback) {
+    public CvWorldController(miCeta game, Stage stage, FeedbackSoundType feedbackSound, Sound introSound, ArrayList<Sound> positiveFeedback, Sound tooFewErrorSound,  Sound tooMuchErrorSound, Sound finalFeedback) {
         this.game = game;
         this.stage = stage;
         this.feedbackSound = feedbackSound;
@@ -95,11 +98,11 @@ public class CvWorldController {
     }
 
     protected void initCustomSounds(){
-        AudioManager.instance.setCustomSound(tooFewErrorSound, TOO_FEW);
-        AudioManager.instance.setCustomSound(tooMuchErrorSound, TOO_MUCH);
-        AudioManager.instance.setCustomSound(positiveFeedback, POSITIVE);
-        AudioManager.instance.setCustomSound(finalFeedback, FINAL);
-        AudioManager.instance.setCustomSound(introSound, INTRO);
+        AudioManager.instance.setCustomSound(tooFewErrorSound, TOO_FEW, null);
+        AudioManager.instance.setCustomSound(tooMuchErrorSound, TOO_MUCH, null);
+        AudioManager.instance.setCustomSound(null, POSITIVE, positiveFeedback);
+        AudioManager.instance.setCustomSound(finalFeedback, FINAL, null);
+        AudioManager.instance.setCustomSound(introSound, INTRO, null);
         AudioManager.instance.setFeedbackSoundType(feedbackSound);
 
     }
@@ -373,7 +376,8 @@ public class CvWorldController {
     }
 
     protected void setDelayForPositiveFeedback(){
-        delayForPositiveFeedback = Assets.instance.getSoundDuration(this.positiveFeedback);
+        //- cambiar mas adelante
+        delayForPositiveFeedback = Assets.instance.getSoundDuration(this.positiveFeedback.get(0));
     }
 
     protected void goToNextLevel(){

@@ -3,6 +3,7 @@ package miceta.game.core.util;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.audio.Music;
 import com.badlogic.gdx.audio.Sound;
+import com.badlogic.gdx.math.MathUtils;
 import com.badlogic.gdx.scenes.scene2d.Actor;
 import com.badlogic.gdx.scenes.scene2d.Stage;
 import com.badlogic.gdx.scenes.scene2d.actions.SequenceAction;
@@ -10,6 +11,7 @@ import com.badlogic.gdx.scenes.scene2d.actions.SequenceAction;
 import miceta.game.core.Assets;
 
 import java.util.ArrayList;
+import java.util.Random;
 
 import static com.badlogic.gdx.scenes.scene2d.actions.Actions.*;
 
@@ -34,7 +36,8 @@ public class AudioManager {
     private Sound   nb_sound = Assets.instance.sounds.newblock;
     private Music  nb_sound_loop = Assets.instance.music.new_block_loop;
     private FeedbackSoundType feedbackSoundType;
-    private Sound tooMuchErrorSound, tooFewErrorSound, positiveFeedback, finalFeedback, introSound;
+    private Sound tooMuchErrorSound, tooFewErrorSound,finalFeedback, introSound;
+    private ArrayList<Sound> positiveFeedback;
 
 
     private AudioManager () { }
@@ -166,7 +169,7 @@ public class AudioManager {
         delay_add= true;
     }
 
-    public void setCustomSound(Sound nowSound, CommonFeedbacks soundType){
+    public void setCustomSound(Sound nowSound, CommonFeedbacks soundType,  ArrayList<Sound> sounds){
         switch (soundType){
             case TOO_MUCH:
                 this.tooMuchErrorSound = nowSound;
@@ -175,7 +178,7 @@ public class AudioManager {
                 this.tooFewErrorSound = nowSound;
                 break;
             case POSITIVE:
-                this.positiveFeedback = nowSound;
+                this.positiveFeedback = sounds;
                 break;
             case FINAL:
                 this.finalFeedback = nowSound;
@@ -415,13 +418,15 @@ public class AudioManager {
         /////////// feedback
         readFeedbackAction = createReadFeedbackAction(readFeedbackAction, numToBuild, extraDelayBetweenFeedback);
 
+        final int rand = MathUtils.random(0, Assets.instance.sounds.positivesIngredients.size()-1);
+
         readFeedbackAction.addAction(run(new Runnable() {
             public void run() {
-                playWithoutInterruption(Assets.instance.sounds.ingredientsPositive_1); //after correct answer comes "yuju"
+                playWithoutInterruption(Assets.instance.sounds.positivesIngredients.get(rand)); //after correct answer comes "yuju"
             }
         }));
         final Sound ingredientSound = getIngredientFromIndex(ingredientIndex);
-        readFeedbackAction.addAction(delay(Assets.instance.getSoundDuration(Assets.instance.sounds.ingredientsPositive_1)));
+        readFeedbackAction.addAction(delay(Assets.instance.getSoundDuration(Assets.instance.sounds.positivesIngredients.get(rand))));
         readFeedbackAction.addAction(run(new Runnable() {
             public void run() {
                 playWithoutInterruption(ingredientSound); //after correct answer comes "yuju"
@@ -511,7 +516,9 @@ public class AudioManager {
         /////////// feedback
         readFeedbackAction = createReadFeedbackAction(readFeedbackAction, numToBuild, extraDelayBetweenFeedback);
 
-        final Sound positiveNow = this.positiveFeedback;
+        final int rand = (int) MathUtils.random(0, positiveFeedback.size()-1);
+        final Sound positiveNow = this.positiveFeedback.get(rand); //cuidado con el rand
+
         readFeedbackAction.addAction(run(new Runnable() {
             public void run() {
                 playWithoutInterruption(positiveNow); //after correct answer comes positive feedback
