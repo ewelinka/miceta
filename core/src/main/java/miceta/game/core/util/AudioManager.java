@@ -38,6 +38,7 @@ public class AudioManager {
     private FeedbackSoundType feedbackSoundType;
     private Sound tooMuchErrorSound, tooFewErrorSound,finalFeedback, introSound;
     private ArrayList<Sound> positiveFeedback;
+    private ArrayList<ArrayList<Integer>>  positivesIndex = new ArrayList<ArrayList<Integer>>();
 
 
     private AudioManager () { }
@@ -411,6 +412,80 @@ public class AudioManager {
         readFeedbackAndBlocksAndPositive(toReadNums,numToBuild, extraDelayBetweenFeedback);
     }
 
+    void inicializatePositiveIndex(){
+            for (int i =0; i < 5; i++){
+                ArrayList<Integer> temp = new ArrayList<Integer>();
+                positivesIndex.add(temp);
+            }
+    }
+
+
+    Sound getPositiveSound(ArrayList<Sound> positives){
+
+        if ((positivesIndex.size() == 0)) { //debo inicializar el array
+            inicializatePositiveIndex();
+        }
+        Sound firstPositive = positives.get(0);
+        int rand =0;
+        int lastRand =0;
+        boolean restart = false;
+
+        int index = 0;
+
+        if (firstPositive.equals(Assets.instance.sounds.ingredientsPositive_1)){
+            index = 0;
+        }
+        else
+        if (firstPositive.equals(Assets.instance.sounds.mixingPositive_1)){
+            index = 1;
+        }
+        else
+        if (firstPositive.equals(Assets.instance.sounds.knockPositive_1)){
+            index = 2;
+        }
+        else
+        if (firstPositive.equals(Assets.instance.sounds.musicPositive_1)){
+            index = 3;
+        }
+        else
+        if (firstPositive.equals(Assets.instance.sounds.tmm1_positive_1)){
+            index = 4;
+        }
+
+        int size = positives.size();
+
+        if ((positivesIndex.get(index).size() == size )){
+            restart = true;
+            lastRand = positivesIndex.get(index).get(size -1);
+            positivesIndex = new ArrayList<ArrayList<Integer>>();
+            inicializatePositiveIndex();
+        }
+
+        rand = MathUtils.random(0, positives.size() -1);
+
+        boolean temp = true;
+        while (temp){ //se le debe agregar la opcion de lastRand
+            rand = MathUtils.random(0, positives.size() -1); //Llamo hasta agregar uno nuevo.
+
+            if (!(positivesIndex.get(index).contains(rand))){
+                positivesIndex.get(index).add(rand);
+
+                if ((restart)&&(lastRand == rand)){
+                    temp = true;
+                }
+                else {
+                    temp = false;
+                    restart = false;
+                }
+            }
+        }
+        return  positives.get(rand);
+    }
+
+
+
+
+
     public void readAllFeedbacksAndPositiveWithNewIngredient(ArrayList<Integer> toReadNums, int numToBuild, float extraDelayBetweenFeedback, final int ingredientIndex) {
         reader.clearActions();
         /////// blocks
@@ -418,15 +493,16 @@ public class AudioManager {
         /////////// feedback
         readFeedbackAction = createReadFeedbackAction(readFeedbackAction, numToBuild, extraDelayBetweenFeedback);
 
-        final int rand = MathUtils.random(0, Assets.instance.sounds.positivesIngredients.size()-1);
+
+        final Sound positive = getPositiveSound(Assets.instance.sounds.positivesIngredients);
 
         readFeedbackAction.addAction(run(new Runnable() {
             public void run() {
-                playWithoutInterruption(Assets.instance.sounds.positivesIngredients.get(rand)); //after correct answer comes "yuju"
+                playWithoutInterruption(positive); //after correct answer comes "yuju"
             }
         }));
         final Sound ingredientSound = getIngredientFromIndex(ingredientIndex);
-        readFeedbackAction.addAction(delay(Assets.instance.getSoundDuration(Assets.instance.sounds.positivesIngredients.get(rand))));
+        readFeedbackAction.addAction(delay(Assets.instance.getSoundDuration(positive)));
         readFeedbackAction.addAction(run(new Runnable() {
             public void run() {
                 playWithoutInterruption(ingredientSound); //after correct answer comes "yuju"
@@ -516,8 +592,7 @@ public class AudioManager {
         /////////// feedback
         readFeedbackAction = createReadFeedbackAction(readFeedbackAction, numToBuild, extraDelayBetweenFeedback);
 
-        final int rand = (int) MathUtils.random(0, positiveFeedback.size()-1);
-        final Sound positiveNow = this.positiveFeedback.get(rand); //cuidado con el rand
+        final Sound positiveNow = getPositiveSound(this.positiveFeedback);  //cuidado con el rand
 
         readFeedbackAction.addAction(run(new Runnable() {
             public void run() {
