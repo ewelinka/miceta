@@ -382,7 +382,10 @@ public class AudioManager {
                         break;
                 }
 
-                playWithoutInterruption(Assets.instance.sounds.knock); // TODO change when we have drop sound
+                Sound whichSound = Assets.instance.sounds.oneDo;
+
+                 playWithoutInterruption(Assets.instance.sounds.knock); // TODO change when we have drop sound
+
             }
         }));
 
@@ -390,6 +393,67 @@ public class AudioManager {
     }
 
 
+
+    private void readSingleFeedbackWithNumber(final int number, final SequenceAction readFeedback, final float extraDelayBetweenFeedback, final Sound feedbackSound){
+        readFeedback.addAction(run(new Runnable() {
+            public void run() {
+
+                switch(number) {
+                    case 1:
+                        playWithoutInterruption(Assets.instance.sounds.number1);
+                        break;
+                    case 2:
+                        playWithoutInterruption(Assets.instance.sounds.number2);
+                        break;
+                    case 3:
+                        playWithoutInterruption(Assets.instance.sounds.number3);
+                        break;
+                    case 4:
+                        playWithoutInterruption(Assets.instance.sounds.number4);
+                        break;
+                    case 5:
+                        playWithoutInterruption(Assets.instance.sounds.number5);
+                        break;
+                    case 6:
+                        playWithoutInterruption(Assets.instance.sounds.number6);
+                        break;
+                    case 7:
+                        playWithoutInterruption(Assets.instance.sounds.number7);
+                        break;
+                    case 8:
+                        playWithoutInterruption(Assets.instance.sounds.number8);
+                        break;
+                    case 9:
+                        playWithoutInterruption(Assets.instance.sounds.number9);
+                        break;
+                    case 10:
+                        playWithoutInterruption(Assets.instance.sounds.number10);
+                        break;
+                    case 11:
+                        playWithoutInterruption(Assets.instance.sounds.number11);
+                        break;
+                    case 12:
+                        playWithoutInterruption(Assets.instance.sounds.number12);
+                        break;
+                    case 13:
+                        playWithoutInterruption(Assets.instance.sounds.number13);
+                        break;
+                    case 14:
+                        playWithoutInterruption(Assets.instance.sounds.number14);
+                        break;
+                    case 15:
+                        playWithoutInterruption(Assets.instance.sounds.number15);
+                        break;
+                }
+
+
+                playWithoutInterruption(feedbackSound); // TODO change when we have drop sound
+
+            }
+        }));
+
+        readFeedback.addAction(delay(readBlockDuration + extraDelayBetweenFeedback)); // we wait Xs because sound files with "knock" have X duration
+    }
 
 
 
@@ -639,10 +703,78 @@ public class AudioManager {
             readSingleKnockWithNumber(i, readFeedbackAction, extraDelayBetweenFeedback); // we start with 1
         }
 
-       // readFeedbackAction = addToReadFeedbackInSpace(numToBuild, readFeedbackAction, extraDelayBetweenFeedback);
+        // readFeedbackAction = addToReadFeedbackInSpace(numToBuild, readFeedbackAction, extraDelayBetweenFeedback);
         // first read with small delay at the beginning
         reader.addAction(readFeedbackAction);
     }
+
+    private Sound getFeedbackSound(int number){
+
+        Sound feedbackSound;
+        switch (number) {
+            case 1:
+                feedbackSound = Assets.instance.sounds.oneDo;
+                break;
+            case 2:
+                feedbackSound = Assets.instance.sounds.oneRe;
+                break;
+            case 3:
+                feedbackSound = Assets.instance.sounds.oneMi;
+                break;
+            case 4:
+                feedbackSound = Assets.instance.sounds.oneFa;
+                break;
+            case 5:
+                feedbackSound = Assets.instance.sounds.oneSol;
+                break;
+            default:
+                feedbackSound = Assets.instance.sounds.oneSol; // TODO change the default to hmmm nothing?
+                break;
+        }
+        return feedbackSound;
+    }
+
+
+    public void readNumberWithMagicFeedback( ArrayList<Integer>  nowDetected, float extraDelayBetweenFeedback)
+    { // we use this action at the beginning of new screen, we read feedback without blocks
+        reader.clearActions();
+        readFeedbackAction.reset();
+        readFeedbackAction.addAction(delay(Constants.READ_ONE_UNIT_DURATION)); // wait before start read feedback
+
+        int numberToBuild =0;
+
+        for(int i =0; i< nowDetected.size(); i++){
+            numberToBuild = numberToBuild + nowDetected.get(i);
+        }
+
+        /*
+        int counter = 0;
+        for(int i = 1; i< numberToBuild; i++)
+        {
+            counter++
+            Sound feedbackSound = getFeedbackSound(nowDetected.get(0));
+            readSingleFeedbackWithNumber(counter , readFeedbackAction, extraDelayBetweenFeedback, feedbackSound); // we start with 1
+        }
+        */
+        int counter = 0;
+        for(int i = 0; i< nowDetected.size(); i++)
+        {
+            Sound feedbackSound = getFeedbackSound(nowDetected.get(i));
+
+            for(int j = 0; j < nowDetected.get(i); j++)
+            {
+            counter++;
+            readSingleFeedbackWithNumber(counter, readFeedbackAction, extraDelayBetweenFeedback, feedbackSound); // we start with 1
+            }
+        }
+
+        reader.addAction(readFeedbackAction);
+    }
+
+
+
+
+
 
 
 

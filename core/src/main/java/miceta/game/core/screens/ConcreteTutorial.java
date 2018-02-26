@@ -25,6 +25,7 @@ public class ConcreteTutorial extends AbstractGameScreen {
     private int _tutorialPart = 0;
     private int _tutorialAuxNumber =0;
     private int _knockCounter =0;
+    private int _loopCounter = 0;
     private ArrayList<Integer>  _nowDetected = new ArrayList<>();
 
 
@@ -52,17 +53,29 @@ public class ConcreteTutorial extends AbstractGameScreen {
             _tutorialPart = 3;
         } else if ((_tutorialPart == 3) && (_timePassed > _tutorialDuration)) {
 
-            reproduceBlocks(false);
-            _tutorialPart = 4;
+            //busco que se repita.
+            _loopCounter ++;
+            if (_loopCounter == 3){
+                _tutorialPart =4;
+                _loopCounter =0;
+            }
+            reproduceBlocks(false, true);
+           // _tutorialPart = 4;
         } else if ((_tutorialPart == 4) && (_timePassed > _tutorialDuration)) {
+
 
             _timePassed = 0;
             _tutorialDuration = AudioManager.instance.reproduce_concrete_tutorial(8, 8);
             _tutorialPart = 5;
         } else if ((_tutorialPart == 5) && (_timePassed > _tutorialDuration)) {
 
-            reproduceBlocks(true);
-            _tutorialPart = 6;
+            _loopCounter ++;
+            if (_loopCounter == 2){
+                _tutorialPart =6;
+                _loopCounter =0;
+            }
+            reproduceBlocks(true, true);
+            //_tutorialPart = 6;
         } else if ((_tutorialPart == 6) && (_timePassed > _tutorialDuration)) {
 
             _timePassed = 0;
@@ -70,11 +83,11 @@ public class ConcreteTutorial extends AbstractGameScreen {
             _tutorialPart = 7;
         } else if ((_tutorialPart == 7) && (_timePassed > _tutorialDuration && (_knockCounter < _tutorialAuxNumber))) {
             //game.goToNextScreen();
-            reproduceBlocks(false);
+            reproduceBlocks(false, true);
             AudioManager.instance.readNumberWithFeedback(_tutorialAuxNumber, 0.3f);
             _tutorialPart =8;
-            //tutorialDuration =t_aux_number* Constants.READ_ONE_UNIT_DURATION + Constants.WAIT_AFTER_KNOCK + t_aux_number * 0.3f;
 
+            //tutorialDuration =t_aux_number* Constants.READ_ONE_UNIT_DURATION + Constants.WAIT_AFTER_KNOCK + t_aux_number * 0.3f;
 
         } else if ((_tutorialPart == 8) && (_timePassed > _tutorialDuration && (_knockCounter <_tutorialAuxNumber))) {
 
@@ -84,7 +97,7 @@ public class ConcreteTutorial extends AbstractGameScreen {
         }
         else if ((_tutorialPart == 9) && (_timePassed > _tutorialDuration && (_knockCounter < _tutorialAuxNumber))) {
 
-            reproduceBlocks(false);
+            reproduceBlocks(false, true);
             AudioManager.instance.readNumberWithFeedback(_tutorialAuxNumber, 0.3f);
             _tutorialDuration =_tutorialAuxNumber* Constants.READ_ONE_UNIT_DURATION + Constants.WAIT_AFTER_KNOCK + _tutorialAuxNumber * 0.3f;
             _timePassed = 0;
@@ -107,12 +120,12 @@ public class ConcreteTutorial extends AbstractGameScreen {
         }
 
         else if (_tutorialPart == 1){
-            reproduceBlocks(false);
+            reproduceBlocks(false, false);
         }
     }
 
 
-    private void reproduceBlocks(boolean add_adicional){
+    private void reproduceBlocks(boolean add_adicional, boolean isFeedBackWithNumber){
 
         ArrayList<Integer>  nowDetected = new ArrayList<>();
         nowDetected.add((_tutorialAuxNumber));
@@ -121,12 +134,19 @@ public class ConcreteTutorial extends AbstractGameScreen {
             nowDetected.add((4));
         }
 
-        AudioManager.instance.readBlocks(nowDetected, 0);
+        if (isFeedBackWithNumber) {
+            AudioManager.instance.readNumberWithMagicFeedback(nowDetected, 0.3f);
+        }
+        else{
+            AudioManager.instance.readBlocks(nowDetected, 0);
+        }
+//-
         _timePassed = 0;
         _tutorialDuration =0;
         for (int i = 0; i < nowDetected.size(); i++) {
             _tutorialDuration = _tutorialDuration + nowDetected.get(i);
         }
+
     }
 
 
