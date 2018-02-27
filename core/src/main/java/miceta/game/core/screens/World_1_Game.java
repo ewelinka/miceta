@@ -45,6 +45,7 @@ public class World_1_Game extends AbstractGameScreen {
         stage = new Stage(new FitViewport(viewportWidth, viewportHeight));
 
         worldController = new CvWorldController(game,stage, FeedbackSoundType.KNOCK, Assets.instance.sounds.knockTooFew, Assets.instance.sounds.knockTooMuch);
+        worldController.setGameNumber(1);
 
         shapeRenderer = new ShapeRenderer();
         fd = new FeedbackDrawManager();
@@ -83,9 +84,7 @@ public class World_1_Game extends AbstractGameScreen {
                 setColorFromValue(block.getValue());
 
                 fd.setShapeRenderer(shapeRenderer, block, shiftX,shiftY);
-
             }
-
         }
 
         shapeRenderer.end();

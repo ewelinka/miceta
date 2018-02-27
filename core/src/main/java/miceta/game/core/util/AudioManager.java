@@ -39,6 +39,8 @@ public class AudioManager {
     private Sound tooMuchErrorSound, tooFewErrorSound,finalFeedback, introSound;
     private ArrayList<Sound> positiveFeedback;
     private ArrayList<ArrayList<Integer>>  positivesIndex = new ArrayList<ArrayList<Integer>>();
+    private int  numberToPlay =0;
+    private boolean isWithNumber = false;
 
 
     private AudioManager () { }
@@ -51,6 +53,12 @@ public class AudioManager {
         readBlocksAction = new SequenceAction(); // for detected blocks reading
         readTutorialAction = new SequenceAction();
         readBlockDuration = Constants.READ_ONE_UNIT_DURATION;
+    }
+
+
+    public void setNumberToPlayAndIsWithNumber(int number, boolean toPlay){
+        numberToPlay = number;
+        isWithNumber = toPlay;
     }
 
     public void play (Sound sound) {
@@ -384,7 +392,7 @@ public class AudioManager {
 
                 Sound whichSound = Assets.instance.sounds.oneDo;
 
-                 playWithoutInterruption(Assets.instance.sounds.knock); // TODO change when we have drop sound
+                playWithoutInterruption(Assets.instance.sounds.knock); // TODO change when we have drop sound
 
             }
         }));
@@ -467,7 +475,7 @@ public class AudioManager {
     }
 
     public void readAllFeedbacks(ArrayList<Integer> toReadNums, int numToBuild, float extraDelayBetweenFeedback){
-            //readFeedbackAndBlocksAndYuju(toReadNums,numToBuild);
+        //readFeedbackAndBlocksAndYuju(toReadNums,numToBuild);
         readFeedbackAndBlocks(toReadNums, numToBuild, extraDelayBetweenFeedback);
 
     }
@@ -477,10 +485,10 @@ public class AudioManager {
     }
 
     void inicializatePositiveIndex(){
-            for (int i =0; i < 5; i++){
-                ArrayList<Integer> temp = new ArrayList<Integer>();
-                positivesIndex.add(temp);
-            }
+        for (int i =0; i < 5; i++){
+            ArrayList<Integer> temp = new ArrayList<Integer>();
+            positivesIndex.add(temp);
+        }
     }
 
 
@@ -622,7 +630,7 @@ public class AudioManager {
             }));
             delay_quit = false;
             delay_add = false;
-         }
+        }
 
         reader.addAction(parallel(readBlocksAction,readFeedbackAction)); // we read feedback and the blocks in parallel
     }
@@ -763,8 +771,8 @@ public class AudioManager {
 
             for(int j = 0; j < nowDetected.get(i); j++)
             {
-            counter++;
-            readSingleFeedbackWithNumber(counter, readFeedbackAction, extraDelayBetweenFeedback, feedbackSound); // we start with 1
+                counter++;
+                readSingleFeedbackWithNumber(counter, readFeedbackAction, extraDelayBetweenFeedback, feedbackSound); // we start with 1
             }
         }
 
@@ -788,6 +796,12 @@ public class AudioManager {
     private SequenceAction createReadBlocksAction(SequenceAction readBlocksAction, ArrayList<Integer> toReadNums, float extraDelayBetweenFeedback){
         readBlocksAction.reset();
         boolean firstNote;
+
+        if(isWithNumber) {
+            readBlocksAction = playNumber(numberToPlay, readBlocksAction);
+            readFeedbackAction.addAction(delay(Constants.READ_NUMBER_DURATION));
+        }
+
         for(int i = 0; i<toReadNums.size();i++) { // if we have detected block 3 and block 2, we have to read 3 times "mi" and 2 time "re"
             int val = toReadNums.get(i); // val will be 3 and than 2
             firstNote = true; // first note should be lauder
@@ -818,7 +832,7 @@ public class AudioManager {
         float duration_total =  0;
 
         readTutorialAction.reset();
-     //   for (int i = 0; i < SoundsToReproduce.size(); i++){
+        //   for (int i = 0; i < SoundsToReproduce.size(); i++){
         for (int i = start; i <= end; i++){
             float soundDuration = Assets.instance.getSoundDuration(soundsToReproduce.get(i));
             duration_total = duration_total + soundDuration;
@@ -962,7 +976,7 @@ public class AudioManager {
                 Assets.instance.sounds.ingredientsLess.stop();
                 Assets.instance.sounds.ingredientsMore.stop();
                 Assets.instance.sounds.ingredientsPositive_1.stop();
-               break;
+                break;
             case GAME_MIXING:
                 Assets.instance.sounds.mixingIntro.stop();
                 Assets.instance.sounds.mixingTooFew.stop();

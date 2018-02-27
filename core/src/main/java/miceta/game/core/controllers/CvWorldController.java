@@ -40,8 +40,8 @@ public class CvWorldController {
     protected boolean answerRight;
     private int error_min = 0;
     private int error_max = 0;
+    private int gameNumber =0;
     protected float inactivityTime =0; // time that passed since last move
-
     protected int currentSum=0;
     protected int lastSum=0;
     protected float timeToWait, timePassed;
@@ -69,6 +69,7 @@ public class CvWorldController {
         // yuju by default
 
        // Assets.instance.sounds.positivesFeedbacks.add(Assets.instance.sounds.yuju);
+
         this(game,stage,feedbackSound, Assets.instance.sounds.newblock, Assets.instance.sounds.positivesFeedbacks, tooFewErrorSound, tooMuchErrorSound ,Assets.instance.sounds.yuju );
     }
 
@@ -115,7 +116,10 @@ public class CvWorldController {
     protected void init(){
         numberToPlay = LevelsManager.getInstance().get_number_to_play();
         setDelayForPositiveFeedback();
-        AudioManager.instance.readFeedback(numberToPlay, extraDelayBetweenFeedback); //first we read the random number
+
+
+            AudioManager.instance.readFeedback(numberToPlay, extraDelayBetweenFeedback); //first we read the random number
+
         timeToWait = Constants.READ_ONE_UNIT_DURATION+ numberToPlay*Constants.READ_ONE_UNIT_DURATION + waitAfterKnock /*+ ( randomNumber)*(0.3f)*/; // time we should wait before next loop starts
         answerRight = false;
     }
@@ -128,6 +132,7 @@ public class CvWorldController {
         maxErrorsForHint = Constants.ERRORS_FOT_HINT;
         willGoToNextPart = false;
         feedbackDelay = (Assets.instance.getSoundDuration(this.tooFewErrorSound) > Assets.instance.getSoundDuration(this.tooMuchErrorSound)) ? Assets.instance.getSoundDuration(this.tooFewErrorSound) : Assets.instance.getSoundDuration(this.tooMuchErrorSound);
+
 
     }
 
@@ -148,6 +153,8 @@ public class CvWorldController {
         updateCV();
 
         if(isTimeToStartNewLoop()){
+            Gdx.app.log(TAG,"GAME NUMBER " + gameNumber);
+
             Gdx.app.log(TAG,"isTimeToStartNewLoop and willGoToNextPart "+willGoToNextPart);
             if(!willGoToNextPart) {
                 timePassed = 0; // start to count the time
@@ -186,7 +193,18 @@ public class CvWorldController {
     }
 
     protected void reproduceAllFeedbacks(ArrayList<Integer> nowDetected, int numberToPlay ){
+
+        if (gameNumber == 1)
+        {
+            AudioManager.instance.setNumberToPlayAndIsWithNumber(numberToPlay, true);
+        }
+        else
+        {
+            AudioManager.instance.setNumberToPlayAndIsWithNumber(numberToPlay, false);
+        }
+
         AudioManager.instance.readAllFeedbacks(nowDetected, numberToPlay, extraDelayBetweenFeedback);
+
     }
 
     protected void onCorrectAnswer(){
@@ -385,4 +403,7 @@ public class CvWorldController {
         game.goToNextScreen();
     }
 
+    public void setGameNumber(int number){
+        gameNumber = number;
+    }
 }
