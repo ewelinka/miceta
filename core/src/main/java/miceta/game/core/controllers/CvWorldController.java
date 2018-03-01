@@ -58,6 +58,7 @@ public class CvWorldController {
     protected float delayForPositiveFeedback;
     protected int correctAnswersNow;
     protected int correctAnswersNeeded;
+    private float readNumberDelay;
 
 
     public CvWorldController(miCeta game, Stage stage){
@@ -66,10 +67,6 @@ public class CvWorldController {
         this(game,stage,FeedbackSoundType.KNOCK, Assets.instance.sounds.newblock, Assets.instance.sounds.positivesFeedbacks, Assets.instance.sounds.addblock, Assets.instance.sounds.quitblock, Assets.instance.sounds.yuju);
     }
     public CvWorldController(miCeta game, Stage stage, FeedbackSoundType feedbackSound,  Sound tooFewErrorSound, Sound tooMuchErrorSound){
-        // yuju by default
-
-       // Assets.instance.sounds.positivesFeedbacks.add(Assets.instance.sounds.yuju);
-
         this(game,stage,feedbackSound, Assets.instance.sounds.newblock, Assets.instance.sounds.positivesFeedbacks, tooFewErrorSound, tooMuchErrorSound ,Assets.instance.sounds.yuju );
     }
 
@@ -130,7 +127,7 @@ public class CvWorldController {
         maxErrorsForHint = Constants.ERRORS_FOT_HINT;
         willGoToNextPart = false;
         feedbackDelay = (Assets.instance.getSoundDuration(this.tooFewErrorSound) > Assets.instance.getSoundDuration(this.tooMuchErrorSound)) ? Assets.instance.getSoundDuration(this.tooFewErrorSound) : Assets.instance.getSoundDuration(this.tooMuchErrorSound);
-
+        readNumberDelay = 0;
 
     }
 
@@ -189,18 +186,10 @@ public class CvWorldController {
     }
 
     protected void reproduceAllFeedbacks(ArrayList<Integer> nowDetected, int numberToPlay ){
-
-        if (gameNumber == 1)
-        {
-            AudioManager.instance.setNumberToPlayAndIsWithNumber(numberToPlay, true);
-        }
+        if(gameNumber==1)
+            AudioManager.instance.readNumberAndAllFeedbacks(nowDetected, numberToPlay, extraDelayBetweenFeedback);
         else
-        {
-            AudioManager.instance.setNumberToPlayAndIsWithNumber(numberToPlay, false);
-        }
-
-        AudioManager.instance.readAllFeedbacks(nowDetected, numberToPlay, extraDelayBetweenFeedback);
-
+            AudioManager.instance.readAllFeedbacks(nowDetected, numberToPlay, extraDelayBetweenFeedback);
     }
 
     protected void onCorrectAnswer(){
@@ -217,18 +206,27 @@ public class CvWorldController {
 
     protected float calculateTimeToWait( int currentSum, int numberToPlay){
         int biggerNumber =  (currentSum > numberToPlay) ? currentSum : numberToPlay;
-        float currentTimeToWait = biggerNumber * (Constants.READ_ONE_UNIT_DURATION + extraDelayBetweenFeedback)+ waitAfterKnock;
 
+        float currentTimeToWait = readNumberDelay + biggerNumber * (Constants.READ_ONE_UNIT_DURATION + extraDelayBetweenFeedback)+ waitAfterKnock;
         return currentTimeToWait;
 
     }
 
     protected void reproduceAllFeedbacksAndPositive(ArrayList<Integer> nowDetected, int numberToPlay ){
-        AudioManager.instance.readAllFeedbacksAndPositive(nowDetected, numberToPlay, extraDelayBetweenFeedback);
+        if(gameNumber==1){
+            AudioManager.instance.readNumberAllFeedbacksAndPositive(nowDetected, numberToPlay, extraDelayBetweenFeedback);
+        }
+        else{
+            AudioManager.instance.readAllFeedbacksAndPositive(nowDetected, numberToPlay, extraDelayBetweenFeedback);
+        }
     }
 
     protected void reproduceAllFeedbacksAndFinal(ArrayList<Integer> nowDetected, int numberToPlay ){
-        AudioManager.instance.readAllFeedbacksAndFinal(nowDetected, numberToPlay, extraDelayBetweenFeedback);
+        // TODO ig game 1 we read the number
+        if(gameNumber==1)
+            AudioManager.instance.readNumberAllFeedbacksAndFinal(nowDetected, numberToPlay, extraDelayBetweenFeedback);
+        else
+            AudioManager.instance.readAllFeedbacksAndFinal(nowDetected, numberToPlay, extraDelayBetweenFeedback);
     }
 
 
@@ -400,6 +398,8 @@ public class CvWorldController {
     }
 
     public void setGameNumber(int number){
+        if(number == 1)
+            readNumberDelay = Constants.READ_NUMBER_DURATION;
         gameNumber = number;
     }
 }

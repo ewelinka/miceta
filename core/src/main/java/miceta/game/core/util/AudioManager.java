@@ -57,11 +57,6 @@ public class AudioManager {
     }
 
 
-    public void setNumberToPlayAndIsWithNumber(int number, boolean toPlay){
-        numberToPlay = number;
-        isWithNumber = toPlay;
-    }
-
     public void play (Sound sound) {
         play(sound, 1);
     }
@@ -153,8 +148,6 @@ public class AudioManager {
 
 
     public void playNewBlockSong()  {
-
-
         nb_sound.play(defaultVolSound);
     }
 
@@ -485,6 +478,12 @@ public class AudioManager {
 
     }
 
+    public void readNumberAndAllFeedbacks(ArrayList<Integer> toReadNums, int numToBuild, float extraDelayBetweenFeedback){
+        //readFeedbackAndBlocksAndYuju(toReadNums,numToBuild);
+        readNumberFeedbackAndBlocks(toReadNums, numToBuild, extraDelayBetweenFeedback);
+
+    }
+
     public void readAllFeedbacksAndPositive(ArrayList<Integer> toReadNums, int numToBuild, float extraDelayBetweenFeedback){
         readFeedbackAndBlocksAndPositive(toReadNums,numToBuild, extraDelayBetweenFeedback);
     }
@@ -494,7 +493,7 @@ public class AudioManager {
     Sound getPositiveSound(ArrayList<Sound> positives){
         if(positives.size()>1){
             int rand = MathUtils.random(0, positives.size() -1);
-            while (rand != currentPositiveIndex){
+            while (rand == currentPositiveIndex){
                 rand = MathUtils.random(0, positives.size() -1);
 
             }
@@ -527,6 +526,24 @@ public class AudioManager {
         readFeedbackAction.addAction(run(new Runnable() {
             public void run() {
                 playWithoutInterruption(ingredientSound); //after correct answer comes "yuju"
+            }
+        }));
+
+        reader.addAction(parallel(readBlocksAction,readFeedbackAction)); // we read feedback and the blocks in parallel
+    }
+
+    public void readNumberAllFeedbacksAndFinal(ArrayList<Integer> toReadNums, int numToBuild, float extraDelayBetweenFeedback) {
+        reader.clearActions();
+        /////// blocks
+        readBlocksAction = createReadNumberAndBlocksAction(readBlocksAction, toReadNums, extraDelayBetweenFeedback);
+        /////////// feedback
+        readFeedbackAction = createReadNumberFeedbackAction(readFeedbackAction, numToBuild, extraDelayBetweenFeedback);
+
+
+        final Sound finalSound = this.finalFeedback;
+        readFeedbackAction.addAction(run(new Runnable() {
+            public void run() {
+                playWithoutInterruption(finalSound); //after correct answer comes "yuju"
             }
         }));
 
@@ -569,6 +586,40 @@ public class AudioManager {
 
         /////////// feedback
         readFeedbackAction = createReadFeedbackAction(readFeedbackAction, numToBuild, extraDelayBetweenFeedback);
+        if(delay_quit){
+            readFeedbackAction.addAction(run(new Runnable() {
+                public void run() {
+                    playQuitOrAddBlock(1);
+                }
+
+
+            }));
+            delay_quit = false;
+            delay_add = false;
+        }
+
+        reader.addAction(parallel(readBlocksAction,readFeedbackAction)); // we read feedback and the blocks in parallel
+    }
+
+    private void readNumberFeedbackAndBlocks(ArrayList<Integer> toReadNums, int numToBuild, float extraDelayBetweenFeedback){
+        reader.clearActions();
+        /////// blocks
+        readBlocksAction = createReadNumberAndBlocksAction (readBlocksAction, toReadNums, extraDelayBetweenFeedback);
+
+
+        if(delay_add){
+            readBlocksAction.addAction(run(new Runnable() {
+                public void run() {
+                    playQuitOrAddBlock(0);
+                }
+            }));
+            delay_quit = false;
+            delay_add = false;
+        }
+
+        /////////// feedback
+        readFeedbackAction = createReadNumberFeedbackAction(readFeedbackAction, numToBuild, extraDelayBetweenFeedback);
+
         if(delay_quit){
             readFeedbackAction.addAction(run(new Runnable() {
                 public void run() {
@@ -634,19 +685,6 @@ public class AudioManager {
         reader.addAction(readFeedbackAction);
     }
 
-    public void readNumberAndFeedback( int numToBuild, float extraDelayBetweenFeedback){ // we use this action at the beginning of new screen, we read feedback without blocks
-        reader.clearActions();
-        readFeedbackAction.reset();
-        // first read number then knocks
-        readFeedbackAction.addAction(delay(Constants.READ_ONE_UNIT_DURATION)); // wait before start read feedback
-        readFeedbackAction = playNumber(numToBuild,readFeedbackAction);
-        readFeedbackAction.addAction(delay(Constants.READ_NUMBER_DURATION)); // wait to finish read the number
-        readFeedbackAction = addToReadFeedbackInSpace(numToBuild, readFeedbackAction, extraDelayBetweenFeedback);
-        // first read with small delay at the beginning
-        reader.addAction(readFeedbackAction);
-    }
-
-
 
     public void readNumberWithFeedback( int numToBuild, float extraDelayBetweenFeedback){ // we use this action at the beginning of new screen, we read feedback without blocks
         reader.clearActions();
@@ -663,6 +701,60 @@ public class AudioManager {
         // readFeedbackAction = addToReadFeedbackInSpace(numToBuild, readFeedbackAction, extraDelayBetweenFeedback);
         // first read with small delay at the beginning
         reader.addAction(readFeedbackAction);
+    }
+
+    public SequenceAction createReadNumberAndBlocksAction(SequenceAction readBlocksAction, ArrayList<Integer> toReadNums, float extraDelayBetweenFeedback){ // we use this action at the beginning of new screen, we read feedback without blocks
+        readBlocksAction.reset();
+        readBlocksAction.addAction(delay(Constants.READ_NUMBER_DURATION));
+        boolean firstNote;
+
+        for(int i = 0; i<toReadNums.size();i++) { // if we have detected block 3 and block 2, we have to read 3 times "mi" and 2 time "re"
+            int val = toReadNums.get(i); // val will be 3 and than 2
+            firstNote = true; // first note should be lauder
+            for(int j = 0; j<val;j++) {
+                addToReadBlock(val, readBlocksAction, firstNote, extraDelayBetweenFeedback); // one single lecture
+                firstNote = false;
+            }
+        }
+        return readBlocksAction;
+    }
+
+    public void readNumberAllFeedbacksAndPositive(ArrayList<Integer> toReadNums, int numToBuild, float extraDelayBetweenFeedback){
+        reader.clearActions();
+        /////// blocks
+        readBlocksAction = createReadNumberAndBlocksAction (readBlocksAction, toReadNums, extraDelayBetweenFeedback);
+        /////////// feedback
+        readFeedbackAction = createReadNumberFeedbackAction(readFeedbackAction, numToBuild, extraDelayBetweenFeedback);
+
+        final Sound positiveNow = getPositiveSound(this.positiveFeedback);
+
+        readFeedbackAction.addAction(run(new Runnable() {
+            public void run() {
+                playWithoutInterruption(positiveNow); //after correct answer comes positive feedback
+            }
+        }));
+
+        reader.addAction(parallel(readBlocksAction,readFeedbackAction)); // we read feedback and the blocks in parallel
+    }
+
+
+
+    public SequenceAction createReadNumberFeedbackAction( SequenceAction readFeedbackAction, int numToBuild, float extraDelayBetweenFeedback){ // we use this action at the beginning of new screen, we read feedback without blocks
+        readFeedbackAction.reset();
+        // first read number then knocks
+        // first read number then knocks
+        readFeedbackAction = playNumber(numToBuild,readFeedbackAction);
+        readFeedbackAction.addAction(delay(Constants.READ_NUMBER_DURATION)); // wait to finish read the number
+        readFeedbackAction = addToReadFeedbackInSpace(numToBuild, readFeedbackAction, extraDelayBetweenFeedback);
+        // first read with small delay at the beginning
+//        reader.addAction(readFeedbackAction);
+//
+//
+//        readFeedbackAction.addAction(delay(Constants.READ_NUMBER_DURATION)); // wait before start read feedback
+//        for(int i = 1; i<=numToBuild;i++){ // if the number is 5 we have to knock 5 times
+//            readSingleKnockWithNumber(i, readFeedbackAction, extraDelayBetweenFeedback); // we start with 1
+//        }
+        return readFeedbackAction;
     }
 
     private Sound getFeedbackSound(int number){
@@ -727,14 +819,6 @@ public class AudioManager {
 
         reader.addAction(readFeedbackAction);
     }
-
-
-
-
-
-
-
-
 
     public void readBlocks(ArrayList<Integer> toReadNums, float extraDelayBetweenFeedback){
         reader.clearActions();
