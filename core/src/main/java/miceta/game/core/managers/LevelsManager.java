@@ -105,9 +105,20 @@ public class LevelsManager {
         GamePreferences.instance.setLast_level(level);
         GamePreferences.instance.setOperation_index(operation_index);
         GamePreferences.instance.save();
-
         currentLevelParams = loadLevelParams(level);
     }
+
+
+     public void LevelAndLoadParams(){
+
+         GamePreferences.instance.setLast_level(level);
+         GamePreferences.instance.setOperation_index(operation_index);
+         GamePreferences.instance.save();
+         currentLevelParams = loadLevelParams(level);
+     }
+
+
+
 
     public int get_number_to_play(){
         return currentLevelParams.operations[operation_index];
