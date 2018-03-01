@@ -925,6 +925,7 @@ public class AudioManager {
 
 
     private Sound getIngredientFromIndex(int ingredientIndex){
+        ingredientIndex = ingredientIndex%6 +1;
         switch(ingredientIndex){
             case 1:
                 return Assets.instance.sounds.ingredientsCat;
