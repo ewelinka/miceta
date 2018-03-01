@@ -40,8 +40,8 @@ public class CvWorldController {
     protected boolean answerRight;
     private int error_min = 0;
     private int error_max = 0;
+    private int gameNumber =0;
     protected float inactivityTime =0; // time that passed since last move
-
     protected int currentSum=0;
     protected int lastSum=0;
     protected float timeToWait, timePassed;
@@ -49,7 +49,8 @@ public class CvWorldController {
     protected float extraDelayBetweenFeedback;
     protected float feedbackDelay;
     protected float waitAfterKnock;
-    protected Sound tooMuchErrorSound, tooFewErrorSound, positiveFeedback, finalFeedback, introSound;
+    protected Sound tooMuchErrorSound, tooFewErrorSound, finalFeedback, introSound;
+    protected ArrayList<Sound>  positiveFeedback;
     protected FeedbackSoundType feedbackSound;
     protected int inactivityLimit;
     protected int maxErrorsForHint;
@@ -57,19 +58,19 @@ public class CvWorldController {
     protected float delayForPositiveFeedback;
     protected int correctAnswersNow;
     protected int correctAnswersNeeded;
+    private float readNumberDelay;
 
 
     public CvWorldController(miCeta game, Stage stage){
         // knock by default
         // too much and too many default values
-        this(game,stage,FeedbackSoundType.KNOCK, Assets.instance.sounds.newblock, Assets.instance.sounds.yuju, Assets.instance.sounds.addblock, Assets.instance.sounds.quitblock, Assets.instance.sounds.yuju);
+        this(game,stage,FeedbackSoundType.KNOCK, Assets.instance.sounds.newblock, Assets.instance.sounds.positivesFeedbacks, Assets.instance.sounds.addblock, Assets.instance.sounds.quitblock, Assets.instance.sounds.yuju);
     }
     public CvWorldController(miCeta game, Stage stage, FeedbackSoundType feedbackSound,  Sound tooFewErrorSound, Sound tooMuchErrorSound){
-        // yuju by default
-        this(game,stage,feedbackSound, Assets.instance.sounds.newblock, Assets.instance.sounds.yuju, tooFewErrorSound, tooMuchErrorSound ,Assets.instance.sounds.yuju );
+        this(game,stage,feedbackSound, Assets.instance.sounds.newblock, Assets.instance.sounds.positivesFeedbacks, tooFewErrorSound, tooMuchErrorSound ,Assets.instance.sounds.yuju );
     }
 
-    public CvWorldController(miCeta game, Stage stage, FeedbackSoundType feedbackSound, Sound introSound, Sound positiveFeedback, Sound tooFewErrorSound,  Sound tooMuchErrorSound, Sound finalFeedback) {
+    public CvWorldController(miCeta game, Stage stage, FeedbackSoundType feedbackSound, Sound introSound, ArrayList<Sound> positiveFeedback, Sound tooFewErrorSound,  Sound tooMuchErrorSound, Sound finalFeedback) {
         this.game = game;
         this.stage = stage;
         this.feedbackSound = feedbackSound;
@@ -95,11 +96,12 @@ public class CvWorldController {
     }
 
     protected void initCustomSounds(){
+        Gdx.app.log(TAG,"init custom sounds!!!");
         AudioManager.instance.setCustomSound(tooFewErrorSound, TOO_FEW);
         AudioManager.instance.setCustomSound(tooMuchErrorSound, TOO_MUCH);
-        AudioManager.instance.setCustomSound(positiveFeedback, POSITIVE);
         AudioManager.instance.setCustomSound(finalFeedback, FINAL);
         AudioManager.instance.setCustomSound(introSound, INTRO);
+        AudioManager.instance.setCustomSoundArray(POSITIVE, positiveFeedback);
         AudioManager.instance.setFeedbackSoundType(feedbackSound);
 
     }
@@ -125,6 +127,7 @@ public class CvWorldController {
         maxErrorsForHint = Constants.ERRORS_FOT_HINT;
         willGoToNextPart = false;
         feedbackDelay = (Assets.instance.getSoundDuration(this.tooFewErrorSound) > Assets.instance.getSoundDuration(this.tooMuchErrorSound)) ? Assets.instance.getSoundDuration(this.tooFewErrorSound) : Assets.instance.getSoundDuration(this.tooMuchErrorSound);
+        readNumberDelay = 0;
 
     }
 
@@ -183,7 +186,10 @@ public class CvWorldController {
     }
 
     protected void reproduceAllFeedbacks(ArrayList<Integer> nowDetected, int numberToPlay ){
-        AudioManager.instance.readAllFeedbacks(nowDetected, numberToPlay, extraDelayBetweenFeedback);
+        if(gameNumber==1)
+            AudioManager.instance.readNumberAndAllFeedbacks(nowDetected, numberToPlay, extraDelayBetweenFeedback);
+        else
+            AudioManager.instance.readAllFeedbacks(nowDetected, numberToPlay, extraDelayBetweenFeedback);
     }
 
     protected void onCorrectAnswer(){
@@ -200,18 +206,27 @@ public class CvWorldController {
 
     protected float calculateTimeToWait( int currentSum, int numberToPlay){
         int biggerNumber =  (currentSum > numberToPlay) ? currentSum : numberToPlay;
-        float currentTimeToWait = biggerNumber * (Constants.READ_ONE_UNIT_DURATION + extraDelayBetweenFeedback)+ waitAfterKnock;
 
+        float currentTimeToWait = readNumberDelay + biggerNumber * (Constants.READ_ONE_UNIT_DURATION + extraDelayBetweenFeedback)+ waitAfterKnock;
         return currentTimeToWait;
 
     }
 
     protected void reproduceAllFeedbacksAndPositive(ArrayList<Integer> nowDetected, int numberToPlay ){
-        AudioManager.instance.readAllFeedbacksAndPositive(nowDetected, numberToPlay, extraDelayBetweenFeedback);
+        if(gameNumber==1){
+            AudioManager.instance.readNumberAllFeedbacksAndPositive(nowDetected, numberToPlay, extraDelayBetweenFeedback);
+        }
+        else{
+            AudioManager.instance.readAllFeedbacksAndPositive(nowDetected, numberToPlay, extraDelayBetweenFeedback);
+        }
     }
 
     protected void reproduceAllFeedbacksAndFinal(ArrayList<Integer> nowDetected, int numberToPlay ){
-        AudioManager.instance.readAllFeedbacksAndFinal(nowDetected, numberToPlay, extraDelayBetweenFeedback);
+        // TODO ig game 1 we read the number
+        if(gameNumber==1)
+            AudioManager.instance.readNumberAllFeedbacksAndFinal(nowDetected, numberToPlay, extraDelayBetweenFeedback);
+        else
+            AudioManager.instance.readAllFeedbacksAndFinal(nowDetected, numberToPlay, extraDelayBetweenFeedback);
     }
 
 
@@ -373,7 +388,8 @@ public class CvWorldController {
     }
 
     protected void setDelayForPositiveFeedback(){
-        delayForPositiveFeedback = Assets.instance.getSoundDuration(this.positiveFeedback);
+        //- cambiar mas adelante
+        delayForPositiveFeedback = Assets.instance.getSoundDuration(this.positiveFeedback.get(0));
     }
 
     protected void goToNextLevel(){
@@ -381,4 +397,9 @@ public class CvWorldController {
         game.goToNextScreen();
     }
 
+    public void setGameNumber(int number){
+        if(number == 1)
+            readNumberDelay = Constants.READ_NUMBER_DURATION;
+        gameNumber = number;
+    }
 }

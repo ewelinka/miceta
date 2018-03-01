@@ -87,23 +87,27 @@ public class RepresentationMapper {
                 break;
             case ORGANIC_TUTORIAL1:
                 gameScreen.screenName = ScreenName.ORGANIC_TUTORIAL1;
-                gameScreen.intro = Assets.instance.sounds.tmm1_final;
-                gameScreen.positive = Assets.instance.sounds.tmm1_positive;
-                gameScreen.tooFew = Assets.instance.sounds.tmm1_tooFew;
-                gameScreen.tooMuch = Assets.instance.sounds.tmm1_tooMuch;
-                gameScreen.finalSound = Assets.instance.sounds.tada;
+                gameScreen.intro = Assets.instance.sounds.tmm1_firstPositive;
+                gameScreen.positives = Assets.instance.sounds.positivesTutorial;
+                gameScreen.tooFew = Assets.instance.sounds.tmm1_tooFew_1;
+                gameScreen.tooMuch = Assets.instance.sounds.tmm1_tooMuch_1;
+                gameScreen.finalSound = Assets.instance.sounds.tmm1_final;
                 gameScreen.feedbackSoundType = FeedbackSoundType.KNOCK;
+
                 break;
             case GAME_KNOCK:
                 gameScreen.screenName = ScreenName.GAME_KNOCK;
+                gameScreen.positives = Assets.instance.sounds.positivesKnock;
+
                 break;
             case GAME_INGREDIENTS:
                 gameScreen.screenName = ScreenName.GAME_INGREDIENTS;
+                gameScreen.positives = Assets.instance.sounds.positivesIngredients;
                 break;
             case GAME_MIXING:
                 gameScreen.screenName = ScreenName.GAME_MIXING;
                 gameScreen.intro = Assets.instance.sounds.mixingIntro;
-                gameScreen.positive = Assets.instance.sounds.mixingPositive;
+                gameScreen.positives = Assets.instance.sounds.positivesMixing;
                 gameScreen.tooFew = Assets.instance.sounds.mixingTooFew;
                 gameScreen.tooMuch = Assets.instance.sounds.mixingTooMuch;
                 gameScreen.finalSound = Assets.instance.sounds.mixingFinal;
@@ -111,8 +115,12 @@ public class RepresentationMapper {
                 break;
             case GAME_MUSIC:
                 gameScreen.screenName = ScreenName.GAME_MUSIC;
-                gameScreen.intro = Assets.instance.sounds.musicIntro;
-                gameScreen.positive = Assets.instance.sounds.musicPositive;
+                gameScreen.intro = Assets.instance.sounds.musicIntro_1; //hay que unir las intro!
+               // gameScreen.intro = Assets.instance.sounds.musicIntro_2;
+                //gameScreen.positives = Assets.instance.sounds.musicPositive_1;
+                //gameScreen.positives = Assets.instance.sounds.musicPositive_2;
+                //gameScreen.positives = Assets.instance.sounds.musicPositive_3;
+                gameScreen.positives =Assets.instance.sounds.positivesMusic;
                 gameScreen.tooFew = Assets.instance.sounds.musicTooFew;
                 gameScreen.tooMuch = Assets.instance.sounds.musicTooMuch;
                 gameScreen.finalSound = Assets.instance.sounds.musicFinal;
@@ -121,14 +129,12 @@ public class RepresentationMapper {
             case GAME_BELL:
                 gameScreen.screenName = ScreenName.GAME_BELL;
                 gameScreen.intro = Assets.instance.sounds.bellIntro;
-                gameScreen.positive = Assets.instance.sounds.bellPositive;
+                gameScreen.positives = Assets.instance.sounds.positivesBell;
                 gameScreen.tooFew = Assets.instance.sounds.bellTooFew;
                 gameScreen.tooMuch = Assets.instance.sounds.bellTooMuch;
                 gameScreen.finalSound = Assets.instance.sounds.bellFinal;
                 gameScreen.feedbackSoundType = FeedbackSoundType.BELL;
-
         }
         return gameScreen;
     }
-
 }
