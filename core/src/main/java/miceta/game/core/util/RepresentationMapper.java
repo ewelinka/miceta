@@ -87,12 +87,13 @@ public class RepresentationMapper {
                 break;
             case ORGANIC_TUTORIAL1:
                 gameScreen.screenName = ScreenName.ORGANIC_TUTORIAL1;
-                gameScreen.intro = Assets.instance.sounds.tmm1_final;
+                gameScreen.intro = Assets.instance.sounds.tmm1_firstPositive;
                 gameScreen.positives = Assets.instance.sounds.positivesTutorial;
                 gameScreen.tooFew = Assets.instance.sounds.tmm1_tooFew_1;
                 gameScreen.tooMuch = Assets.instance.sounds.tmm1_tooMuch_1;
-                gameScreen.finalSound = Assets.instance.sounds.tada;
+                gameScreen.finalSound = Assets.instance.sounds.tmm1_final;
                 gameScreen.feedbackSoundType = FeedbackSoundType.KNOCK;
+
                 break;
             case GAME_KNOCK:
                 gameScreen.screenName = ScreenName.GAME_KNOCK;

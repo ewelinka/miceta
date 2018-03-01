@@ -38,6 +38,7 @@ public class AudioManager {
     private FeedbackSoundType feedbackSoundType;
     private Sound tooMuchErrorSound, tooFewErrorSound,finalFeedback, introSound;
     private ArrayList<Sound> positiveFeedback;
+    private int currentPositiveIndex;
     private ArrayList<ArrayList<Integer>>  positivesIndex = new ArrayList<ArrayList<Integer>>();
     private int  numberToPlay =0;
     private boolean isWithNumber = false;
@@ -178,7 +179,7 @@ public class AudioManager {
         delay_add= true;
     }
 
-    public void setCustomSound(Sound nowSound, CommonFeedbacks soundType,  ArrayList<Sound> sounds){
+    public void setCustomSound(Sound nowSound, CommonFeedbacks soundType){
         switch (soundType){
             case TOO_MUCH:
                 this.tooMuchErrorSound = nowSound;
@@ -186,16 +187,20 @@ public class AudioManager {
             case TOO_FEW:
                 this.tooFewErrorSound = nowSound;
                 break;
-            case POSITIVE:
-                this.positiveFeedback = sounds;
-                break;
             case FINAL:
                 this.finalFeedback = nowSound;
             case INTRO:
                 this.introSound = nowSound;
                 break;
+        }
+    }
 
-
+    public void setCustomSoundArray(CommonFeedbacks soundType,  ArrayList<Sound> sounds){
+        switch (soundType){
+            case POSITIVE:
+                this.positiveFeedback = sounds;
+                currentPositiveIndex = 0;
+                break;
         }
     }
 
@@ -484,74 +489,18 @@ public class AudioManager {
         readFeedbackAndBlocksAndPositive(toReadNums,numToBuild, extraDelayBetweenFeedback);
     }
 
-    void inicializatePositiveIndex(){
-        for (int i =0; i < 5; i++){
-            ArrayList<Integer> temp = new ArrayList<Integer>();
-            positivesIndex.add(temp);
-        }
-    }
 
 
     Sound getPositiveSound(ArrayList<Sound> positives){
+        if(positives.size()>1){
+            int rand = MathUtils.random(0, positives.size() -1);
+            while (rand != currentPositiveIndex){
+                rand = MathUtils.random(0, positives.size() -1);
 
-        if ((positivesIndex.size() == 0)) { //debo inicializar el array
-            inicializatePositiveIndex();
-        }
-        Sound firstPositive = positives.get(0);
-        int rand =0;
-        int lastRand =0;
-        boolean restart = false;
-
-        int index = 0;
-
-        if (firstPositive.equals(Assets.instance.sounds.ingredientsPositive_1)){
-            index = 0;
-        }
-        else
-        if (firstPositive.equals(Assets.instance.sounds.mixingPositive_1)){
-            index = 1;
-        }
-        else
-        if (firstPositive.equals(Assets.instance.sounds.knockPositive_1)){
-            index = 2;
-        }
-        else
-        if (firstPositive.equals(Assets.instance.sounds.musicPositive_1)){
-            index = 3;
-        }
-        else
-        if (firstPositive.equals(Assets.instance.sounds.tmm1_positive_1)){
-            index = 4;
-        }
-
-        int size = positives.size();
-
-        if ((positivesIndex.get(index).size() == size )){
-            restart = true;
-            lastRand = positivesIndex.get(index).get(size -1);
-            positivesIndex = new ArrayList<ArrayList<Integer>>();
-            inicializatePositiveIndex();
-        }
-
-        rand = MathUtils.random(0, positives.size() -1);
-
-        boolean temp = true;
-        while (temp){ //se le debe agregar la opcion de lastRand
-            rand = MathUtils.random(0, positives.size() -1); //Llamo hasta agregar uno nuevo.
-
-            if (!(positivesIndex.get(index).contains(rand))){
-                positivesIndex.get(index).add(rand);
-
-                if ((restart)&&(lastRand == rand)){
-                    temp = true;
-                }
-                else {
-                    temp = false;
-                    restart = false;
-                }
             }
+            currentPositiveIndex = rand;
         }
-        return  positives.get(rand);
+        return  positives.get(currentPositiveIndex);
     }
 
 
@@ -664,7 +613,7 @@ public class AudioManager {
         /////////// feedback
         readFeedbackAction = createReadFeedbackAction(readFeedbackAction, numToBuild, extraDelayBetweenFeedback);
 
-        final Sound positiveNow = getPositiveSound(this.positiveFeedback);  //cuidado con el rand
+        final Sound positiveNow = getPositiveSound(this.positiveFeedback);
 
         readFeedbackAction.addAction(run(new Runnable() {
             public void run() {
@@ -796,11 +745,6 @@ public class AudioManager {
     private SequenceAction createReadBlocksAction(SequenceAction readBlocksAction, ArrayList<Integer> toReadNums, float extraDelayBetweenFeedback){
         readBlocksAction.reset();
         boolean firstNote;
-
-        if(isWithNumber) {
-            readBlocksAction = playNumber(numberToPlay, readBlocksAction);
-            readFeedbackAction.addAction(delay(Constants.READ_NUMBER_DURATION));
-        }
 
         for(int i = 0; i<toReadNums.size();i++) { // if we have detected block 3 and block 2, we have to read 3 times "mi" and 2 time "re"
             int val = toReadNums.get(i); // val will be 3 and than 2

@@ -99,11 +99,12 @@ public class CvWorldController {
     }
 
     protected void initCustomSounds(){
-        AudioManager.instance.setCustomSound(tooFewErrorSound, TOO_FEW, null);
-        AudioManager.instance.setCustomSound(tooMuchErrorSound, TOO_MUCH, null);
-        AudioManager.instance.setCustomSound(null, POSITIVE, positiveFeedback);
-        AudioManager.instance.setCustomSound(finalFeedback, FINAL, null);
-        AudioManager.instance.setCustomSound(introSound, INTRO, null);
+        Gdx.app.log(TAG,"init custom sounds!!!");
+        AudioManager.instance.setCustomSound(tooFewErrorSound, TOO_FEW);
+        AudioManager.instance.setCustomSound(tooMuchErrorSound, TOO_MUCH);
+        AudioManager.instance.setCustomSound(finalFeedback, FINAL);
+        AudioManager.instance.setCustomSound(introSound, INTRO);
+        AudioManager.instance.setCustomSoundArray(POSITIVE, positiveFeedback);
         AudioManager.instance.setFeedbackSoundType(feedbackSound);
 
     }
@@ -116,10 +117,7 @@ public class CvWorldController {
     protected void init(){
         numberToPlay = LevelsManager.getInstance().get_number_to_play();
         setDelayForPositiveFeedback();
-
-
-            AudioManager.instance.readFeedback(numberToPlay, extraDelayBetweenFeedback); //first we read the random number
-
+        AudioManager.instance.readFeedback(numberToPlay, extraDelayBetweenFeedback); //first we read the random number
         timeToWait = Constants.READ_ONE_UNIT_DURATION+ numberToPlay*Constants.READ_ONE_UNIT_DURATION + waitAfterKnock /*+ ( randomNumber)*(0.3f)*/; // time we should wait before next loop starts
         answerRight = false;
     }
@@ -153,8 +151,6 @@ public class CvWorldController {
         updateCV();
 
         if(isTimeToStartNewLoop()){
-            Gdx.app.log(TAG,"GAME NUMBER " + gameNumber);
-
             Gdx.app.log(TAG,"isTimeToStartNewLoop and willGoToNextPart "+willGoToNextPart);
             if(!willGoToNextPart) {
                 timePassed = 0; // start to count the time
