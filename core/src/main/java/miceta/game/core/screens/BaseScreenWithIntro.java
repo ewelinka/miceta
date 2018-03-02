@@ -29,7 +29,7 @@ public class BaseScreenWithIntro extends BaseScreen {
         worldController = new CvWithIntroController(game,stage,
                 gameScreen.feedbackSoundType,
                 gameScreen.intro,
-                gameScreen.positive,
+                gameScreen.positives,
                 gameScreen.tooFew,
                 gameScreen.tooMuch,
                 gameScreen.finalSound);

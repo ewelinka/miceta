@@ -14,6 +14,8 @@ import com.badlogic.gdx.utils.ArrayMap;
 import com.badlogic.gdx.utils.Disposable;
 import miceta.game.core.util.Constants;
 
+import java.util.ArrayList;
+
 
 /**
  * Created by ewe on 8/10/17.
@@ -68,7 +70,13 @@ public class Assets implements Disposable, AssetErrorListener {
         assetManager.load("sounds/feedback/masPiezas.wav", Sound.class);
         assetManager.load("sounds/feedback/menosPiezas.wav", Sound.class);
         assetManager.load("sounds/feedback/knock.wav", Sound.class);
-
+        assetManager.load("sounds/feedback/knock_2.mp3", Sound.class);
+        assetManager.load("sounds/feedback/knock_3.mp3", Sound.class);
+        assetManager.load("sounds/feedback/bell.mp3", Sound.class);
+        assetManager.load("sounds/feedback/bell_2.mp3", Sound.class);
+        assetManager.load("sounds/feedback/bell_3.mp3", Sound.class);
+        assetManager.load("sounds/feedback/mixing.mp3", Sound.class);
+        assetManager.load("sounds/feedback/music.mp3", Sound.class);
 
         assetManager.load("sounds/concreto/1.mp3", Sound.class);
         assetManager.load("sounds/concreto/2.mp3", Sound.class);
@@ -79,53 +87,70 @@ public class Assets implements Disposable, AssetErrorListener {
         assetManager.load("sounds/concreto/7.mp3", Sound.class);
         assetManager.load("sounds/concreto/8.mp3", Sound.class);
         assetManager.load("sounds/concreto/9.mp3", Sound.class);
-        assetManager.load("sounds/concreto/10.mp3", Sound.class);
+        assetManager.load("sounds/concreto/TutConcreto_10_otroVolumen.mp3", Sound.class);
         assetManager.load("sounds/concreto/11.mp3", Sound.class);
         //micro mundo 1
         // organic tutorial
         assetManager.load("sounds/mm1/tutorial/mm1_intro.mp3", Sound.class);
-        assetManager.load("sounds/mm1/tutorial/mm1_tooMuch.mp3", Sound.class);
-        assetManager.load("sounds/mm1/tutorial/mm1_tooFew.mp3", Sound.class);
-        assetManager.load("sounds/mm1/tutorial/mm1_tooFewOne.mp3", Sound.class);
-        assetManager.load("sounds/mm1/tutorial/mm1_positive.mp3", Sound.class);
-        assetManager.load("sounds/mm1/tutorial/mm1_final.mp3", Sound.class);
+        assetManager.load("sounds/mm1/tutorial/TutMicroMundo1_2_1.mp3", Sound.class);
+        assetManager.load("sounds/mm1/tutorial/TutMicroMundo1_3.mp3", Sound.class);
+        assetManager.load("sounds/mm1/tutorial/TutMicroMundo1_3_a.mp3", Sound.class);
+        assetManager.load("sounds/mm1/tutorial/TutMicroMundo1_4.mp3", Sound.class);
+        assetManager.load("sounds/mm1/tutorial/TutMicroMundo1_4_a.mp3", Sound.class);
+        assetManager.load("sounds/mm1/tutorial/TutMicroMundo1_ResEnsayo1.mp3", Sound.class);
+        assetManager.load("sounds/mm1/tutorial/TutMicroMundo1_ResEnsayo2.mp3", Sound.class);
+        assetManager.load("sounds/mm1/tutorial/TutMicroMundo1_ResJuego.mp3", Sound.class);
+        assetManager.load("sounds/mm1/tutorial/vueltaAlPasado_Reset.mp3", Sound.class);
+
         // ingredients game
-        assetManager.load("sounds/mm1/ingredientes/1intro.mp3", Sound.class);
-        assetManager.load("sounds/mm1/ingredientes/cocodrilo.mp3", Sound.class);
-        assetManager.load("sounds/mm1/ingredientes/final.mp3", Sound.class);
-        assetManager.load("sounds/mm1/ingredientes/gato.mp3", Sound.class);
-        assetManager.load("sounds/mm1/ingredientes/hormiga.mp3", Sound.class);
-        assetManager.load("sounds/mm1/ingredientes/lama.mp3", Sound.class);
-        assetManager.load("sounds/mm1/ingredientes/masRunas.mp3", Sound.class);
-        assetManager.load("sounds/mm1/ingredientes/menosRunas.mp3", Sound.class);
-        assetManager.load("sounds/mm1/ingredientes/positivo.mp3", Sound.class);
-        assetManager.load("sounds/mm1/ingredientes/rana.mp3", Sound.class);
-        assetManager.load("sounds/mm1/ingredientes/vaca.mp3", Sound.class);
-        assetManager.load("sounds/mm1/ingredientes/vinagre.mp3", Sound.class);
+        assetManager.load("sounds/mm1/ingredientes/MicroMundo_Juego1_1.mp3", Sound.class);
+        assetManager.load("sounds/mm1/ingredientes/MicroMundo_Juego1_Cocodrilo.mp3", Sound.class);
+        assetManager.load("sounds/mm1/ingredientes/MicroMundo_Juego1_ResolucionJuego.mp3", Sound.class);
+        assetManager.load("sounds/mm1/ingredientes/MicroMundo_Juego1_Gato.mp3", Sound.class);
+        assetManager.load("sounds/mm1/ingredientes/MicroMundo_Juego1_Hormiga.mp3", Sound.class);
+        assetManager.load("sounds/mm1/ingredientes/MicroMundo_Juego1_Lama.mp3", Sound.class);
+        assetManager.load("sounds/mm1/ingredientes/MicroMundo_Juego1_MasRunas.mp3", Sound.class);
+        assetManager.load("sounds/mm1/ingredientes/MicroMundo_Juego1_MenosRunas.mp3", Sound.class);
+        assetManager.load("sounds/mm1/ingredientes/MicroMundo_Juego1_ResolucionEnsayo0.mp3", Sound.class);
+        assetManager.load("sounds/mm1/ingredientes/MicroMundo_Juego1_ResolucionEnsayo1.mp3", Sound.class);
+        assetManager.load("sounds/mm1/ingredientes/MicroMundo_Juego1_ResolucionEnsayo2.mp3", Sound.class);
+        assetManager.load("sounds/mm1/ingredientes/MicroMundo_Juego1_ResolucionEnsayo3.mp3", Sound.class);
+        assetManager.load("sounds/mm1/ingredientes/MicroMundo_Juego1_Rana.mp3", Sound.class);
+        assetManager.load("sounds/mm1/ingredientes/MicroMundo_Juego1_Pezuña.mp3", Sound.class);
+        assetManager.load("sounds/mm1/ingredientes/MicroMundo_Juego1_Vinagre.mp3", Sound.class);
         // Game 1
         // knock at the door
-        assetManager.load("sounds/mm1/golpes/intro.mp3", Sound.class);
-        assetManager.load("sounds/mm1/golpes/masRunas.mp3", Sound.class);
-        assetManager.load("sounds/mm1/golpes/menosRunas.mp3", Sound.class);
+        assetManager.load("sounds/mm1/golpes/MicroMundo1_Juego0_Explicacion.mp3", Sound.class);
+        assetManager.load("sounds/mm1/golpes/MicroMundo1_Juego0_MasRunas.mp3", Sound.class);
+        assetManager.load("sounds/mm1/golpes/MicroMundo1_Juego0_MenosRunas.mp3", Sound.class);
+        assetManager.load("sounds/mm1/golpes/MicroMundo1_Juego0_ResolucionEnsayo1.mp3", Sound.class);
+        assetManager.load("sounds/mm1/golpes/MicroMundo1_Juego0_ResolucionEnsayo2.mp3", Sound.class);
+        assetManager.load("sounds/mm1/golpes/MicroMundo1_Juego0_ResolucionEnsayo3.mp3", Sound.class);
+        assetManager.load("sounds/mm1/golpes/MicroMundo1_Juego0_ResolucionJuego.mp3", Sound.class);
         // door bell
-        assetManager.load("sounds/mm1/timbre/introduccion_timbre.mp3", Sound.class);
-        assetManager.load("sounds/mm1/timbre/resolucion_timbre.mp3", Sound.class);
-        assetManager.load("sounds/mm1/timbre/timbre_masRunas.mp3", Sound.class);
-        assetManager.load("sounds/mm1/timbre/timbre_menosRunas.mp3", Sound.class);
-        assetManager.load("sounds/mm1/timbre/res_ensayo_timbre.mp3", Sound.class);
+        assetManager.load("sounds/mm1/timbre/MicroMundo1_Juego5_Introduccion.mp3", Sound.class);
+        assetManager.load("sounds/mm1/timbre/MicroMundo1_Juego5_ResolucionJuego.mp3", Sound.class);
+        assetManager.load("sounds/mm1/timbre/MicroMundo1_Juego5_MasRunas.mp3", Sound.class);
+        assetManager.load("sounds/mm1/timbre/MicroMundo1_Juego5_MenosRunas.mp3", Sound.class);
+        assetManager.load("sounds/mm1/timbre/MicroMundo1_Juego5_ResolucionEnsayo.mp3", Sound.class);
         // mixing
-        assetManager.load("sounds/mm1/revolver/revolver_explicacion.mp3", Sound.class);
-        assetManager.load("sounds/mm1/revolver/revolver_res_ensayo.mp3", Sound.class);
-        assetManager.load("sounds/mm1/revolver/revolver_masRunas.mp3", Sound.class);
-        assetManager.load("sounds/mm1/revolver/revolver_menosRunas.mp3", Sound.class);
-        assetManager.load("sounds/mm1/revolver/revolver_res_final.mp3", Sound.class);
+        assetManager.load("sounds/mm1/revolver/MicroMundo_Juego3_Explicacion.mp3", Sound.class);
+        assetManager.load("sounds/mm1/revolver/MicroMundo_Juego3_ResolucionEnsayo.mp3", Sound.class);
+        assetManager.load("sounds/mm1/revolver/MicroMundo_Juego3_MasRunas.mp3", Sound.class);
+        assetManager.load("sounds/mm1/revolver/MicroMundo_Juego3_MenosRunas.mp3", Sound.class);
+        assetManager.load("sounds/mm1/revolver/MicroMundo_Juego3_ResolucionJuego.mp3", Sound.class);
+        assetManager.load("sounds/mm1/revolver/MicroMundo_Juego3_ResolucionEnsayo1.mp3", Sound.class);
+        assetManager.load("sounds/mm1/revolver/MicroMundo_Juego3_ResolucionEnsayo2.mp3", Sound.class);
+        assetManager.load("sounds/mm1/revolver/MicroMundo_Juego3_ResolucionEnsayo3.mp3", Sound.class);
         // music
-        assetManager.load("sounds/mm1/instrumentos/instrumentos_introduccion.mp3", Sound.class);
-        assetManager.load("sounds/mm1/instrumentos/instrumentos_res_ensayo.mp3", Sound.class);
-        assetManager.load("sounds/mm1/instrumentos/instrumentos_masRunas.mp3", Sound.class);
-        assetManager.load("sounds/mm1/instrumentos/instrumentos_menosRunas.mp3", Sound.class);
-        assetManager.load("sounds/mm1/instrumentos/instrumentos_final.mp3", Sound.class);
-
+        assetManager.load("sounds/mm1/instrumentos/MicroMundo_Juego4_Inicio1.mp3", Sound.class);
+        assetManager.load("sounds/mm1/instrumentos/MicroMundo_Juego4_Inicio2.mp3", Sound.class);
+        assetManager.load("sounds/mm1/instrumentos/MicroMundo_Juego4_ResolucionEnsayo.mp3", Sound.class);
+        assetManager.load("sounds/mm1/instrumentos/MicroMundo_Juego4_ResolucionEnsayo1.mp3", Sound.class);
+        assetManager.load("sounds/mm1/instrumentos/MicroMundo_Juego4_ResolucionEnsayo2.mp3", Sound.class);
+        assetManager.load("sounds/mm1/instrumentos/MicroMundo_Juego4_MasRunas.mp3", Sound.class);
+        assetManager.load("sounds/mm1/instrumentos/MicroMundo_Juego4_MenosRunas.mp3", Sound.class);
+        assetManager.load("sounds/mm1/instrumentos/MicroMundo_Juego4_ResolucionJuego.mp3", Sound.class);
 
         assetManager.load("sounds/opciones/jugar.wav", Sound.class);
         assetManager.load("sounds/opciones/denuevo.wav", Sound.class);
@@ -148,7 +173,6 @@ public class Assets implements Disposable, AssetErrorListener {
     }
 
     public float getSoundDuration(Sound soundToPlay){
-
         return  s_duration.get(soundToPlay);
     }
 
@@ -163,22 +187,33 @@ public class Assets implements Disposable, AssetErrorListener {
     }
 
     public class AssetSounds {
-        public final  Sound number1, number2, number3, number4, number5, number6, number7, number8, number9, number10, number11, number12, number13, number14, number15;
+        public final Sound number1, number2, number3, number4, number5, number6, number7, number8, number9, number10, number11, number12, number13, number14, number15;
         public final Sound ct_1,ct_2,ct_3,ct_4,ct_5,ct_6,ct_7,ct_8,ct_9, ct_10, ct_11;
         public final Sound oneDo, oneRe, oneMi, oneFa, oneSol;
         public final Sound puck,yuju, newblock, addblock, quitblock, tada;
-        public final Sound knock;
-        public final Sound tmm1_intro,tmm1_tooMuch,tmm1_tooFew, tmm1_tooFewOne, tmm1_positive, tmm1_final;
+        public final Sound music,mixing,bell, bell_2,knock, knock_2, knock_3, bell_3;
+        public final Sound tmm1_intro,tmm1_tooMuch_1,tmm1_tooFew_1, tmm1_tooMuch_2,tmm1_tooFew_2, tmm1_tooFewOne, tmm1_positive_1,tmm1_positive_2, tmm1_final, tmm1_firstPositive;
         public final Sound jugar, denuevo, ayuda, salir;
-
-        public final Sound ingredientsIntro,ingredientsCrocodile,ingredientsCat,ingredientsAnt,ingredientsLama,ingredientsFrog,ingredientsCow, ingredientsVinegar,ingredientsMore,ingredientsLess, ingredientsPositive,ingredientsFinal;
-
-        public final Sound knockIntro, knockTooFew, knockTooMuch;
+        public final Sound ingredientsIntro,ingredientsCrocodile,ingredientsCat,ingredientsAnt,ingredientsLama,ingredientsFrog,ingredientsCow, ingredientsVinegar,ingredientsMore,ingredientsLess, ingredientsPositive_1,ingredientsPositive_2, ingredientsPositive_3, ingredientsPositive_4,ingredientsFinal;
+        public final Sound knockIntro, knockTooFew, knockTooMuch, knockPositive_1, knockPositive_2, knockPositive_3, knockFinal;
         public final Sound bellIntro, bellFinal, bellTooFew, bellTooMuch, bellPositive;
-        public final Sound mixingIntro, mixingFinal, mixingTooFew, mixingTooMuch, mixingPositive;
-        public final Sound musicIntro, musicFinal, musicTooFew, musicTooMuch, musicPositive;
+        public final Sound mixingIntro, mixingFinal, mixingTooFew, mixingTooMuch, mixingPositive_1, mixingPositive_2, mixingPositive_3, mixingPositive_4;
+        public final Sound  musicIntro_1, musicIntro_2, musicFinal, musicTooFew, musicTooMuch, musicPositive_1, musicPositive_2, musicPositive_3;
 
+        public final ArrayList<Sound> positivesTutorial = new ArrayList<Sound>();
+        public final ArrayList<Sound> positivesKnock = new ArrayList<Sound>();
+        public final ArrayList<Sound> positivesMixing = new ArrayList<Sound>();
+        public final ArrayList<Sound> positivesIngredients = new ArrayList<Sound>();
+        public final ArrayList<Sound> positivesMusic = new ArrayList<Sound>();
+        public final ArrayList<Sound> positivesBell = new ArrayList<Sound>();
+        public final ArrayList<Sound> positivesFeedbacks = new ArrayList<Sound>();
 
+        public final ArrayList<Sound> cluesTutorial= new ArrayList<Sound>();
+        public final ArrayList<Sound> cluesKnock = new ArrayList<Sound>();
+        public final ArrayList<Sound> cluesIngredients = new ArrayList<Sound>();
+        public final ArrayList<Sound> cluesMixing = new ArrayList<Sound>();
+        public final ArrayList<Sound> cluesMusic = new ArrayList<Sound>();
+        public final ArrayList<Sound> cluesBell = new ArrayList<Sound>();
 
 
         public Sound soundWithDuration(String path, AssetManager am) {
@@ -190,7 +225,6 @@ public class Assets implements Disposable, AssetErrorListener {
         }
 
         public AssetSounds (AssetManager am) {
-
             number1 =  soundWithDuration("sounds/numeros/1.wav", am);
             number2 =  soundWithDuration("sounds/numeros/2.wav", am);
             number3 =  soundWithDuration("sounds/numeros/3.wav", am);
@@ -221,9 +255,6 @@ public class Assets implements Disposable, AssetErrorListener {
             addblock = soundWithDuration("sounds/feedback/masPiezas.wav", am);
             quitblock = soundWithDuration("sounds/feedback/menosPiezas.wav", am);
 
-            knock = soundWithDuration("sounds/feedback/knock.wav", am);
-
-
             ct_1 = soundWithDuration("sounds/concreto/1.mp3", am);
             ct_2 = soundWithDuration("sounds/concreto/2.mp3", am);
             ct_3 = soundWithDuration("sounds/concreto/3.mp3", am);
@@ -233,60 +264,111 @@ public class Assets implements Disposable, AssetErrorListener {
             ct_7 = soundWithDuration("sounds/concreto/7.mp3", am);
             ct_8 = soundWithDuration("sounds/concreto/8.mp3", am);
             ct_9 = soundWithDuration("sounds/concreto/9.mp3", am);
-            ct_10 = soundWithDuration("sounds/concreto/10.mp3", am);
+            ct_10 = soundWithDuration("sounds/concreto/TutConcreto_10_otroVolumen.mp3", am);
             ct_11 = soundWithDuration("sounds/concreto/11.mp3", am);
 
+            // tutorial audios
             tmm1_intro = soundWithDuration("sounds/mm1/tutorial/mm1_intro.mp3", am);
-            tmm1_tooMuch = soundWithDuration("sounds/mm1/tutorial/mm1_tooMuch.mp3", am);
-            tmm1_tooFew = soundWithDuration("sounds/mm1/tutorial/mm1_tooFew.mp3", am);
-            tmm1_positive = soundWithDuration("sounds/mm1/tutorial/mm1_positive.mp3", am);
-            tmm1_final= soundWithDuration("sounds/mm1/tutorial/mm1_final.mp3", am);
-            tmm1_tooFewOne = soundWithDuration("sounds/mm1/tutorial/mm1_tooFewOne.mp3", am);
+            tmm1_tooMuch_1 = soundWithDuration("sounds/mm1/tutorial/TutMicroMundo1_4.mp3", am);
+            tmm1_tooFew_1 = soundWithDuration("sounds/mm1/tutorial/TutMicroMundo1_3.mp3", am);
+            tmm1_tooMuch_2 = soundWithDuration("sounds/mm1/tutorial/TutMicroMundo1_4_a.mp3", am);
+            tmm1_tooFew_2 = soundWithDuration("sounds/mm1/tutorial/TutMicroMundo1_3_a.mp3", am);
+            tmm1_positive_1 = soundWithDuration("sounds/mm1/tutorial/TutMicroMundo1_ResEnsayo1.mp3", am);
+            tmm1_positive_2 = soundWithDuration("sounds/mm1/tutorial/TutMicroMundo1_ResEnsayo2.mp3", am);
+            tmm1_final= soundWithDuration("sounds/mm1/tutorial/TutMicroMundo1_ResJuego.mp3", am);
+            tmm1_tooFewOne = tmm1_tooFew_1; // al parecer tooFewOne se elimino en los nuevos audios que subio Bruno
+            tmm1_firstPositive = soundWithDuration("sounds/mm1/tutorial/TutMicroMundo1_2_1.mp3", am);
+            positivesTutorial.add(tmm1_positive_1);
+            positivesTutorial.add(tmm1_positive_2);
+            cluesTutorial.add(puck); // TODO change when we have audios with steps
 
+            // knock game audios
+            knockIntro = soundWithDuration("sounds/mm1/golpes/MicroMundo1_Juego0_Explicacion.mp3", am);
+            knockTooFew = soundWithDuration("sounds/mm1/golpes/MicroMundo1_Juego0_MasRunas.mp3", am);
+            knockTooMuch = soundWithDuration("sounds/mm1/golpes/MicroMundo1_Juego0_MenosRunas.mp3", am);
+            knockPositive_1 = soundWithDuration("sounds/mm1/golpes/MicroMundo1_Juego0_ResolucionEnsayo1.mp3", am);
+            knockPositive_2 = soundWithDuration("sounds/mm1/golpes/MicroMundo1_Juego0_ResolucionEnsayo2.mp3", am);
+            knockPositive_3 = soundWithDuration("sounds/mm1/golpes/MicroMundo1_Juego0_ResolucionEnsayo3.mp3", am);
+            knockFinal = soundWithDuration("sounds/mm1/golpes/MicroMundo1_Juego0_ResolucionJuego.mp3", am);
+            positivesKnock.add(knockPositive_1);
+            positivesKnock.add(knockPositive_2);
+            //positivesKnock.add(knockPositive_3);  TODO now is "ya casi estamos" - makes no sense!
+            knock = soundWithDuration("sounds/feedback/knock.wav", am);
+            knock_2 = soundWithDuration("sounds/feedback/knock_2.mp3", am);
+            knock_3 = soundWithDuration("sounds/feedback/knock_3.mp3", am);
+            cluesKnock.add(knock);
+            cluesKnock.add(knock_2);
+            cluesKnock.add(knock_3);
 
-            knockIntro = soundWithDuration("sounds/mm1/golpes/intro.mp3", am);
-            knockTooFew = soundWithDuration("sounds/mm1/golpes/masRunas.mp3", am);
-            knockTooMuch = soundWithDuration("sounds/mm1/golpes/menosRunas.mp3", am);
+            ingredientsIntro = soundWithDuration("sounds/mm1/ingredientes/MicroMundo_Juego1_1.mp3", am);
+            ingredientsCrocodile = soundWithDuration("sounds/mm1/ingredientes/MicroMundo_Juego1_Cocodrilo.mp3", am);
+            ingredientsCat = soundWithDuration("sounds/mm1/ingredientes/MicroMundo_Juego1_Gato.mp3", am);
+            ingredientsAnt = soundWithDuration("sounds/mm1/ingredientes/MicroMundo_Juego1_Hormiga.mp3", am);
+            ingredientsLama = soundWithDuration("sounds/mm1/ingredientes/MicroMundo_Juego1_Lama.mp3", am);
+            ingredientsFrog = soundWithDuration("sounds/mm1/ingredientes/MicroMundo_Juego1_Rana.mp3", am);
+            ingredientsCow = soundWithDuration("sounds/mm1/ingredientes/MicroMundo_Juego1_Pezuña.mp3", am);
+            ingredientsVinegar = soundWithDuration("sounds/mm1/ingredientes/MicroMundo_Juego1_Vinagre.mp3", am);
+            ingredientsMore = soundWithDuration("sounds/mm1/ingredientes/MicroMundo_Juego1_MasRunas.mp3", am);
+            ingredientsLess = soundWithDuration("sounds/mm1/ingredientes/MicroMundo_Juego1_MenosRunas.mp3", am);
+            ingredientsPositive_1 = soundWithDuration("sounds/mm1/ingredientes/MicroMundo_Juego1_ResolucionEnsayo0.mp3", am);
+            ingredientsPositive_2 = soundWithDuration("sounds/mm1/ingredientes/MicroMundo_Juego1_ResolucionEnsayo1.mp3", am);
+            ingredientsPositive_3 = soundWithDuration("sounds/mm1/ingredientes/MicroMundo_Juego1_ResolucionEnsayo2.mp3", am);
+            ingredientsPositive_4 = soundWithDuration("sounds/mm1/ingredientes/MicroMundo_Juego1_ResolucionEnsayo3.mp3", am);
+            ingredientsFinal = soundWithDuration("sounds/mm1/ingredientes/MicroMundo_Juego1_ResolucionJuego.mp3", am);
+            positivesIngredients.add(ingredientsPositive_1);
+            positivesIngredients.add(ingredientsPositive_2);
+            positivesIngredients.add(ingredientsPositive_3);
+            positivesIngredients.add(ingredientsPositive_4);
+            cluesIngredients.add(puck);
 
+            mixingIntro = soundWithDuration("sounds/mm1/revolver/MicroMundo_Juego3_Explicacion.mp3", am);
+            mixingPositive_1 = soundWithDuration("sounds/mm1/revolver/MicroMundo_Juego3_ResolucionEnsayo.mp3", am);
+            mixingPositive_2 = soundWithDuration("sounds/mm1/revolver/MicroMundo_Juego3_ResolucionEnsayo1.mp3", am);
+            mixingPositive_3 = soundWithDuration("sounds/mm1/revolver/MicroMundo_Juego3_ResolucionEnsayo2.mp3", am);
+            mixingPositive_4 = soundWithDuration("sounds/mm1/revolver/MicroMundo_Juego3_ResolucionEnsayo3.mp3", am);
+            mixingTooFew = soundWithDuration("sounds/mm1/revolver/MicroMundo_Juego3_MasRunas.mp3", am);
+            mixingTooMuch = soundWithDuration("sounds/mm1/revolver/MicroMundo_Juego3_MenosRunas.mp3", am);
+            mixingFinal = soundWithDuration("sounds/mm1/revolver/MicroMundo_Juego3_ResolucionJuego.mp3", am);
+            positivesMixing.add(mixingPositive_1);
+            positivesMixing.add(mixingPositive_2);
+            positivesMixing.add(mixingPositive_3);
+            positivesMixing.add(mixingPositive_4);
+            mixing = soundWithDuration("sounds/feedback/mixing.mp3", am);
+            cluesMixing.add(mixing);
 
-            ingredientsIntro = soundWithDuration("sounds/mm1/ingredientes/1intro.mp3", am);
-            ingredientsCrocodile = soundWithDuration("sounds/mm1/ingredientes/cocodrilo.mp3", am);
-            ingredientsCat = soundWithDuration("sounds/mm1/ingredientes/gato.mp3", am);
-            ingredientsAnt = soundWithDuration("sounds/mm1/ingredientes/hormiga.mp3", am);
-            ingredientsLama = soundWithDuration("sounds/mm1/ingredientes/lama.mp3", am);
-            ingredientsFrog = soundWithDuration("sounds/mm1/ingredientes/rana.mp3", am);
-            ingredientsCow = soundWithDuration("sounds/mm1/ingredientes/vaca.mp3", am);
-            ingredientsVinegar = soundWithDuration("sounds/mm1/ingredientes/vinagre.mp3", am);
-            ingredientsMore = soundWithDuration("sounds/mm1/ingredientes/masRunas.mp3", am);
-            ingredientsLess = soundWithDuration("sounds/mm1/ingredientes/menosRunas.mp3", am);
-            ingredientsPositive = soundWithDuration("sounds/mm1/ingredientes/positivo.mp3", am);
-            ingredientsFinal = soundWithDuration("sounds/mm1/ingredientes/final.mp3", am);
+            musicIntro_1 = soundWithDuration("sounds/mm1/instrumentos/MicroMundo_Juego4_Inicio1.mp3", am);
+            musicIntro_2 = soundWithDuration("sounds/mm1/instrumentos/MicroMundo_Juego4_Inicio2.mp3", am);
+            musicPositive_1 = soundWithDuration("sounds/mm1/instrumentos/MicroMundo_Juego4_ResolucionEnsayo.mp3", am);
+            musicPositive_2 = soundWithDuration("sounds/mm1/instrumentos/MicroMundo_Juego4_ResolucionEnsayo1.mp3", am);
+            musicPositive_3 = soundWithDuration("sounds/mm1/instrumentos/MicroMundo_Juego4_ResolucionEnsayo2.mp3", am);
+            musicTooFew = soundWithDuration("sounds/mm1/instrumentos/MicroMundo_Juego4_MasRunas.mp3", am);
+            musicTooMuch = soundWithDuration("sounds/mm1/instrumentos/MicroMundo_Juego4_MenosRunas.mp3", am);
+            musicFinal = soundWithDuration("sounds/mm1/instrumentos/MicroMundo_Juego4_ResolucionJuego.mp3", am);
+            positivesMusic.add(musicPositive_1);
+            positivesMusic.add(musicPositive_2);
+            positivesMusic.add(musicPositive_3);
+            music = soundWithDuration("sounds/feedback/music.mp3", am);
+            cluesMusic.add(music);
 
-
-            mixingIntro = soundWithDuration("sounds/mm1/revolver/revolver_explicacion.mp3", am);
-            mixingPositive = soundWithDuration("sounds/mm1/revolver/revolver_res_ensayo.mp3", am);
-            mixingTooFew = soundWithDuration("sounds/mm1/revolver/revolver_masRunas.mp3", am);
-            mixingTooMuch = soundWithDuration("sounds/mm1/revolver/revolver_menosRunas.mp3", am);
-            mixingFinal = soundWithDuration("sounds/mm1/revolver/revolver_res_final.mp3", am);
-
-            musicIntro = soundWithDuration("sounds/mm1/instrumentos/instrumentos_introduccion.mp3", am);
-            musicPositive = soundWithDuration("sounds/mm1/instrumentos/instrumentos_res_ensayo.mp3", am);
-            musicTooFew = soundWithDuration("sounds/mm1/instrumentos/instrumentos_masRunas.mp3", am);
-            musicTooMuch = soundWithDuration("sounds/mm1/instrumentos/instrumentos_menosRunas.mp3", am);
-            musicFinal = soundWithDuration("sounds/mm1/instrumentos/instrumentos_final.mp3", am);
-
-            bellIntro = soundWithDuration("sounds/mm1/timbre/introduccion_timbre.mp3", am);
-            bellFinal = soundWithDuration("sounds/mm1/timbre/resolucion_timbre.mp3", am);
-            bellTooFew = soundWithDuration("sounds/mm1/timbre/timbre_masRunas.mp3", am);
-            bellTooMuch = soundWithDuration("sounds/mm1/timbre/timbre_menosRunas.mp3", am);
-            bellPositive = soundWithDuration("sounds/mm1/timbre/res_ensayo_timbre.mp3", am);
+            // bell game
+            bellIntro = soundWithDuration("sounds/mm1/timbre/MicroMundo1_Juego5_Introduccion.mp3", am);
+            bellFinal = soundWithDuration("sounds/mm1/timbre/MicroMundo1_Juego5_ResolucionJuego.mp3", am);
+            bellTooFew = soundWithDuration("sounds/mm1/timbre/MicroMundo1_Juego5_MasRunas.mp3", am);
+            bellTooMuch = soundWithDuration("sounds/mm1/timbre/MicroMundo1_Juego5_MenosRunas.mp3", am);
+            bellPositive = soundWithDuration("sounds/mm1/timbre/MicroMundo1_Juego5_ResolucionEnsayo.mp3", am);
+            positivesBell.add(bellPositive);
+            bell = soundWithDuration("sounds/feedback/bell.mp3", am);
+            bell_2 = soundWithDuration("sounds/feedback/bell_2.mp3", am);
+            bell_3 = soundWithDuration("sounds/feedback/bell_3.mp3", am);
+            cluesBell.add(bell);
+            cluesBell.add(bell_2);
+            cluesBell.add(bell_3);
 
             jugar = soundWithDuration("sounds/opciones/jugar.wav", am);
             denuevo = soundWithDuration("sounds/opciones/denuevo.wav", am);
             ayuda = soundWithDuration("sounds/opciones/ayuda.wav", am);
             salir = soundWithDuration("sounds/opciones/salir.wav", am);
-
-
+            positivesFeedbacks.add(yuju);
         }
     }
 
@@ -299,7 +381,6 @@ public class Assets implements Disposable, AssetErrorListener {
             song01 = am.get("music/song1.mp3", Music.class);
             song02 = am.get("music/song2.mp3", Music.class);
             new_block_loop  = am.get("sounds/feedback/feedbackLoop.wav", Music.class);
-
         }
     }
 

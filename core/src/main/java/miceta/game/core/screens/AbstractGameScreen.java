@@ -24,7 +24,6 @@ public abstract class AbstractGameScreen  extends InputAdapter implements Screen
 
     public AbstractGameScreen (miCeta game){
         this.game = game;
-        Gdx.app.log(TAG,"game screen now updated!");
         gameScreen = game.updateGameScreen();
         paused = false;
 
