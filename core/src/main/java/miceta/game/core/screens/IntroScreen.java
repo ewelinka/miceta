@@ -163,6 +163,7 @@ public class IntroScreen extends AbstractGameScreen {
                 game.setScreen(new ConcreteTutorial(game,0,0),transition);
                 break;
             case "help":
+                LevelsManager.instance.forceLevel(1);
                 LevelsManager.instance.forceLevelParams(1);
                 game.setScreen(new ConcreteTutorial(game,0, 0));
                 break;

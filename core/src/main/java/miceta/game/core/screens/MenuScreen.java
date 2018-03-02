@@ -208,36 +208,37 @@ public class MenuScreen extends AbstractGameScreen {
                 game.setScreen(new ConcreteTutorial(game,0,0),transition);
                 break;
             case CONCRETE_TUTORIAL:
+                LevelsManager.instance.forceLevel(1);
                 LevelsManager.instance.forceLevelParams(1);
                 game.setScreen(new ConcreteTutorial(game,0, 0));
                 break;
             case ORGANIC_TUTORIAL1:
-                //game.setScreen(new ConcreteTutorial(game),transition);
+                LevelsManager.instance.forceLevel(2);
                 LevelsManager.instance.forceLevelParams(2);
                 game.setScreen(new OrganicOneScreen(game),transition);
                 break;
             case GAME_KNOCK:
-                //game.setScreen(new ConcreteTutorial(game),transition);
+                LevelsManager.instance.forceLevel(3);
                 LevelsManager.instance.forceLevelParams(3);
                 game.setScreen(new World_1_AudioScreen(game,0,0),transition);
                 break;
             case GAME_INGREDIENTS:
-                //game.setScreen(new ConcreteTutorial(game),transition);
+                LevelsManager.instance.forceLevel(4);
                 LevelsManager.instance.forceLevelParams(4);
                 game.setScreen(new IngredientsScreen(game),transition);
                 break;
             case GAME_MIXING:
-                //game.setScreen(new ConcreteTutorial(game),transition);
+                LevelsManager.instance.forceLevel(5);
                 LevelsManager.instance.forceLevelParams(5);
                 game.setScreen(new BaseScreenWithIntro(game),transition);
                 break;
             case GAME_MUSIC:
-                //game.setScreen(new ConcreteTutorial(game),transition);
+                LevelsManager.instance.forceLevel(6);
                 LevelsManager.instance.forceLevelParams(6);
                 game.setScreen(new BaseScreenWithIntro(game),transition);
                 break;
             case GAME_BELL:
-                //game.setScreen(new ConcreteTutorial(game),transition);
+                LevelsManager.instance.forceLevel(7);
                 LevelsManager.instance.forceLevelParams(7);
                 game.setScreen(new BaseScreenWithIntro(game),transition);
                 break;

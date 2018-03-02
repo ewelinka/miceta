@@ -105,7 +105,8 @@ public class ConcreteTutorial extends AbstractGameScreen {
         }
         else if ((_tutorialPart == 10) && (_timePassed > _tutorialDuration)){
 
-            game.goToLastScreen();
+            //game.goToLastScreen();
+            game.goToNextScreen();
         }
     }
 

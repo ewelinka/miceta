@@ -93,16 +93,16 @@ public class RepresentationMapper {
                 gameScreen.tooMuch = Assets.instance.sounds.tmm1_tooMuch_1;
                 gameScreen.finalSound = Assets.instance.sounds.tmm1_final;
                 gameScreen.feedbackSoundType = FeedbackSoundType.KNOCK;
-
                 break;
             case GAME_KNOCK:
                 gameScreen.screenName = ScreenName.GAME_KNOCK;
                 gameScreen.positives = Assets.instance.sounds.positivesKnock;
-
+                gameScreen.feedbackSoundType = FeedbackSoundType.KNOCK;
                 break;
             case GAME_INGREDIENTS:
                 gameScreen.screenName = ScreenName.GAME_INGREDIENTS;
                 gameScreen.positives = Assets.instance.sounds.positivesIngredients;
+                gameScreen.feedbackSoundType = FeedbackSoundType.INGREDIENT;
                 break;
             case GAME_MIXING:
                 gameScreen.screenName = ScreenName.GAME_MIXING;
