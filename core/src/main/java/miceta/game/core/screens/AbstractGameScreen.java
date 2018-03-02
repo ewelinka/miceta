@@ -111,7 +111,7 @@ public abstract class AbstractGameScreen  extends InputAdapter implements Screen
             case Input.Keys.F1:
                 stopCurrentSound();
                 LevelsManager.instance.forceLevelParams(1);
-                game.setScreen(new ConcreteTutorial(game,0, 0));
+                game.setScreen(new ConcreteTutorial(game,0, 0,false));
                 break;
             case Input.Keys.LEFT:
                 AudioManager.instance.downFeedbackVolSound();

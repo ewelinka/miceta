@@ -205,12 +205,12 @@ public class MenuScreen extends AbstractGameScreen {
                 GamePreferences.instance.setLast_level(1);
                 LevelsManager.instance.forceLevel(1);
                 LevelsManager.instance.forceLevelParams(1);
-                game.setScreen(new ConcreteTutorial(game,0,0),transition);
+                game.setScreen(new ConcreteTutorial(game,0,0, false),transition);
                 break;
             case CONCRETE_TUTORIAL:
                 LevelsManager.instance.forceLevel(1);
                 LevelsManager.instance.forceLevelParams(1);
-                game.setScreen(new ConcreteTutorial(game,0, 0));
+                game.setScreen(new ConcreteTutorial(game,0, 0,false));
                 break;
             case ORGANIC_TUTORIAL1:
                 LevelsManager.instance.forceLevel(2);

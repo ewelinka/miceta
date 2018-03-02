@@ -22,7 +22,7 @@ public class RepresentationMapper {
         switch (screenName){
             case CONCRETE_TUTORIAL:
                 Gdx.app.log(TAG,"concrete!");
-                return new ConcreteTutorial(game,0, 0);
+                return new ConcreteTutorial(game,0, 0, false);
             case ORGANIC_TUTORIAL1:
                 Gdx.app.log(TAG,"organic!");
                 return new OrganicOneScreen(game);
