@@ -14,6 +14,8 @@ import java.util.ArrayList;
 import java.util.Random;
 
 import static com.badlogic.gdx.scenes.scene2d.actions.Actions.*;
+import static miceta.game.core.util.FeedbackSoundType.DROP;
+import static miceta.game.core.util.FeedbackSoundType.KNOCK;
 
 /**
  * Created by ewe on 8/10/17.
@@ -312,6 +314,9 @@ public class AudioManager {
         }
     }
 
+
+
+
     private void readSingleDrop(int whichKnock, SequenceAction readFeedback, float extraDelayBetweenFeedback) {
         readFeedback.addAction(run(new Runnable() {
             public void run() {
@@ -321,13 +326,60 @@ public class AudioManager {
 
         readFeedback.addAction(delay(readBlockDuration + extraDelayBetweenFeedback));
 
+    }
+
+    private Sound getFeedbackSoundWithNumber(int whichNr){
+        Sound ret = null;
+        if(this.feedbackSoundType.equals(KNOCK)){
+            switch(whichNr){
+                case 0: ret = Assets.instance.sounds.knock; break;
+                case 1: ret = Assets.instance.sounds.knock_2; break;
+                case 2: ret = Assets.instance.sounds.knock_3; break;
+            }
+        }
+        else
+        if(this.feedbackSoundType.equals(DROP)){
+            switch(whichNr){
+                case 0: ret = Assets.instance.sounds.puck; break;
+                case 1: ret = Assets.instance.sounds.puck; break;
+                case 2: ret = Assets.instance.sounds.puck; break;
+            }
+        }
+        if(this.feedbackSoundType.equals(FeedbackSoundType.BELL)){
+            switch(whichNr){
+                case 0: ret = Assets.instance.sounds.bell; break;
+                case 1: ret = Assets.instance.sounds.knock; break;
+                case 2: ret = Assets.instance.sounds.knock; break;
+            }
+        }
+        else
+        if(this.feedbackSoundType.equals(FeedbackSoundType.MIXING)){
+            switch(whichNr){
+                case 0: ret = Assets.instance.sounds.mixing; break;
+                case 1: ret = Assets.instance.sounds.knock; break;
+                case 2: ret = Assets.instance.sounds.knock; break;
+            }
+        }
+        else
+        if(this.feedbackSoundType.equals(FeedbackSoundType.MUSIC)){
+            switch(whichNr){
+                case 0: ret = Assets.instance.sounds.music; break;
+                case 1: ret = Assets.instance.sounds.knock; break;
+                case 2: ret = Assets.instance.sounds.knock; break;
+            }
+        }
+
+        return ret;
+
 
     }
+
+
 
     private void readSingleKnock( int whichKnock, final SequenceAction readFeedback, final float extraDelayBetweenFeedback){
         readFeedback.addAction(run(new Runnable() {
             public void run() {
-                playWithoutInterruption(Assets.instance.sounds.knock,false, knockNoteVol); // TODO change when we have drop sound
+                playWithoutInterruption(getFeedbackSoundWithNumber(0),false, knockNoteVol); // TODO change when we have drop sound
             }
         }));
 
@@ -388,9 +440,9 @@ public class AudioManager {
                         break;
                 }
 
-                Sound whichSound = Assets.instance.sounds.oneDo;
+               // Sound whichSound = Assets.instance.sounds.oneDo;
 
-                playWithoutInterruption(Assets.instance.sounds.knock); // TODO change when we have drop sound
+                playWithoutInterruption(getFeedbackSoundWithNumber(0)); // TODO change when we have drop sound
 
             }
         }));

@@ -70,6 +70,14 @@ public class Assets implements Disposable, AssetErrorListener {
         assetManager.load("sounds/feedback/masPiezas.wav", Sound.class);
         assetManager.load("sounds/feedback/menosPiezas.wav", Sound.class);
         assetManager.load("sounds/feedback/knock.wav", Sound.class);
+        assetManager.load("sounds/feedback/knock_2.mp3", Sound.class);
+        assetManager.load("sounds/feedback/knock_3.mp3", Sound.class);
+        assetManager.load("sounds/feedback/bell.mp3", Sound.class);
+        assetManager.load("sounds/feedback/mixing.mp3", Sound.class);
+        assetManager.load("sounds/feedback/music.mp3", Sound.class);
+
+
+
 
 
         assetManager.load("sounds/concreto/1.mp3", Sound.class);
@@ -193,7 +201,7 @@ public class Assets implements Disposable, AssetErrorListener {
         public final Sound ct_1,ct_2,ct_3,ct_4,ct_5,ct_6,ct_7,ct_8,ct_9, ct_10, ct_11;
         public final Sound oneDo, oneRe, oneMi, oneFa, oneSol;
         public final Sound puck,yuju, newblock, addblock, quitblock, tada;
-        public final Sound knock;
+        public final Sound music,mixing,bell,knock, knock_2, knock_3;
         public final Sound tmm1_intro,tmm1_tooMuch_1,tmm1_tooFew_1, tmm1_tooMuch_2,tmm1_tooFew_2, tmm1_tooFewOne, tmm1_positive_1,tmm1_positive_2, tmm1_final, tmm1_firstPositive;
         public final Sound jugar, denuevo, ayuda, salir;
         public final Sound ingredientsIntro,ingredientsCrocodile,ingredientsCat,ingredientsAnt,ingredientsLama,ingredientsFrog,ingredientsCow, ingredientsVinegar,ingredientsMore,ingredientsLess, ingredientsPositive_1,ingredientsPositive_2, ingredientsPositive_3, ingredientsPositive_4,ingredientsFinal;
@@ -251,6 +259,12 @@ public class Assets implements Disposable, AssetErrorListener {
             quitblock = soundWithDuration("sounds/feedback/menosPiezas.wav", am);
 
             knock = soundWithDuration("sounds/feedback/knock.wav", am);
+            knock_2 = soundWithDuration("sounds/feedback/knock_2.mp3", am);
+            knock_3 = soundWithDuration("sounds/feedback/knock_3.mp3", am);
+
+            bell = soundWithDuration("sounds/feedback/bell.mp3", am);
+            mixing = soundWithDuration("sounds/feedback/mixing.mp3", am);
+            music = soundWithDuration("sounds/feedback/music.mp3", am);
 
 
             ct_1 = soundWithDuration("sounds/concreto/1.mp3", am);
