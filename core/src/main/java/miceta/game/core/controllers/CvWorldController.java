@@ -103,6 +103,7 @@ public class CvWorldController {
         AudioManager.instance.setCustomSound(introSound, INTRO);
         AudioManager.instance.setCustomSoundArray(POSITIVE, positiveFeedback);
         AudioManager.instance.setFeedbackSoundType(feedbackSound);
+        AudioManager.instance.setCurrentClue();
 
     }
 

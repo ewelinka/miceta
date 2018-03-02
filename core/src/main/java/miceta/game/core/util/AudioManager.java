@@ -11,9 +11,10 @@ import com.badlogic.gdx.scenes.scene2d.actions.SequenceAction;
 import miceta.game.core.Assets;
 
 import java.util.ArrayList;
-import java.util.Random;
 
 import static com.badlogic.gdx.scenes.scene2d.actions.Actions.*;
+import static miceta.game.core.util.FeedbackSoundType.INGREDIENT;
+import static miceta.game.core.util.FeedbackSoundType.KNOCK;
 
 /**
  * Created by ewe on 8/10/17.
@@ -39,9 +40,7 @@ public class AudioManager {
     private Sound tooMuchErrorSound, tooFewErrorSound,finalFeedback, introSound;
     private ArrayList<Sound> positiveFeedback;
     private int currentPositiveIndex;
-    private ArrayList<ArrayList<Integer>>  positivesIndex = new ArrayList<ArrayList<Integer>>();
-    private int  numberToPlay =0;
-    private boolean isWithNumber = false;
+    private Sound currentClue;
 
 
     private AudioManager () { }
@@ -297,44 +296,44 @@ public class AudioManager {
         readBlocks.addAction(delay(readBlockDuration + extraDelayBetweenFeedback )); // we wait Xs because sound files with "do", "re" and "mi" have X duration
     }
 
-    private void readSingleFeedbackSound(int whichNr, SequenceAction readFeedback, float extraDelayBetweenFeedback){
-        switch(this.feedbackSoundType){
-            case KNOCK:
-                //readSingleKnock(whichNr, readFeedback,extraDelayBetweenFeedback);
-                readSingleKnock(whichNr, readFeedback,extraDelayBetweenFeedback);
-                break;
-            case DROP:
-                readSingleDrop(whichNr, readFeedback,extraDelayBetweenFeedback);
-                break;
-            default:
-                readSingleKnock(whichNr, readFeedback,extraDelayBetweenFeedback);
-                break;
-        }
-    }
-
-    private void readSingleDrop(int whichKnock, SequenceAction readFeedback, float extraDelayBetweenFeedback) {
+    private void readSingleFeedbackSound(SequenceAction readFeedback, float extraDelayBetweenFeedback, final Sound clue){
         readFeedback.addAction(run(new Runnable() {
             public void run() {
-                playWithoutInterruption(Assets.instance.sounds.puck); // TODO change when we have drop sound
+                playWithoutInterruption(clue); // TODO change when we have drop sound
             }
         }));
 
         readFeedback.addAction(delay(readBlockDuration + extraDelayBetweenFeedback));
+    }
 
+    private Sound getRandomClue(){
+        Sound clueSound = Assets.instance.sounds.puck;
+        switch(this.feedbackSoundType){
+            case KNOCK:
+                clueSound = getRandomClueFromAll(Assets.instance.sounds.cluesKnock);
+                break;
+            case INGREDIENT:
+                clueSound = getRandomClueFromAll(Assets.instance.sounds.cluesIngredients);
+                break;
+            case MIXING:
+                clueSound = getRandomClueFromAll(Assets.instance.sounds.cluesMixing);
+                break;
+            case MUSIC:
+                clueSound = getRandomClueFromAll(Assets.instance.sounds.cluesMusic);
+                break;
+            case BELL:
+                clueSound = getRandomClueFromAll(Assets.instance.sounds.cluesBell);
+                break;
+        }
+        return  clueSound;
 
     }
 
-    private void readSingleKnock( int whichKnock, final SequenceAction readFeedback, final float extraDelayBetweenFeedback){
-        readFeedback.addAction(run(new Runnable() {
-            public void run() {
-                playWithoutInterruption(Assets.instance.sounds.knock,false, knockNoteVol); // TODO change when we have drop sound
-            }
-        }));
-
-        readFeedback.addAction(delay(readBlockDuration + extraDelayBetweenFeedback)); // we wait Xs because sound files with "knock" have X duration
+    private Sound getRandomClueFromAll(ArrayList<Sound> clues){
+        int idx = MathUtils.random(0,clues.size()-1);
+        Gdx.app.log(TAG," idx "+idx);
+        return clues.get(idx);
     }
-
-
 
     private void readSingleKnockWithNumber(final int number, final SequenceAction readFeedback, final float extraDelayBetweenFeedback){
         readFeedback.addAction(run(new Runnable() {
@@ -388,7 +387,7 @@ public class AudioManager {
                         break;
                 }
 
-                Sound whichSound = Assets.instance.sounds.oneDo;
+               // Sound whichSound = Assets.instance.sounds.oneDo;
 
                 playWithoutInterruption(Assets.instance.sounds.knock); // TODO change when we have drop sound
 
@@ -466,9 +465,8 @@ public class AudioManager {
 
     public SequenceAction addToReadFeedbackInSpace (int nr, SequenceAction readFeedback, float extraDelayBetweenFeedback) {
         for(int i = 0; i<nr;i++){ // if the number is 5 we have to knock 5 times
-            readSingleFeedbackSound(nr, readFeedback, extraDelayBetweenFeedback); // we start with 1
+            readSingleFeedbackSound(readFeedback, extraDelayBetweenFeedback, currentClue);
         }
-
         return readFeedback;
     }
 
@@ -479,9 +477,7 @@ public class AudioManager {
     }
 
     public void readNumberAndAllFeedbacks(ArrayList<Integer> toReadNums, int numToBuild, float extraDelayBetweenFeedback){
-        //readFeedbackAndBlocksAndYuju(toReadNums,numToBuild);
         readNumberFeedbackAndBlocks(toReadNums, numToBuild, extraDelayBetweenFeedback);
-
     }
 
     public void readAllFeedbacksAndPositive(ArrayList<Integer> toReadNums, int numToBuild, float extraDelayBetweenFeedback){
@@ -501,10 +497,6 @@ public class AudioManager {
         }
         return  positives.get(currentPositiveIndex);
     }
-
-
-
-
 
     public void readAllFeedbacksAndPositiveWithNewIngredient(ArrayList<Integer> toReadNums, int numToBuild, float extraDelayBetweenFeedback, final int ingredientIndex) {
         reader.clearActions();
@@ -671,6 +663,11 @@ public class AudioManager {
                 playWithoutInterruption(positiveNow); //after correct answer comes positive feedback
             }
         }));
+        readFeedbackAction.addAction(run(new Runnable() {
+            public void run() {
+                currentClue = getRandomClue(); //after correct answer comes positive feedback
+            }
+        }));
 
         reader.addAction(parallel(readBlocksAction,readFeedbackAction)); // we read feedback and the blocks in parallel
     }
@@ -733,6 +730,11 @@ public class AudioManager {
                 playWithoutInterruption(positiveNow); //after correct answer comes positive feedback
             }
         }));
+        readFeedbackAction.addAction(run(new Runnable() {
+            public void run() {
+                currentClue = getRandomClue(); //after correct answer comes positive feedback
+            }
+        }));
 
         reader.addAction(parallel(readBlocksAction,readFeedbackAction)); // we read feedback and the blocks in parallel
     }
@@ -741,19 +743,9 @@ public class AudioManager {
 
     public SequenceAction createReadNumberFeedbackAction( SequenceAction readFeedbackAction, int numToBuild, float extraDelayBetweenFeedback){ // we use this action at the beginning of new screen, we read feedback without blocks
         readFeedbackAction.reset();
-        // first read number then knocks
-        // first read number then knocks
         readFeedbackAction = playNumber(numToBuild,readFeedbackAction);
         readFeedbackAction.addAction(delay(Constants.READ_NUMBER_DURATION)); // wait to finish read the number
         readFeedbackAction = addToReadFeedbackInSpace(numToBuild, readFeedbackAction, extraDelayBetweenFeedback);
-        // first read with small delay at the beginning
-//        reader.addAction(readFeedbackAction);
-//
-//
-//        readFeedbackAction.addAction(delay(Constants.READ_NUMBER_DURATION)); // wait before start read feedback
-//        for(int i = 1; i<=numToBuild;i++){ // if the number is 5 we have to knock 5 times
-//            readSingleKnockWithNumber(i, readFeedbackAction, extraDelayBetweenFeedback); // we start with 1
-//        }
         return readFeedbackAction;
     }
 
@@ -874,8 +866,6 @@ public class AudioManager {
             readTutorialAction.addAction((delay(soundDuration)));
         }
 
-        Gdx.app.log(TAG, "============================= " + duration_total);
-
         reader.addAction(readTutorialAction);
         return duration_total;
     }
@@ -896,8 +886,6 @@ public class AudioManager {
             }));
             readTutorialAction.addAction((delay(duration_aux)));
         }
-
-        Gdx.app.log(TAG, "============================= " + duration_total);
         reader.addAction(readTutorialAction);
 
         return duration_total;
@@ -921,9 +909,6 @@ public class AudioManager {
         return AudioManager.instance.reproduceSoundsWithIndex(soundsToReproduce, start, end);
     }
 
-
-
-
     private Sound getIngredientFromIndex(int ingredientIndex){
         ingredientIndex = ingredientIndex%6 +1;
         switch(ingredientIndex){
@@ -944,11 +929,14 @@ public class AudioManager {
         }
     }
 
+    public void setCurrentClue(){
+        currentClue = getRandomClue();
+    }
+
     public float reproduceIntro(){
         ArrayList<Sound> soundsToReproduce = new ArrayList<Sound>();
         soundsToReproduce.add(this.introSound);
         return AudioManager.instance.reproduceSounds(soundsToReproduce);
-
     }
 
     public float reproduce_ingredients_intro() {
@@ -959,12 +947,10 @@ public class AudioManager {
     }
 
     public float reproduce_Game_1(int start, int end) {
-
         ArrayList<Sound> soundsToReproduce = new ArrayList<Sound>();
         soundsToReproduce.add(Assets.instance.sounds.knockIntro);
         soundsToReproduce.add(Assets.instance.sounds.knockTooFew);
         soundsToReproduce.add(Assets.instance.sounds.knockTooMuch);
-
         return AudioManager.instance.reproduceSoundsWithIndex(soundsToReproduce, start, end);
     }
 
@@ -1026,4 +1012,6 @@ public class AudioManager {
                 break;
         }
     }
+
+
 }
