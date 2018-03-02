@@ -300,6 +300,8 @@ public class AudioManager {
     }
 
     private void readSingleFeedbackSound(int whichNr, SequenceAction readFeedback, float extraDelayBetweenFeedback){
+
+
         switch(this.feedbackSoundType){
             case KNOCK:
                 //readSingleKnock(whichNr, readFeedback,extraDelayBetweenFeedback);
@@ -330,6 +332,9 @@ public class AudioManager {
 
     private Sound getFeedbackSoundWithNumber(int whichNr){
         Sound ret = null;
+
+        //TEMPORAL RANDOM FEEDBACJ
+
         if(this.feedbackSoundType.equals(KNOCK)){
             switch(whichNr){
                 case 0: ret = Assets.instance.sounds.knock; break;
@@ -348,8 +353,8 @@ public class AudioManager {
         if(this.feedbackSoundType.equals(FeedbackSoundType.BELL)){
             switch(whichNr){
                 case 0: ret = Assets.instance.sounds.bell; break;
-                case 1: ret = Assets.instance.sounds.knock; break;
-                case 2: ret = Assets.instance.sounds.knock; break;
+                case 1: ret = Assets.instance.sounds.bell_2; break;
+                case 2: ret = Assets.instance.sounds.bell_3; break;
             }
         }
         else
@@ -377,9 +382,11 @@ public class AudioManager {
 
 
     private void readSingleKnock( int whichKnock, final SequenceAction readFeedback, final float extraDelayBetweenFeedback){
+
+        final int  number =  whichKnock;
         readFeedback.addAction(run(new Runnable() {
             public void run() {
-                playWithoutInterruption(getFeedbackSoundWithNumber(0),false, knockNoteVol); // TODO change when we have drop sound
+                playWithoutInterruption(getFeedbackSoundWithNumber(number),false, knockNoteVol); // TODO change when we have drop sound
             }
         }));
 
@@ -517,8 +524,11 @@ public class AudioManager {
 
 
     public SequenceAction addToReadFeedbackInSpace (int nr, SequenceAction readFeedback, float extraDelayBetweenFeedback) {
+       int whichNr = MathUtils.random(0, 2);
+
+
         for(int i = 0; i<nr;i++){ // if the number is 5 we have to knock 5 times
-            readSingleFeedbackSound(nr, readFeedback, extraDelayBetweenFeedback); // we start with 1
+            readSingleFeedbackSound(whichNr, readFeedback, extraDelayBetweenFeedback); // we start with 1
         }
 
         return readFeedback;
