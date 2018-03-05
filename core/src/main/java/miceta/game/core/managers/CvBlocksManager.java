@@ -1,50 +1,44 @@
 package miceta.game.core.managers;
 
-import com.badlogic.gdx.Application;
-import com.badlogic.gdx.Gdx;
-import com.badlogic.gdx.audio.Sound;
-import com.badlogic.gdx.scenes.scene2d.Stage;
 import com.badlogic.gdx.utils.ArrayMap;
-import edu.ceta.vision.core.utils.BlocksMarkersMap;
-import edu.ceta.vision.android.topcode.TopCodeDetectorAndroid;
 import edu.ceta.vision.core.blocks.Block;
 import edu.ceta.vision.core.topcode.TopCodeDetector;
-import edu.ceta.vision.core.topcode.TopCodeDetectorDesktop;
-import miceta.game.core.Assets;
+import edu.ceta.vision.core.utils.BlocksMarkersMap;
 import miceta.game.core.miCeta;
 import miceta.game.core.util.AudioManager;
-import miceta.game.core.util.Constants;
-import org.opencv.core.Core;
-import org.opencv.core.Mat;
-import org.opencv.core.Rect;
 
-
-import java.util.*;
+import java.util.ArrayList;
+import java.util.HashSet;
+import java.util.Set;
 
 
 public abstract class CvBlocksManager {
 
     public static final String TAG = CvBlocksManager.class.getName();
-    public TopCodeDetector topCodeDetector;
-    public miCeta game;
-    public boolean detectionReady, detectionInProgress;
-    public ArrayList<Set> results = new ArrayList<Set>();
-    public ArrayList<Integer> nowDetectedVals = new ArrayList<Integer>();
-    public Set<Block> tempList;
-    public ArrayList<Integer> nowDetectedValsId = new ArrayList<Integer>();
-    public ArrayList<Block> newDetectedCVBlocks;
-    public ArrayList<Integer> lastframeids, p_lastframeids;
-    public ArrayList<Integer> newIds, p_newIds, stableIds;
-    public ArrayMap<Integer,Integer> strikes;
-    public ArrayMap<Integer,Integer> p_strikes;
-    public int maxStrikes;
-    public int p_maxStrikes;
-    public ArrayMap<Integer,Integer> idToValue;
-    public ArrayMap<Integer,Integer> tableIdValue;
-    public Set<Block> currentBlocks;
+    TopCodeDetector topCodeDetector;
+    final miCeta game;
+    boolean detectionReady;
+    boolean detectionInProgress;
+    final ArrayList<Set> results = new ArrayList<>();
+    ArrayList<Integer> nowDetectedVals = new ArrayList<>();
+    Set<Block> tempList;
+    private final ArrayList<Integer> nowDetectedValsId = new ArrayList<>();
+    ArrayList<Block> newDetectedCVBlocks;
+    ArrayList<Integer> lastframeids;
+    ArrayList<Integer> p_lastframeids;
+    ArrayList<Integer> newIds;
+    ArrayList<Integer> p_newIds;
+    ArrayList<Integer> stableIds;
+    ArrayMap<Integer,Integer> strikes;
+    ArrayMap<Integer,Integer> p_strikes;
+    int maxStrikes;
+    int p_maxStrikes;
+    ArrayMap<Integer,Integer> idToValue;
+    ArrayMap<Integer,Integer> tableIdValue;
+    Set<Block> currentBlocks;
 
 //
-    public CvBlocksManager(miCeta game, Stage stage)
+    CvBlocksManager(miCeta game)
     {
         this.game = game;
         init();
@@ -53,10 +47,7 @@ public abstract class CvBlocksManager {
 
     }
 
-    public abstract void init(
-
-
-
+    protected abstract void init(
 
 
     );
@@ -67,12 +58,12 @@ public abstract class CvBlocksManager {
         if(detectionReady) {
             if(results.size() > 0) {
                 currentBlocks = results.get(0); //here we have our set of detected blocks
-                tempList = new HashSet<Block>(currentBlocks);
+                tempList = new HashSet<>(currentBlocks);
             }
             else {
                //- Gdx.app.error(TAG," very very wrong -> empty result!");
-                currentBlocks =  new HashSet<Block>();
-                tempList = new HashSet<Block>();
+                currentBlocks = new HashSet<>();
+                tempList = new HashSet<>();
 
             }
 
@@ -114,15 +105,14 @@ public abstract class CvBlocksManager {
             int newId = newBlocksIds.get(i);
             if(oldBlocksIds.contains(newId)) {
                 resetStrikes(newId);
-                boolean shouldBeUpdated = false;
             }
         }
 
         newBlocksIds.removeAll(oldBlocksIds);
-        for(int i=0;i<newBlocksIds.size();i++){ //solo puedo eliminar bloques que estan en stableIds
+        for (Integer newBlocksId : newBlocksIds) { //solo puedo eliminar bloques que estan en stableIds
 
             //Gdx.app.log(TAG,"  ");
-            checkStrikesAndDecideIfRemove(newBlocksIds.get(i));
+            checkStrikesAndDecideIfRemove(newBlocksId);
         }
     }
 
@@ -151,7 +141,7 @@ public abstract class CvBlocksManager {
            }
     }
 
-    public void initStrikesAndBlocksValues(){
+    void initStrikesAndBlocksValues(){
         int [][] allMarkers = {BlocksMarkersMap.block1,BlocksMarkersMap.block2,BlocksMarkersMap.block3,BlocksMarkersMap.block4,BlocksMarkersMap.block5};
 
         for(int arrIdx = 0;arrIdx < allMarkers.length; arrIdx++){
@@ -185,7 +175,7 @@ public abstract class CvBlocksManager {
         p_strikes.put(id,0); // reset strikes!
     }
 
-    public TopCodeDetector getTopCodeDetector(){
+    TopCodeDetector getTopCodeDetector(){
         return topCodeDetector;
     }
 
@@ -205,9 +195,9 @@ public abstract class CvBlocksManager {
         int size = stableIds.size();
         ArrayList<Integer> result = new ArrayList();
 
-        for (int i = 0; i < size; i++ ){
+        for (Integer stableId : stableIds) {
 
-            result.add(tableIdValue.get(stableIds.get(i)));
+            result.add(tableIdValue.get(stableId));
         }
         return result;
     }
@@ -248,8 +238,8 @@ public abstract class CvBlocksManager {
             }
         }
 
-        for(int i=0;i<newBlocksIds.size();i++){
-            checkStrikesAndDecideIfAdd(newBlocksIds.get(i));
+        for (Integer newBlocksId : newBlocksIds) {
+            checkStrikesAndDecideIfAdd(newBlocksId);
         }
     }
 

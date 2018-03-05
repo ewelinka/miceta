@@ -1,9 +1,6 @@
 package miceta.game.core.screens;
 
 import com.badlogic.gdx.Gdx;
-import com.badlogic.gdx.Input;
-import com.badlogic.gdx.InputMultiplexer;
-import com.badlogic.gdx.InputProcessor;
 import com.badlogic.gdx.graphics.GL20;
 import com.badlogic.gdx.graphics.g2d.BitmapFont;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
@@ -13,9 +10,7 @@ import com.badlogic.gdx.utils.viewport.FitViewport;
 import edu.ceta.vision.core.blocks.Block;
 import miceta.game.core.controllers.CvWorldController;
 import miceta.game.core.managers.FeedbackDrawManager;
-import miceta.game.core.managers.LevelsManager;
 import miceta.game.core.miCeta;
-import miceta.game.core.util.AudioManager;
 
 import java.util.Set;
 
@@ -25,12 +20,10 @@ import java.util.Set;
  */
 public class BaseScreen extends AbstractGameScreen {
     private static final String TAG = BaseScreen.class.getName();
-    protected ShapeRenderer shapeRenderer;
-    private int shiftX =70; //70
-    private int shiftY =200;
-    private BitmapFont font = new BitmapFont();
-    private SpriteBatch spriteBatch  = new SpriteBatch();
-    protected FeedbackDrawManager fd;
+    ShapeRenderer shapeRenderer;
+    private final BitmapFont font = new BitmapFont();
+    private final SpriteBatch spriteBatch  = new SpriteBatch();
+    FeedbackDrawManager fd;
 
 
     public BaseScreen(miCeta game, boolean upLevel){
@@ -65,6 +58,8 @@ public class BaseScreen extends AbstractGameScreen {
         shapeRenderer.setColor(1, 1, 1, 1);
 
         // in desktop:
+        int shiftY = 200;
+        int shiftX = 70;
         shapeRenderer.rect(shiftX, shiftY, 480, 640);
 
 
@@ -74,7 +69,7 @@ public class BaseScreen extends AbstractGameScreen {
             for (Block block : cBlocks) {
                 setColorFromValue(block.getValue());
 
-                fd.setShapeRenderer(shapeRenderer, block, shiftX,shiftY);
+                fd.setShapeRenderer(shapeRenderer, block, shiftX, shiftY);
 
             }
 

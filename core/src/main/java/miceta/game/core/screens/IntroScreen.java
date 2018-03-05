@@ -22,8 +22,7 @@ import miceta.game.core.util.ScreenName;
  * Created by ewe on 1/5/18.
  */
 public class IntroScreen extends AbstractGameScreen {
-    public static final String TAG = IntroScreen.class.getName();
-    private ImageButton btnPlay, btnExit, btnHelp, btnNewStart, btnOrganicTutorial, btnIngredients;
+    private static final String TAG = IntroScreen.class.getName();
 
     public IntroScreen(miCeta game) {
         super(game, false);
@@ -58,7 +57,7 @@ public class IntroScreen extends AbstractGameScreen {
 //    }
 
     private void addBtnPlay(int x, int y){
-        btnPlay = new ImageButton(Assets.instance.buttons.playButtonStyle);
+        ImageButton btnPlay = new ImageButton(Assets.instance.buttons.playButtonStyle);
         btnPlay.setPosition(0,y);
         btnPlay.addListener(new ChangeListener() {
             @Override
@@ -79,7 +78,7 @@ public class IntroScreen extends AbstractGameScreen {
         stage.addActor(btnPlay);
     }
     private void addBtnExit(int x, int y){
-        btnExit = new ImageButton(Assets.instance.buttons.exitButtonStyle);
+        ImageButton btnExit = new ImageButton(Assets.instance.buttons.exitButtonStyle);
         btnExit.setPosition(0,y);
         btnExit.addListener(new ChangeListener() {
             @Override
@@ -102,7 +101,7 @@ public class IntroScreen extends AbstractGameScreen {
         stage.addActor(btnExit);
     }
     private void addBtnNewStart(int x, int y){
-        btnNewStart = new ImageButton(Assets.instance.buttons.newStartButtonStyle);
+        ImageButton btnNewStart = new ImageButton(Assets.instance.buttons.newStartButtonStyle);
         btnNewStart.setPosition(0,y);
         btnNewStart.addListener(new ChangeListener() {
             @Override
@@ -123,7 +122,7 @@ public class IntroScreen extends AbstractGameScreen {
         stage.addActor(btnNewStart);
     }
     private void addBtnHelp(int x, int y){
-        btnHelp = new ImageButton(Assets.instance.buttons.helpButtonStyle);
+        ImageButton btnHelp = new ImageButton(Assets.instance.buttons.helpButtonStyle);
         btnHelp.setPosition(0,y);
         btnHelp.addListener(new ChangeListener() {
             @Override
@@ -166,7 +165,7 @@ public class IntroScreen extends AbstractGameScreen {
                 break;
             case "restart":
                 GamePreferences.instance.setLast_level(1);
-                //LevelsManager.instance.forceLevel(1);
+                //LevelsManager.instance.forceToFirstLevel(1);
                 LevelsManager.instance.forceLevelParams(1);
                 //-true
                 Gdx.app.log(TAG,"===============================Entro a tutorial concreto 2");
@@ -175,7 +174,7 @@ public class IntroScreen extends AbstractGameScreen {
             case "help":
                 Gdx.app.log(TAG,"===============================Entro a tutorial concreto 3");
 
-                //LevelsManager.instance.forceLevel(1);
+                //LevelsManager.instance.forceToFirstLevel(1);
                 LevelsManager.instance.forceLevelParams(1);
                 //-true
                 game.setScreen(new ConcreteTutorial(game,0, 0,false));

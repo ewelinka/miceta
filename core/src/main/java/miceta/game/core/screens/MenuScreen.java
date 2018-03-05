@@ -22,8 +22,7 @@ import miceta.game.core.util.ScreenName;
  * Created by ewe on 2/5/18.
  */
 public class MenuScreen extends AbstractGameScreen {
-    public static final String TAG = IntroScreen.class.getName();
-    private ImageButton btnPlay, btnExit, btnHelp, btnNewStart, btnOrganicTutorial, btnIngredients;
+    private static final String TAG = IntroScreen.class.getName();
 
     public MenuScreen(miCeta game) {
         super(game, false);
@@ -103,7 +102,7 @@ public class MenuScreen extends AbstractGameScreen {
 
 
     private void addBtnPlay(int x, int y){
-        btnPlay = new ImageButton(Assets.instance.buttons.playButtonStyle);
+        ImageButton btnPlay = new ImageButton(Assets.instance.buttons.playButtonStyle);
         btnPlay.setPosition(x,y);
         btnPlay.addListener(new ChangeListener() {
             @Override
@@ -123,7 +122,7 @@ public class MenuScreen extends AbstractGameScreen {
     }
 
     private void addBtnNewStart(int x, int y){
-        btnNewStart = new ImageButton(Assets.instance.buttons.newStartButtonStyle);
+        ImageButton btnNewStart = new ImageButton(Assets.instance.buttons.newStartButtonStyle);
         btnNewStart.setPosition(x,y);
         btnNewStart.addListener(new ChangeListener() {
             @Override
@@ -142,7 +141,7 @@ public class MenuScreen extends AbstractGameScreen {
         stage.addActor(btnNewStart);
     }
     private void addBtnHelp(int x, int y){
-        btnHelp = new ImageButton(Assets.instance.buttons.helpButtonStyle);
+        ImageButton btnHelp = new ImageButton(Assets.instance.buttons.helpButtonStyle);
         btnHelp.setPosition(x,y);
         btnHelp.addListener(new ChangeListener() {
             @Override
@@ -161,7 +160,7 @@ public class MenuScreen extends AbstractGameScreen {
         stage.addActor(btnHelp);
     }
     private void addBtnExit(int x, int y){
-        btnExit = new ImageButton(Assets.instance.buttons.exitButtonStyle);
+        ImageButton btnExit = new ImageButton(Assets.instance.buttons.exitButtonStyle);
         btnExit.setPosition(x,y);
         btnExit.addListener(new ChangeListener() {
             @Override
@@ -203,7 +202,7 @@ public class MenuScreen extends AbstractGameScreen {
                 break;
             case RESTART:
                 GamePreferences.instance.setLast_level(1);
-                LevelsManager.instance.forceLevel(1);
+                LevelsManager.instance.forceToFirstLevel();
                 LevelsManager.instance.forceLevelParams(1);
                 game.setScreen(new ConcreteTutorial(game,0,0, true),transition);// restart should do upLevel!
                 break;
@@ -217,7 +216,7 @@ public class MenuScreen extends AbstractGameScreen {
                 break;
             case GAME_KNOCK:
                 LevelsManager.instance.forceLevelParams(3);
-                game.setScreen(new World_1_AudioScreen(game,0,0,false),transition);
+                game.setScreen(new World_1_AudioScreen(game,false),transition);
                 break;
             case GAME_INGREDIENTS:
                 LevelsManager.instance.forceLevelParams(4);
@@ -228,12 +227,12 @@ public class MenuScreen extends AbstractGameScreen {
                 game.setScreen(new BaseScreenWithIntro(game, false),transition);
                 break;
             case GAME_MUSIC:
-                //LevelsManager.instance.forceLevel(6);
+                //LevelsManager.instance.forceToFirstLevel(6);
                 LevelsManager.instance.forceLevelParams(6);
                 game.setScreen(new BaseScreenWithIntro(game, false),transition);
                 break;
             case GAME_BELL:
-                //LevelsManager.instance.forceLevel(7);
+                //LevelsManager.instance.forceToFirstLevel(7);
                 LevelsManager.instance.forceLevelParams(7);
                 game.setScreen(new BaseScreenWithIntro(game,false),transition);
                 break;

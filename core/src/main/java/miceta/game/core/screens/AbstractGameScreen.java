@@ -13,17 +13,18 @@ import miceta.game.core.util.GameScreen;
  * Created by ewe on 8/10/17.
  */
 public abstract class AbstractGameScreen  extends InputAdapter implements Screen {
-    public static final String TAG = AbstractGameScreen.class.getName();
-    protected miCeta game;
-    protected Stage stage;
-    protected CvWorldController worldController;
-    protected boolean paused;
-    protected int viewportWidth, viewportHeight;
-    protected GameScreen gameScreen;
-    protected boolean upLevel;
+    private static final String TAG = AbstractGameScreen.class.getName();
+    final miCeta game;
+    Stage stage;
+    CvWorldController worldController;
+    boolean paused;
+    final int viewportWidth;
+    final int viewportHeight;
+    final GameScreen gameScreen;
+    final boolean upLevel;
 
 
-    public AbstractGameScreen (miCeta game, boolean upLevel){
+    AbstractGameScreen(miCeta game, boolean upLevel){
         this.game = game;
         this.upLevel = upLevel;
         gameScreen = game.updateGameScreen();
@@ -89,7 +90,7 @@ public abstract class AbstractGameScreen  extends InputAdapter implements Screen
             if(worldController != null) {
                 Gdx.app.log(TAG, " TOUCHED " + screenX + " " + screenY);
                 if (Gdx.app.getType() == Application.ApplicationType.Android) {
-                    worldController.touchDownAndroid(screenX, screenY, button);
+                    worldController.touchDownAndroid(screenX, screenY);
                 } else {
                     worldController.touchDownDesktop(screenX, screenY, button);
                 }
@@ -134,7 +135,7 @@ public abstract class AbstractGameScreen  extends InputAdapter implements Screen
     }
 
 
-    public void stopCurrentSound(){
+    void stopCurrentSound(){
 
         AudioManager.instance.stop_sounds(game.getGameScreen().screenName);
 

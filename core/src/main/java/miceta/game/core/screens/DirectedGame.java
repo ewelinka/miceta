@@ -12,7 +12,7 @@ import miceta.game.core.transitions.ScreenTransition;
  * Created by ewe on 8/10/17.
  */
 public abstract class DirectedGame extends Game {
-    public static final String TAG = DirectedGame.class.getName();
+    private static final String TAG = DirectedGame.class.getName();
 
     private boolean init;
     private AbstractGameScreen currScreen;

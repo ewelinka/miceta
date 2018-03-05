@@ -1,20 +1,15 @@
 package miceta.game.core.screens;
 
 import com.badlogic.gdx.Gdx;
-import com.badlogic.gdx.InputMultiplexer;
-import com.badlogic.gdx.InputProcessor;
 import com.badlogic.gdx.graphics.GL20;
 import com.badlogic.gdx.scenes.scene2d.Stage;
 import com.badlogic.gdx.utils.viewport.FitViewport;
-import miceta.game.core.controllers.CvWorldController;
-import miceta.game.core.managers.LevelsManager;
 import miceta.game.core.miCeta;
 import miceta.game.core.util.AudioManager;
 import miceta.game.core.util.Constants;
 import miceta.game.core.util.FeedbackSoundType;
 
 import java.util.ArrayList;
-import java.util.Random;
 
 /**
  * Created by ewe on 1/9/18.
@@ -22,12 +17,9 @@ import java.util.Random;
 public class ConcreteTutorial extends AbstractGameScreen {
     private float _timePassed;
     private float _tutorialDuration;
-    private int _part = 0;
     private int _tutorialPart = 0;
     private int _tutorialAuxNumber =0;
-    private int _knockCounter =0;
     private int _loopCounter = 0;
-    private ArrayList<Integer>  _nowDetected = new ArrayList<>();
 
 
     public ConcreteTutorial(miCeta game, int part, int aux_number, boolean upLevel) {
@@ -44,6 +36,7 @@ public class ConcreteTutorial extends AbstractGameScreen {
         stage.act(deltaTime);
         stage.draw();
 
+        int _knockCounter = 0;
         if ((_tutorialPart == 0) && (_timePassed > _tutorialDuration)) {
             // game.setScreen(new FeedbackScreen(game));
             game.setScreen(new TutorialScreen(game, upLevel));
@@ -109,10 +102,8 @@ public class ConcreteTutorial extends AbstractGameScreen {
 
             if (upLevel){
                 game.goToNextScreen();
-                Gdx.app.log(TAG, "GO TO NEXT upLevel: " + upLevel);
             }
             else{
-                Gdx.app.log(TAG, "GO TO LAST upLevel: " + upLevel);
                 game.goToLastScreen();
             }
         }
@@ -153,8 +144,8 @@ public class ConcreteTutorial extends AbstractGameScreen {
 //-
         _timePassed = 0;
         _tutorialDuration =0;
-        for (int i = 0; i < nowDetected.size(); i++) {
-            _tutorialDuration = _tutorialDuration + nowDetected.get(i);
+        for (Integer aNowDetected : nowDetected) {
+            _tutorialDuration = _tutorialDuration + aNowDetected;
         }
 
     }

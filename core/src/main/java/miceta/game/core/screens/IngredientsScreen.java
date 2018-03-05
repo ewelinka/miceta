@@ -8,7 +8,6 @@ import miceta.game.core.Assets;
 import miceta.game.core.controllers.CvIngredientsController;
 import miceta.game.core.managers.FeedbackDrawManager;
 import miceta.game.core.miCeta;
-import miceta.game.core.util.FeedbackSoundType;
 
 /**
  * Created by ewe on 1/18/18.
@@ -26,7 +25,7 @@ public class IngredientsScreen extends BaseScreen {
 
         Gdx.app.log(TAG," we start the SHOW! "+Gdx.graphics.getWidth());
         stage = new Stage(new FitViewport(viewportWidth, viewportHeight));
-        worldController = new CvIngredientsController(game,stage, FeedbackSoundType.INGREDIENT,Assets.instance.sounds.ingredientsMore,Assets.instance.sounds.ingredientsLess,Assets.instance.sounds.ingredientsFinal, upLevel);
+        worldController = new CvIngredientsController(game,stage, Assets.instance.sounds.ingredientsMore,Assets.instance.sounds.ingredientsLess,Assets.instance.sounds.ingredientsFinal, upLevel);
         shapeRenderer = new ShapeRenderer();
         fd = new FeedbackDrawManager();
         // android back key used to exit, we should not catch

@@ -9,8 +9,8 @@ import miceta.game.core.screens.*;
  * Created by ewe on 1/22/18.
  */
 public class RepresentationMapper {
-    public static final String TAG = RepresentationMapper.class.getName();
-    private miCeta game;
+    private static final String TAG = RepresentationMapper.class.getName();
+    private final miCeta game;
 
     public RepresentationMapper(miCeta game) {
         this.game = game;
@@ -27,7 +27,7 @@ public class RepresentationMapper {
                 return new OrganicOneScreen(game, true);
             case GAME_KNOCK:
                 Gdx.app.log(TAG,"knock!");
-                return new World_1_AudioScreen(game,0,0,true);
+                return new World_1_AudioScreen(game,true);
             case GAME_INGREDIENTS:
                 Gdx.app.log(TAG,"ingredients!");
                 return new IngredientsScreen(game, true);
