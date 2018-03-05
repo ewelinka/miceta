@@ -4,6 +4,7 @@ import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.GL20;
 import com.badlogic.gdx.scenes.scene2d.Stage;
 import com.badlogic.gdx.utils.viewport.FitViewport;
+import miceta.game.core.Assets;
 import miceta.game.core.miCeta;
 import miceta.game.core.util.AudioManager;
 import miceta.game.core.util.Constants;
@@ -78,7 +79,7 @@ public class ConcreteTutorial extends AbstractGameScreen {
         } else if ((_tutorialPart == 7) && (_timePassed > _tutorialDuration && (_knockCounter < _tutorialAuxNumber))) {
             //game.goToNextScreen();
             reproduceBlocks(false, true);
-            AudioManager.instance.readNumberWithFeedback(_tutorialAuxNumber, 0.3f);
+            AudioManager.instance.readNumberWithFeedback(_tutorialAuxNumber, 0.3f, Assets.instance.sounds.knock);
             _tutorialPart =8;
 
             //tutorialDuration =t_aux_number* Constants.READ_ONE_UNIT_DURATION + Constants.WAIT_AFTER_KNOCK + t_aux_number * 0.3f;
@@ -93,7 +94,7 @@ public class ConcreteTutorial extends AbstractGameScreen {
 
             AudioManager.instance.setFeedbackSoundType(FeedbackSoundType.BELL);
             reproduceBlocks(false, true);
-            AudioManager.instance.readNumberWithFeedback(_tutorialAuxNumber, 0.3f);
+            AudioManager.instance.readNumberWithFeedback(_tutorialAuxNumber, 0.3f, AudioManager.instance.getRandomClue());
             _tutorialDuration =_tutorialAuxNumber* Constants.READ_ONE_UNIT_DURATION + Constants.WAIT_AFTER_KNOCK + _tutorialAuxNumber * 0.3f;
             _timePassed = 0;
             _tutorialPart =10;
