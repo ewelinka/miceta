@@ -1,17 +1,10 @@
 package miceta.game.core.managers;
 
-import com.badlogic.gdx.Application;
 import com.badlogic.gdx.Gdx;
-import com.badlogic.gdx.scenes.scene2d.Stage;
 import com.badlogic.gdx.utils.ArrayMap;
-import edu.ceta.vision.core.utils.BlocksMarkersMap;
 import edu.ceta.vision.android.topcode.TopCodeDetectorAndroid;
 import edu.ceta.vision.core.blocks.Block;
-import edu.ceta.vision.core.topcode.TopCodeDetector;
-import edu.ceta.vision.core.topcode.TopCodeDetectorDesktop;
-import miceta.game.core.Assets;
 import miceta.game.core.miCeta;
-import miceta.game.core.util.AudioManager;
 import miceta.game.core.util.Constants;
 import org.opencv.core.Core;
 import org.opencv.core.Mat;
@@ -25,8 +18,8 @@ public class CvBlocksManagerAndroid extends CvBlocksManager {
 
 
 
-    public CvBlocksManagerAndroid(miCeta game, Stage stage) {
-        super(game, stage);
+    public CvBlocksManagerAndroid(miCeta game) {
+        super(game);
     }
 
 
@@ -44,24 +37,24 @@ public class CvBlocksManagerAndroid extends CvBlocksManager {
         }
         detectionReady = false;
         detectionInProgress = false;
-        newDetectedCVBlocks = new ArrayList<Block>();
+        newDetectedCVBlocks = new ArrayList<>();
         // toRemoveCVIds = new ArrayList<Integer>();
         //toRemoveCVValues = new ArrayList<Integer>();
 
-        newIds = new ArrayList<Integer>();
-        lastframeids = new ArrayList<Integer>();
-        stableIds = new ArrayList<Integer>();
-        p_newIds = new ArrayList<Integer>();
-        p_lastframeids = new ArrayList<Integer>();
-        nowDetectedVals = new ArrayList<Integer>();
+        newIds = new ArrayList<>();
+        lastframeids = new ArrayList<>();
+        stableIds = new ArrayList<>();
+        p_newIds = new ArrayList<>();
+        p_lastframeids = new ArrayList<>();
+        nowDetectedVals = new ArrayList<>();
         maxStrikes = Constants.STRIKE; // after x frames without marker, we pronounce it deleted
-        p_maxStrikes = Constants.P_STRIKE;;
-        strikes = new ArrayMap<Integer,Integer>();//id - integer
-        p_strikes = new ArrayMap<Integer,Integer>();//id - integer
-        idToValue = new ArrayMap<Integer,Integer>();
-        tableIdValue = new ArrayMap<Integer,Integer>();
+        p_maxStrikes = Constants.P_STRIKE;
+        strikes = new ArrayMap<>();//id - integer
+        p_strikes = new ArrayMap<>();//id - integer
+        idToValue = new ArrayMap<>();
+        tableIdValue = new ArrayMap<>();
         initStrikesAndBlocksValues();
-        currentBlocks = new HashSet<Block>();
+        currentBlocks = new HashSet<>();
 
 
 

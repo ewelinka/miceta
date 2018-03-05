@@ -21,12 +21,12 @@ import java.util.ArrayList;
  * Created by ewe on 8/10/17.
  */
 public class Assets implements Disposable, AssetErrorListener {
-    public static final String TAG = Assets.class.getName();
+    private static final String TAG = Assets.class.getName();
     public static final Assets instance = new Assets();
     private AssetManager assetManager;
     public AssetSounds sounds;
     public AssetMusic music;
-    public ArrayMap<Sound,Float> s_duration = new ArrayMap<>();
+    private final ArrayMap<Sound,Float> s_duration = new ArrayMap<>();
     public AssetButtons buttons;
 
 
@@ -183,7 +183,7 @@ public class Assets implements Disposable, AssetErrorListener {
     }
     @Override
     public void error(AssetDescriptor asset, Throwable throwable) {
-        Gdx.app.error(TAG, "Couldn't load asset '" +  asset.fileName + "'", (Exception) throwable);
+        Gdx.app.error(TAG, "Couldn't load asset '" +  asset.fileName + "'", throwable);
     }
 
     public class AssetSounds {
@@ -200,20 +200,20 @@ public class Assets implements Disposable, AssetErrorListener {
         public final Sound mixingIntro, mixingFinal, mixingTooFew, mixingTooMuch, mixingPositive_1, mixingPositive_2, mixingPositive_3, mixingPositive_4;
         public final Sound  musicIntro_1, musicIntro_2, musicFinal, musicTooFew, musicTooMuch, musicPositive_1, musicPositive_2, musicPositive_3;
 
-        public final ArrayList<Sound> positivesTutorial = new ArrayList<Sound>();
-        public final ArrayList<Sound> positivesKnock = new ArrayList<Sound>();
-        public final ArrayList<Sound> positivesMixing = new ArrayList<Sound>();
-        public final ArrayList<Sound> positivesIngredients = new ArrayList<Sound>();
-        public final ArrayList<Sound> positivesMusic = new ArrayList<Sound>();
-        public final ArrayList<Sound> positivesBell = new ArrayList<Sound>();
-        public final ArrayList<Sound> positivesFeedbacks = new ArrayList<Sound>();
+        public final ArrayList<Sound> positivesTutorial = new ArrayList<>();
+        public final ArrayList<Sound> positivesKnock = new ArrayList<>();
+        public final ArrayList<Sound> positivesMixing = new ArrayList<>();
+        public final ArrayList<Sound> positivesIngredients = new ArrayList<>();
+        public final ArrayList<Sound> positivesMusic = new ArrayList<>();
+        public final ArrayList<Sound> positivesBell = new ArrayList<>();
+        public final ArrayList<Sound> positivesFeedbacks = new ArrayList<>();
 
-        public final ArrayList<Sound> cluesTutorial= new ArrayList<Sound>();
-        public final ArrayList<Sound> cluesKnock = new ArrayList<Sound>();
-        public final ArrayList<Sound> cluesIngredients = new ArrayList<Sound>();
-        public final ArrayList<Sound> cluesMixing = new ArrayList<Sound>();
-        public final ArrayList<Sound> cluesMusic = new ArrayList<Sound>();
-        public final ArrayList<Sound> cluesBell = new ArrayList<Sound>();
+        public final ArrayList<Sound> cluesTutorial= new ArrayList<>();
+        public final ArrayList<Sound> cluesKnock = new ArrayList<>();
+        public final ArrayList<Sound> cluesIngredients = new ArrayList<>();
+        public final ArrayList<Sound> cluesMixing = new ArrayList<>();
+        public final ArrayList<Sound> cluesMusic = new ArrayList<>();
+        public final ArrayList<Sound> cluesBell = new ArrayList<>();
 
 
         public Sound soundWithDuration(String path, AssetManager am) {

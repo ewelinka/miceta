@@ -20,22 +20,21 @@ import static miceta.game.core.util.FeedbackSoundType.KNOCK;
  * Created by ewe on 8/10/17.
  */
 public class AudioManager {
-    public static final String TAG = AudioManager.class.getName();
+    private static final String TAG = AudioManager.class.getName();
     public static final AudioManager instance = new AudioManager();
     private Music playingMusic;
     private Sound currentSound;
     private SequenceAction readFeedbackAction, readBlocksAction, readTutorialAction;
-    private float defaultVolSound = 0.5f;
+    private final float defaultVolSound = 0.5f;
     private float feedbackVolSound = 0.5f;
     private float knockNoteVol = 0.5f;
     private Actor reader;
-    private Stage stage;
     private float readBlockDuration;
     private boolean delay_quit = false;
     private boolean delay_add = false;
     private boolean newblock_loop = false;
-    private Sound   nb_sound = Assets.instance.sounds.newblock;
-    private Music  nb_sound_loop = Assets.instance.music.new_block_loop;
+    private final Sound   nb_sound = Assets.instance.sounds.newblock;
+    private final Music  nb_sound_loop = Assets.instance.music.new_block_loop;
     private FeedbackSoundType feedbackSoundType;
     private Sound tooMuchErrorSound, tooFewErrorSound,finalFeedback, introSound;
     private ArrayList<Sound> positiveFeedback;
@@ -46,7 +45,6 @@ public class AudioManager {
     private AudioManager () { }
 
     public void setStage(Stage stage){
-        this.stage = stage;
         reader = new Actor(); // actor that reads everything
         stage.addActor(reader);
         readFeedbackAction = new SequenceAction(); // for feedback reading
@@ -59,13 +57,13 @@ public class AudioManager {
     public void play (Sound sound) {
         play(sound, 1);
     }
-    public void play (Sound sound, float volume) {
+    private void play(Sound sound, float volume) {
         play(sound, volume, 1);
     } //pitch 1
-    public void play (Sound sound, float volume, float pitch) {
+    private void play(Sound sound, float volume, float pitch) {
         play(sound, volume, pitch, 0);
     } // pan 0
-    public void play (Sound sound, float volume, float pitch, float pan) {
+    private void play(Sound sound, float volume, float pitch, float pan) {
         //currentSound = sound;
         sound.play(defaultVolSound * volume, pitch, pan);
     }
@@ -86,11 +84,11 @@ public class AudioManager {
     }
 
 
-    public void stopMusic () {
+    private void stopMusic() {
         if (playingMusic != null) playingMusic.stop();
     }
 
-    public void playWithoutInterruption(Sound sound, boolean firstNote, float volume) {
+    private void playWithoutInterruption(Sound sound, boolean firstNote, float volume) {
         if(firstNote)
             sound.play(volume+0.2f); // first note louder!
         else{
@@ -150,7 +148,7 @@ public class AudioManager {
         nb_sound.play(defaultVolSound);
     }
 
-    public void playQuitOrAddBlock(int i){
+    private void playQuitOrAddBlock(int i){
         final Sound soundToPlay;
         if (i == 0) {
             soundToPlay = tooMuchErrorSound;
@@ -201,7 +199,7 @@ public class AudioManager {
     }
 
 
-    public SequenceAction playNumber (int nr, SequenceAction readCorrectSolution) {
+    private SequenceAction playNumber(int nr, SequenceAction readCorrectSolution) {
         final Sound whichSound;
         switch(nr) {
             case 1:
@@ -263,7 +261,7 @@ public class AudioManager {
 
     }
 
-    public void addToReadBlock (int nr, SequenceAction readBlocks, final boolean firstNote, float extraDelayBetweenFeedback) {
+    private void addToReadBlock(int nr, SequenceAction readBlocks, final boolean firstNote, float extraDelayBetweenFeedback) {
         final Sound whichSound;
         switch (nr) {
             case 1:
@@ -463,7 +461,7 @@ public class AudioManager {
 
 
 
-    public SequenceAction addToReadFeedbackInSpace (int nr, SequenceAction readFeedback, float extraDelayBetweenFeedback) {
+    private SequenceAction addToReadFeedbackInSpace(int nr, SequenceAction readFeedback, float extraDelayBetweenFeedback) {
         for(int i = 0; i<nr;i++){ // if the number is 5 we have to knock 5 times
             readSingleFeedbackSound(readFeedback, extraDelayBetweenFeedback, currentClue);
         }
@@ -486,7 +484,7 @@ public class AudioManager {
 
 
 
-    Sound getPositiveSound(ArrayList<Sound> positives){
+    private Sound getPositiveSound(ArrayList<Sound> positives){
         if(positives.size()>1){
             int rand = MathUtils.random(0, positives.size() -1);
             while (rand == currentPositiveIndex){
@@ -700,15 +698,15 @@ public class AudioManager {
         reader.addAction(readFeedbackAction);
     }
 
-    public SequenceAction createReadNumberAndBlocksAction(SequenceAction readBlocksAction, ArrayList<Integer> toReadNums, float extraDelayBetweenFeedback){ // we use this action at the beginning of new screen, we read feedback without blocks
+    private SequenceAction createReadNumberAndBlocksAction(SequenceAction readBlocksAction, ArrayList<Integer> toReadNums, float extraDelayBetweenFeedback){ // we use this action at the beginning of new screen, we read feedback without blocks
         readBlocksAction.reset();
         readBlocksAction.addAction(delay(Constants.READ_NUMBER_DURATION));
         boolean firstNote;
 
-        for(int i = 0; i<toReadNums.size();i++) { // if we have detected block 3 and block 2, we have to read 3 times "mi" and 2 time "re"
-            int val = toReadNums.get(i); // val will be 3 and than 2
+        for (Integer toReadNum : toReadNums) { // if we have detected block 3 and block 2, we have to read 3 times "mi" and 2 time "re"
+            int val = toReadNum; // val will be 3 and than 2
             firstNote = true; // first note should be lauder
-            for(int j = 0; j<val;j++) {
+            for (int j = 0; j < val; j++) {
                 addToReadBlock(val, readBlocksAction, firstNote, extraDelayBetweenFeedback); // one single lecture
                 firstNote = false;
             }
@@ -741,7 +739,7 @@ public class AudioManager {
 
 
 
-    public SequenceAction createReadNumberFeedbackAction( SequenceAction readFeedbackAction, int numToBuild, float extraDelayBetweenFeedback){ // we use this action at the beginning of new screen, we read feedback without blocks
+    private SequenceAction createReadNumberFeedbackAction(SequenceAction readFeedbackAction, int numToBuild, float extraDelayBetweenFeedback){ // we use this action at the beginning of new screen, we read feedback without blocks
         readFeedbackAction.reset();
         readFeedbackAction = playNumber(numToBuild,readFeedbackAction);
         readFeedbackAction.addAction(delay(Constants.READ_NUMBER_DURATION)); // wait to finish read the number
@@ -784,8 +782,8 @@ public class AudioManager {
 
         int numberToBuild =0;
 
-        for(int i =0; i< nowDetected.size(); i++){
-            numberToBuild = numberToBuild + nowDetected.get(i);
+        for (Integer aNowDetected : nowDetected) {
+            numberToBuild = numberToBuild + aNowDetected;
         }
 
         /*
@@ -798,12 +796,10 @@ public class AudioManager {
         }
         */
         int counter = 0;
-        for(int i = 0; i< nowDetected.size(); i++)
-        {
-            Sound feedbackSound = getFeedbackSound(nowDetected.get(i));
+        for (Integer aNowDetected : nowDetected) {
+            Sound feedbackSound = getFeedbackSound(aNowDetected);
 
-            for(int j = 0; j < nowDetected.get(i); j++)
-            {
+            for (int j = 0; j < aNowDetected; j++) {
                 counter++;
                 readSingleFeedbackWithNumber(counter, readFeedbackAction, extraDelayBetweenFeedback, feedbackSound); // we start with 1
             }
@@ -822,10 +818,10 @@ public class AudioManager {
         readBlocksAction.reset();
         boolean firstNote;
 
-        for(int i = 0; i<toReadNums.size();i++) { // if we have detected block 3 and block 2, we have to read 3 times "mi" and 2 time "re"
-            int val = toReadNums.get(i); // val will be 3 and than 2
+        for (Integer toReadNum : toReadNums) { // if we have detected block 3 and block 2, we have to read 3 times "mi" and 2 time "re"
+            int val = toReadNum; // val will be 3 and than 2
             firstNote = true; // first note should be lauder
-            for(int j = 0; j<val;j++) {
+            for (int j = 0; j < val; j++) {
                 addToReadBlock(val, readBlocksAction, firstNote, extraDelayBetweenFeedback); // one single lecture
                 firstNote = false;
             }
@@ -874,14 +870,14 @@ public class AudioManager {
         float duration_total =  0;
 
         readTutorialAction.reset();
-        for (int i = 0; i < soundsToReproduce.size(); i++){
-            float duration_aux = Assets.instance.getSoundDuration(soundsToReproduce.get(i));
+        for (Sound aSoundsToReproduce : soundsToReproduce) {
+            float duration_aux = Assets.instance.getSoundDuration(aSoundsToReproduce);
             duration_total = duration_total + duration_aux;
-            final Sound singleSound = soundsToReproduce.get(i);
+            final Sound singleSound = aSoundsToReproduce;
 
             readTutorialAction.addAction(run(new Runnable() {
                 public void run() {
-                    playWithoutInterruption(singleSound,true,defaultVolSound);
+                    playWithoutInterruption(singleSound, true, defaultVolSound);
                 }
             }));
             readTutorialAction.addAction((delay(duration_aux)));
@@ -892,7 +888,7 @@ public class AudioManager {
     }
 
     public float reproduce_concrete_tutorial(int start, int end) {
-        ArrayList<Sound> soundsToReproduce = new ArrayList<Sound>();
+        ArrayList<Sound> soundsToReproduce = new ArrayList<>();
 
         soundsToReproduce.add(Assets.instance.sounds.ct_1);
         soundsToReproduce.add(Assets.instance.sounds.ct_2);
@@ -934,20 +930,20 @@ public class AudioManager {
     }
 
     public float reproduceIntro(){
-        ArrayList<Sound> soundsToReproduce = new ArrayList<Sound>();
+        ArrayList<Sound> soundsToReproduce = new ArrayList<>();
         soundsToReproduce.add(this.introSound);
         return AudioManager.instance.reproduceSounds(soundsToReproduce);
     }
 
     public float reproduce_ingredients_intro() {
-        ArrayList<Sound> soundsToReproduce = new ArrayList<Sound>();
+        ArrayList<Sound> soundsToReproduce = new ArrayList<>();
         soundsToReproduce.add(Assets.instance.sounds.ingredientsIntro);
         soundsToReproduce.add(Assets.instance.sounds.ingredientsAnt);
         return AudioManager.instance.reproduceSounds(soundsToReproduce);
     }
 
     public float reproduce_Game_1(int start, int end) {
-        ArrayList<Sound> soundsToReproduce = new ArrayList<Sound>();
+        ArrayList<Sound> soundsToReproduce = new ArrayList<>();
         soundsToReproduce.add(Assets.instance.sounds.knockIntro);
         soundsToReproduce.add(Assets.instance.sounds.knockTooFew);
         soundsToReproduce.add(Assets.instance.sounds.knockTooMuch);

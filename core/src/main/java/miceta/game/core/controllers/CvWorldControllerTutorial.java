@@ -1,11 +1,9 @@
 package miceta.game.core.controllers;
 
 import com.badlogic.gdx.Gdx;
-import com.badlogic.gdx.Input;
 import com.badlogic.gdx.scenes.scene2d.Stage;
 import miceta.game.core.miCeta;
 import miceta.game.core.screens.ConcreteTutorial;
-import miceta.game.core.screens.IntroScreen;
 import miceta.game.core.util.AudioManager;
 import miceta.game.core.util.Constants;
 
@@ -22,13 +20,11 @@ public class CvWorldControllerTutorial extends CvWorldController {
     private boolean first_time = true;
     private float tutorialDuration =0;
     private float timePassed_t = 0;
-    ArrayList<Integer> nowDetected;
     private int suma = 0;
 
 
     @Override
     protected void init(){
-
         Gdx.app.log(TAG,"init in the cv blocks manager");
         timeToWait = 2; // two seconds before we start!
     }
@@ -53,11 +49,11 @@ public class CvWorldControllerTutorial extends CvWorldController {
 
             // ArrayList<Integer>  nowDetected = cvBlocksManager.getNewDetectedVals(); // to know the blocks on the table
 
-             nowDetected = cvBlocksManager.getNewDetectedVals(); // to know the blocks on the table
+            ArrayList<Integer> nowDetected = cvBlocksManager.getNewDetectedVals();
 
             int sum = 0;
-            for (int i = 0; i < nowDetected.size(); i++)
-                sum += nowDetected.get(i); // we need to know the sum to decide if response is correct
+            for (Integer aNowDetected : nowDetected)
+                sum += aNowDetected; // we need to know the sum to decide if response is correct
             timeToWait =  sum*(Constants.READ_ONE_UNIT_DURATION + extraDelayBetweenFeedback)+ waitAfterKnock;
             timePassed = 0;
 

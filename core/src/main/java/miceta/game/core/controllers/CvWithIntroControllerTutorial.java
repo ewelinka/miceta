@@ -2,12 +2,10 @@ package miceta.game.core.controllers;
 
 import com.badlogic.gdx.audio.Sound;
 import com.badlogic.gdx.scenes.scene2d.Stage;
-import miceta.game.core.managers.LevelsManager;
 import miceta.game.core.miCeta;
 import miceta.game.core.screens.BaseScreenWithIntro;
 
 import miceta.game.core.util.AudioManager;
-import miceta.game.core.util.Constants;
 import miceta.game.core.util.FeedbackSoundType;
 
 import java.util.ArrayList;

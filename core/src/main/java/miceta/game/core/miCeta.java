@@ -15,10 +15,10 @@ import org.opencv.core.Mat;
 
 
 public class miCeta extends DirectedGame {
-	public static final String TAG = miCeta.class.getName();
+	private static final String TAG = miCeta.class.getName();
 	private boolean frameBlocked, hasNewFrame;
 	private Mat lastFrame;//, previousFrame;
-	private Object syncObject = new Object();
+	private final Object syncObject = new Object();
 	private TopCodeDetector topCodeDetector;
 	private RepresentationMapper representationMapper;
 	private GameScreen gameScreen;
@@ -32,7 +32,7 @@ public class miCeta extends DirectedGame {
 		GamePreferences.instance.load();
 		LevelsManager.instance.init();
 		representationMapper = new RepresentationMapper(this);
-		gameScreen = getRepresentationMapper().getGameScreenFromScreenName(LevelsManager.instance.getScreenName());
+		gameScreen = RepresentationMapper.getGameScreenFromScreenName(LevelsManager.instance.getScreenName());
 		ScreenTransition transition = ScreenTransitionFade.init(1);
 		topCodeDetector = null;
 		//setScreen(new BaseScreen(this),transition);
@@ -49,8 +49,6 @@ public class miCeta extends DirectedGame {
 				//	Gdx.app.log(TAG,"Setting new frame!");
 				this.lastFrame = frame.clone();
 				this.hasNewFrame = true;
-			}else{
-				//		Gdx.app.log(TAG,"blocked frame!");
 			}
 		}
 	}
@@ -94,14 +92,14 @@ public class miCeta extends DirectedGame {
 	}
 
 	public GameScreen updateGameScreen(){
-		gameScreen = getRepresentationMapper().getGameScreenFromScreenName(LevelsManager.instance.getScreenName());
+		gameScreen = RepresentationMapper.getGameScreenFromScreenName(LevelsManager.instance.getScreenName());
 		return gameScreen;
 
 	}
 
 	public void goToNextScreen(){
 		LevelsManager.instance.upLevelAndLoadParams();
-		gameScreen = getRepresentationMapper().getGameScreenFromScreenName(LevelsManager.instance.getScreenName());
+		gameScreen = RepresentationMapper.getGameScreenFromScreenName(LevelsManager.instance.getScreenName());
 		Gdx.app.log(TAG," go to next level nr "+LevelsManager.instance.get_level()+" with screen "+gameScreen.screenName );
 		AbstractGameScreen nowScreen = getRepresentationMapper().getScreenFromScreenName(gameScreen.screenName);
 		setScreen(nowScreen);
@@ -109,7 +107,7 @@ public class miCeta extends DirectedGame {
 
 	public void goToLastScreen(){
 		LevelsManager.instance.loadLevelParams();
-		gameScreen = getRepresentationMapper().getGameScreenFromScreenName(LevelsManager.instance.getScreenName());
+		gameScreen = RepresentationMapper.getGameScreenFromScreenName(LevelsManager.instance.getScreenName());
 		AbstractGameScreen nowScreen = getRepresentationMapper().getScreenFromScreenName(gameScreen.screenName);
 		setScreen(nowScreen);
 	}

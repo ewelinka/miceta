@@ -1,7 +1,6 @@
 package miceta.game.core.util;
 
 import com.badlogic.gdx.audio.Sound;
-import miceta.game.core.screens.AbstractGameScreen;
 
 import java.util.ArrayList;
 
@@ -11,7 +10,7 @@ import java.util.ArrayList;
 public class GameScreen {
     public ScreenName screenName;
     public Sound intro;
-    public ArrayList<Sound> positives = new ArrayList<Sound>();
+    public ArrayList<Sound> positives = new ArrayList<>();
     public Sound tooFew;
     public Sound tooMuch;
     public Sound finalSound;
