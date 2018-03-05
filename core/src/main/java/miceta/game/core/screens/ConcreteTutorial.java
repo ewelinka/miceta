@@ -11,6 +11,7 @@ import miceta.game.core.managers.LevelsManager;
 import miceta.game.core.miCeta;
 import miceta.game.core.util.AudioManager;
 import miceta.game.core.util.Constants;
+import miceta.game.core.util.FeedbackSoundType;
 
 import java.util.ArrayList;
 import java.util.Random;
@@ -99,6 +100,7 @@ public class ConcreteTutorial extends AbstractGameScreen {
         }
         else if ((_tutorialPart == 9) && (_timePassed > _tutorialDuration && (_knockCounter < _tutorialAuxNumber))) {
 
+            AudioManager.instance.setFeedbackSoundType(FeedbackSoundType.BELL);
             reproduceBlocks(false, true);
             AudioManager.instance.readNumberWithFeedback(_tutorialAuxNumber, 0.3f);
             _tutorialDuration =_tutorialAuxNumber* Constants.READ_ONE_UNIT_DURATION + Constants.WAIT_AFTER_KNOCK + _tutorialAuxNumber * 0.3f;
