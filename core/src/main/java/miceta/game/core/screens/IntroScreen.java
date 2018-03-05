@@ -26,7 +26,7 @@ public class IntroScreen extends AbstractGameScreen {
     private ImageButton btnPlay, btnExit, btnHelp, btnNewStart, btnOrganicTutorial, btnIngredients;
 
     public IntroScreen(miCeta game) {
-        super(game);
+        super(game, false);
     }
 
     @Override
@@ -150,7 +150,7 @@ public class IntroScreen extends AbstractGameScreen {
         ScreenTransition transition = ScreenTransitionFade.init(1);
         switch(btnType){
             case "play":
-                LevelsManager.instance.forceLevelParams(LevelsManager.instance.get_level());
+                //LevelsManager.instance.forceLevelParams(LevelsManager.instance.get_level());
                 AbstractGameScreen nowScreen = game.getRepresentationMapper().getScreenFromScreenName(LevelsManager.instance.getScreenName());
 
                 if (LevelsManager.instance.getScreenName().equals(ScreenName.CONCRETE_TUTORIAL)){
@@ -166,7 +166,7 @@ public class IntroScreen extends AbstractGameScreen {
                 break;
             case "restart":
                 GamePreferences.instance.setLast_level(1);
-                LevelsManager.instance.forceLevel(1);
+                //LevelsManager.instance.forceLevel(1);
                 LevelsManager.instance.forceLevelParams(1);
                 //-true
                 Gdx.app.log(TAG,"===============================Entro a tutorial concreto 2");
@@ -175,7 +175,7 @@ public class IntroScreen extends AbstractGameScreen {
             case "help":
                 Gdx.app.log(TAG,"===============================Entro a tutorial concreto 3");
 
-                LevelsManager.instance.forceLevel(1);
+                //LevelsManager.instance.forceLevel(1);
                 LevelsManager.instance.forceLevelParams(1);
                 //-true
                 game.setScreen(new ConcreteTutorial(game,0, 0,false));

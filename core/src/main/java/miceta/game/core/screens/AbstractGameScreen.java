@@ -20,10 +20,12 @@ public abstract class AbstractGameScreen  extends InputAdapter implements Screen
     protected boolean paused;
     protected int viewportWidth, viewportHeight;
     protected GameScreen gameScreen;
+    protected boolean upLevel;
 
 
-    public AbstractGameScreen (miCeta game){
+    public AbstractGameScreen (miCeta game, boolean upLevel){
         this.game = game;
+        this.upLevel = upLevel;
         gameScreen = game.updateGameScreen();
         paused = false;
 
@@ -45,30 +47,25 @@ public abstract class AbstractGameScreen  extends InputAdapter implements Screen
 
     @Override
     public void hide() {
-        Gdx.app.log(TAG," we start the HIDE of the screen ! " +Gdx.graphics.getWidth()+" h "+Gdx.graphics.getHeight());
         dispose();
 
     }
 
     @Override
     public void pause() {
-        Gdx.app.log(TAG," we start the PAUSE of the screen ! " +Gdx.graphics.getWidth()+" h "+Gdx.graphics.getHeight());
         paused =true;
 
     }
 
     @Override
     public void resume () {
-        Gdx.app.log(TAG," we start the RESUME of the screen ! " +Gdx.graphics.getWidth()+" h "+Gdx.graphics.getHeight());
         // Only called on Android!
         paused = false;
     }
 
     @Override
     public void dispose(){
-        Gdx.app.log(TAG," we start the DISPOSE of the screen ! " +Gdx.graphics.getWidth()+" h "+Gdx.graphics.getHeight());
         stage.dispose();
-
     }
 
     public InputProcessor getInputProcessor(){
@@ -124,6 +121,12 @@ public abstract class AbstractGameScreen  extends InputAdapter implements Screen
                 break;
             case Input.Keys.DOWN:
                 AudioManager.instance.downKnockNoteVol();
+                break;
+            case Input.Keys.Q:
+                if(worldController!= null){ //in concrete tutorial there is no worldController
+                    stopCurrentSound();
+                    worldController.forceScreenFinish();
+                }
                 break;
 
         }

@@ -16,8 +16,8 @@ import miceta.game.core.util.FeedbackSoundType;
 public class OrganicOneScreen  extends BaseScreenWithIntro {
     private static final String TAG = OrganicOneScreen.class.getName();
 
-    public OrganicOneScreen(miCeta game) {
-        super(game);
+    public OrganicOneScreen(miCeta game, boolean upLevel) {
+        super(game, upLevel);
     }
 
     @Override
@@ -30,7 +30,8 @@ public class OrganicOneScreen  extends BaseScreenWithIntro {
                 Assets.instance.sounds.positivesFeedbacks,
                 Assets.instance.sounds.tmm1_tooFewOne,
                 Assets.instance.sounds.tmm1_tooMuch_1,
-                Assets.instance.sounds.tada
+                Assets.instance.sounds.tada,
+                upLevel
         );
         shapeRenderer = new ShapeRenderer();
         fd = new FeedbackDrawManager();

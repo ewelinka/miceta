@@ -28,7 +28,7 @@ public class LevelsManager {
 
      public void init(){
          level = GamePreferences.instance.getLast_level();
-         System.out.println("LEVEL " + level);
+         System.out.println("== LEVEL " + level);
          //operation_index = GamePreferences.instance.getOperation_index();
          operation_index =0; // for now we start from the beginning
          load_csv(); // load all levels
@@ -42,9 +42,6 @@ public class LevelsManager {
         csvLines = csvContentString.split("\n");
         level_tope = csvLines.length-1; // -1 because of the headers
         Gdx.app.log(TAG,"csvContentString "+csvContentString + " tope "+level_tope);
-//        for (int i=0;i<csvLines.length;i++){
-//            Gdx.app.log(TAG, "line "+i+" -- "+csvLines[i]);
-//        }
     }
 
     private LevelParams loadLevelParams(int levelNr){
@@ -87,11 +84,17 @@ public class LevelsManager {
         return levelParams;
     }
 
-     public void forceLevelParams(int forcedLevelNr){
-         Gdx.app.log(TAG," -- forceLevelParams ---> "+forcedLevelNr);
-         //level = forcedLevelNr;
-         currentLevelParams = loadLevelParams(forcedLevelNr);
-     }
+    public void loadLevelParams(){
+     Gdx.app.log(TAG," -- loadLevelParams ---> "+level);
+     currentLevelParams = loadLevelParams(level);
+    }
+
+    public void forceLevelParams(int forcedLevelNr){
+     Gdx.app.log(TAG," -- forceLevelParams ---> "+forcedLevelNr);
+     //level = forcedLevelNr;
+     currentLevelParams = loadLevelParams(forcedLevelNr);
+    }
+
 
     public void upLevelAndLoadParams(){
         if (level < level_tope) {
@@ -107,18 +110,6 @@ public class LevelsManager {
         GamePreferences.instance.save();
         currentLevelParams = loadLevelParams(level);
     }
-
-
-     public void LevelAndLoadParams(){
-
-         GamePreferences.instance.setLast_level(level);
-         GamePreferences.instance.setOperation_index(operation_index);
-         GamePreferences.instance.save();
-         currentLevelParams = loadLevelParams(level);
-     }
-
-
-
 
     public int get_number_to_play(){
         return currentLevelParams.operations[operation_index];

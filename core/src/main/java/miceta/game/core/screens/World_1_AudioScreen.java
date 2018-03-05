@@ -27,8 +27,8 @@ public class World_1_AudioScreen extends AbstractGameScreen {
     private boolean isActive = true;
     //private ArrayList<Integer>  nowDetected = new ArrayList<>();
 
-    public World_1_AudioScreen(miCeta game, int part, int auxNumber) {
-        super(game);
+    public World_1_AudioScreen(miCeta game, int part, int auxNumber, boolean upLevel) {
+        super(game, upLevel);
         tutorialPart = part;
         tutorialAuxNumber =  auxNumber;
     }
@@ -43,7 +43,7 @@ public class World_1_AudioScreen extends AbstractGameScreen {
         stage.draw();
 
         if((tutorialPart==0) && (timePassed > tutorialDuration)){
-            game.setScreen(new World_1_Game(game));
+            game.setScreen(new World_1_Game(game, upLevel));
         }
     }
 

@@ -14,7 +14,7 @@ public class FeedbackScreen extends BaseScreen {
     private static final String TAG = FeedbackScreen.class.getName();
 
     public FeedbackScreen(miCeta game) {
-        super(game);
+        super(game, false);
     }
 
     @Override

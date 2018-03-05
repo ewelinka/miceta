@@ -18,8 +18,8 @@ public class CvIngredientsController extends CvWorldController{
     private static final String TAG = CvIngredientsController.class.getName();
 
 
-    public CvIngredientsController(miCeta game, Stage stage, FeedbackSoundType feedbackSoundName, Sound tooFewErrorSound, Sound tooMuchErrorSound, Sound finalSound) {
-        super(game, stage, feedbackSoundName, Assets.instance.sounds.tada, Assets.instance.sounds.positivesIngredients, tooFewErrorSound, tooMuchErrorSound, finalSound); //yuju won't be used but we have to set it
+    public CvIngredientsController(miCeta game, Stage stage, FeedbackSoundType feedbackSoundName, Sound tooFewErrorSound, Sound tooMuchErrorSound, Sound finalSound, boolean upLevel) {
+        super(game, stage, feedbackSoundName, Assets.instance.sounds.tada, Assets.instance.sounds.positivesIngredients, tooFewErrorSound, tooMuchErrorSound, finalSound, upLevel); //yuju won't be used but we have to set it
     }
 
     @Override

@@ -20,9 +20,8 @@ import static miceta.game.core.util.CommonFeedbacks.*;
  */
 public class CvWithIntroController extends CvWorldController {
 
-
-    public CvWithIntroController(miCeta game, Stage stage, FeedbackSoundType feedbackSound, Sound introSound, ArrayList<Sound> positiveFeedback, Sound tooFewErrorSound, Sound tooMuchErrorSound, Sound finalFeedback) {
-        super(game, stage, feedbackSound, introSound, positiveFeedback, tooFewErrorSound, tooMuchErrorSound, finalFeedback);
+    public CvWithIntroController(miCeta game, Stage stage, FeedbackSoundType feedbackSound, Sound introSound, ArrayList<Sound> positiveFeedback, Sound tooFewErrorSound, Sound tooMuchErrorSound, Sound finalFeedback, boolean upLevel) {
+        super(game, stage, feedbackSound, introSound, positiveFeedback, tooFewErrorSound, tooMuchErrorSound, finalFeedback, upLevel);
     }
 
     @Override
@@ -31,9 +30,6 @@ public class CvWithIntroController extends CvWorldController {
         setDelayForPositiveFeedback();
         timeToWait = AudioManager.instance.reproduceIntro(); //first we read the intro
         answerRight = false;
-
-
     }
-
 
 }

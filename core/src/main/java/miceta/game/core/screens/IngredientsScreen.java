@@ -17,8 +17,8 @@ public class IngredientsScreen extends BaseScreen {
     private static final String TAG = IngredientsScreen.class.getName();
 
 
-    public IngredientsScreen(miCeta game) {
-        super(game);
+    public IngredientsScreen(miCeta game, boolean upLevel) {
+        super(game, upLevel);
     }
 
     @Override
@@ -26,7 +26,7 @@ public class IngredientsScreen extends BaseScreen {
 
         Gdx.app.log(TAG," we start the SHOW! "+Gdx.graphics.getWidth());
         stage = new Stage(new FitViewport(viewportWidth, viewportHeight));
-        worldController = new CvIngredientsController(game,stage, FeedbackSoundType.INGREDIENT,Assets.instance.sounds.ingredientsMore,Assets.instance.sounds.ingredientsLess,Assets.instance.sounds.ingredientsFinal);
+        worldController = new CvIngredientsController(game,stage, FeedbackSoundType.INGREDIENT,Assets.instance.sounds.ingredientsMore,Assets.instance.sounds.ingredientsLess,Assets.instance.sounds.ingredientsFinal, upLevel);
         shapeRenderer = new ShapeRenderer();
         fd = new FeedbackDrawManager();
         // android back key used to exit, we should not catch

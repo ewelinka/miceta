@@ -108,7 +108,7 @@ public class miCeta extends DirectedGame {
 	}
 
 	public void goToLastScreen(){
-		LevelsManager.instance.LevelAndLoadParams();
+		LevelsManager.instance.loadLevelParams();
 		gameScreen = getRepresentationMapper().getGameScreenFromScreenName(LevelsManager.instance.getScreenName());
 		AbstractGameScreen nowScreen = getRepresentationMapper().getScreenFromScreenName(gameScreen.screenName);
 		setScreen(nowScreen);

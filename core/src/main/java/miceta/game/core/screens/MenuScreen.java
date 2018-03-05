@@ -26,7 +26,7 @@ public class MenuScreen extends AbstractGameScreen {
     private ImageButton btnPlay, btnExit, btnHelp, btnNewStart, btnOrganicTutorial, btnIngredients;
 
     public MenuScreen(miCeta game) {
-        super(game);
+        super(game, false);
     }
 
     @Override
@@ -194,7 +194,7 @@ public class MenuScreen extends AbstractGameScreen {
         ScreenTransition transition = ScreenTransitionFade.init(1);
         switch(screenName){
             case LAST_SCREEN:
-                LevelsManager.instance.forceLevelParams(LevelsManager.instance.get_level());
+                LevelsManager.instance.loadLevelParams();
                 AbstractGameScreen nowScreen = game.getRepresentationMapper().getScreenFromScreenName(LevelsManager.instance.getScreenName());
                 game.setScreen(nowScreen);
                 break;
@@ -205,42 +205,37 @@ public class MenuScreen extends AbstractGameScreen {
                 GamePreferences.instance.setLast_level(1);
                 LevelsManager.instance.forceLevel(1);
                 LevelsManager.instance.forceLevelParams(1);
-                game.setScreen(new ConcreteTutorial(game,0,0, false),transition);
+                game.setScreen(new ConcreteTutorial(game,0,0, true),transition);// restart should do upLevel!
                 break;
             case CONCRETE_TUTORIAL:
-                LevelsManager.instance.forceLevel(1);
                 LevelsManager.instance.forceLevelParams(1);
                 game.setScreen(new ConcreteTutorial(game,0, 0,false));
                 break;
             case ORGANIC_TUTORIAL1:
-                LevelsManager.instance.forceLevel(2);
                 LevelsManager.instance.forceLevelParams(2);
-                game.setScreen(new OrganicOneScreen(game),transition);
+                game.setScreen(new OrganicOneScreen(game,false),transition);
                 break;
             case GAME_KNOCK:
-                LevelsManager.instance.forceLevel(3);
                 LevelsManager.instance.forceLevelParams(3);
-                game.setScreen(new World_1_AudioScreen(game,0,0),transition);
+                game.setScreen(new World_1_AudioScreen(game,0,0,false),transition);
                 break;
             case GAME_INGREDIENTS:
-                LevelsManager.instance.forceLevel(4);
                 LevelsManager.instance.forceLevelParams(4);
-                game.setScreen(new IngredientsScreen(game),transition);
+                game.setScreen(new IngredientsScreen(game,false),transition);
                 break;
             case GAME_MIXING:
-                LevelsManager.instance.forceLevel(5);
                 LevelsManager.instance.forceLevelParams(5);
-                game.setScreen(new BaseScreenWithIntro(game),transition);
+                game.setScreen(new BaseScreenWithIntro(game, false),transition);
                 break;
             case GAME_MUSIC:
-                LevelsManager.instance.forceLevel(6);
+                //LevelsManager.instance.forceLevel(6);
                 LevelsManager.instance.forceLevelParams(6);
-                game.setScreen(new BaseScreenWithIntro(game),transition);
+                game.setScreen(new BaseScreenWithIntro(game, false),transition);
                 break;
             case GAME_BELL:
-                LevelsManager.instance.forceLevel(7);
+                //LevelsManager.instance.forceLevel(7);
                 LevelsManager.instance.forceLevelParams(7);
-                game.setScreen(new BaseScreenWithIntro(game),transition);
+                game.setScreen(new BaseScreenWithIntro(game,false),transition);
                 break;
         }
 

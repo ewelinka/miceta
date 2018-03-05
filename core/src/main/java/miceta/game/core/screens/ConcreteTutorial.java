@@ -27,15 +27,13 @@ public class ConcreteTutorial extends AbstractGameScreen {
     private int _tutorialAuxNumber =0;
     private int _knockCounter =0;
     private int _loopCounter = 0;
-    private boolean _upLevel = false;
     private ArrayList<Integer>  _nowDetected = new ArrayList<>();
 
 
     public ConcreteTutorial(miCeta game, int part, int aux_number, boolean upLevel) {
-        super(game);
+        super(game, upLevel);
         _tutorialPart = part;
         _tutorialAuxNumber =  aux_number;
-        _upLevel = upLevel;
     }
 
     @Override
@@ -48,7 +46,7 @@ public class ConcreteTutorial extends AbstractGameScreen {
 
         if ((_tutorialPart == 0) && (_timePassed > _tutorialDuration)) {
             // game.setScreen(new FeedbackScreen(game));
-            game.setScreen(new TutorialScreen(game, _upLevel));
+            game.setScreen(new TutorialScreen(game, upLevel));
         } else if ((_tutorialPart == 1) && (_timePassed > _tutorialDuration)) {
 
             _timePassed = 0;
@@ -109,15 +107,13 @@ public class ConcreteTutorial extends AbstractGameScreen {
         }
         else if ((_tutorialPart == 10) && (_timePassed > _tutorialDuration)){
 
-            if (_upLevel){
+            if (upLevel){
                 game.goToNextScreen();
-                Gdx.app.log(TAG, "GO TO NEXT" + _upLevel);
+                Gdx.app.log(TAG, "GO TO NEXT upLevel: " + upLevel);
             }
             else{
-                Gdx.app.log(TAG, "GO TO " + _upLevel);
+                Gdx.app.log(TAG, "GO TO LAST upLevel: " + upLevel);
                 game.goToLastScreen();
-
-
             }
         }
     }

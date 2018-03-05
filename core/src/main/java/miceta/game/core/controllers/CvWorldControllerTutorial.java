@@ -17,17 +17,13 @@ import java.util.ArrayList;
 public class CvWorldControllerTutorial extends CvWorldController {
     private static final String TAG = CvWorldControllerFeedback.class.getName();
     public CvWorldControllerTutorial(miCeta game, Stage stage, boolean upLevel) {
-
-        super(game, stage);
-        _upLevel = upLevel;
+        super(game, stage, upLevel);
     }
     private boolean first_time = true;
     private float tutorialDuration =0;
     private float timePassed_t = 0;
     ArrayList<Integer> nowDetected;
-    int suma = 0;
-    private int inactivity =0;
-    private boolean _upLevel = false;
+    private int suma = 0;
 
 
     @Override
@@ -38,14 +34,12 @@ public class CvWorldControllerTutorial extends CvWorldController {
     }
 
 
-
-
     @Override
     public void update(float deltaTime) {
 
         if ((!first_time) && (timePassed_t > tutorialDuration)){
         //--------------
-               game.setScreen(new ConcreteTutorial(game,1,suma,_upLevel));
+               game.setScreen(new ConcreteTutorial(game,1,suma,upLevel));
              //  AudioManager.instance.readBlocks(nowDetected, extraDelayBetweenFeedback);
                //first_time = false;
         }
