@@ -34,8 +34,8 @@ public class World_1_Game extends AbstractGameScreen {
     protected FeedbackDrawManager fd;
 
 
-    public World_1_Game (miCeta game){
-        super(game);
+    public World_1_Game (miCeta game, boolean upLevel){
+        super(game, upLevel);
     }
 
     @Override
@@ -48,7 +48,8 @@ public class World_1_Game extends AbstractGameScreen {
                 Assets.instance.sounds.newblock, // intro wont be used
                 Assets.instance.sounds.positivesKnock,
                 Assets.instance.sounds.knockTooFew, Assets.instance.sounds.knockTooMuch,
-                Assets.instance.sounds.knockFinal);
+                Assets.instance.sounds.knockFinal,
+                upLevel);
         worldController.setGameNumber(1);
 
         shapeRenderer = new ShapeRenderer();

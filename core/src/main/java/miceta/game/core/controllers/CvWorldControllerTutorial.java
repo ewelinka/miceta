@@ -16,30 +16,30 @@ import java.util.ArrayList;
  */
 public class CvWorldControllerTutorial extends CvWorldController {
     private static final String TAG = CvWorldControllerFeedback.class.getName();
-    public CvWorldControllerTutorial(miCeta game, Stage stage) {
-        super(game, stage);
+    public CvWorldControllerTutorial(miCeta game, Stage stage, boolean upLevel) {
+        super(game, stage, upLevel);
     }
     private boolean first_time = true;
     private float tutorialDuration =0;
     private float timePassed_t = 0;
     ArrayList<Integer> nowDetected;
-    int suma = 0;
-    private int inactivity =0;
+    private int suma = 0;
 
 
     @Override
     protected void init(){
+
         Gdx.app.log(TAG,"init in the cv blocks manager");
         timeToWait = 2; // two seconds before we start!
-
     }
+
 
     @Override
     public void update(float deltaTime) {
 
         if ((!first_time) && (timePassed_t > tutorialDuration)){
-
-               game.setScreen(new ConcreteTutorial(game,1,suma));
+        //--------------
+               game.setScreen(new ConcreteTutorial(game,1,suma,upLevel));
              //  AudioManager.instance.readBlocks(nowDetected, extraDelayBetweenFeedback);
                //first_time = false;
         }

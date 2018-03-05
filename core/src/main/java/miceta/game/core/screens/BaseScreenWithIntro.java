@@ -18,21 +18,21 @@ import miceta.game.core.util.GameScreen;
 public class BaseScreenWithIntro extends BaseScreen {
     private static final String TAG = BaseScreenWithIntro.class.getName();
 
-    public BaseScreenWithIntro(miCeta game) {
-        super(game);
+    public BaseScreenWithIntro(miCeta game, boolean upLevel) {
+        super(game, upLevel);
     }
 
     @Override
     public void show() {
         stage = new Stage(new FitViewport(viewportWidth, viewportHeight));
-       // Sound[] nowSounds = game.getSoundsForCurrent();
         worldController = new CvWithIntroController(game,stage,
                 gameScreen.feedbackSoundType,
                 gameScreen.intro,
                 gameScreen.positives,
                 gameScreen.tooFew,
                 gameScreen.tooMuch,
-                gameScreen.finalSound);
+                gameScreen.finalSound,
+                upLevel);
         shapeRenderer = new ShapeRenderer();
         fd = new FeedbackDrawManager();
         // android back key used to exit, we should not catch

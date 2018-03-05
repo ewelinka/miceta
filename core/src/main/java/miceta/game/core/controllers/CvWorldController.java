@@ -59,18 +59,19 @@ public class CvWorldController {
     protected int correctAnswersNow;
     protected int correctAnswersNeeded;
     private float readNumberDelay;
+    protected boolean upLevel;
 
 
     public CvWorldController(miCeta game, Stage stage){
+        this(game,stage,false);
+    }
+    public CvWorldController(miCeta game, Stage stage, boolean upLevel){
         // knock by default
         // too much and too many default values
-        this(game,stage,FeedbackSoundType.KNOCK, Assets.instance.sounds.newblock, Assets.instance.sounds.positivesFeedbacks, Assets.instance.sounds.addblock, Assets.instance.sounds.quitblock, Assets.instance.sounds.yuju);
-    }
-    public CvWorldController(miCeta game, Stage stage, FeedbackSoundType feedbackSound,  Sound tooFewErrorSound, Sound tooMuchErrorSound){
-        this(game,stage,feedbackSound, Assets.instance.sounds.newblock, Assets.instance.sounds.positivesFeedbacks, tooFewErrorSound, tooMuchErrorSound ,Assets.instance.sounds.yuju );
+        this(game,stage,FeedbackSoundType.KNOCK, Assets.instance.sounds.newblock, Assets.instance.sounds.positivesFeedbacks, Assets.instance.sounds.addblock, Assets.instance.sounds.quitblock, Assets.instance.sounds.yuju, upLevel);
     }
 
-    public CvWorldController(miCeta game, Stage stage, FeedbackSoundType feedbackSound, Sound introSound, ArrayList<Sound> positiveFeedback, Sound tooFewErrorSound,  Sound tooMuchErrorSound, Sound finalFeedback) {
+    public CvWorldController(miCeta game, Stage stage, FeedbackSoundType feedbackSound, Sound introSound, ArrayList<Sound> positiveFeedback, Sound tooFewErrorSound,  Sound tooMuchErrorSound, Sound finalFeedback, boolean upLevel) {
         this.game = game;
         this.stage = stage;
         this.feedbackSound = feedbackSound;
@@ -79,6 +80,7 @@ public class CvWorldController {
         this.positiveFeedback = positiveFeedback;
         this.finalFeedback = finalFeedback;
         this.introSound = introSound;
+        this.upLevel = upLevel;
 
 
         if((Gdx.app.getType() == Application.ApplicationType.Android)) {
@@ -300,9 +302,9 @@ public class CvWorldController {
         inactivityTime = 0;
     }
 
-    public void touchDownAndroid(int screenX, int screenY, int button){
+    public void touchDownAndroid(int screenX, int screenY, int button){ //TODO clean what we don't use
         if (screenX > 540 && screenY < 60) {
-            game.setScreen(new BaseScreen(game));
+            game.setScreen(new BaseScreen(game, false));
         }
         if (screenX < 60 && screenY < 60) {
             game.setScreen(new FeedbackScreen(game));
@@ -322,9 +324,9 @@ public class CvWorldController {
         }
 
     }
-    public void touchDownDesktop(int screenX, int screenY, int button){
+    public void touchDownDesktop(int screenX, int screenY, int button){ //TODO clean what we don't use
         if (screenX > 440 && screenY < 10) {
-            game.setScreen(new BaseScreen(game));
+            game.setScreen(new BaseScreen(game, false));
         }
 
         if (screenX < 40 && screenY < 10) {
@@ -395,7 +397,15 @@ public class CvWorldController {
 
     protected void goToNextLevel(){
         willGoToNextPart = true;
-        game.goToNextScreen();
+        if(upLevel)
+            game.goToNextScreen();
+        else
+            game.goToLastScreen();
+    }
+
+    public void forceScreenFinish(){
+        Gdx.app.log(TAG," force screen finish! ");
+        goToNextLevel();
     }
 
     public void setGameNumber(int number){

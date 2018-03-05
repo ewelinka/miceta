@@ -191,7 +191,7 @@ public class Assets implements Disposable, AssetErrorListener {
         public final Sound ct_1,ct_2,ct_3,ct_4,ct_5,ct_6,ct_7,ct_8,ct_9, ct_10, ct_11;
         public final Sound oneDo, oneRe, oneMi, oneFa, oneSol;
         public final Sound puck,yuju, newblock, addblock, quitblock, tada;
-        public final Sound music,mixing,bell, bell_2,knock, knock_2, knock_3, bell_3;
+        public final Sound music, mixing, bell, bell_2,knock, knock_2, knock_3, bell_3;
         public final Sound tmm1_intro,tmm1_tooMuch_1,tmm1_tooFew_1, tmm1_tooMuch_2,tmm1_tooFew_2, tmm1_tooFewOne, tmm1_positive_1,tmm1_positive_2, tmm1_final, tmm1_firstPositive;
         public final Sound jugar, denuevo, ayuda, salir;
         public final Sound ingredientsIntro,ingredientsCrocodile,ingredientsCat,ingredientsAnt,ingredientsLama,ingredientsFrog,ingredientsCow, ingredientsVinegar,ingredientsMore,ingredientsLess, ingredientsPositive_1,ingredientsPositive_2, ingredientsPositive_3, ingredientsPositive_4,ingredientsFinal;
