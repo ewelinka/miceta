@@ -31,8 +31,8 @@ public class CvWorldControllerFeedback extends CvWorldController {
         if(isTimeToStartNewLoop()){
             ArrayList<Integer> nowDetected = cvBlocksManager.getNewDetectedVals(); // to know the blocks on the table
             int sum = 0;
-            for (int i = 0; i < nowDetected.size(); i++)
-                sum += nowDetected.get(i); // we need to know the sum to decide if response is correct
+            for (Integer aNowDetected : nowDetected)
+                sum += aNowDetected; // we need to know the sum to decide if response is correct
             timeToWait =  sum*(Constants.READ_ONE_UNIT_DURATION + extraDelayBetweenFeedback)+ waitAfterKnock;
             timePassed = 0;
 

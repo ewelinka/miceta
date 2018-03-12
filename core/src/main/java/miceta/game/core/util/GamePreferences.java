@@ -9,7 +9,7 @@ import com.badlogic.gdx.Preferences;
 public class GamePreferences {
     public static final String TAG = GamePreferences.class.getName();
     public static final GamePreferences instance = new GamePreferences();
-    private Preferences prefs;
+    private final Preferences prefs;
     private float extraDelayBetweenFeedback;
     private float waitAfterKnock;
     private int last_level;

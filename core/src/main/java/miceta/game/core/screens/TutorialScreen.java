@@ -15,15 +15,18 @@ import miceta.game.core.miCeta;
 public class TutorialScreen extends BaseScreen {
     private static final String TAG = TutorialScreen.class.getName();
 
-    public TutorialScreen(miCeta game) {
-        super(game);
+    public TutorialScreen(miCeta game, boolean upLevel) {
+        super(game, upLevel);
     }
 
     @Override
     public void show() {
+
+
         Gdx.app.log(TAG," we start the SHOW! "+Gdx.graphics.getWidth());
         stage = new Stage(new FitViewport(viewportWidth , viewportHeight));
-        worldController = new CvWorldControllerTutorial(game,stage);
+        worldController = new CvWorldControllerTutorial(game,stage, upLevel);
+
         shapeRenderer = new ShapeRenderer();
         fd = new FeedbackDrawManager();
 

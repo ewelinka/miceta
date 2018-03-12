@@ -1,10 +1,6 @@
 package miceta.game.core.screens;
 
 import com.badlogic.gdx.Gdx;
-import com.badlogic.gdx.Input;
-import com.badlogic.gdx.InputMultiplexer;
-import com.badlogic.gdx.InputProcessor;
-import com.badlogic.gdx.audio.Sound;
 import com.badlogic.gdx.graphics.GL20;
 import com.badlogic.gdx.graphics.g2d.BitmapFont;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
@@ -26,16 +22,14 @@ import java.util.Set;
  */
 public class World_1_Game extends AbstractGameScreen {
     private static final String TAG = BaseScreen.class.getName();
-    protected ShapeRenderer shapeRenderer;
-    private int shiftX =70; //70
-    private int shiftY =200;
-    private BitmapFont font = new BitmapFont();
-    private SpriteBatch spriteBatch  = new SpriteBatch();
-    protected FeedbackDrawManager fd;
+    private ShapeRenderer shapeRenderer;
+    private final BitmapFont font = new BitmapFont();
+    private final SpriteBatch spriteBatch  = new SpriteBatch();
+    private FeedbackDrawManager fd;
 
 
-    public World_1_Game (miCeta game){
-        super(game);
+    public World_1_Game (miCeta game, boolean upLevel){
+        super(game, upLevel);
     }
 
     @Override
@@ -48,7 +42,8 @@ public class World_1_Game extends AbstractGameScreen {
                 Assets.instance.sounds.newblock, // intro wont be used
                 Assets.instance.sounds.positivesKnock,
                 Assets.instance.sounds.knockTooFew, Assets.instance.sounds.knockTooMuch,
-                Assets.instance.sounds.knockFinal);
+                Assets.instance.sounds.knockFinal,
+                upLevel);
         worldController.setGameNumber(1);
 
         shapeRenderer = new ShapeRenderer();
@@ -57,7 +52,6 @@ public class World_1_Game extends AbstractGameScreen {
         Gdx.input.setCatchBackKey(false);
     }
 
-    // @android.annotation.TargetApi(android.os.Build.VERSION_CODES.GINGERBREAD)
     @Override
     public void render(float deltaTime) {
         //Gdx.gl.glClearColor(0, 0, 0, 1);
@@ -78,6 +72,8 @@ public class World_1_Game extends AbstractGameScreen {
         shapeRenderer.setColor(1, 1, 1, 1);
 
         // in desktop:
+        int shiftX = 70;
+        int shiftY = 200;
         shapeRenderer.rect(shiftX, shiftY, 480, 640);
 
 
@@ -87,7 +83,7 @@ public class World_1_Game extends AbstractGameScreen {
             for (Block block : cBlocks) {
                 setColorFromValue(block.getValue());
 
-                fd.setShapeRenderer(shapeRenderer, block, shiftX,shiftY);
+                fd.setShapeRenderer(shapeRenderer, block, shiftX, shiftY);
             }
         }
 

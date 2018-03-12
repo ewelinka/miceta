@@ -13,17 +13,20 @@ import miceta.game.core.util.GameScreen;
  * Created by ewe on 8/10/17.
  */
 public abstract class AbstractGameScreen  extends InputAdapter implements Screen {
-    public static final String TAG = AbstractGameScreen.class.getName();
-    protected miCeta game;
-    protected Stage stage;
-    protected CvWorldController worldController;
-    protected boolean paused;
-    protected int viewportWidth, viewportHeight;
-    protected GameScreen gameScreen;
+    private static final String TAG = AbstractGameScreen.class.getName();
+    final miCeta game;
+    Stage stage;
+    CvWorldController worldController;
+    boolean paused;
+    final int viewportWidth;
+    final int viewportHeight;
+    final GameScreen gameScreen;
+    final boolean upLevel;
 
 
-    public AbstractGameScreen (miCeta game){
+    AbstractGameScreen(miCeta game, boolean upLevel){
         this.game = game;
+        this.upLevel = upLevel;
         gameScreen = game.updateGameScreen();
         paused = false;
 
@@ -45,30 +48,25 @@ public abstract class AbstractGameScreen  extends InputAdapter implements Screen
 
     @Override
     public void hide() {
-        Gdx.app.log(TAG," we start the HIDE of the screen ! " +Gdx.graphics.getWidth()+" h "+Gdx.graphics.getHeight());
         dispose();
 
     }
 
     @Override
     public void pause() {
-        Gdx.app.log(TAG," we start the PAUSE of the screen ! " +Gdx.graphics.getWidth()+" h "+Gdx.graphics.getHeight());
         paused =true;
 
     }
 
     @Override
     public void resume () {
-        Gdx.app.log(TAG," we start the RESUME of the screen ! " +Gdx.graphics.getWidth()+" h "+Gdx.graphics.getHeight());
         // Only called on Android!
         paused = false;
     }
 
     @Override
     public void dispose(){
-        Gdx.app.log(TAG," we start the DISPOSE of the screen ! " +Gdx.graphics.getWidth()+" h "+Gdx.graphics.getHeight());
         stage.dispose();
-
     }
 
     public InputProcessor getInputProcessor(){
@@ -92,7 +90,7 @@ public abstract class AbstractGameScreen  extends InputAdapter implements Screen
             if(worldController != null) {
                 Gdx.app.log(TAG, " TOUCHED " + screenX + " " + screenY);
                 if (Gdx.app.getType() == Application.ApplicationType.Android) {
-                    worldController.touchDownAndroid(screenX, screenY, button);
+                    worldController.touchDownAndroid(screenX, screenY);
                 } else {
                     worldController.touchDownDesktop(screenX, screenY, button);
                 }
@@ -111,7 +109,7 @@ public abstract class AbstractGameScreen  extends InputAdapter implements Screen
             case Input.Keys.F1:
                 stopCurrentSound();
                 LevelsManager.instance.forceLevelParams(1);
-                game.setScreen(new ConcreteTutorial(game,0, 0));
+                game.setScreen(new ConcreteTutorial(game,0, 0,false));
                 break;
             case Input.Keys.LEFT:
                 AudioManager.instance.downFeedbackVolSound();
@@ -125,13 +123,19 @@ public abstract class AbstractGameScreen  extends InputAdapter implements Screen
             case Input.Keys.DOWN:
                 AudioManager.instance.downKnockNoteVol();
                 break;
+            case Input.Keys.Q:
+                if(worldController!= null){ //in concrete tutorial there is no worldController
+                    stopCurrentSound();
+                    worldController.forceScreenFinish();
+                }
+                break;
 
         }
         return true;
     }
 
 
-    public void stopCurrentSound(){
+    void stopCurrentSound(){
 
         AudioManager.instance.stop_sounds(game.getGameScreen().screenName);
 

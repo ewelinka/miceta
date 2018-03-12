@@ -1,7 +1,6 @@
 package miceta.game.core.util;
 
 import com.badlogic.gdx.Gdx;
-import com.badlogic.gdx.audio.Sound;
 import miceta.game.core.Assets;
 import miceta.game.core.miCeta;
 import miceta.game.core.screens.*;
@@ -10,8 +9,8 @@ import miceta.game.core.screens.*;
  * Created by ewe on 1/22/18.
  */
 public class RepresentationMapper {
-    public static final String TAG = RepresentationMapper.class.getName();
-    private miCeta game;
+    private static final String TAG = RepresentationMapper.class.getName();
+    private final miCeta game;
 
     public RepresentationMapper(miCeta game) {
         this.game = game;
@@ -22,28 +21,27 @@ public class RepresentationMapper {
         switch (screenName){
             case CONCRETE_TUTORIAL:
                 Gdx.app.log(TAG,"concrete!");
-                return new ConcreteTutorial(game,0, 0);
+                return new ConcreteTutorial(game,0, 0, true);
             case ORGANIC_TUTORIAL1:
                 Gdx.app.log(TAG,"organic!");
-                return new OrganicOneScreen(game);
+                return new OrganicOneScreen(game, true);
             case GAME_KNOCK:
                 Gdx.app.log(TAG,"knock!");
-                return new World_1_AudioScreen(game,0,0);
+                return new World_1_AudioScreen(game,true);
             case GAME_INGREDIENTS:
                 Gdx.app.log(TAG,"ingredients!");
-                return new IngredientsScreen(game);
+                return new IngredientsScreen(game, true);
             case GAME_MIXING:
                 Gdx.app.log(TAG,"mixing!");
-                return new BaseScreenWithIntro(game);
+                return new BaseScreenWithIntro(game, true);
             case GAME_MUSIC:
                 Gdx.app.log(TAG,"music!");
-                return new BaseScreenWithIntro(game);
+                return new BaseScreenWithIntro(game, true);
             case GAME_BELL:
                 Gdx.app.log(TAG,"bell!");
-                return new BaseScreenWithIntro(game);
+                return new BaseScreenWithIntro(game, true);
             default:
                 Gdx.app.log(TAG,"def!");
-              //  return new OrganicTutorial1AudioScreen(game,1,3);
                 return new  IntroScreen(game);
 
         }
@@ -117,9 +115,6 @@ public class RepresentationMapper {
                 gameScreen.screenName = ScreenName.GAME_MUSIC;
                 gameScreen.intro = Assets.instance.sounds.musicIntro_1; //hay que unir las intro!
                // gameScreen.intro = Assets.instance.sounds.musicIntro_2;
-                //gameScreen.positives = Assets.instance.sounds.musicPositive_1;
-                //gameScreen.positives = Assets.instance.sounds.musicPositive_2;
-                //gameScreen.positives = Assets.instance.sounds.musicPositive_3;
                 gameScreen.positives =Assets.instance.sounds.positivesMusic;
                 gameScreen.tooFew = Assets.instance.sounds.musicTooFew;
                 gameScreen.tooMuch = Assets.instance.sounds.musicTooMuch;

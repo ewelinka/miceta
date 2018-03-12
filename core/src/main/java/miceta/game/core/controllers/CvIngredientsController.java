@@ -18,13 +18,13 @@ public class CvIngredientsController extends CvWorldController{
     private static final String TAG = CvIngredientsController.class.getName();
 
 
-    public CvIngredientsController(miCeta game, Stage stage, FeedbackSoundType feedbackSoundName, Sound tooFewErrorSound, Sound tooMuchErrorSound, Sound finalSound) {
-        super(game, stage, feedbackSoundName, Assets.instance.sounds.tada, Assets.instance.sounds.positivesIngredients, tooFewErrorSound, tooMuchErrorSound, finalSound); //yuju won't be used but we have to set it
+    public CvIngredientsController(miCeta game, Stage stage, Sound tooFewErrorSound, Sound tooMuchErrorSound, Sound finalSound, boolean upLevel) {
+        super(game, stage, FeedbackSoundType.INGREDIENT, Assets.instance.sounds.tada, Assets.instance.sounds.positivesIngredients, tooFewErrorSound, tooMuchErrorSound, finalSound, upLevel); //yuju won't be used but we have to set it
     }
 
     @Override
     protected void init(){
-        numberToPlay = LevelsManager.getInstance().get_number_to_play();
+        numberToPlay = LevelsManager.instance.get_number_to_play();
         setDelayForPositiveFeedback();
         timeToWait = AudioManager.instance.reproduce_ingredients_intro(); //first we read the intro
         answerRight = false;
@@ -39,7 +39,7 @@ public class CvIngredientsController extends CvWorldController{
 
 
     @Override
-    protected void setDelayForPositiveFeedback(){
+    void setDelayForPositiveFeedback(){
         Gdx.app.log(TAG,"setDelayForPositiveFeedback "+Assets.instance.getSoundDuration(Assets.instance.sounds.ingredientsPositive_1)+" === "+Assets.instance.getSoundDuration(Assets.instance.sounds.ingredientsCrocodile));
         delayForPositiveFeedback = Assets.instance.getSoundDuration(Assets.instance.sounds.ingredientsPositive_1) + Assets.instance.getSoundDuration(Assets.instance.sounds.ingredientsCrocodile); // TODO check if crocodile is the longest audio!
     }
