@@ -22,8 +22,8 @@ public class ConcreteTutorial extends AbstractGameScreen {
     private int _loopCounter = 0;
 
 
-    public ConcreteTutorial(miCeta game, int part, int aux_number, boolean upLevel) {
-        super(game, upLevel);
+    public ConcreteTutorial(miCeta game, int part, int aux_number, boolean upLevel, boolean shouldRepeatTutorial) {
+        super(game, upLevel, shouldRepeatTutorial);
         _tutorialPart = part;
         _tutorialAuxNumber =  aux_number;
     }
@@ -39,7 +39,7 @@ public class ConcreteTutorial extends AbstractGameScreen {
         int _knockCounter = 0;
         if ((_tutorialPart == 0) && (_timePassed > _tutorialDuration)) {
             // game.setScreen(new FeedbackScreen(game));
-            game.setScreen(new TutorialScreen(game, upLevel));
+            game.setScreen(new TutorialScreen(game, upLevel, false));
         } else if ((_tutorialPart == 1) && (_timePassed > _tutorialDuration)) {
 
             _timePassed = 0;
@@ -104,7 +104,7 @@ public class ConcreteTutorial extends AbstractGameScreen {
                 game.goToNextScreen();
             }
             else{
-                game.goToLastScreen();
+                game.goToLastScreen(false);
             }
         }
     }
@@ -132,7 +132,7 @@ public class ConcreteTutorial extends AbstractGameScreen {
         nowDetected.add((_tutorialAuxNumber));
 
         if(add_adicional){
-            nowDetected.add((4));
+            nowDetected.add((2));
         }
 
         if (isFeedBackWithNumber) {

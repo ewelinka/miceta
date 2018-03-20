@@ -96,6 +96,7 @@ public class AudioManager {
         }
     }
 
+
     public void upFeedbackVolSound(){
         if (feedbackVolSound < 1.0f)
             feedbackVolSound +=  0.1f;
@@ -261,26 +262,21 @@ public class AudioManager {
 
     }
 
-    private void addToReadBlock(int nr, SequenceAction readBlocks, final boolean firstNote, float extraDelayBetweenFeedback) {
+    private void addToReadBlock(int magicSoundLevel, SequenceAction readBlocks, final boolean firstNote, float extraDelayBetweenFeedback) {
         final Sound whichSound;
-        switch (nr) {
-            case 1:
-                whichSound = Assets.instance.sounds.oneDo;
+        Gdx.app.log(TAG,magicSoundLevel+" -----");
+        switch (magicSoundLevel) {
+            case 1: // pronounced strong
+                whichSound = Assets.instance.sounds.magicStrong;
                 break;
-            case 2:
-                whichSound = Assets.instance.sounds.oneRe;
+            case 2: // pronounced middle
+                whichSound = Assets.instance.sounds.magicMiddle;
                 break;
-            case 3:
-                whichSound = Assets.instance.sounds.oneMi;
-                break;
-            case 4:
-                whichSound = Assets.instance.sounds.oneFa;
-                break;
-            case 5:
-                whichSound = Assets.instance.sounds.oneSol;
+            case 3: // normal
+                whichSound = Assets.instance.sounds.magicNomal;
                 break;
             default:
-                whichSound = Assets.instance.sounds.oneSol; // TODO change the default to hmmm nothing?
+                whichSound = Assets.instance.sounds.magicNomal;
                 break;
 
         }
@@ -707,7 +703,13 @@ public class AudioManager {
             int val = toReadNum; // val will be 3 and than 2
             firstNote = true; // first note should be lauder
             for (int j = 0; j < val; j++) {
-                addToReadBlock(val, readBlocksAction, firstNote, extraDelayBetweenFeedback); // one single lecture
+                if(j == 0) // first note!
+                    addToReadBlock(1, readBlocksAction, firstNote, extraDelayBetweenFeedback); // one single lecture
+                else if((val == 5 && j == 3) || (val == 4 && j == 2)) // nr 4 in 5 and nr 3 in 4
+                    addToReadBlock(2, readBlocksAction, firstNote, extraDelayBetweenFeedback); // one single lecture
+                else
+                    addToReadBlock(3, readBlocksAction, firstNote, extraDelayBetweenFeedback); // one single lecture
+
                 firstNote = false;
             }
         }
@@ -822,7 +824,12 @@ public class AudioManager {
             int val = toReadNum; // val will be 3 and than 2
             firstNote = true; // first note should be lauder
             for (int j = 0; j < val; j++) {
-                addToReadBlock(val, readBlocksAction, firstNote, extraDelayBetweenFeedback); // one single lecture
+                if(j == 0) // first note!
+                    addToReadBlock(1, readBlocksAction, firstNote, extraDelayBetweenFeedback); // one single lecture
+                else if((val == 5 && j == 3) || (val == 4 && j == 2)) // nr 4 in 5 and nr 3 in 4
+                    addToReadBlock(2, readBlocksAction, firstNote, extraDelayBetweenFeedback); // one single lecture
+                else
+                    addToReadBlock(3, readBlocksAction, firstNote, extraDelayBetweenFeedback); // one single lecture
                 firstNote = false;
             }
         }
@@ -929,21 +936,33 @@ public class AudioManager {
         currentClue = getRandomClue();
     }
 
-    public float reproduceIntro(){
+    public float reproduceIntroTutorial(boolean cameFromPast){
+        Gdx.app.log(TAG,"introooo we came from past "+cameFromPast);
         ArrayList<Sound> soundsToReproduce = new ArrayList<>();
+        soundsToReproduce.add(Assets.instance.sounds.goToThePast); // if we repeat the screen 0
         soundsToReproduce.add(this.introSound);
-        return AudioManager.instance.reproduceSounds(soundsToReproduce);
+        return AudioManager.instance.reproduceSoundsWithIndex(soundsToReproduce, cameFromPast? 0 : 1, 1);
     }
 
-    public float reproduce_ingredients_intro() {
+    public float reproduceTutorial(boolean cameFromPast){
+        Gdx.app.log(TAG,"introooo we came from past "+cameFromPast);
         ArrayList<Sound> soundsToReproduce = new ArrayList<>();
+        soundsToReproduce.add(Assets.instance.sounds.cameFromPast); // if we repeat the screen 0
+        soundsToReproduce.add(this.introSound);
+        return AudioManager.instance.reproduceSoundsWithIndex(soundsToReproduce, cameFromPast? 0 : 1, 1);
+    }
+
+    public float reproduce_ingredients_intro(boolean cameFromPast) {
+        ArrayList<Sound> soundsToReproduce = new ArrayList<>();
+        soundsToReproduce.add(Assets.instance.sounds.cameFromPast); // if we repeat the screen 0
         soundsToReproduce.add(Assets.instance.sounds.ingredientsIntro);
         soundsToReproduce.add(Assets.instance.sounds.ingredientsAnt);
-        return AudioManager.instance.reproduceSounds(soundsToReproduce);
+        return AudioManager.instance.reproduceSoundsWithIndex(soundsToReproduce, cameFromPast? 0 : 1, 2);
     }
 
     public float reproduce_Game_1(int start, int end) {
         ArrayList<Sound> soundsToReproduce = new ArrayList<>();
+        soundsToReproduce.add(Assets.instance.sounds.cameFromPast); // if we repeat the screen
         soundsToReproduce.add(Assets.instance.sounds.knockIntro);
         soundsToReproduce.add(Assets.instance.sounds.knockTooFew);
         soundsToReproduce.add(Assets.instance.sounds.knockTooMuch);
@@ -984,8 +1003,8 @@ public class AudioManager {
                 break;
             case GAME_INGREDIENTS:
                 Assets.instance.sounds.ingredientsIntro.stop();
-                Assets.instance.sounds.ingredientsLess.stop();
-                Assets.instance.sounds.ingredientsMore.stop();
+                Assets.instance.sounds.ingredientsTooFew.stop();
+                Assets.instance.sounds.ingredientsTooMuch.stop();
                 Assets.instance.sounds.ingredientsPositive_1.stop();
                 break;
             case GAME_MIXING:

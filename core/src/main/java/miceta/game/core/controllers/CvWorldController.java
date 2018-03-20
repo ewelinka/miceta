@@ -13,9 +13,8 @@ import miceta.game.core.managers.CvBlocksManagerAndroid;
 import miceta.game.core.managers.CvBlocksManagerDesktop;
 import miceta.game.core.managers.LevelsManager;
 import miceta.game.core.miCeta;
-import miceta.game.core.screens.BaseScreen;
-import miceta.game.core.screens.FeedbackScreen;
 import miceta.game.core.screens.IntroScreen;
+import miceta.game.core.screens.OrganicOneScreen;
 import miceta.game.core.util.AudioManager;
 import miceta.game.core.util.Constants;
 import miceta.game.core.util.FeedbackSoundType;
@@ -36,8 +35,8 @@ public class CvWorldController {
    // private int randomNumber,previousRandomNumber;
     int numberToPlay;
     boolean answerRight;
-    private int error_min = 0;
-    private int error_max = 0;
+    private int errors_now = 0;
+    private int totalErrors;
     private int gameNumber =0;
     private float inactivityTime =0; // time that passed since last move
     private int currentSum=0;
@@ -61,18 +60,19 @@ public class CvWorldController {
     int correctAnswersNeeded;
     private float readNumberDelay;
     final boolean upLevel;
+    private boolean goToThePast;
+    final boolean shouldRepeatTutorial;
 
 
-    public CvWorldController(miCeta game, Stage stage){
-        this(game,stage,false);
-    }
-    CvWorldController(miCeta game, Stage stage, boolean upLevel){
+
+
+    public CvWorldController(miCeta game, Stage stage, boolean upLevel, boolean shouldRepeatTutorial){
         // knock by default
         // too much and too many default values
-        this(game,stage,FeedbackSoundType.KNOCK, Assets.instance.sounds.newblock, Assets.instance.sounds.positivesFeedbacks, Assets.instance.sounds.addblock, Assets.instance.sounds.quitblock, Assets.instance.sounds.yuju, upLevel);
+        this(game,stage,FeedbackSoundType.KNOCK, Assets.instance.sounds.newblock, Assets.instance.sounds.positivesFeedbacks, Assets.instance.sounds.addblock, Assets.instance.sounds.quitblock, Assets.instance.sounds.yuju, upLevel, shouldRepeatTutorial);
     }
 
-    public CvWorldController(miCeta game, Stage stage, FeedbackSoundType feedbackSound, Sound introSound, ArrayList<Sound> positiveFeedback, Sound tooFewErrorSound,  Sound tooMuchErrorSound, Sound finalFeedback, boolean upLevel) {
+    public CvWorldController(miCeta game, Stage stage, FeedbackSoundType feedbackSound, Sound introSound, ArrayList<Sound> positiveFeedback, Sound tooFewErrorSound,  Sound tooMuchErrorSound, Sound finalFeedback, boolean upLevel, boolean shouldRepeatTutorial) {
         this.game = game;
         Stage stage1 = stage;
         this.feedbackSound = feedbackSound;
@@ -82,6 +82,7 @@ public class CvWorldController {
         this.finalFeedback = finalFeedback;
         this.introSound = introSound;
         this.upLevel = upLevel;
+        this.shouldRepeatTutorial = shouldRepeatTutorial;
 
 
         if((Gdx.app.getType() == Application.ApplicationType.Android)) {
@@ -132,6 +133,8 @@ public class CvWorldController {
         willGoToNextPart = false;
         feedbackDelay = (Assets.instance.getSoundDuration(this.tooFewErrorSound) > Assets.instance.getSoundDuration(this.tooMuchErrorSound)) ? Assets.instance.getSoundDuration(this.tooFewErrorSound) : Assets.instance.getSoundDuration(this.tooMuchErrorSound);
         readNumberDelay = 0;
+        totalErrors = 0;
+        goToThePast = false;
 
     }
 
@@ -153,6 +156,7 @@ public class CvWorldController {
 
         if(isTimeToStartNewLoop()){
             Gdx.app.log(TAG,"isTimeToStartNewLoop and willGoToNextPart "+willGoToNextPart);
+            checkForTotalErrors();
             if(!willGoToNextPart) {
                 timePassed = 0; // start to count the time
                 ArrayList<Integer> nowDetected = cvBlocksManager.getNewDetectedVals(); // to know the blocks on the table
@@ -183,7 +187,8 @@ public class CvWorldController {
                     reproduceAllFeedbacks(nowDetected, numberToPlay);
                 }
             }else{
-                goToNextLevel();
+                if(!goToThePast)
+                    goToNextLevel();
 
             }
         }
@@ -254,41 +259,40 @@ public class CvWorldController {
         return rand;
     }
 
+    protected void checkForTotalErrors(){
+        Gdx.app.log(TAG,"check errors! "+totalErrors+" "+(totalErrors >= Constants.ERRORS_FOR_REPEAT_TUTORIAL));
+        if(totalErrors >= Constants.ERRORS_FOR_REPEAT_TUTORIAL){
+            AudioManager.instance.stop_sounds(game.getGameScreen().screenName);
+            goToThePast = true;
+            willGoToNextPart = true;
+            resetErrorsAndInactivity();
+            game.setScreen(new OrganicOneScreen(game, false, true));
+        }
+    }
+
 
     private void checkForErrorsAndInactivity(int currentSum, int lastSum){
-
         // check for errors
         if(currentSum != lastSum){ // we count errors or reset inactivity only if (currentSum != lastSum)
             inactivityTime = 0;
-            if (currentSum > numberToPlay) { //too much
-                error_max++;
-                error_min = 0;
-
-            } else { // too few
-                error_min++;
-                error_max =0;
-            }
+            totalErrors+=1;
+            errors_now +=1;
         }
-        Gdx.app.log(TAG,currentSum+" "+lastSum+" "+error_max+" "+error_min);
-        // check if there are sufficient errors and inactivity time
+        Gdx.app.log(TAG,currentSum+" "+lastSum+" "+errors_now+" total errors: "+totalErrors);
 
-        if(inactivityTime >= inactivityLimit){ // this condition is important for both: min and max
-            if (error_max >= maxErrorsForHint) {
+        if((inactivityTime >= inactivityLimit) && (errors_now >= maxErrorsForHint)){ // we have enough errors!
+            if(currentSum > numberToPlay){ // too much!
                 AudioManager.instance.setDelay_add();
                 Gdx.app.log(TAG,"%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%ERROR MAX ");
-                error_max = maxErrorsForHint-1;
-                error_min = maxErrorsForHint-1;
-                inactivityTime = 0;
                 addFeedbackDelayToTimeToWait();
-            }
-            if (error_min >= maxErrorsForHint){
+            }else{ // too few!
                 AudioManager.instance.setDelay_quit();
                 Gdx.app.log(TAG,"########################################ERROR MIN ");
-                error_min = maxErrorsForHint-1;
-                error_max = maxErrorsForHint-1;
                 addFeedbackDelayToTimeToWait();
 
             }
+            errors_now = 0;
+            inactivityTime = 0;
         }
     }
 
@@ -297,41 +301,12 @@ public class CvWorldController {
     }
 
     private void resetErrorsAndInactivity(){
-        error_min = 0;
-        error_max = 0;
+        errors_now = 0;
         inactivityTime = 0;
+        totalErrors = 0;
     }
 
-    public void touchDownAndroid(int screenX, int screenY){ //TODO clean what we don't use
-        if (screenX > 540 && screenY < 60) {
-            game.setScreen(new BaseScreen(game, false));
-        }
-        if (screenX < 60 && screenY < 60) {
-            game.setScreen(new FeedbackScreen(game));
-        }
-
-        if ((screenX > 10 && screenX < 70) && (screenY > (Constants.ANDROID_HEIGHT-140) && screenY < (Constants.ANDROID_HEIGHT-100))) {
-            makeFeedbackSlower();
-        }
-        if ((screenX > 400 && screenX <460)&& (screenY > (Constants.ANDROID_HEIGHT-140) && screenY < (Constants.ANDROID_HEIGHT-100))) {
-            makeFeedbackFaster();
-        }
-        if ((screenX > 10 && screenX < 70) && (screenY > (Constants.ANDROID_HEIGHT-80) && screenY < (Constants.ANDROID_HEIGHT-40))) {
-            makeWaitBigger();
-        }
-        if ((screenX > 400 && screenX < 460)&& (screenY > (Constants.ANDROID_HEIGHT-80) && screenY < (Constants.ANDROID_HEIGHT-40))) {
-            makeWaitSmaller();
-        }
-
-    }
     public void touchDownDesktop(int screenX, int screenY, int button){ //TODO clean what we don't use
-        if (screenX > 440 && screenY < 10) {
-            game.setScreen(new BaseScreen(game, false));
-        }
-
-        if (screenX < 40 && screenY < 10) {
-            game.setScreen(new FeedbackScreen(game));
-        }
 
         if ((screenX > 10 && screenX < 70) && (screenY > (Constants.DESKTOP_HEIGHT-125) && screenY < (Constants.DESKTOP_HEIGHT-105))) {
             makeFeedbackSlower();
@@ -400,7 +375,7 @@ public class CvWorldController {
         if(upLevel)
             game.goToNextScreen();
         else
-            game.goToLastScreen();
+            game.goToLastScreen(shouldRepeatTutorial);
     }
 
     public void forceScreenFinish(){
@@ -409,8 +384,9 @@ public class CvWorldController {
     }
 
     public void setGameNumber(int number){
-        if(number == 1)
+        if(number == 1) {
             readNumberDelay = Constants.READ_NUMBER_DURATION;
+        }
         gameNumber = number;
     }
 }

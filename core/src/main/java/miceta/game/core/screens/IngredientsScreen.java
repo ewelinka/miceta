@@ -15,9 +15,12 @@ import miceta.game.core.miCeta;
 public class IngredientsScreen extends BaseScreen {
     private static final String TAG = IngredientsScreen.class.getName();
 
+    public IngredientsScreen(miCeta game) {
+        this(game, false, false);
+    }
 
-    public IngredientsScreen(miCeta game, boolean upLevel) {
-        super(game, upLevel);
+    public IngredientsScreen(miCeta game, boolean upLevel, boolean shouldRepeatTutorial) {
+        super(game, upLevel, shouldRepeatTutorial);
     }
 
     @Override
@@ -25,7 +28,13 @@ public class IngredientsScreen extends BaseScreen {
 
         Gdx.app.log(TAG," we start the SHOW! "+Gdx.graphics.getWidth());
         stage = new Stage(new FitViewport(viewportWidth, viewportHeight));
-        worldController = new CvIngredientsController(game,stage, Assets.instance.sounds.ingredientsMore,Assets.instance.sounds.ingredientsLess,Assets.instance.sounds.ingredientsFinal, upLevel);
+        worldController = new CvIngredientsController(game,stage,
+                Assets.instance.sounds.ingredientsTooFew,
+                Assets.instance.sounds.ingredientsTooMuch,
+                Assets.instance.sounds.ingredientsFinal,
+                upLevel,
+                shouldRepeatTutorial
+        );
         shapeRenderer = new ShapeRenderer();
         fd = new FeedbackDrawManager();
         // android back key used to exit, we should not catch

@@ -15,8 +15,8 @@ import miceta.game.core.miCeta;
 public class TutorialScreen extends BaseScreen {
     private static final String TAG = TutorialScreen.class.getName();
 
-    public TutorialScreen(miCeta game, boolean upLevel) {
-        super(game, upLevel);
+    public TutorialScreen(miCeta game, boolean upLevel, boolean shouldRepeatTutorial) {
+        super(game, upLevel, shouldRepeatTutorial);
     }
 
     @Override
@@ -25,7 +25,7 @@ public class TutorialScreen extends BaseScreen {
 
         Gdx.app.log(TAG," we start the SHOW! "+Gdx.graphics.getWidth());
         stage = new Stage(new FitViewport(viewportWidth , viewportHeight));
-        worldController = new CvWorldControllerTutorial(game,stage, upLevel);
+        worldController = new CvWorldControllerTutorial(game,stage, upLevel, shouldRepeatTutorial);
 
         shapeRenderer = new ShapeRenderer();
         fd = new FeedbackDrawManager();

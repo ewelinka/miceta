@@ -14,8 +14,11 @@ public class World_1_AudioScreen extends AbstractGameScreen {
     private float timePassed;
     private float tutorialDuration;
 
-    public World_1_AudioScreen(miCeta game, boolean upLevel) {
-        super(game, upLevel);
+    public World_1_AudioScreen(miCeta game) {
+        this(game, false, false);
+    }
+    public World_1_AudioScreen(miCeta game, boolean upLevel, boolean shouldRepeatTutorial) {
+        super(game, upLevel, shouldRepeatTutorial);
     }
 
     @Override
@@ -28,7 +31,7 @@ public class World_1_AudioScreen extends AbstractGameScreen {
         stage.draw();
 
         if(timePassed > tutorialDuration){
-            game.setScreen(new World_1_Game(game, upLevel));
+            game.setScreen(new World_1_Game(game, upLevel, shouldRepeatTutorial));
         }
     }
 
@@ -38,7 +41,11 @@ public class World_1_AudioScreen extends AbstractGameScreen {
         Gdx.input.setCatchBackKey(false);
         timePassed = 0;
         AudioManager.instance.setStage(stage);
-        tutorialDuration = AudioManager.instance.reproduce_Game_1(0, 0);
+        if(shouldRepeatTutorial)
+            tutorialDuration = AudioManager.instance.reproduce_Game_1(0, 1);
+        else
+            tutorialDuration = AudioManager.instance.reproduce_Game_1(1, 1);
+
 
     }
 

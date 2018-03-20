@@ -61,6 +61,9 @@ public class Assets implements Disposable, AssetErrorListener {
         assetManager.load("sounds/feedback/piano/mi.wav", Sound.class);
         assetManager.load("sounds/feedback/piano/fa.wav", Sound.class);
         assetManager.load("sounds/feedback/piano/sol.wav", Sound.class);
+        assetManager.load("sounds/feedback/magic/fuerte2.mp3", Sound.class);
+        assetManager.load("sounds/feedback/magic/medio2.mp3", Sound.class);
+        assetManager.load("sounds/feedback/magic/suave2.mp3", Sound.class);
 
         assetManager.load("sounds/feedback/puck.mp3", Sound.class);
         assetManager.load("sounds/feedback/yuju.mp3", Sound.class);
@@ -76,7 +79,7 @@ public class Assets implements Disposable, AssetErrorListener {
         assetManager.load("sounds/feedback/bell_2.mp3", Sound.class);
         assetManager.load("sounds/feedback/bell_3.mp3", Sound.class);
         assetManager.load("sounds/feedback/mixing.mp3", Sound.class);
-        assetManager.load("sounds/feedback/music.mp3", Sound.class);
+        assetManager.load("sounds/feedback/music.wav", Sound.class);
 
         assetManager.load("sounds/concreto/1.mp3", Sound.class);
         assetManager.load("sounds/concreto/2.mp3", Sound.class);
@@ -159,6 +162,8 @@ public class Assets implements Disposable, AssetErrorListener {
 
         assetManager.load("music/song1.mp3", Music.class);
         assetManager.load("music/song2.mp3", Music.class);
+
+        assetManager.load("sounds/mm1/vueltaAlPasado.mp3", Sound.class);
         // start loading assets and wait until finished
         assetManager.finishLoading();
 
@@ -194,11 +199,13 @@ public class Assets implements Disposable, AssetErrorListener {
         public final Sound music, mixing, bell, bell_2,knock, knock_2, knock_3, bell_3;
         public final Sound tmm1_intro,tmm1_tooMuch_1,tmm1_tooFew_1, tmm1_tooMuch_2,tmm1_tooFew_2, tmm1_tooFewOne, tmm1_positive_1,tmm1_positive_2, tmm1_final, tmm1_firstPositive;
         public final Sound jugar, denuevo, ayuda, salir;
-        public final Sound ingredientsIntro,ingredientsCrocodile,ingredientsCat,ingredientsAnt,ingredientsLama,ingredientsFrog,ingredientsCow, ingredientsVinegar,ingredientsMore,ingredientsLess, ingredientsPositive_1,ingredientsPositive_2, ingredientsPositive_3, ingredientsPositive_4,ingredientsFinal;
+        public final Sound ingredientsIntro,ingredientsCrocodile,ingredientsCat,ingredientsAnt,ingredientsLama,ingredientsFrog,ingredientsCow, ingredientsVinegar,ingredientsTooFew,ingredientsTooMuch, ingredientsPositive_1,ingredientsPositive_2, ingredientsPositive_3, ingredientsPositive_4,ingredientsFinal;
         public final Sound knockIntro, knockTooFew, knockTooMuch, knockPositive_1, knockPositive_2, knockPositive_3, knockFinal;
         public final Sound bellIntro, bellFinal, bellTooFew, bellTooMuch, bellPositive;
         public final Sound mixingIntro, mixingFinal, mixingTooFew, mixingTooMuch, mixingPositive_1, mixingPositive_2, mixingPositive_3, mixingPositive_4;
         public final Sound  musicIntro_1, musicIntro_2, musicFinal, musicTooFew, musicTooMuch, musicPositive_1, musicPositive_2, musicPositive_3;
+        public final Sound magicStrong, magicMiddle, magicNomal;
+        public final Sound goToThePast, cameFromPast;
 
         public final ArrayList<Sound> positivesTutorial = new ArrayList<>();
         public final ArrayList<Sound> positivesKnock = new ArrayList<>();
@@ -246,6 +253,9 @@ public class Assets implements Disposable, AssetErrorListener {
             oneMi = soundWithDuration("sounds/feedback/piano/mi.wav", am);
             oneFa = soundWithDuration("sounds/feedback/piano/fa.wav", am);
             oneSol = soundWithDuration("sounds/feedback/piano/sol.wav", am);
+            magicStrong = soundWithDuration("sounds/feedback/magic/fuerte2.mp3", am);
+            magicMiddle = soundWithDuration("sounds/feedback/magic/medio2.mp3", am);
+            magicNomal = soundWithDuration("sounds/feedback/magic/suave2.mp3", am);
 
             puck = soundWithDuration("sounds/feedback/puck.mp3", am);
             yuju = soundWithDuration("sounds/feedback/yuju.mp3", am);
@@ -296,9 +306,9 @@ public class Assets implements Disposable, AssetErrorListener {
             knock = soundWithDuration("sounds/feedback/knock.wav", am);
             knock_2 = soundWithDuration("sounds/feedback/knock_2.mp3", am);
             knock_3 = soundWithDuration("sounds/feedback/knock_3.mp3", am);
-            cluesKnock.add(knock);
+            //cluesKnock.add(knock);
             cluesKnock.add(knock_2);
-            cluesKnock.add(knock_3);
+            //cluesKnock.add(knock_3);
 
             ingredientsIntro = soundWithDuration("sounds/mm1/ingredientes/MicroMundo_Juego1_1.mp3", am);
             ingredientsCrocodile = soundWithDuration("sounds/mm1/ingredientes/MicroMundo_Juego1_Cocodrilo.mp3", am);
@@ -308,8 +318,8 @@ public class Assets implements Disposable, AssetErrorListener {
             ingredientsFrog = soundWithDuration("sounds/mm1/ingredientes/MicroMundo_Juego1_Rana.mp3", am);
             ingredientsCow = soundWithDuration("sounds/mm1/ingredientes/MicroMundo_Juego1_Pezuña.mp3", am);
             ingredientsVinegar = soundWithDuration("sounds/mm1/ingredientes/MicroMundo_Juego1_Vinagre.mp3", am);
-            ingredientsMore = soundWithDuration("sounds/mm1/ingredientes/MicroMundo_Juego1_MasRunas.mp3", am);
-            ingredientsLess = soundWithDuration("sounds/mm1/ingredientes/MicroMundo_Juego1_MenosRunas.mp3", am);
+            ingredientsTooFew = soundWithDuration("sounds/mm1/ingredientes/MicroMundo_Juego1_MasRunas.mp3", am);
+            ingredientsTooMuch = soundWithDuration("sounds/mm1/ingredientes/MicroMundo_Juego1_MenosRunas.mp3", am);
             ingredientsPositive_1 = soundWithDuration("sounds/mm1/ingredientes/MicroMundo_Juego1_ResolucionEnsayo0.mp3", am);
             ingredientsPositive_2 = soundWithDuration("sounds/mm1/ingredientes/MicroMundo_Juego1_ResolucionEnsayo1.mp3", am);
             ingredientsPositive_3 = soundWithDuration("sounds/mm1/ingredientes/MicroMundo_Juego1_ResolucionEnsayo2.mp3", am);
@@ -347,7 +357,7 @@ public class Assets implements Disposable, AssetErrorListener {
             positivesMusic.add(musicPositive_1);
             positivesMusic.add(musicPositive_2);
             positivesMusic.add(musicPositive_3);
-            music = soundWithDuration("sounds/feedback/music.mp3", am);
+            music = soundWithDuration("sounds/feedback/music.wav", am);
             cluesMusic.add(music);
 
             // bell game
@@ -369,6 +379,9 @@ public class Assets implements Disposable, AssetErrorListener {
             ayuda = soundWithDuration("sounds/opciones/ayuda.wav", am);
             salir = soundWithDuration("sounds/opciones/salir.wav", am);
             positivesFeedbacks.add(yuju);
+
+            goToThePast = soundWithDuration("sounds/mm1/vueltaAlPasado.mp3", am);
+            cameFromPast = soundWithDuration("sounds/feedback/newblock.wav", am);
         }
     }
 
