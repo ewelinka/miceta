@@ -26,8 +26,8 @@ public class BaseScreen extends AbstractGameScreen {
     FeedbackDrawManager fd;
 
 
-    public BaseScreen(miCeta game, boolean upLevel){
-        super(game, upLevel);
+    public BaseScreen(miCeta game, boolean upLevel, boolean shouldRepeatTutorial){
+        super(game, upLevel, shouldRepeatTutorial);
     }
 
     @Override
@@ -35,7 +35,7 @@ public class BaseScreen extends AbstractGameScreen {
 
         Gdx.app.log(TAG," we start the SHOW! "+Gdx.graphics.getWidth());
         stage = new Stage(new FitViewport(viewportWidth, viewportHeight));
-        worldController = new CvWorldController(game,stage);
+        worldController = new CvWorldController(game,stage, upLevel, shouldRepeatTutorial);
         shapeRenderer = new ShapeRenderer();
         fd = new FeedbackDrawManager();
         // android back key used to exit, we should not catch

@@ -13,9 +13,9 @@ import java.util.ArrayList;
  * Created by ewe on 11/16/17.
  */
 public class CvWorldControllerTutorial extends CvWorldController {
-    private static final String TAG = CvWorldControllerFeedback.class.getName();
-    public CvWorldControllerTutorial(miCeta game, Stage stage, boolean upLevel) {
-        super(game, stage, upLevel);
+    private static final String TAG = CvWorldControllerTutorial.class.getName();
+    public CvWorldControllerTutorial(miCeta game, Stage stage, boolean upLevel, boolean shouldRepeatTutorial) {
+        super(game, stage, upLevel, shouldRepeatTutorial);
     }
     private boolean first_time = true;
     private float tutorialDuration =0;
@@ -35,7 +35,7 @@ public class CvWorldControllerTutorial extends CvWorldController {
 
         if ((!first_time) && (timePassed_t > tutorialDuration)){
         //--------------
-               game.setScreen(new ConcreteTutorial(game,1,suma,upLevel));
+               game.setScreen(new ConcreteTutorial(game,1,suma,upLevel,shouldRepeatTutorial));
              //  AudioManager.instance.readBlocks(nowDetected, extraDelayBetweenFeedback);
                //first_time = false;
         }

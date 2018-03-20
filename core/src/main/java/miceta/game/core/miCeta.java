@@ -83,10 +83,6 @@ public class miCeta extends DirectedGame {
 
 	public RepresentationMapper getRepresentationMapper(){ return representationMapper;}
 
-//	public ScreenName getScreenName(){
-//		return gameScreen.screenName;
-//	}
-//
 	public GameScreen getGameScreen(){
 		return gameScreen;
 	}
@@ -101,14 +97,14 @@ public class miCeta extends DirectedGame {
 		LevelsManager.instance.upLevelAndLoadParams();
 		gameScreen = RepresentationMapper.getGameScreenFromScreenName(LevelsManager.instance.getScreenName());
 		Gdx.app.log(TAG," go to next level nr "+LevelsManager.instance.get_level()+" with screen "+gameScreen.screenName );
-		AbstractGameScreen nowScreen = getRepresentationMapper().getScreenFromScreenName(gameScreen.screenName);
+		AbstractGameScreen nowScreen = getRepresentationMapper().getScreenFromScreenName(gameScreen.screenName, false);
 		setScreen(nowScreen);
 	}
 
-	public void goToLastScreen(){
+	public void goToLastScreen(boolean shouldRepeatTutorial){
 		LevelsManager.instance.loadLevelParams();
 		gameScreen = RepresentationMapper.getGameScreenFromScreenName(LevelsManager.instance.getScreenName());
-		AbstractGameScreen nowScreen = getRepresentationMapper().getScreenFromScreenName(gameScreen.screenName);
+		AbstractGameScreen nowScreen = getRepresentationMapper().getScreenFromScreenName(gameScreen.screenName, shouldRepeatTutorial);
 		setScreen(nowScreen);
 	}
 }

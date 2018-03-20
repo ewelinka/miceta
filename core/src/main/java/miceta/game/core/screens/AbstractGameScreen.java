@@ -22,11 +22,16 @@ public abstract class AbstractGameScreen  extends InputAdapter implements Screen
     final int viewportHeight;
     final GameScreen gameScreen;
     final boolean upLevel;
+    final boolean shouldRepeatTutorial;
 
+    AbstractGameScreen(miCeta game){
+        this(game,false,false);
+    }
 
-    AbstractGameScreen(miCeta game, boolean upLevel){
+    AbstractGameScreen(miCeta game, boolean upLevel, boolean shouldRepeatTutorial){
         this.game = game;
         this.upLevel = upLevel;
+        this.shouldRepeatTutorial = shouldRepeatTutorial;
         gameScreen = game.updateGameScreen();
         paused = false;
 
@@ -89,9 +94,7 @@ public abstract class AbstractGameScreen  extends InputAdapter implements Screen
         else {
             if(worldController != null) {
                 Gdx.app.log(TAG, " TOUCHED " + screenX + " " + screenY);
-                if (Gdx.app.getType() == Application.ApplicationType.Android) {
-                    worldController.touchDownAndroid(screenX, screenY);
-                } else {
+                if (Gdx.app.getType() == Application.ApplicationType.Desktop) {
                     worldController.touchDownDesktop(screenX, screenY, button);
                 }
             }
@@ -109,7 +112,7 @@ public abstract class AbstractGameScreen  extends InputAdapter implements Screen
             case Input.Keys.F1:
                 stopCurrentSound();
                 LevelsManager.instance.forceLevelParams(1);
-                game.setScreen(new ConcreteTutorial(game,0, 0,false));
+                game.setScreen(new ConcreteTutorial(game,0, 0,false, false));
                 break;
             case Input.Keys.LEFT:
                 AudioManager.instance.downFeedbackVolSound();

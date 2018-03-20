@@ -14,15 +14,16 @@ import java.util.ArrayList;
  * Created by ewe on 2/2/18.
  */
 public class CvWithIntroControllerTutorial extends CvWithIntroController {
-    public CvWithIntroControllerTutorial(miCeta game, Stage stage, FeedbackSoundType feedbackSound, Sound introSound, ArrayList<Sound> positiveFeedback, Sound tooFewErrorSound, Sound tooMuchErrorSound, Sound finalFeedback, boolean upLevel) {
-        super(game, stage, feedbackSound, introSound, positiveFeedback, tooFewErrorSound, tooMuchErrorSound, finalFeedback, upLevel);
+
+    public CvWithIntroControllerTutorial(miCeta game, Stage stage, FeedbackSoundType feedbackSound, Sound introSound, ArrayList<Sound> positiveFeedback, Sound tooFewErrorSound, Sound tooMuchErrorSound, Sound finalFeedback, boolean upLevel, boolean shouldRepeatTutorial) {
+        super(game, stage, feedbackSound, introSound, positiveFeedback, tooFewErrorSound, tooMuchErrorSound, finalFeedback, upLevel, shouldRepeatTutorial); // we always come from organic to this controller!
         inactivityLimit = 0; // we dont want to wait!
     }
 
     @Override
     protected void goToNextLevel(){
         willGoToNextPart = true;
-        game.setScreen(new BaseScreenWithIntro(game, upLevel));
+        game.setScreen(new BaseScreenWithIntro(game, upLevel, shouldRepeatTutorial, true)); // interactive part of the tutorial, we shouldn't do level up! and yes, we came from organic!
     }
 
     @Override
@@ -34,13 +35,16 @@ public class CvWithIntroControllerTutorial extends CvWithIntroController {
     protected void init(){
         numberToPlay = 1;
         setDelayForPositiveFeedback();
-        timeToWait = AudioManager.instance.reproduceIntro(); //first we read the intro
-        answerRight = false;
+        timeToWait = AudioManager.instance.reproduceIntroTutorial(shouldRepeatTutorial) + 3; //first we read the intro and add some delay
     }
+
 
     @Override
     protected void initAnswersNeeded(){
         correctAnswersNow = 0;
         correctAnswersNeeded = 1;
     }
+
+    @Override
+    protected void checkForTotalErrors() {}; // do nothing!
 }
