@@ -28,7 +28,7 @@ public class miCeta extends DirectedGame {
 
 		this.frameBlocked = false;
 		Assets.instance.init(new AssetManager());
-		AudioManager.instance.play(Assets.instance.music.song01);
+		//AudioManager.instance.play(Assets.instance.music.song01);
 		GamePreferences.instance.load();
 		LevelsManager.instance.init();
 		representationMapper = new RepresentationMapper(this);

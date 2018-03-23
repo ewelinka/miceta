@@ -5,6 +5,7 @@ import com.badlogic.gdx.scenes.scene2d.Stage;
 import miceta.game.core.miCeta;
 import miceta.game.core.screens.BaseScreenWithIntro;
 
+import miceta.game.core.screens.BaseScreenWithIntroOrganic;
 import miceta.game.core.util.AudioManager;
 import miceta.game.core.util.FeedbackSoundType;
 
@@ -23,7 +24,7 @@ public class CvWithIntroControllerTutorial extends CvWithIntroController {
     @Override
     protected void goToNextLevel(){
         willGoToNextPart = true;
-        game.setScreen(new BaseScreenWithIntro(game, upLevel, shouldRepeatTutorial, true)); // interactive part of the tutorial, we shouldn't do level up! and yes, we came from organic!
+        game.setScreen(new BaseScreenWithIntroOrganic(game, upLevel, shouldRepeatTutorial)); // interactive part of the tutorial, we shouldn't do level up! and yes, we came from organic!
     }
 
     @Override

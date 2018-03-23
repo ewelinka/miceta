@@ -5,9 +5,7 @@ import com.badlogic.gdx.scenes.scene2d.Stage;
 import miceta.game.core.controllers.CvWorldController;
 import miceta.game.core.managers.LevelsManager;
 import miceta.game.core.miCeta;
-import miceta.game.core.util.AudioManager;
-import miceta.game.core.util.Constants;
-import miceta.game.core.util.GameScreen;
+import miceta.game.core.util.*;
 
 /**
  * Created by ewe on 8/10/17.
@@ -20,7 +18,7 @@ public abstract class AbstractGameScreen  extends InputAdapter implements Screen
     boolean paused;
     final int viewportWidth;
     final int viewportHeight;
-    final GameScreen gameScreen;
+    protected GameScreen gameScreen;
     final boolean upLevel;
     final boolean shouldRepeatTutorial;
 
@@ -135,6 +133,10 @@ public abstract class AbstractGameScreen  extends InputAdapter implements Screen
 
         }
         return true;
+    }
+
+    protected void setGameScreenTo(ScreenName name){
+        gameScreen = RepresentationMapper.getGameScreenFromScreenName(name);
     }
 
 

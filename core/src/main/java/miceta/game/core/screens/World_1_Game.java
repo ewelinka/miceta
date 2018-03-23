@@ -46,7 +46,7 @@ public class World_1_Game extends AbstractGameScreen {
                 upLevel,
                 shouldRepeatTutorial
         );
-        worldController.setGameNumber(1);
+
 
         shapeRenderer = new ShapeRenderer();
         fd = new FeedbackDrawManager();

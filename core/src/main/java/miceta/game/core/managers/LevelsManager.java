@@ -30,6 +30,7 @@ public class LevelsManager {
 
     private void load_csv(){
         FileHandle levelsFile = Gdx.files.internal("levels/world_1.csv");
+//        FileHandle levelsFile = Gdx.files.internal("levels/ejemploNiveles.csv");
         String csvContentString = levelsFile.readString();
         csvLines = csvContentString.split("\n");
         level_tope = csvLines.length-1; // -1 because of the headers
@@ -82,9 +83,10 @@ public class LevelsManager {
     }
 
     public void forceLevelParams(int forcedLevelNr){
-     Gdx.app.log(TAG," -- forceLevelParams ---> "+forcedLevelNr);
-     //level = forcedLevelNr;
-     currentLevelParams = loadLevelParams(forcedLevelNr);
+        Gdx.app.log(TAG," -- forceLevelParams ---> "+forcedLevelNr);
+        //level = forcedLevelNr;
+        currentLevelParams = loadLevelParams(forcedLevelNr);
+        operation_index = 0;
     }
 
 

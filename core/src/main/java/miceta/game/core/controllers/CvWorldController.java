@@ -15,10 +15,7 @@ import miceta.game.core.managers.LevelsManager;
 import miceta.game.core.miCeta;
 import miceta.game.core.screens.IntroScreen;
 import miceta.game.core.screens.OrganicOneScreen;
-import miceta.game.core.util.AudioManager;
-import miceta.game.core.util.Constants;
-import miceta.game.core.util.FeedbackSoundType;
-import miceta.game.core.util.GamePreferences;
+import miceta.game.core.util.*;
 
 import java.util.ArrayList;
 import java.util.Set;
@@ -58,10 +55,10 @@ public class CvWorldController {
     float delayForPositiveFeedback;
     int correctAnswersNow;
     int correctAnswersNeeded;
-    private float readNumberDelay;
     final boolean upLevel;
     private boolean goToThePast;
     final boolean shouldRepeatTutorial;
+    protected float readNumberDelay;
 
 
 
@@ -119,7 +116,7 @@ public class CvWorldController {
     void init(){
         numberToPlay = LevelsManager.instance.get_number_to_play();
         setDelayForPositiveFeedback();
-        AudioManager.instance.readFeedback(numberToPlay, extraDelayBetweenFeedback); //first we read the random number
+        reproduceClue();
         timeToWait = Constants.READ_ONE_UNIT_DURATION+ numberToPlay*Constants.READ_ONE_UNIT_DURATION + waitAfterKnock /*+ ( randomNumber)*(0.3f)*/; // time we should wait before next loop starts
         answerRight = false;
     }
@@ -132,9 +129,9 @@ public class CvWorldController {
         maxErrorsForHint = Constants.ERRORS_FOT_HINT;
         willGoToNextPart = false;
         feedbackDelay = (Assets.instance.getSoundDuration(this.tooFewErrorSound) > Assets.instance.getSoundDuration(this.tooMuchErrorSound)) ? Assets.instance.getSoundDuration(this.tooFewErrorSound) : Assets.instance.getSoundDuration(this.tooMuchErrorSound);
-        readNumberDelay = 0;
         totalErrors = 0;
         goToThePast = false;
+        readNumberDelay = 0;
 
     }
 
@@ -194,12 +191,7 @@ public class CvWorldController {
         }
     }
 
-    private void reproduceAllFeedbacks(ArrayList<Integer> nowDetected, int numberToPlay){
-        if(gameNumber==1)
-            AudioManager.instance.readNumberAndAllFeedbacks(nowDetected, numberToPlay, extraDelayBetweenFeedback);
-        else
-            AudioManager.instance.readAllFeedbacks(nowDetected, numberToPlay, extraDelayBetweenFeedback);
-    }
+
 
     void onCorrectAnswer(){
         boolean levelFinished = LevelsManager.instance.up_operation_index();
@@ -220,21 +212,20 @@ public class CvWorldController {
 
     }
 
-    void reproduceAllFeedbacksAndPositive(ArrayList<Integer> nowDetected, int numberToPlay){
-        if(gameNumber==1){
-            AudioManager.instance.readNumberAllFeedbacksAndPositive(nowDetected, numberToPlay, extraDelayBetweenFeedback);
-        }
-        else{
-            AudioManager.instance.readAllFeedbacksAndPositive(nowDetected, numberToPlay, extraDelayBetweenFeedback);
-        }
+    protected void reproduceAllFeedbacksAndPositive(ArrayList<Integer> nowDetected, int numberToPlay){
+        AudioManager.instance.readAllFeedbacksAndPositive(nowDetected, numberToPlay, extraDelayBetweenFeedback);
     }
 
-    private void reproduceAllFeedbacksAndFinal(ArrayList<Integer> nowDetected, int numberToPlay){
-        // TODO ig game 1 we read the number
-        if(gameNumber==1)
-            AudioManager.instance.readNumberAllFeedbacksAndFinal(nowDetected, numberToPlay, extraDelayBetweenFeedback);
-        else
-            AudioManager.instance.readAllFeedbacksAndFinal(nowDetected, numberToPlay, extraDelayBetweenFeedback);
+    protected void reproduceAllFeedbacksAndFinal(ArrayList<Integer> nowDetected, int numberToPlay){
+        AudioManager.instance.readAllFeedbacksAndFinal(nowDetected, numberToPlay, extraDelayBetweenFeedback);
+    }
+
+    protected void reproduceAllFeedbacks(ArrayList<Integer> nowDetected, int numberToPlay){
+        AudioManager.instance.readAllFeedbacks(nowDetected, numberToPlay, extraDelayBetweenFeedback);
+    }
+
+    protected void reproduceClue(){
+        AudioManager.instance.readFeedback(numberToPlay, extraDelayBetweenFeedback); //first we read the random number
     }
 
 
@@ -383,10 +374,4 @@ public class CvWorldController {
         goToNextLevel();
     }
 
-    public void setGameNumber(int number){
-        if(number == 1) {
-            readNumberDelay = Constants.READ_NUMBER_DURATION;
-        }
-        gameNumber = number;
-    }
 }
