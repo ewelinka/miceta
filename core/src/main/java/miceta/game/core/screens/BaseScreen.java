@@ -47,10 +47,10 @@ public class BaseScreen extends AbstractGameScreen {
         Gdx.gl.glClearColor(0x64 / 255.0f, 0x95 / 255.0f,0xed / 255.0f, 0xff / 255.0f);
         Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT);
         // Do not update game world when paused.
-        if (!paused) {
+       // if (!paused) {
             worldController.update(deltaTime);
             stage.act(deltaTime);
-        }
+       // }
         stage.draw();
 
         Set<Block> cBlocks = worldController.getCurrentBlocksFromManager();

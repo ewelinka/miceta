@@ -44,9 +44,7 @@ public class CvWithIntroController extends CvWorldController {
 
     @Override
     protected void checkForTotalErrors(){
-        Gdx.app.log(TAG,"cameFromOrganic "+cameFromOrganic);
         if(!cameFromOrganic){ // we do not repeat tutorial if we are in the tutorial!
-            Gdx.app.log(TAG,"cameFromOrganic im innnnn");
             super.checkForTotalErrors();
         }
     }

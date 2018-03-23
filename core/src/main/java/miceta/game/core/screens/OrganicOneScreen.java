@@ -9,6 +9,7 @@ import miceta.game.core.controllers.CvWithIntroControllerTutorial;
 import miceta.game.core.managers.FeedbackDrawManager;
 import miceta.game.core.miCeta;
 import miceta.game.core.util.FeedbackSoundType;
+import miceta.game.core.util.ScreenName;
 
 /**
  * Created by ewe on 2/2/18.
@@ -28,6 +29,7 @@ public class OrganicOneScreen  extends BaseScreenWithIntro {
     public void show() {
         Gdx.app.log(TAG," we start the SHOW! "+Gdx.graphics.getWidth());
         stage = new Stage(new FitViewport(viewportWidth , viewportHeight));
+        setGameScreenTo(ScreenName.ORGANIC_TUTORIAL1); // we force organic tutorial to execute stop_sounds() in correct way
         worldController = new CvWithIntroControllerTutorial(game,stage,
                 FeedbackSoundType.KNOCK,
                 Assets.instance.sounds.tmm1_intro,
