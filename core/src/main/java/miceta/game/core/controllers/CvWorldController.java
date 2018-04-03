@@ -36,7 +36,7 @@ public class CvWorldController {
     private int totalErrors;
     private int gameNumber =0;
     private float inactivityTime =0; // time that passed since last move
-    private int currentSum=0;
+    private int currentSum=-1; // we induce first error if nothing on the table
     float timeToWait;
     float timePassed;
     final CvBlocksManager cvBlocksManager;
