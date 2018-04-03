@@ -29,13 +29,12 @@ public class StepsOneScreen extends BaseScreenWithIntro {
     public void show() {
         Gdx.app.log(TAG," we start the SHOW! "+Gdx.graphics.getWidth());
         stage = new Stage(new FitViewport(viewportWidth , viewportHeight));
-        setGameScreenTo(ScreenName.GAME_STEPS); // we force organic tutorial to execute stop_sounds() in correct way TODO check if still needed
         worldController = new CvWithIntroControllerStepsOne(game,stage,
                 FeedbackSoundType.STEP,
-                Assets.instance.sounds.tmm1_intro,
+                Assets.instance.sounds.stepIntro,
                 Assets.instance.sounds.positivesFeedbacks,
-                Assets.instance.sounds.tmm1_tooFewOne,
-                Assets.instance.sounds.tmm1_tooMuch_1,
+                Assets.instance.sounds.stepTooFew_1,
+                Assets.instance.sounds.stepTooMuch_1,
                 Assets.instance.sounds.tada,
                 upLevel,
                 shouldRepeatTutorial

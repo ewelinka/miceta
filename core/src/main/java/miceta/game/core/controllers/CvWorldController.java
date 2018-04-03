@@ -13,8 +13,8 @@ import miceta.game.core.managers.CvBlocksManagerAndroid;
 import miceta.game.core.managers.CvBlocksManagerDesktop;
 import miceta.game.core.managers.LevelsManager;
 import miceta.game.core.miCeta;
+import miceta.game.core.screens.OrganicHelpOneScreen;
 import miceta.game.core.screens.IntroScreen;
-import miceta.game.core.screens.StepsOneScreen;
 import miceta.game.core.util.*;
 
 import java.util.ArrayList;
@@ -257,7 +257,7 @@ public class CvWorldController {
             goToThePast = true;
             willGoToNextPart = true;
             resetErrorsAndInactivity();
-            game.setScreen(new StepsOneScreen(game, false, true));
+            game.setScreen(new OrganicHelpOneScreen(game, false, true)); // we do not do upLevel but we repeat tutorial
         }
     }
 

@@ -5,16 +5,17 @@ import com.badlogic.gdx.graphics.glutils.ShapeRenderer;
 import com.badlogic.gdx.scenes.scene2d.Stage;
 import com.badlogic.gdx.utils.viewport.FitViewport;
 import miceta.game.core.controllers.CvWithIntroController;
+import miceta.game.core.controllers.CvWithIntroControllerOrganicHelpTwo;
 import miceta.game.core.managers.FeedbackDrawManager;
 import miceta.game.core.managers.LevelsManager;
 import miceta.game.core.miCeta;
 import miceta.game.core.util.ScreenName;
 
 /**
- * Created by ewe on 3/23/18.
+ * Created by ewe on 4/3/18.
  */
-public class BaseScreenWithIntroSteps extends BaseScreenWithIntro {
-    public BaseScreenWithIntroSteps(miCeta game, boolean upLevel, boolean shouldRepeatTutorial) {
+public class BaseScreenWithIntroOrganicHelp extends BaseScreenWithIntro{
+    public BaseScreenWithIntroOrganicHelp(miCeta game, boolean upLevel, boolean shouldRepeatTutorial) {
         super(game, upLevel, shouldRepeatTutorial, true);
 
     }
@@ -23,9 +24,9 @@ public class BaseScreenWithIntroSteps extends BaseScreenWithIntro {
     public void show() {
         stage = new Stage(new FitViewport(viewportWidth, viewportHeight));
         // if we come from the future, we need to adapt some params
-        setGameScreenTo(ScreenName.GAME_STEPS); // we force organic tutorial audios
-        LevelsManager.instance.forceLevelParams(3); // we force the operations from organic! // 0=headers, 1 = concrete, 2 = organic, 3 =steps // TODO check if still needed!
-        worldController = new CvWithIntroController(game,stage,
+        setGameScreenTo(ScreenName.ORGANIC_HELP); // we force organic tutorial audios
+        LevelsManager.instance.forceLevelParams(2); // we force the operations from organic! // 0=headers, 1 = concrete, 2 = organic
+        worldController = new CvWithIntroControllerOrganicHelpTwo(game,stage,
                 gameScreen.feedbackSoundType,
                 gameScreen.intro,
                 gameScreen.positives,

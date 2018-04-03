@@ -22,8 +22,11 @@ public class RepresentationMapper {
             case CONCRETE_TUTORIAL:
                 Gdx.app.log(TAG,"concrete!");
                 return new ConcreteTutorial(game,0, 0, true, false);
-            case GAME_STEPS:
+            case ORGANIC_HELP:
                 Gdx.app.log(TAG,"organic!");
+                return new OrganicHelpOneScreen(game, true, shouldRepeatTutorial);
+            case GAME_STEPS:
+                Gdx.app.log(TAG,"steps!");
                 return new StepsOneScreen(game, true, shouldRepeatTutorial);
             case GAME_KNOCK:
                 Gdx.app.log(TAG,"knock!");
@@ -55,21 +58,24 @@ public class RepresentationMapper {
                 screenName = ScreenName.CONCRETE_TUTORIAL;
                 break;
             case 0:
-                screenName = ScreenName.GAME_STEPS;
+                screenName = ScreenName.ORGANIC_HELP;
                 break;
             case 1:
-                screenName = ScreenName.GAME_KNOCK;
+                screenName = ScreenName.GAME_STEPS;
                 break;
             case 2:
-                screenName = ScreenName.GAME_INGREDIENTS;
+                screenName = ScreenName.GAME_KNOCK;
                 break;
             case 3:
-                screenName = ScreenName.GAME_MIXING;
+                screenName = ScreenName.GAME_INGREDIENTS;
                 break;
             case 4:
-                screenName = ScreenName.GAME_MUSIC;
+                screenName = ScreenName.GAME_MIXING;
                 break;
             case 5:
+                screenName = ScreenName.GAME_MUSIC;
+                break;
+            case 6:
                 screenName = ScreenName.GAME_BELL;
 
         }
@@ -83,13 +89,21 @@ public class RepresentationMapper {
             case CONCRETE_TUTORIAL:
                 gameScreen.screenName = ScreenName.CONCRETE_TUTORIAL;
                 break;
+            case ORGANIC_HELP:
+                gameScreen.screenName = ScreenName.ORGANIC_HELP; //TODO change me!
+                gameScreen.intro = Assets.instance.sounds.organicHelpIntro2;
+                gameScreen.positives = Assets.instance.sounds.positivesOrganicHelp;
+                gameScreen.tooFew = Assets.instance.sounds.organicHelpTooFew_2;
+                gameScreen.tooMuch = Assets.instance.sounds.organicHelpTooMuch_2;
+                gameScreen.finalSound = Assets.instance.sounds.organicHelpFinal2;
+                gameScreen.feedbackSoundType = FeedbackSoundType.STEP;
             case GAME_STEPS:
                 gameScreen.screenName = ScreenName.GAME_STEPS;
-                gameScreen.intro = Assets.instance.sounds.tmm1_firstPositive;
-                gameScreen.positives = Assets.instance.sounds.positivesTutorial;
-                gameScreen.tooFew = Assets.instance.sounds.tmm1_tooFew_1;
-                gameScreen.tooMuch = Assets.instance.sounds.tmm1_tooMuch_1;
-                gameScreen.finalSound = Assets.instance.sounds.tmm1_final;
+                gameScreen.intro = Assets.instance.sounds.stepIntro2;
+                gameScreen.positives = Assets.instance.sounds.positivesStep;
+                gameScreen.tooFew = Assets.instance.sounds.stepTooFew_2;
+                gameScreen.tooMuch = Assets.instance.sounds.stepTooMuch_2;
+                gameScreen.finalSound = Assets.instance.sounds.stepFinal2;
                 gameScreen.feedbackSoundType = FeedbackSoundType.STEP;
                 break;
             case GAME_KNOCK:

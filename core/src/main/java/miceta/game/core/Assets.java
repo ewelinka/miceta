@@ -197,7 +197,8 @@ public class Assets implements Disposable, AssetErrorListener {
         public final Sound oneDo, oneRe, oneMi, oneFa, oneSol;
         public final Sound puck,yuju, newblock, addblock, quitblock, tada;
         public final Sound music, mixing, bell, bell_2,knock, knock_2, knock_3, bell_3;
-        public final Sound tmm1_intro,tmm1_tooMuch_1,tmm1_tooFew_1, tmm1_tooMuch_2,tmm1_tooFew_2, tmm1_tooFewOne, tmm1_positive_1,tmm1_positive_2, tmm1_final, tmm1_firstPositive;
+        public final Sound organicHelpIntro,organicHelpTooMuch_1,organicHelpTooFew_1, organicHelpTooMuch_2,organicHelpTooFew_2, organicHelpPositive_1,organicHelpPositive_2, organicHelpFinal, organicHelpIntro2, organicHelpFinal2;
+        public final Sound stepIntro,stepTooMuch_1,stepTooFew_1, stepTooMuch_2,stepTooFew_2, stepPositive_1,stepPositive_2, stepFinal, stepIntro2, stepFinal2;
         public final Sound jugar, denuevo, ayuda, salir;
         public final Sound ingredientsIntro,ingredientsCrocodile,ingredientsCat,ingredientsAnt,ingredientsLama,ingredientsFrog,ingredientsCow, ingredientsVinegar,ingredientsTooFew,ingredientsTooMuch, ingredientsPositive_1,ingredientsPositive_2, ingredientsPositive_3, ingredientsPositive_4,ingredientsFinal;
         public final Sound knockIntro, knockTooFew, knockTooMuch, knockPositive_1, knockPositive_2, knockPositive_3, knockFinal;
@@ -207,7 +208,8 @@ public class Assets implements Disposable, AssetErrorListener {
         public final Sound magicStrong, magicMiddle, magicNomal;
         public final Sound goToThePast, cameFromPast;
 
-        public  ArrayList<Sound> positivesTutorial = new ArrayList<>();
+        public  ArrayList<Sound> positivesOrganicHelp = new ArrayList<>();
+        public  ArrayList<Sound> positivesStep= new ArrayList<>();
         public  ArrayList<Sound> positivesKnock = new ArrayList<>();
         public  ArrayList<Sound> positivesMixing = new ArrayList<>();
         public  ArrayList<Sound> positivesIngredients = new ArrayList<>();
@@ -215,12 +217,14 @@ public class Assets implements Disposable, AssetErrorListener {
         public  ArrayList<Sound> positivesBell = new ArrayList<>();
         public  ArrayList<Sound> positivesFeedbacks = new ArrayList<>();
 
-        public final ArrayList<Sound> cluesTutorial= new ArrayList<>();
+        public final ArrayList<Sound> cluesOrganicHelp = new ArrayList<>();
+        public final ArrayList<Sound> cluesSteps = new ArrayList<>();
         public final ArrayList<Sound> cluesKnock = new ArrayList<>();
         public final ArrayList<Sound> cluesIngredients = new ArrayList<>();
         public final ArrayList<Sound> cluesMixing = new ArrayList<>();
         public final ArrayList<Sound> cluesMusic = new ArrayList<>();
         public final ArrayList<Sound> cluesBell = new ArrayList<>();
+
 
 
         public Sound soundWithDuration(String path, AssetManager am) {
@@ -277,20 +281,36 @@ public class Assets implements Disposable, AssetErrorListener {
             ct_10 = soundWithDuration("sounds/concreto/TutConcreto_10_otroVolumen.mp3", am);
             ct_11 = soundWithDuration("sounds/concreto/11.mp3", am);
 
-            // tutorial audios
-            tmm1_intro = soundWithDuration("sounds/mm1/tutorial/mm1_intro.mp3", am);
-            tmm1_tooMuch_1 = soundWithDuration("sounds/mm1/tutorial/TutMicroMundo1_4.mp3", am);
-            tmm1_tooFew_1 = soundWithDuration("sounds/mm1/tutorial/TutMicroMundo1_3.mp3", am);
-            tmm1_tooMuch_2 = soundWithDuration("sounds/mm1/tutorial/TutMicroMundo1_4_a.mp3", am);
-            tmm1_tooFew_2 = soundWithDuration("sounds/mm1/tutorial/TutMicroMundo1_3_a.mp3", am);
-            tmm1_positive_1 = soundWithDuration("sounds/mm1/tutorial/TutMicroMundo1_ResEnsayo1.mp3", am);
-            tmm1_positive_2 = soundWithDuration("sounds/mm1/tutorial/TutMicroMundo1_ResEnsayo2.mp3", am);
-            tmm1_final= soundWithDuration("sounds/mm1/tutorial/TutMicroMundo1_ResJuego.mp3", am);
-            tmm1_tooFewOne = tmm1_tooFew_1; // al parecer tooFewOne se elimino en los nuevos audios que subio Bruno
-            tmm1_firstPositive = soundWithDuration("sounds/mm1/tutorial/TutMicroMundo1_2_1.mp3", am);
-//            positivesTutorial.add(tmm1_positive_1);
-//            positivesTutorial.add(tmm1_positive_2);
-            cluesTutorial.add(puck); // TODO change when we have audios with steps
+            // tutorial audios fist part
+            organicHelpIntro = soundWithDuration("sounds/mm1/tutorial/mm1_intro.mp3", am);
+            organicHelpTooMuch_1 = soundWithDuration("sounds/mm1/tutorial/mm1_intro.mp3", am);
+            organicHelpTooFew_1 = soundWithDuration("sounds/mm1/tutorial/mm1_intro.mp3", am);
+            organicHelpPositive_1 = soundWithDuration("sounds/mm1/tutorial/mm1_intro.mp3", am);
+            organicHelpFinal = tada;
+            // second part
+            organicHelpIntro2 = soundWithDuration("sounds/mm1/tutorial/mm1_intro.mp3", am);
+            organicHelpTooMuch_2= soundWithDuration("sounds/mm1/tutorial/mm1_intro.mp3", am);
+            organicHelpTooFew_2= soundWithDuration("sounds/mm1/tutorial/mm1_intro.mp3", am);
+            organicHelpPositive_2= soundWithDuration("sounds/mm1/tutorial/mm1_intro.mp3", am);
+            organicHelpFinal2 = soundWithDuration("sounds/mm1/tutorial/mm1_intro.mp3", am);
+            //positivesOrganicHelp.add(organicHelpPositive_2);
+            cluesOrganicHelp.add(puck); // TODO change when we have audios with clap
+
+            //steps
+            stepIntro = soundWithDuration("sounds/mm1/tutorial/mm1_intro.mp3", am);
+            stepTooMuch_1 = soundWithDuration("sounds/mm1/tutorial/TutMicroMundo1_4.mp3", am);
+            stepTooFew_1 = soundWithDuration("sounds/mm1/tutorial/TutMicroMundo1_3.mp3", am);
+            stepPositive_1 = soundWithDuration("sounds/mm1/tutorial/TutMicroMundo1_ResEnsayo1.mp3", am);
+            stepFinal= soundWithDuration("sounds/mm1/tutorial/TutMicroMundo1_ResJuego.mp3", am);
+
+            stepIntro2 = soundWithDuration("sounds/mm1/tutorial/TutMicroMundo1_2_1.mp3", am);
+            stepTooMuch_2 = soundWithDuration("sounds/mm1/tutorial/TutMicroMundo1_4_a.mp3", am);
+            stepTooFew_2 = soundWithDuration("sounds/mm1/tutorial/TutMicroMundo1_3_a.mp3", am);
+            stepPositive_2 = soundWithDuration("sounds/mm1/tutorial/TutMicroMundo1_ResEnsayo2.mp3", am);
+            stepFinal2 = soundWithDuration("sounds/mm1/tutorial/TutMicroMundo1_ResJuego.mp3", am);
+//            positivesStep.add(tmm1_positive_1);
+//            positivesStep.add(tmm1_positive_2);
+            cluesSteps.add(puck); // TODO change when we have audios with steps
 
             // knock game audios
             knockIntro = soundWithDuration("sounds/mm1/golpes/MicroMundo1_Juego0_Explicacion.mp3", am);
@@ -380,7 +400,7 @@ public class Assets implements Disposable, AssetErrorListener {
             salir = soundWithDuration("sounds/opciones/salir.wav", am);
             positivesFeedbacks.add(tada);
             // tada for all!
-            positivesTutorial = positivesKnock = positivesIngredients = positivesMixing = positivesMusic = positivesBell = positivesFeedbacks;
+            positivesOrganicHelp = positivesStep = positivesKnock = positivesIngredients = positivesMixing = positivesMusic = positivesBell = positivesFeedbacks;
 
             goToThePast = soundWithDuration("sounds/mm1/vueltaAlPasado.mp3", am);
             cameFromPast = soundWithDuration("sounds/feedback/newblock.wav", am);

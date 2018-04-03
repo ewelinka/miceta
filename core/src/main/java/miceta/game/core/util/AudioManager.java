@@ -985,34 +985,45 @@ public class AudioManager {
                 Assets.instance.sounds.ct_10.stop();
                 Assets.instance.sounds.ct_11.stop();
                 break;
+            case ORGANIC_HELP: //TODO update me with correct sounds!!
+                Assets.instance.sounds.organicHelpIntro.stop();
+                Assets.instance.sounds.organicHelpIntro2.stop();
+                Assets.instance.sounds.organicHelpTooFew_1.stop();
+                Assets.instance.sounds.organicHelpTooFew_2.stop();
+                Assets.instance.sounds.organicHelpTooMuch_1.stop();
+                Assets.instance.sounds.organicHelpTooMuch_2.stop();
+                Assets.instance.sounds.organicHelpFinal.stop();
+                Assets.instance.sounds.organicHelpFinal2.stop();
+                break;
             case GAME_STEPS:
-                // organic
-                Assets.instance.sounds.tmm1_intro.stop();
-                Assets.instance.sounds.tmm1_final.stop();
-                Assets.instance.sounds.tmm1_tooFew_1.stop();
-                Assets.instance.sounds.tmm1_tooMuch_1.stop();
-                Assets.instance.sounds.tmm1_tooFew_2.stop();
-                Assets.instance.sounds.tmm1_tooMuch_2.stop();
-                Assets.instance.sounds.tmm1_positive_1.stop();
-                Assets.instance.sounds.tmm1_positive_2.stop();
-
+                Assets.instance.sounds.stepIntro.stop();
+                Assets.instance.sounds.stepIntro2.stop();
+                Assets.instance.sounds.stepTooFew_1.stop();
+                Assets.instance.sounds.stepTooFew_2.stop();
+                Assets.instance.sounds.stepTooMuch_1.stop();
+                Assets.instance.sounds.stepTooMuch_2.stop();
+                Assets.instance.sounds.stepFinal.stop();
+                Assets.instance.sounds.stepFinal2.stop();
                 break;
             case GAME_KNOCK:
                 Assets.instance.sounds.knockIntro.stop();
                 Assets.instance.sounds.knockTooFew.stop();
                 Assets.instance.sounds.knockTooMuch.stop();
+                Assets.instance.sounds.knockFinal.stop();
                 break;
             case GAME_INGREDIENTS:
                 Assets.instance.sounds.ingredientsIntro.stop();
                 Assets.instance.sounds.ingredientsTooFew.stop();
                 Assets.instance.sounds.ingredientsTooMuch.stop();
                 Assets.instance.sounds.ingredientsPositive_1.stop();
+                Assets.instance.sounds.ingredientsFinal.stop();
                 break;
             case GAME_MIXING:
                 Assets.instance.sounds.mixingIntro.stop();
                 Assets.instance.sounds.mixingTooFew.stop();
                 Assets.instance.sounds.mixingTooMuch.stop();
                 Assets.instance.sounds.mixingPositive_1.stop();
+                Assets.instance.sounds.mixingFinal.stop();
                 break;
             case GAME_MUSIC:
                 Assets.instance.sounds.musicIntro_1.stop();
