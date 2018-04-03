@@ -13,9 +13,9 @@ import java.util.ArrayList;
 /**
  * Created by ewe on 2/2/18.
  */
-public class CvWithIntroControllerSteps extends CvWithIntroController {
+public class CvWithIntroControllerStepsOne extends CvWithIntroController {
 
-    public CvWithIntroControllerSteps(miCeta game, Stage stage, FeedbackSoundType feedbackSound, Sound introSound, ArrayList<Sound> positiveFeedback, Sound tooFewErrorSound, Sound tooMuchErrorSound, Sound finalFeedback, boolean upLevel, boolean shouldRepeatTutorial) {
+    public CvWithIntroControllerStepsOne(miCeta game, Stage stage, FeedbackSoundType feedbackSound, Sound introSound, ArrayList<Sound> positiveFeedback, Sound tooFewErrorSound, Sound tooMuchErrorSound, Sound finalFeedback, boolean upLevel, boolean shouldRepeatTutorial) {
         super(game, stage, feedbackSound, introSound, positiveFeedback, tooFewErrorSound, tooMuchErrorSound, finalFeedback, upLevel, shouldRepeatTutorial); // we always come from organic to this controller!
     }
 
@@ -43,7 +43,4 @@ public class CvWithIntroControllerSteps extends CvWithIntroController {
         correctAnswersNow = 0;
         correctAnswersNeeded = 1;
     }
-
-    @Override
-    protected void checkForTotalErrors() {}; // do nothing! we should not go to the past!!
 }

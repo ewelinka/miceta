@@ -4,7 +4,8 @@ import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.glutils.ShapeRenderer;
 import com.badlogic.gdx.scenes.scene2d.Stage;
 import com.badlogic.gdx.utils.viewport.FitViewport;
-import miceta.game.core.controllers.CvWithIntroControllerStepsTwo;
+import miceta.game.core.controllers.CvWithIntroController;
+import miceta.game.core.controllers.CvWithIntroControllerHelp;
 import miceta.game.core.managers.FeedbackDrawManager;
 import miceta.game.core.managers.LevelsManager;
 import miceta.game.core.miCeta;
@@ -25,7 +26,7 @@ public class BaseScreenWithIntroSteps extends BaseScreenWithIntro {
         // if we come from the future, we need to adapt some params
         setGameScreenTo(ScreenName.GAME_STEPS); // we force organic tutorial audios
         LevelsManager.instance.forceLevelParams(2); // we force the operations from organic! // 0=headers, 1 = concrete, 2 = steps // TODO check if still needed!
-        worldController = new CvWithIntroControllerStepsTwo(game,stage,
+        worldController = new CvWithIntroController(game,stage,
                 gameScreen.feedbackSoundType,
                 gameScreen.intro,
                 gameScreen.positives,

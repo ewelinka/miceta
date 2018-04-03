@@ -5,7 +5,7 @@ import com.badlogic.gdx.graphics.glutils.ShapeRenderer;
 import com.badlogic.gdx.scenes.scene2d.Stage;
 import com.badlogic.gdx.utils.viewport.FitViewport;
 import miceta.game.core.Assets;
-import miceta.game.core.controllers.CvWithIntroControllerSteps;
+import miceta.game.core.controllers.CvWithIntroControllerStepsOne;
 import miceta.game.core.managers.FeedbackDrawManager;
 import miceta.game.core.miCeta;
 import miceta.game.core.util.FeedbackSoundType;
@@ -30,7 +30,7 @@ public class StepsOneScreen extends BaseScreenWithIntro {
         Gdx.app.log(TAG," we start the SHOW! "+Gdx.graphics.getWidth());
         stage = new Stage(new FitViewport(viewportWidth , viewportHeight));
         setGameScreenTo(ScreenName.GAME_STEPS); // we force organic tutorial to execute stop_sounds() in correct way TODO check if still needed
-        worldController = new CvWithIntroControllerSteps(game,stage,
+        worldController = new CvWithIntroControllerStepsOne(game,stage,
                 FeedbackSoundType.STEP,
                 Assets.instance.sounds.tmm1_intro,
                 Assets.instance.sounds.positivesFeedbacks,
