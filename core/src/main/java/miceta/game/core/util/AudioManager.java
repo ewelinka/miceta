@@ -319,6 +319,9 @@ public class AudioManager {
             case STEP:
                 clueSound = getRandomClueFromAll(Assets.instance.sounds.cluesKnock); //TODO change me!
                 break;
+            case CLAP:
+                clueSound = getRandomClueFromAll(Assets.instance.sounds.cluesKnock); //TODO change me!
+                break;
         }
         return  clueSound;
 

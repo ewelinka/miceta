@@ -31,20 +31,12 @@ public class OrganicHelpOneScreen extends BaseScreenWithIntro {
         stage = new Stage(new FitViewport(viewportWidth , viewportHeight));
         setGameScreenTo(ScreenName.ORGANIC_HELP); // we force organic tutorial to execute stop_sounds() in correct way
         worldController = new CvWithIntroControllerOrganicHelpOne(game,stage,
-//                FeedbackSoundType.CLAP,
-//                Assets.instance.sounds.helpIntro,
-//                Assets.instance.sounds.positivesFeedbacks,
-//                Assets.instance.sounds.helpTooFew,
-//                Assets.instance.sounds.helpTooMuch,
-//                Assets.instance.sounds.helpFinal,
-//                upLevel,
-//                shouldRepeatTutorial
-                FeedbackSoundType.STEP,
+                FeedbackSoundType.CLAP,
                 Assets.instance.sounds.organicHelpIntro,
                 Assets.instance.sounds.positivesOrganicHelp,
                 Assets.instance.sounds.organicHelpTooFew_1,
                 Assets.instance.sounds.organicHelpTooMuch_1,
-                Assets.instance.sounds.organicHelpFinal, // final
+                Assets.instance.sounds.organicHelpFinal,
                 upLevel,
                 shouldRepeatTutorial
         );

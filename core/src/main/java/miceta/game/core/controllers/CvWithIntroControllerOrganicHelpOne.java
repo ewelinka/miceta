@@ -22,7 +22,7 @@ public class CvWithIntroControllerOrganicHelpOne extends CvWithIntroControllerSt
     protected void init(){
         numberToPlay = 1;
         setDelayForPositiveFeedback();
-        timeToWait = AudioManager.instance.reproduceIntroTutorial(shouldRepeatTutorial) + 3; //first we read the intro and add some delay
+        timeToWait = AudioManager.instance.reproduceIntroTutorial(shouldRepeatTutorial) + 2; //first we read the intro and add some delay
     }
 
     @Override

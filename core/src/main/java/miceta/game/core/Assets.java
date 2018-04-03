@@ -94,6 +94,15 @@ public class Assets implements Disposable, AssetErrorListener {
         assetManager.load("sounds/concreto/11.mp3", Sound.class);
         //micro mundo 1
         // organic tutorial
+        assetManager.load("sounds/organic/intro1.mp3", Sound.class);
+        assetManager.load("sounds/organic/intro2.mp3", Sound.class);
+        assetManager.load("sounds/organic/final1.mp3", Sound.class);
+        assetManager.load("sounds/organic/final2.mp3", Sound.class);
+        assetManager.load("sounds/organic/mas1.mp3", Sound.class);
+        assetManager.load("sounds/organic/menos1.mp3", Sound.class);
+
+
+        //steps
         assetManager.load("sounds/mm1/tutorial/mm1_intro.mp3", Sound.class);
         assetManager.load("sounds/mm1/tutorial/TutMicroMundo1_2_1.mp3", Sound.class);
         assetManager.load("sounds/mm1/tutorial/TutMicroMundo1_3.mp3", Sound.class);
@@ -282,17 +291,17 @@ public class Assets implements Disposable, AssetErrorListener {
             ct_11 = soundWithDuration("sounds/concreto/11.mp3", am);
 
             // tutorial audios fist part
-            organicHelpIntro = soundWithDuration("sounds/mm1/tutorial/mm1_intro.mp3", am);
-            organicHelpTooMuch_1 = soundWithDuration("sounds/mm1/tutorial/mm1_intro.mp3", am);
-            organicHelpTooFew_1 = soundWithDuration("sounds/mm1/tutorial/mm1_intro.mp3", am);
-            organicHelpPositive_1 = soundWithDuration("sounds/mm1/tutorial/mm1_intro.mp3", am);
-            organicHelpFinal = tada;
+            organicHelpIntro = soundWithDuration("sounds/organic/intro1.mp3", am);
+            organicHelpTooMuch_1 = soundWithDuration("sounds/organic/menos1.mp3", am);
+            organicHelpTooFew_1 = soundWithDuration("sounds/organic/mas1.mp3", am);
+            organicHelpPositive_1 = tada;
+            organicHelpFinal = soundWithDuration("sounds/organic/final1.mp3", am);
             // second part
-            organicHelpIntro2 = soundWithDuration("sounds/mm1/tutorial/mm1_intro.mp3", am);
-            organicHelpTooMuch_2= soundWithDuration("sounds/mm1/tutorial/mm1_intro.mp3", am);
-            organicHelpTooFew_2= soundWithDuration("sounds/mm1/tutorial/mm1_intro.mp3", am);
-            organicHelpPositive_2= soundWithDuration("sounds/mm1/tutorial/mm1_intro.mp3", am);
-            organicHelpFinal2 = soundWithDuration("sounds/mm1/tutorial/mm1_intro.mp3", am);
+            organicHelpIntro2 = soundWithDuration("sounds/organic/intro2.mp3", am);
+            organicHelpTooMuch_2 = organicHelpTooMuch_1;
+            organicHelpTooFew_2 = organicHelpTooFew_1;
+            organicHelpPositive_2 =  tada;
+            organicHelpFinal2 = soundWithDuration("sounds/organic/final2.mp3", am);
             //positivesOrganicHelp.add(organicHelpPositive_2);
             cluesOrganicHelp.add(puck); // TODO change when we have audios with clap
 

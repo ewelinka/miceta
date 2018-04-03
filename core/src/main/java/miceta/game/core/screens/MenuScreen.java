@@ -222,6 +222,7 @@ public class MenuScreen extends AbstractGameScreen {
             case ORGANIC_HELP:
                 LevelsManager.instance.forceLevelParams(2);
                 game.setScreen(new OrganicHelpOneScreen(game),transition);
+                break;
             case GAME_STEPS:
                 LevelsManager.instance.forceLevelParams(3);
                 game.setScreen(new StepsOneScreen(game),transition);
