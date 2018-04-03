@@ -2,6 +2,7 @@ package miceta.game.core.screens;
 
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.GL20;
+import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.BitmapFont;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.graphics.glutils.ShapeRenderer;
@@ -44,7 +45,7 @@ public class BaseScreen extends AbstractGameScreen {
 
     @Override
     public void render(float deltaTime) {
-        Gdx.gl.glClearColor(0x64 / 255.0f, 0x95 / 255.0f,0xed / 255.0f, 0xff / 255.0f);
+        Gdx.gl.glClearColor(0,0,0,0);
         Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT);
         // Do not update game world when paused.
        // if (!paused) {
@@ -55,12 +56,12 @@ public class BaseScreen extends AbstractGameScreen {
 
         Set<Block> cBlocks = worldController.getCurrentBlocksFromManager();
         shapeRenderer.begin(ShapeRenderer.ShapeType.Filled);
-        shapeRenderer.setColor(1, 1, 1, 1);
-
-        // in desktop:
-        int shiftY = 200;
-        int shiftX = 70;
-        shapeRenderer.rect(shiftX, shiftY, 480, 640);
+//        shapeRenderer.setColor(1, 1, 1, 1);
+//
+//        // in desktop:
+        int shiftY = 0;
+        int shiftX = 0;
+//        shapeRenderer.rect(shiftX, shiftY, 480, 640);
 
 
 
@@ -77,7 +78,9 @@ public class BaseScreen extends AbstractGameScreen {
 
         shapeRenderer.end();
         spriteBatch.begin();
+        font.setScale(2, 2);
         font.draw(spriteBatch,""+worldController.getRandomNumber(),200,680);
+        font.setScale(1, 1);
         font.draw(spriteBatch,"jugar",550,1000);
         font.draw(spriteBatch,"feedback",10,1000);
 
