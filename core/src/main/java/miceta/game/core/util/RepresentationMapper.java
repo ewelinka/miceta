@@ -22,9 +22,9 @@ public class RepresentationMapper {
             case CONCRETE_TUTORIAL:
                 Gdx.app.log(TAG,"concrete!");
                 return new ConcreteTutorial(game,0, 0, true, false);
-            case ORGANIC_TUTORIAL1:
+            case GAME_STEPS:
                 Gdx.app.log(TAG,"organic!");
-                return new OrganicOneScreen(game, true, shouldRepeatTutorial);
+                return new StepsOneScreen(game, true, shouldRepeatTutorial);
             case GAME_KNOCK:
                 Gdx.app.log(TAG,"knock!");
                 return new World_1_AudioScreen(game, true, shouldRepeatTutorial);
@@ -55,7 +55,7 @@ public class RepresentationMapper {
                 screenName = ScreenName.CONCRETE_TUTORIAL;
                 break;
             case 0:
-                screenName = ScreenName.ORGANIC_TUTORIAL1;
+                screenName = ScreenName.GAME_STEPS;
                 break;
             case 1:
                 screenName = ScreenName.GAME_KNOCK;
@@ -83,14 +83,14 @@ public class RepresentationMapper {
             case CONCRETE_TUTORIAL:
                 gameScreen.screenName = ScreenName.CONCRETE_TUTORIAL;
                 break;
-            case ORGANIC_TUTORIAL1:
-                gameScreen.screenName = ScreenName.ORGANIC_TUTORIAL1;
+            case GAME_STEPS:
+                gameScreen.screenName = ScreenName.GAME_STEPS;
                 gameScreen.intro = Assets.instance.sounds.tmm1_firstPositive;
                 gameScreen.positives = Assets.instance.sounds.positivesTutorial;
                 gameScreen.tooFew = Assets.instance.sounds.tmm1_tooFew_1;
                 gameScreen.tooMuch = Assets.instance.sounds.tmm1_tooMuch_1;
                 gameScreen.finalSound = Assets.instance.sounds.tmm1_final;
-                gameScreen.feedbackSoundType = FeedbackSoundType.KNOCK;
+                gameScreen.feedbackSoundType = FeedbackSoundType.STEP;
                 break;
             case GAME_KNOCK:
                 gameScreen.screenName = ScreenName.GAME_KNOCK;

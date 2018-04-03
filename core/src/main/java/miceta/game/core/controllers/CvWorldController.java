@@ -14,7 +14,7 @@ import miceta.game.core.managers.CvBlocksManagerDesktop;
 import miceta.game.core.managers.LevelsManager;
 import miceta.game.core.miCeta;
 import miceta.game.core.screens.IntroScreen;
-import miceta.game.core.screens.OrganicOneScreen;
+import miceta.game.core.screens.StepsOneScreen;
 import miceta.game.core.util.*;
 
 import java.util.ArrayList;
@@ -257,7 +257,7 @@ public class CvWorldController {
             goToThePast = true;
             willGoToNextPart = true;
             resetErrorsAndInactivity();
-            game.setScreen(new OrganicOneScreen(game, false, true));
+            game.setScreen(new StepsOneScreen(game, false, true));
         }
     }
 
@@ -282,7 +282,7 @@ public class CvWorldController {
                 addFeedbackDelayToTimeToWait();
 
             }
-            errors_now = 0;
+            //errors_now = 0; to repeat clue if the child didn't changed anything
             inactivityTime = 0;
         }
     }

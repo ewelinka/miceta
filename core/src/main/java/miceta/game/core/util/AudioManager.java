@@ -13,8 +13,6 @@ import miceta.game.core.Assets;
 import java.util.ArrayList;
 
 import static com.badlogic.gdx.scenes.scene2d.actions.Actions.*;
-import static miceta.game.core.util.FeedbackSoundType.INGREDIENT;
-import static miceta.game.core.util.FeedbackSoundType.KNOCK;
 
 /**
  * Created by ewe on 8/10/17.
@@ -317,6 +315,9 @@ public class AudioManager {
                 break;
             case BELL:
                 clueSound = getRandomClueFromAll(Assets.instance.sounds.cluesBell);
+                break;
+            case STEP:
+                clueSound = getRandomClueFromAll(Assets.instance.sounds.cluesKnock); //TODO change me!
                 break;
         }
         return  clueSound;
@@ -984,7 +985,7 @@ public class AudioManager {
                 Assets.instance.sounds.ct_10.stop();
                 Assets.instance.sounds.ct_11.stop();
                 break;
-            case ORGANIC_TUTORIAL1:
+            case GAME_STEPS:
                 // organic
                 Assets.instance.sounds.tmm1_intro.stop();
                 Assets.instance.sounds.tmm1_final.stop();
