@@ -26,7 +26,7 @@ public class CvIngredientsController extends CvWorldController{
     protected void init(){
         numberToPlay = LevelsManager.instance.get_number_to_play();
         setDelayForPositiveFeedback();
-        timeToWait = AudioManager.instance.reproduce_ingredients_intro(shouldRepeatTutorial); //first we read the intro
+        timeToWait = AudioManager.instance.reproduce_ingredients_intro(); //first we read the intro
         answerRight = false;
     }
 
@@ -40,8 +40,8 @@ public class CvIngredientsController extends CvWorldController{
 
     @Override
     void setDelayForPositiveFeedback(){
-//        delayForPositiveFeedback = Assets.instance.getSoundDuration(Assets.instance.sounds.ingredientsPositive_1) + Assets.instance.getSoundDuration(Assets.instance.sounds.ingredientsCrocodile); // TODO check if crocodile is the longest audio!
-        delayForPositiveFeedback = 1.0f; // TODO check if crocodile is the longest audio!
+        delayForPositiveFeedback = Assets.instance.getSoundDuration(Assets.instance.sounds.ingredientsPositive_1) + Assets.instance.getSoundDuration(Assets.instance.sounds.i2);
+        //delayForPositiveFeedback = 4.0f;
 
     }
 

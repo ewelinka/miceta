@@ -30,6 +30,24 @@ public class CvWithIntroControllerOrganicHelpOne extends CvWithIntroControllerSt
         willGoToNextPart = true;
         game.setScreen(new BaseScreenWithIntroOrganicHelp(game, upLevel, shouldRepeatTutorial)); // interactive part of the tutorial, we shouldn't do level up! and yes, we came from organic!
     }
+    @Override
+    protected void reproduceAllFeedbacks(ArrayList<Integer> nowDetected, int numberToPlay){
+        AudioManager.instance.readNumberAndAllFeedbacks(nowDetected, numberToPlay, extraDelayBetweenFeedback);
+    }
+
+    @Override
+    protected void reproduceAllFeedbacksAndPositive(ArrayList<Integer> nowDetected, int numberToPlay){
+        AudioManager.instance.readNumberAllFeedbacksAndPositive(nowDetected, numberToPlay, extraDelayBetweenFeedback);
+    }
+    @Override
+    protected void reproduceAllFeedbacksAndFinal(ArrayList<Integer> nowDetected, int numberToPlay){
+        AudioManager.instance.readNumberAllFeedbacksAndFinal(nowDetected, numberToPlay, extraDelayBetweenFeedback);
+    }
+
+    @Override
+    protected void reproduceClue(){
+        AudioManager.instance.readNumberWithFeedback(numberToPlay, extraDelayBetweenFeedback); //first we read the random number
+    }
 
 
 }

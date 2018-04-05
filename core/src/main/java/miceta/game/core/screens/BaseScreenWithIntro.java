@@ -13,7 +13,7 @@ import miceta.game.core.miCeta;
  */
 public class BaseScreenWithIntro extends BaseScreen {
     private static final String TAG = BaseScreenWithIntro.class.getName();
-    private  boolean cameFromOrganic;
+    private  boolean isInOgranicHelpScreen;
 
     public BaseScreenWithIntro(miCeta game) {
         this(game, false, false);
@@ -23,9 +23,9 @@ public class BaseScreenWithIntro extends BaseScreen {
         this(game, upLevel,shouldRepeatTutorial, false);
     }
 
-    public BaseScreenWithIntro(miCeta game, boolean upLevel, boolean shouldRepeatTutorial, boolean cameFromOrganic) {
+    public BaseScreenWithIntro(miCeta game, boolean upLevel, boolean shouldRepeatTutorial, boolean isInOgranicHelpScreen) {
         super(game, upLevel,shouldRepeatTutorial);
-        this.cameFromOrganic = cameFromOrganic;
+        this.isInOgranicHelpScreen = isInOgranicHelpScreen;
     }
 
     @Override
@@ -40,7 +40,7 @@ public class BaseScreenWithIntro extends BaseScreen {
                 gameScreen.finalSound,
                 upLevel,
                 shouldRepeatTutorial,
-                cameFromOrganic);
+                isInOgranicHelpScreen);
         shapeRenderer = new ShapeRenderer();
         fd = new FeedbackDrawManager();
         // android back key used to exit, we should not catch

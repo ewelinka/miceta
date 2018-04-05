@@ -38,6 +38,7 @@ public class AudioManager {
     private ArrayList<Sound> positiveFeedback;
     private int currentPositiveIndex;
     private Sound currentClue;
+    private int lastClueIndex;
 
 
     private AudioManager () { }
@@ -193,7 +194,8 @@ public class AudioManager {
         }
     }
 
-    public void setFeedbackSoundType(FeedbackSoundType soundName){
+    public void setFeedbackSoundTypeAndLastClueIndex(FeedbackSoundType soundName){
+        lastClueIndex = -1;
         this.feedbackSoundType = soundName;
     }
 
@@ -313,14 +315,14 @@ public class AudioManager {
             case MUSIC:
                 clueSound = getRandomClueFromAll(Assets.instance.sounds.cluesMusic);
                 break;
-            case BELL:
-                clueSound = getRandomClueFromAll(Assets.instance.sounds.cluesBell);
+            case GREETING:
+                clueSound = getRandomClueFromAll(Assets.instance.sounds.cluesGreeting);
                 break;
             case STEP:
-                clueSound = getRandomClueFromAll(Assets.instance.sounds.cluesKnock); //TODO change me!
+                clueSound = getRandomClueFromAll(Assets.instance.sounds.cluesSteps);
                 break;
             case CLAP:
-                clueSound = getRandomClueFromAll(Assets.instance.sounds.cluesKnock); //TODO change me!
+                clueSound = getRandomClueFromAll(Assets.instance.sounds.cluesOrganicHelp);
                 break;
         }
         return  clueSound;
@@ -328,7 +330,14 @@ public class AudioManager {
     }
 
     private Sound getRandomClueFromAll(ArrayList<Sound> clues){
+        Gdx.app.log(TAG," last clue idx "+lastClueIndex);
         int idx = MathUtils.random(0,clues.size()-1);
+        if(clues.size()>1){
+            while(lastClueIndex == idx){
+                idx = MathUtils.random(0,clues.size()-1);
+            }
+            lastClueIndex = idx;
+        }
         Gdx.app.log(TAG," idx "+idx);
         return clues.get(idx);
     }
@@ -387,7 +396,7 @@ public class AudioManager {
 
                // Sound whichSound = Assets.instance.sounds.oneDo;
 
-                playWithoutInterruption(Assets.instance.sounds.knock); // TODO change when we have drop sound
+                playWithoutInterruption(Assets.instance.sounds.organicClap); // TODO change when we have drop sound
 
             }
         }));
@@ -917,22 +926,48 @@ public class AudioManager {
     }
 
     private Sound getIngredientFromIndex(int ingredientIndex){
-        ingredientIndex = ingredientIndex%6 +1;
+//        ingredientIndex = ingredientIndex%6 +1;
         switch(ingredientIndex){
             case 1:
-                return Assets.instance.sounds.ingredientsCat;
+                return Assets.instance.sounds.i2;
             case 2:
-                return Assets.instance.sounds.ingredientsCow;
+                return Assets.instance.sounds.i3;
             case 3:
-                return Assets.instance.sounds.ingredientsCrocodile;
+                return Assets.instance.sounds.i4;
             case 4:
-                return Assets.instance.sounds.ingredientsFrog;
+                return Assets.instance.sounds.i5;
             case 5:
-                return Assets.instance.sounds.ingredientsLama;
+                return Assets.instance.sounds.i6;
             case 6:
-                return Assets.instance.sounds.ingredientsVinegar;
+                return Assets.instance.sounds.i7;
+            case 7:
+                return Assets.instance.sounds.i8;
+            case 8:
+                return Assets.instance.sounds.i9;
+            case 9:
+                return Assets.instance.sounds.i10;
+            case 10:
+                return Assets.instance.sounds.i11;
+            case 11:
+                return Assets.instance.sounds.i12;
+            case 12:
+                return Assets.instance.sounds.i13;
+            case 13:
+                return Assets.instance.sounds.i14;
+            case 14:
+                return Assets.instance.sounds.i15;
+            case 15:
+                return Assets.instance.sounds.i16;
+            case 16:
+                return Assets.instance.sounds.i17;
+            case 17:
+                return Assets.instance.sounds.i1;
+            case 18:
+                return Assets.instance.sounds.i2;
+            case 19:
+                return Assets.instance.sounds.i3;
             default:
-                return Assets.instance.sounds.ingredientsVinegar;
+                return Assets.instance.sounds.i1;
         }
     }
 
@@ -947,22 +982,13 @@ public class AudioManager {
         return AudioManager.instance.reproduceSoundsWithIndex(soundsToReproduce, 0,0);
     }
 
-    public float reproduce_ingredients_intro(boolean cameFromPast) {
+    public float reproduce_ingredients_intro() {
         ArrayList<Sound> soundsToReproduce = new ArrayList<>();
-        soundsToReproduce.add(Assets.instance.sounds.cameFromPast); // if we repeat the screen 0
         soundsToReproduce.add(Assets.instance.sounds.ingredientsIntro);
-        soundsToReproduce.add(Assets.instance.sounds.ingredientsAnt);
-        return AudioManager.instance.reproduceSoundsWithIndex(soundsToReproduce, cameFromPast? 0 : 1, 2);
+        soundsToReproduce.add(Assets.instance.sounds.i1);
+        return AudioManager.instance.reproduceSoundsWithIndex(soundsToReproduce, 0, 1);
     }
 
-    public float reproduce_Game_1(int start, int end) {
-        ArrayList<Sound> soundsToReproduce = new ArrayList<>();
-        soundsToReproduce.add(Assets.instance.sounds.cameFromPast); // if we repeat the screen
-        soundsToReproduce.add(Assets.instance.sounds.knockIntro);
-        soundsToReproduce.add(Assets.instance.sounds.knockTooFew);
-        soundsToReproduce.add(Assets.instance.sounds.knockTooMuch);
-        return AudioManager.instance.reproduceSoundsWithIndex(soundsToReproduce, start, end);
-    }
 
     public void stop_sounds(ScreenName whichScreen) {
         switch (whichScreen){
@@ -1016,20 +1042,20 @@ public class AudioManager {
                 Assets.instance.sounds.mixingIntro.stop();
                 Assets.instance.sounds.mixingTooFew.stop();
                 Assets.instance.sounds.mixingTooMuch.stop();
-                Assets.instance.sounds.mixingPositive_1.stop();
+               // Assets.instance.sounds.mixingPositive_1.stop();
                 Assets.instance.sounds.mixingFinal.stop();
                 break;
             case GAME_MUSIC:
-                Assets.instance.sounds.musicIntro_1.stop();
+                Assets.instance.sounds.musicIntro.stop();
                 Assets.instance.sounds.musicTooFew.stop();
                 Assets.instance.sounds.musicTooMuch.stop();
                 Assets.instance.sounds.musicFinal.stop();
                 break;
-            case GAME_BELL:
-                Assets.instance.sounds.bellIntro.stop();
-                Assets.instance.sounds.bellTooFew.stop();
-                Assets.instance.sounds.bellTooMuch.stop();
-                Assets.instance.sounds.bellFinal.stop();
+            case GAME_GREETING:
+                Assets.instance.sounds.greetingIntro.stop();
+                Assets.instance.sounds.greetingTooFew.stop();
+                Assets.instance.sounds.greetingTooMuch.stop();
+                Assets.instance.sounds.greetingFinal.stop();
                 break;
         }
     }

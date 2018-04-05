@@ -25,7 +25,7 @@ public class BaseScreenWithIntroOrganicHelp extends BaseScreenWithIntro{
         stage = new Stage(new FitViewport(viewportWidth, viewportHeight));
         // if we come from the future, we need to adapt some params
         setGameScreenTo(ScreenName.ORGANIC_HELP); // we force organic tutorial audios
-        LevelsManager.instance.forceLevelParams(2); // we force the operations from organic! // 0=headers, 1 = concrete, 2 = organic
+        LevelsManager.instance.forceLevelParams(2); // we force the operations from organic! // 0=headers, 1 = concrete, 2 = steps
         worldController = new CvWithIntroControllerOrganicHelpTwo(game,stage,
                 gameScreen.feedbackSoundType,
                 gameScreen.intro,
