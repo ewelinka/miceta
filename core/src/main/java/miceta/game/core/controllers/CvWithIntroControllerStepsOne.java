@@ -1,10 +1,14 @@
 package miceta.game.core.controllers;
 
+import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.audio.Sound;
 import com.badlogic.gdx.scenes.scene2d.Stage;
 import miceta.game.core.miCeta;
 
 import miceta.game.core.screens.BaseScreenWithIntro;
+import miceta.game.core.screens.OrganicHelpOneScreen;
+import miceta.game.core.util.AudioManager;
+import miceta.game.core.util.Constants;
 import miceta.game.core.util.FeedbackSoundType;
 
 import java.util.ArrayList;
@@ -14,8 +18,12 @@ import java.util.ArrayList;
  */
 public class CvWithIntroControllerStepsOne extends CvWithIntroController {
 
-    public CvWithIntroControllerStepsOne(miCeta game, Stage stage, FeedbackSoundType feedbackSound, Sound introSound, ArrayList<Sound> positiveFeedback, Sound tooFewErrorSound, Sound tooMuchErrorSound, Sound finalFeedback, boolean upLevel, boolean shouldRepeatTutorial) {
-        super(game, stage, feedbackSound, introSound, positiveFeedback, tooFewErrorSound, tooMuchErrorSound, finalFeedback, upLevel, shouldRepeatTutorial); // we always come from organic to this controller!
+    public CvWithIntroControllerStepsOne(miCeta game, Stage stage, FeedbackSoundType feedbackSound, Sound introSound, ArrayList<Sound> positiveFeedback, Sound tooFewErrorSound, Sound tooMuchErrorSound, Sound finalFeedback, boolean upLevel, boolean shouldRepeatTutorial){
+        super(game, stage, feedbackSound, introSound, positiveFeedback, tooFewErrorSound, tooMuchErrorSound, finalFeedback, upLevel, shouldRepeatTutorial, false);
+    }
+
+    public CvWithIntroControllerStepsOne(miCeta game, Stage stage, FeedbackSoundType feedbackSound, Sound introSound, ArrayList<Sound> positiveFeedback, Sound tooFewErrorSound, Sound tooMuchErrorSound, Sound finalFeedback, boolean upLevel, boolean shouldRepeatTutorial, boolean cameFromOrganic) {
+        super(game, stage, feedbackSound, introSound, positiveFeedback, tooFewErrorSound, tooMuchErrorSound, finalFeedback, upLevel, shouldRepeatTutorial, cameFromOrganic); // we always come from organic to this controller!
     }
 
     @Override
@@ -41,4 +49,5 @@ public class CvWithIntroControllerStepsOne extends CvWithIntroController {
         correctAnswersNow = 0;
         correctAnswersNeeded = 1;
     }
+
 }

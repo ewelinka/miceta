@@ -30,12 +30,8 @@ public class CvWithIntroController extends CvWorldController {
     protected void init(){
         numberToPlay = LevelsManager.instance.get_number_to_play();
         setDelayForPositiveFeedback();
-
         Gdx.app.log(TAG,"cameFromOrganic "+cameFromOrganic+" shouldRepeatTutorial "+shouldRepeatTutorial);
-        if(cameFromOrganic)
-            timeToWait = AudioManager.instance.reproduceTutorial(false); //we do not repeat "volvimos al pasado"
-        else
-            timeToWait = AudioManager.instance.reproduceTutorial(shouldRepeatTutorial); //first we read the intro
+        timeToWait = AudioManager.instance.reproduceIntro();
         answerRight = false;
     }
 

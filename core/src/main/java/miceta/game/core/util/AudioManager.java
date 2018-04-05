@@ -940,20 +940,11 @@ public class AudioManager {
         currentClue = getRandomClue();
     }
 
-    public float reproduceIntroTutorial(boolean cameFromPast){
-        Gdx.app.log(TAG,"introooo we came from past "+cameFromPast);
+    public float reproduceIntro(){
+        Gdx.app.log(TAG,"INTRO reproduce it now! ");
         ArrayList<Sound> soundsToReproduce = new ArrayList<>();
-        soundsToReproduce.add(Assets.instance.sounds.goToThePast); // if we repeat the screen 0
         soundsToReproduce.add(this.introSound);
-        return AudioManager.instance.reproduceSoundsWithIndex(soundsToReproduce, cameFromPast? 0 : 1, 1);
-    }
-
-    public float reproduceTutorial(boolean cameFromPast){
-        Gdx.app.log(TAG,"introooo we came from past "+cameFromPast);
-        ArrayList<Sound> soundsToReproduce = new ArrayList<>();
-        soundsToReproduce.add(Assets.instance.sounds.cameFromPast); // if we repeat the screen 0
-        soundsToReproduce.add(this.introSound);
-        return AudioManager.instance.reproduceSoundsWithIndex(soundsToReproduce, cameFromPast? 0 : 1, 1);
+        return AudioManager.instance.reproduceSoundsWithIndex(soundsToReproduce, 0,0);
     }
 
     public float reproduce_ingredients_intro(boolean cameFromPast) {

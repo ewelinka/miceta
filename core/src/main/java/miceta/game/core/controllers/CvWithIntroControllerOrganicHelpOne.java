@@ -14,7 +14,7 @@ import java.util.ArrayList;
  */
 public class CvWithIntroControllerOrganicHelpOne extends CvWithIntroControllerStepsOne {
     public CvWithIntroControllerOrganicHelpOne(miCeta game, Stage stage, FeedbackSoundType feedbackSound, Sound introSound, ArrayList<Sound> positiveFeedback, Sound tooFewErrorSound, Sound tooMuchErrorSound, Sound finalFeedback, boolean upLevel, boolean shouldRepeatTutorial) {
-        super(game, stage, feedbackSound, introSound, positiveFeedback, tooFewErrorSound, tooMuchErrorSound, finalFeedback, upLevel, shouldRepeatTutorial);
+        super(game, stage, feedbackSound, introSound, positiveFeedback, tooFewErrorSound, tooMuchErrorSound, finalFeedback, upLevel, shouldRepeatTutorial, true);
     }
 
 
@@ -22,7 +22,7 @@ public class CvWithIntroControllerOrganicHelpOne extends CvWithIntroControllerSt
     protected void init(){
         numberToPlay = 1;
         setDelayForPositiveFeedback();
-        timeToWait = AudioManager.instance.reproduceIntroTutorial(shouldRepeatTutorial) + 2; //first we read the intro and add some delay
+        timeToWait = AudioManager.instance.reproduceIntro() + 1; //first we read the intro and add some delay
     }
 
     @Override
