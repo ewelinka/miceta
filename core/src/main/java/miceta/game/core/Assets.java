@@ -7,6 +7,7 @@ import com.badlogic.gdx.assets.AssetManager;
 import com.badlogic.gdx.audio.Music;
 import com.badlogic.gdx.audio.Sound;
 import com.badlogic.gdx.backends.lwjgl.audio.OpenALSound;
+import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.TextureAtlas;
 import com.badlogic.gdx.scenes.scene2d.ui.ImageButton;
 import com.badlogic.gdx.scenes.scene2d.utils.TextureRegionDrawable;
@@ -28,6 +29,7 @@ public class Assets implements Disposable, AssetErrorListener {
     public AssetMusic music;
     private final ArrayMap<Sound,Float> s_duration = new ArrayMap<>();
     public AssetButtons buttons;
+    public AssetBackground backgrounds;
 
 
     private Assets() {
@@ -173,6 +175,8 @@ public class Assets implements Disposable, AssetErrorListener {
         assetManager.load("music/song2.mp3", Music.class);
 
         assetManager.load("sounds/mm1/vueltaAlPasado.mp3", Sound.class);
+
+        assetManager.load("images/back1.png", Texture.class);
         // start loading assets and wait until finished
         assetManager.finishLoading();
 
@@ -183,6 +187,7 @@ public class Assets implements Disposable, AssetErrorListener {
         buttons = new AssetButtons(atlas);
         sounds = new AssetSounds(assetManager);
         music = new AssetMusic(assetManager);
+        backgrounds = new AssetBackground(assetManager);
 
     }
 
@@ -457,4 +462,12 @@ public class Assets implements Disposable, AssetErrorListener {
         }
 
     }
+    public class AssetBackground {
+        public final Texture testTexture;
+        public AssetBackground (AssetManager am){
+            testTexture = am.get("images/back1.png",Texture.class);
+        }
+
+    }
+
 }

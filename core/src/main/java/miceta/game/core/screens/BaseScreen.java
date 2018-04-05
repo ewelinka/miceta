@@ -7,11 +7,14 @@ import com.badlogic.gdx.graphics.g2d.BitmapFont;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.graphics.glutils.ShapeRenderer;
 import com.badlogic.gdx.scenes.scene2d.Stage;
+import com.badlogic.gdx.scenes.scene2d.ui.Image;
 import com.badlogic.gdx.utils.viewport.FitViewport;
 import edu.ceta.vision.core.blocks.Block;
+import miceta.game.core.Assets;
 import miceta.game.core.controllers.CvWorldController;
 import miceta.game.core.managers.FeedbackDrawManager;
 import miceta.game.core.miCeta;
+import miceta.game.core.util.Constants;
 
 import java.util.Set;
 
@@ -54,14 +57,16 @@ public class BaseScreen extends AbstractGameScreen {
        // }
         stage.draw();
 
+
         Set<Block> cBlocks = worldController.getCurrentBlocksFromManager();
         shapeRenderer.begin(ShapeRenderer.ShapeType.Filled);
-//        shapeRenderer.setColor(1, 1, 1, 1);
-//
-//        // in desktop:
+
+        spriteBatch.begin();
+        spriteBatch.draw(gameScreen.imgBackground,0,0);
+        spriteBatch.end();
+
         int shiftY = 0;
         int shiftX = 0;
-//        shapeRenderer.rect(shiftX, shiftY, 480, 640);
 
 
 

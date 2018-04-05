@@ -58,7 +58,7 @@ public class World_1_Game extends AbstractGameScreen {
     public void render(float deltaTime) {
         //Gdx.gl.glClearColor(0, 0, 0, 1);
 
-        Gdx.gl.glClearColor(0x64 / 255.0f, 0x95 / 255.0f,0xed / 255.0f, 0xff / 255.0f);
+        Gdx.gl.glClearColor(0,0,0,0);
 
         //Gdx.app.log(TAG,"famerate " + Gdx.graphics.getFramesPerSecond());
         Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT);
@@ -74,8 +74,8 @@ public class World_1_Game extends AbstractGameScreen {
         shapeRenderer.setColor(1, 1, 1, 1);
 
         // in desktop:
-        int shiftX = 70;
-        int shiftY = 200;
+        int shiftX = 0;
+        int shiftY = 0;
         shapeRenderer.rect(shiftX, shiftY, 480, 640);
 
 

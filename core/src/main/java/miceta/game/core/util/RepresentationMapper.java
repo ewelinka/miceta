@@ -85,6 +85,8 @@ public class RepresentationMapper {
 
     public static GameScreen getGameScreenFromScreenName(ScreenName screenName){
         GameScreen gameScreen = new GameScreen();
+        gameScreen.imgBackground = Assets.instance.backgrounds.testTexture;
+
         switch(screenName){
             case CONCRETE_TUTORIAL:
                 gameScreen.screenName = ScreenName.CONCRETE_TUTORIAL;

@@ -31,7 +31,7 @@ public class ConcreteTutorial extends AbstractGameScreen {
     @Override
     public void render(float deltaTime) {
         _timePassed += deltaTime;
-        Gdx.gl.glClearColor(1, 1, 1, 0.5f);
+        Gdx.gl.glClearColor(0,0,0,0);
         Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT);
         stage.act(deltaTime);
         stage.draw();
