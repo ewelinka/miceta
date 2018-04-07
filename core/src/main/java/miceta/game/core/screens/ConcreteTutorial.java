@@ -31,10 +31,12 @@ public class ConcreteTutorial extends AbstractGameScreen {
     @Override
     public void render(float deltaTime) {
         _timePassed += deltaTime;
-        Gdx.gl.glClearColor(1, 1, 1, 0.5f);
+        Gdx.gl.glClearColor(0,0,0,0);
         Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT);
         stage.act(deltaTime);
         stage.draw();
+
+        //TODO add background
 
         int _knockCounter = 0;
         if ((_tutorialPart == 0) && (_timePassed > _tutorialDuration)) {
@@ -91,7 +93,7 @@ public class ConcreteTutorial extends AbstractGameScreen {
         }
         else if ((_tutorialPart == 9) && (_timePassed > _tutorialDuration && (_knockCounter < _tutorialAuxNumber))) {
 
-            AudioManager.instance.setFeedbackSoundType(FeedbackSoundType.BELL);
+            AudioManager.instance.setFeedbackSoundTypeAndLastClueIndex(FeedbackSoundType.GREETING);
             reproduceBlocks(false, true);
             AudioManager.instance.readNumberWithFeedback(_tutorialAuxNumber, 0.3f);
             _tutorialDuration =_tutorialAuxNumber* Constants.READ_ONE_UNIT_DURATION + Constants.WAIT_AFTER_KNOCK + _tutorialAuxNumber * 0.3f;

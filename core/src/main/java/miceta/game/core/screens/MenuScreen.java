@@ -1,7 +1,6 @@
 package miceta.game.core.screens;
 
 import com.badlogic.gdx.Gdx;
-import com.badlogic.gdx.Input;
 import com.badlogic.gdx.graphics.GL20;
 import com.badlogic.gdx.scenes.scene2d.Actor;
 import com.badlogic.gdx.scenes.scene2d.InputEvent;
@@ -58,7 +57,15 @@ public class MenuScreen extends AbstractGameScreen {
         btnOrganic.addListener(new ChangeListener() {
             @Override
             public void changed (ChangeEvent event, Actor actor) {
-                onBtnClicked(ScreenName.ORGANIC_TUTORIAL1);
+                onBtnClicked(ScreenName.ORGANIC_HELP);
+            }
+        });
+
+        ImageButton btnStep = addGameBtn(x,30+ shift*1 );
+        btnStep.addListener(new ChangeListener() {
+            @Override
+            public void changed (ChangeEvent event, Actor actor) {
+                onBtnClicked(ScreenName.GAME_STEPS);
             }
         });
 
@@ -96,7 +103,7 @@ public class MenuScreen extends AbstractGameScreen {
         btnBell.addListener(new ChangeListener() {
             @Override
             public void changed (ChangeEvent event, Actor actor) {
-                onBtnClicked(ScreenName.GAME_BELL);
+                onBtnClicked(ScreenName.GAME_GREETING);
             }
         });
 
@@ -210,15 +217,19 @@ public class MenuScreen extends AbstractGameScreen {
                 break;
             case CONCRETE_TUTORIAL:
                 LevelsManager.instance.forceLevelParams(1);
-                game.setScreen(new ConcreteTutorial(game, 0, 0, false, false));
+                game.setScreen(new ConcreteTutorial(game, 0, 0, false, false),transition);
                 break;
-            case ORGANIC_TUTORIAL1:
+            case ORGANIC_HELP:
+                LevelsManager.instance.forceLevelParams(2); // use the same numbers as steps
+                game.setScreen(new OrganicHelpOneScreen(game),transition);
+                break;
+            case GAME_STEPS:
                 LevelsManager.instance.forceLevelParams(2);
-                game.setScreen(new OrganicOneScreen(game),transition);
+                game.setScreen(new StepsOneScreen(game),transition);
                 break;
             case GAME_KNOCK:
                 LevelsManager.instance.forceLevelParams(3);
-                game.setScreen(new World_1_AudioScreen(game),transition);
+                game.setScreen(new BaseScreenWithIntro(game),transition);
                 break;
             case GAME_INGREDIENTS:
                 LevelsManager.instance.forceLevelParams(4);
@@ -233,7 +244,7 @@ public class MenuScreen extends AbstractGameScreen {
                 LevelsManager.instance.forceLevelParams(6);
                 game.setScreen(new BaseScreenWithIntro(game),transition);
                 break;
-            case GAME_BELL:
+            case GAME_GREETING:
                 //LevelsManager.instance.forceToFirstLevel(7);
                 LevelsManager.instance.forceLevelParams(7);
                 game.setScreen(new BaseScreenWithIntro(game, false, false),transition);

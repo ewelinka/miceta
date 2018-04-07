@@ -1,6 +1,8 @@
 package miceta.game.core.util;
 
 import com.badlogic.gdx.audio.Sound;
+import com.badlogic.gdx.graphics.Texture;
+import com.badlogic.gdx.graphics.g2d.TextureAtlas;
 
 import java.util.ArrayList;
 
@@ -15,5 +17,6 @@ public class GameScreen {
     public Sound tooMuch;
     public Sound finalSound;
     public FeedbackSoundType feedbackSoundType;
+    public Texture imgBackground;
 
 }

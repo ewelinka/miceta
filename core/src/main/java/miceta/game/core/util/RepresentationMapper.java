@@ -22,12 +22,15 @@ public class RepresentationMapper {
             case CONCRETE_TUTORIAL:
                 Gdx.app.log(TAG,"concrete!");
                 return new ConcreteTutorial(game,0, 0, true, false);
-            case ORGANIC_TUTORIAL1:
+            case ORGANIC_HELP:
                 Gdx.app.log(TAG,"organic!");
-                return new OrganicOneScreen(game, true, shouldRepeatTutorial);
+                return new OrganicHelpOneScreen(game, true, shouldRepeatTutorial);
+            case GAME_STEPS:
+                Gdx.app.log(TAG,"steps!");
+                return new StepsOneScreen(game, true, shouldRepeatTutorial);
             case GAME_KNOCK:
                 Gdx.app.log(TAG,"knock!");
-                return new World_1_AudioScreen(game, true, shouldRepeatTutorial);
+                return new BaseScreenWithIntro(game, true, shouldRepeatTutorial);
             case GAME_INGREDIENTS:
                 Gdx.app.log(TAG,"ingredients!");
                 return new IngredientsScreen(game, true, shouldRepeatTutorial);
@@ -37,7 +40,7 @@ public class RepresentationMapper {
             case GAME_MUSIC:
                 Gdx.app.log(TAG,"music!");
                 return new BaseScreenWithIntro(game, true, shouldRepeatTutorial);
-            case GAME_BELL:
+            case GAME_GREETING:
                 Gdx.app.log(TAG,"bell!");
                 return new BaseScreenWithIntro(game, true, shouldRepeatTutorial);
             default:
@@ -51,26 +54,26 @@ public class RepresentationMapper {
     public static ScreenName getScreenNameFromRepresentation(int representation){
         ScreenName screenName = ScreenName.NONE;
         switch(representation){
-            case -1:
+            case 0:
                 screenName = ScreenName.CONCRETE_TUTORIAL;
                 break;
-            case 0:
-                screenName = ScreenName.ORGANIC_TUTORIAL1;
-                break;
             case 1:
-                screenName = ScreenName.GAME_KNOCK;
+                screenName = ScreenName.GAME_STEPS;
                 break;
             case 2:
-                screenName = ScreenName.GAME_INGREDIENTS;
+                screenName = ScreenName.GAME_KNOCK;
                 break;
             case 3:
-                screenName = ScreenName.GAME_MIXING;
+                screenName = ScreenName.GAME_INGREDIENTS;
                 break;
             case 4:
-                screenName = ScreenName.GAME_MUSIC;
+                screenName = ScreenName.GAME_MIXING;
                 break;
             case 5:
-                screenName = ScreenName.GAME_BELL;
+                screenName = ScreenName.GAME_MUSIC;
+                break;
+            case 6:
+                screenName = ScreenName.GAME_GREETING;
 
         }
         return screenName;
@@ -79,18 +82,29 @@ public class RepresentationMapper {
 
     public static GameScreen getGameScreenFromScreenName(ScreenName screenName){
         GameScreen gameScreen = new GameScreen();
+        gameScreen.imgBackground = Assets.instance.backgrounds.generic;
+
         switch(screenName){
             case CONCRETE_TUTORIAL:
                 gameScreen.screenName = ScreenName.CONCRETE_TUTORIAL;
                 break;
-            case ORGANIC_TUTORIAL1:
-                gameScreen.screenName = ScreenName.ORGANIC_TUTORIAL1;
-                gameScreen.intro = Assets.instance.sounds.tmm1_firstPositive;
-                gameScreen.positives = Assets.instance.sounds.positivesTutorial;
-                gameScreen.tooFew = Assets.instance.sounds.tmm1_tooFew_1;
-                gameScreen.tooMuch = Assets.instance.sounds.tmm1_tooMuch_1;
-                gameScreen.finalSound = Assets.instance.sounds.tmm1_final;
-                gameScreen.feedbackSoundType = FeedbackSoundType.KNOCK;
+            case ORGANIC_HELP:
+                gameScreen.screenName = ScreenName.ORGANIC_HELP;
+                gameScreen.intro = Assets.instance.sounds.organicHelpIntro2;
+                gameScreen.positives = Assets.instance.sounds.positivesOrganicHelp;
+                gameScreen.tooFew = Assets.instance.sounds.organicHelpTooFew_2;
+                gameScreen.tooMuch = Assets.instance.sounds.organicHelpTooMuch_2;
+                gameScreen.finalSound = Assets.instance.sounds.organicHelpFinal2;
+                gameScreen.feedbackSoundType = FeedbackSoundType.CLAP;
+                break;
+            case GAME_STEPS:
+                gameScreen.screenName = ScreenName.GAME_STEPS;
+                gameScreen.intro = Assets.instance.sounds.stepIntro2;
+                gameScreen.positives = Assets.instance.sounds.positivesStep;
+                gameScreen.tooFew = Assets.instance.sounds.stepTooFew_2;
+                gameScreen.tooMuch = Assets.instance.sounds.stepTooMuch_2;
+                gameScreen.finalSound = Assets.instance.sounds.stepFinal2;
+                gameScreen.feedbackSoundType = FeedbackSoundType.STEP;
                 break;
             case GAME_KNOCK:
                 gameScreen.screenName = ScreenName.GAME_KNOCK;
@@ -100,6 +114,7 @@ public class RepresentationMapper {
                 gameScreen.tooMuch = Assets.instance.sounds.knockTooMuch;
                 gameScreen.finalSound = Assets.instance.sounds.knockFinal;
                 gameScreen.feedbackSoundType = FeedbackSoundType.KNOCK;
+                gameScreen.imgBackground = Assets.instance.backgrounds.door;
                 break;
             case GAME_INGREDIENTS:
                 gameScreen.screenName = ScreenName.GAME_INGREDIENTS;
@@ -109,6 +124,7 @@ public class RepresentationMapper {
                 gameScreen.tooMuch = Assets.instance.sounds.ingredientsTooMuch;
                 gameScreen.finalSound = Assets.instance.sounds.ingredientsFinal;
                 gameScreen.feedbackSoundType = FeedbackSoundType.INGREDIENT;
+                gameScreen.imgBackground = Assets.instance.backgrounds.ingredients;
                 break;
             case GAME_MIXING:
                 gameScreen.screenName = ScreenName.GAME_MIXING;
@@ -121,21 +137,21 @@ public class RepresentationMapper {
                 break;
             case GAME_MUSIC:
                 gameScreen.screenName = ScreenName.GAME_MUSIC;
-                gameScreen.intro = Assets.instance.sounds.musicIntro_1; //hay que unir las intro!
+                gameScreen.intro = Assets.instance.sounds.musicIntro; //hay que unir las intro!
                 gameScreen.positives =Assets.instance.sounds.positivesMusic;
                 gameScreen.tooFew = Assets.instance.sounds.musicTooFew;
                 gameScreen.tooMuch = Assets.instance.sounds.musicTooMuch;
                 gameScreen.finalSound = Assets.instance.sounds.musicFinal;
                 gameScreen.feedbackSoundType = FeedbackSoundType.MUSIC;
                 break;
-            case GAME_BELL:
-                gameScreen.screenName = ScreenName.GAME_BELL;
-                gameScreen.intro = Assets.instance.sounds.bellIntro;
-                gameScreen.positives = Assets.instance.sounds.positivesBell;
-                gameScreen.tooFew = Assets.instance.sounds.bellTooFew;
-                gameScreen.tooMuch = Assets.instance.sounds.bellTooMuch;
-                gameScreen.finalSound = Assets.instance.sounds.bellFinal;
-                gameScreen.feedbackSoundType = FeedbackSoundType.BELL;
+            case GAME_GREETING:
+                gameScreen.screenName = ScreenName.GAME_GREETING;
+                gameScreen.intro = Assets.instance.sounds.greetingIntro;
+                gameScreen.positives = Assets.instance.sounds.positivesGreeting;
+                gameScreen.tooFew = Assets.instance.sounds.greetingTooFew;
+                gameScreen.tooMuch = Assets.instance.sounds.greetingTooMuch;
+                gameScreen.finalSound = Assets.instance.sounds.greetingFinal;
+                gameScreen.feedbackSoundType = FeedbackSoundType.GREETING;
         }
         return gameScreen;
     }

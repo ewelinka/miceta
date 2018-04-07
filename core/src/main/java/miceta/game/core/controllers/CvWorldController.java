@@ -13,8 +13,8 @@ import miceta.game.core.managers.CvBlocksManagerAndroid;
 import miceta.game.core.managers.CvBlocksManagerDesktop;
 import miceta.game.core.managers.LevelsManager;
 import miceta.game.core.miCeta;
+import miceta.game.core.screens.OrganicHelpOneScreen;
 import miceta.game.core.screens.IntroScreen;
-import miceta.game.core.screens.OrganicOneScreen;
 import miceta.game.core.util.*;
 
 import java.util.ArrayList;
@@ -36,7 +36,7 @@ public class CvWorldController {
     private int totalErrors;
     private int gameNumber =0;
     private float inactivityTime =0; // time that passed since last move
-    private int currentSum=0;
+    private int currentSum=-1; // we induce first error if nothing on the table
     float timeToWait;
     float timePassed;
     final CvBlocksManager cvBlocksManager;
@@ -103,7 +103,7 @@ public class CvWorldController {
         AudioManager.instance.setCustomSound(finalFeedback, FINAL);
         AudioManager.instance.setCustomSound(introSound, INTRO);
         AudioManager.instance.setCustomSoundArray(POSITIVE, positiveFeedback);
-        AudioManager.instance.setFeedbackSoundType(feedbackSound);
+        AudioManager.instance.setFeedbackSoundTypeAndLastClueIndex(feedbackSound);
         AudioManager.instance.setCurrentClue();
 
     }
@@ -167,13 +167,13 @@ public class CvWorldController {
                 timeToWait = calculateTimeToWait(currentSum, numberToPlay);
                 if (answerRight) {
                     correctAnswersNow+=1;
-                    addPositiveFeedbackTimeToTimeToWait();
-
                     Gdx.app.log(TAG,"correctAnswersNow "+correctAnswersNow +" correctAnswersNeeded "+correctAnswersNeeded);
                     if(correctAnswersNow == correctAnswersNeeded) {
                         willGoToNextPart = true;
+                        addFinalAudioToTimeToWait();
                         reproduceAllFeedbacksAndFinal(nowDetected, numberToPlay);
                     }else{
+                        addPositiveFeedbackTimeToTimeToWait();
                         reproduceAllFeedbacksAndPositive(nowDetected, numberToPlay);
                     }
                     onCorrectAnswer(); //change number!
@@ -203,6 +203,10 @@ public class CvWorldController {
 
     private void addPositiveFeedbackTimeToTimeToWait(){
             timeToWait += (delayForPositiveFeedback + Constants.WAIT_AFTER_CORRECT_ANSWER);
+    }
+
+    private void addFinalAudioToTimeToWait(){
+        timeToWait += Assets.instance.getSoundDuration(this.finalFeedback);
     }
 
     private float calculateTimeToWait(int currentSum, int numberToPlay){
@@ -257,7 +261,7 @@ public class CvWorldController {
             goToThePast = true;
             willGoToNextPart = true;
             resetErrorsAndInactivity();
-            game.setScreen(new OrganicOneScreen(game, false, true));
+            game.setScreen(new OrganicHelpOneScreen(game, false, true)); // we do not do upLevel but we repeat tutorial
         }
     }
 
@@ -282,7 +286,7 @@ public class CvWorldController {
                 addFeedbackDelayToTimeToWait();
 
             }
-            errors_now = 0;
+            //errors_now = 0; to repeat clue if the child didn't changed anything
             inactivityTime = 0;
         }
     }
@@ -360,6 +364,7 @@ public class CvWorldController {
         //- cambiar mas adelante
         delayForPositiveFeedback = Assets.instance.getSoundDuration(this.positiveFeedback.get(0));
     }
+
 
     void goToNextLevel(){
         willGoToNextPart = true;
