@@ -301,7 +301,7 @@ public class AudioManager {
     }
 
     private Sound getRandomClue(){
-        Sound clueSound = Assets.instance.sounds.puck;
+        Sound clueSound = Assets.instance.sounds.cluesKnock.get(0);
         switch(this.feedbackSoundType){
             case KNOCK:
                 clueSound = getRandomClueFromAll(Assets.instance.sounds.cluesKnock);
