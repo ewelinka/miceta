@@ -38,6 +38,7 @@ public class AudioManager {
     private ArrayList<Sound> positiveFeedback;
     private int currentPositiveIndex;
     private Sound currentClue;
+    private ArrayList<Sound> currentGreetingClues;
     private int lastClueIndex;
 
 
@@ -290,14 +291,40 @@ public class AudioManager {
         readBlocks.addAction(delay(readBlockDuration + extraDelayBetweenFeedback )); // we wait Xs because sound files with "do", "re" and "mi" have X duration
     }
 
-    private void readSingleFeedbackSound(SequenceAction readFeedback, float extraDelayBetweenFeedback, final Sound clue){
+    private void readSingleGreetingSound(SequenceAction readFeedback, float extraDelayBetweenFeedback, final ArrayList<Sound> greetings, final int index){
         readFeedback.addAction(run(new Runnable() {
             public void run() {
-                playWithoutInterruption(clue); // TODO change when we have drop sound
+                playWithoutInterruption(greetings.get(index));
             }
         }));
 
         readFeedback.addAction(delay(readBlockDuration + extraDelayBetweenFeedback));
+    }
+
+    private void readSingleFeedbackSound(SequenceAction readFeedback, float extraDelayBetweenFeedback, final Sound clue){
+        readFeedback.addAction(run(new Runnable() {
+            public void run() {
+                playWithoutInterruption(clue);
+            }
+        }));
+
+        readFeedback.addAction(delay(readBlockDuration + extraDelayBetweenFeedback));
+    }
+
+    private ArrayList<Sound> getRandomGreetings(){
+        ArrayList<Sound> greetings = new ArrayList<Sound>();
+        // we prepare 20 greetings just in case (max value en csv is 15)
+        for(int i=0;i<20;i++){
+            int idx = MathUtils.random(0,Assets.instance.sounds.cluesGreeting.size()-1);
+            while(lastClueIndex == idx){
+                idx = MathUtils.random(0,Assets.instance.sounds.cluesGreeting.size()-1);
+            }
+            lastClueIndex = idx;
+            greetings.add(Assets.instance.sounds.cluesGreeting.get(idx));
+            Gdx.app.log(TAG,"GREETING ---> idx "+idx);
+
+        }
+        return greetings;
     }
 
     private Sound getRandomClue(){
@@ -472,7 +499,10 @@ public class AudioManager {
 
     private SequenceAction addToReadFeedbackInSpace(int nr, SequenceAction readFeedback, float extraDelayBetweenFeedback) {
         for(int i = 0; i<nr;i++){ // if the number is 5 we have to knock 5 times
-            readSingleFeedbackSound(readFeedback, extraDelayBetweenFeedback, currentClue);
+            if(this.feedbackSoundType == FeedbackSoundType.GREETING)
+                readSingleGreetingSound(readFeedback, extraDelayBetweenFeedback, currentGreetingClues, i);
+            else
+                readSingleFeedbackSound(readFeedback, extraDelayBetweenFeedback, currentClue);
         }
         return readFeedback;
     }
@@ -670,9 +700,14 @@ public class AudioManager {
                 playWithoutInterruption(positiveNow); //after correct answer comes positive feedback
             }
         }));
+
+        final FeedbackSoundType nowFeedback = this.feedbackSoundType;
         readFeedbackAction.addAction(run(new Runnable() {
             public void run() {
-                currentClue = getRandomClue(); //after correct answer comes positive feedback
+                if(nowFeedback == FeedbackSoundType.GREETING){
+                    currentGreetingClues = getRandomGreetings();
+                }else
+                    currentClue = getRandomClue();
             }
         }));
 
@@ -729,6 +764,7 @@ public class AudioManager {
         return readBlocksAction;
     }
 
+    // this function is used just in organic help screen
     public void readNumberAllFeedbacksAndPositive(ArrayList<Integer> toReadNums, int numToBuild, float extraDelayBetweenFeedback){
         reader.clearActions();
         /////// blocks
@@ -972,7 +1008,11 @@ public class AudioManager {
     }
 
     public void setCurrentClue(){
-        currentClue = getRandomClue();
+
+        if(this.feedbackSoundType == FeedbackSoundType.GREETING){
+            currentGreetingClues = getRandomGreetings();
+        }else
+            currentClue = getRandomClue();
     }
 
     public float reproduceIntro(){
@@ -1005,7 +1045,7 @@ public class AudioManager {
                 Assets.instance.sounds.ct_10.stop();
                 Assets.instance.sounds.ct_11.stop();
                 break;
-            case ORGANIC_HELP: //TODO update me with correct sounds!!
+            case ORGANIC_HELP:
                 Assets.instance.sounds.organicHelpIntro.stop();
                 Assets.instance.sounds.organicHelpIntro2.stop();
                 Assets.instance.sounds.organicHelpTooFew_1.stop();
