@@ -35,7 +35,7 @@ public class CvWorldController {
     private int errors_now = 0;
     private int totalErrors;
     private int gameNumber =0;
-    private float inactivityTime =0; // time that passed since last move
+    protected float inactivityTime =0; // time that passed since last move
     private int currentSum=-1; // we induce first error if nothing on the table
     float timeToWait;
     float timePassed;
@@ -44,13 +44,13 @@ public class CvWorldController {
     private float feedbackDelay;
     float waitAfterKnock;
     private final Sound tooMuchErrorSound;
-    private final Sound tooFewErrorSound;
+    protected final Sound tooFewErrorSound;
     private final Sound finalFeedback;
     private final Sound introSound;
     private final ArrayList<Sound>  positiveFeedback;
     private final FeedbackSoundType feedbackSound;
     int inactivityLimit;
-    private int maxErrorsForHint;
+    protected int maxErrorsForHint;
     boolean willGoToNextPart;
     float delayForPositiveFeedback;
     int correctAnswersNow;
@@ -266,7 +266,7 @@ public class CvWorldController {
     }
 
 
-    private void checkForErrorsAndInactivity(int currentSum, int lastSum){
+    protected void checkForErrorsAndInactivity(int currentSum, int lastSum){
         // check for errors
         if(currentSum != lastSum){ // we count errors or reset inactivity only if (currentSum != lastSum)
             inactivityTime = 0;

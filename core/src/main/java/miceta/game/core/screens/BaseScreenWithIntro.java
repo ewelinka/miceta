@@ -32,12 +32,12 @@ public class BaseScreenWithIntro extends BaseScreen {
     public void show() {
         stage = new Stage(new FitViewport(viewportWidth, viewportHeight));
         worldController = new CvWithIntroController(game,stage,
-                gameScreen.feedbackSoundType,
-                gameScreen.intro,
-                gameScreen.positives,
-                gameScreen.tooFew,
-                gameScreen.tooMuch,
-                gameScreen.finalSound,
+                game.gameScreen.feedbackSoundType,
+                game.gameScreen.intro,
+                game.gameScreen.positives,
+                game.gameScreen.tooFew,
+                game.gameScreen.tooMuch,
+                game.gameScreen.finalSound,
                 upLevel,
                 shouldRepeatTutorial,
                 isInOgranicHelpScreen);

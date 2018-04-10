@@ -21,7 +21,7 @@ public class RepresentationMapper {
         switch (screenName){
             case CONCRETE_TUTORIAL:
                 Gdx.app.log(TAG,"concrete!");
-                return new ConcreteTutorial(game,0, 0, true, false);
+                return new ConcreteTutorial(game,true, false);
             case ORGANIC_HELP:
                 Gdx.app.log(TAG,"organic!");
                 return new OrganicHelpOneScreen(game, true, shouldRepeatTutorial);

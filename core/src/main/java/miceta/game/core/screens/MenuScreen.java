@@ -22,7 +22,7 @@ import miceta.game.core.util.ScreenName;
  * Created by ewe on 2/5/18.
  */
 public class MenuScreen extends AbstractGameScreen {
-    private static final String TAG = IntroScreen.class.getName();
+    private static final String TAG = MenuScreen.class.getName();
 
 
     public MenuScreen(miCeta game) {
@@ -213,11 +213,11 @@ public class MenuScreen extends AbstractGameScreen {
                 GamePreferences.instance.setLast_level(1);
                 LevelsManager.instance.forceToFirstLevel();
                 LevelsManager.instance.forceLevelParams(1);
-                game.setScreen(new ConcreteTutorial(game, 0, 0, true, false),transition);// restart should do upLevel!
+                game.setScreen(new ConcreteTutorial(game, true, false),transition);// restart should do upLevel!
                 break;
             case CONCRETE_TUTORIAL:
                 LevelsManager.instance.forceLevelParams(1);
-                game.setScreen(new ConcreteTutorial(game, 0, 0, false, false),transition);
+                game.setScreen(new ConcreteTutorial(game, false, false),transition);
                 break;
             case ORGANIC_HELP:
                 LevelsManager.instance.forceLevelParams(2); // use the same numbers as steps

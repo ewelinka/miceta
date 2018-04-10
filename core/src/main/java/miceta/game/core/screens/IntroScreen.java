@@ -164,11 +164,11 @@ public class IntroScreen extends AbstractGameScreen {
                 GamePreferences.instance.setLast_level(1);
                 LevelsManager.instance.forceToFirstLevel();
                 LevelsManager.instance.forceLevelParams(1);
-                game.setScreen(new ConcreteTutorial(game,0,0, true, false),transition);// restart should do upLevel!
+                game.setScreen(new ConcreteTutorial(game,true, false),transition);// restart should do upLevel!
                 break;
             case CONCRETE_TUTORIAL:
                 LevelsManager.instance.forceLevelParams(1);
-                game.setScreen(new ConcreteTutorial(game,0, 0,false, false));
+                game.setScreen(new ConcreteTutorial(game,false, false));
                 break;
         }
     }
@@ -179,7 +179,7 @@ public class IntroScreen extends AbstractGameScreen {
             case Input.Keys.F1:
                 stopCurrentSound();
                 LevelsManager.instance.forceLevelParams(1);
-                game.setScreen(new ConcreteTutorial(game,0, 0,false, false));
+                game.setScreen(new ConcreteTutorial(game,false, false));
                 break;
             case Input.Keys.UP:
                 goToPreviouseMenuItem();
