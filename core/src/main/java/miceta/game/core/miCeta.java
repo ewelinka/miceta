@@ -21,7 +21,7 @@ public class miCeta extends DirectedGame {
 	private final Object syncObject = new Object();
 	private TopCodeDetector topCodeDetector;
 	private RepresentationMapper representationMapper;
-	private GameScreen gameScreen;
+	public GameScreen gameScreen;
 
 	@Override
 	public void create () {

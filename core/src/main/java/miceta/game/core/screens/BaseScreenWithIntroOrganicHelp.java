@@ -27,12 +27,12 @@ public class BaseScreenWithIntroOrganicHelp extends BaseScreenWithIntro{
         setGameScreenTo(ScreenName.ORGANIC_HELP); // we force organic tutorial audios
         LevelsManager.instance.forceLevelParams(2); // we force the operations from organic! // 0=headers, 1 = concrete, 2 = steps
         worldController = new CvWithIntroControllerOrganicHelpTwo(game,stage,
-                gameScreen.feedbackSoundType,
-                gameScreen.intro,
-                gameScreen.positives,
-                gameScreen.tooFew,
-                gameScreen.tooMuch,
-                gameScreen.finalSound,
+                game.gameScreen.feedbackSoundType,
+                game.gameScreen.intro,
+                game.gameScreen.positives,
+                game.gameScreen.tooFew,
+                game.gameScreen.tooMuch,
+                game.gameScreen.finalSound,
                 upLevel,
                 shouldRepeatTutorial);
         shapeRenderer = new ShapeRenderer();

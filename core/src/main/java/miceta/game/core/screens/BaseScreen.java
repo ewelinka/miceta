@@ -62,7 +62,7 @@ public class BaseScreen extends AbstractGameScreen {
         shapeRenderer.begin(ShapeRenderer.ShapeType.Filled);
 
         spriteBatch.begin();
-        spriteBatch.draw(gameScreen.imgBackground,0,0);
+        spriteBatch.draw(game.gameScreen.imgBackground,0,0);
         spriteBatch.end();
 
         int shiftY = 0;

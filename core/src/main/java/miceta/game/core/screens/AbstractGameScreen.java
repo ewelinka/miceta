@@ -18,7 +18,7 @@ public abstract class AbstractGameScreen  extends InputAdapter implements Screen
     boolean paused;
     final int viewportWidth;
     final int viewportHeight;
-    protected GameScreen gameScreen;
+
     final boolean upLevel;
     final boolean shouldRepeatTutorial;
 
@@ -30,7 +30,7 @@ public abstract class AbstractGameScreen  extends InputAdapter implements Screen
         this.game = game;
         this.upLevel = upLevel;
         this.shouldRepeatTutorial = shouldRepeatTutorial;
-        gameScreen = game.updateGameScreen();
+        this.game.gameScreen = game.updateGameScreen();
         paused = false;
 
         if(Gdx.app.getType() == Application.ApplicationType.Android){
@@ -110,7 +110,7 @@ public abstract class AbstractGameScreen  extends InputAdapter implements Screen
             case Input.Keys.F1:
                 stopCurrentSound();
                 LevelsManager.instance.forceLevelParams(1);
-                game.setScreen(new ConcreteTutorial(game,0, 0,false, false));
+                game.setScreen(new ConcreteTutorial(game));
                 break;
             case Input.Keys.LEFT:
                 AudioManager.instance.downFeedbackVolSound();
@@ -136,13 +136,13 @@ public abstract class AbstractGameScreen  extends InputAdapter implements Screen
     }
 
     protected void setGameScreenTo(ScreenName name){
-        gameScreen = RepresentationMapper.getGameScreenFromScreenName(name);
+        this.game.gameScreen = RepresentationMapper.getGameScreenFromScreenName(name);
     }
 
 
     void stopCurrentSound(){
 
-        AudioManager.instance.stop_sounds(game.getGameScreen().screenName);
+        AudioManager.instance.stop_sounds(this.game.getGameScreen().screenName);
 
     }
 }
