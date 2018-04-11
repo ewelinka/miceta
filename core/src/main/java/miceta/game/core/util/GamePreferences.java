@@ -3,6 +3,8 @@ package miceta.game.core.util;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Preferences;
 
+import static java.util.UUID.randomUUID;
+
 /**
  * Created by ewe on 12/6/17.
  */
@@ -15,6 +17,7 @@ public class GamePreferences {
     private int last_level;
     private int operation_index;
     private int world;
+    public String randomId;
 
 
     private GamePreferences () {
@@ -26,8 +29,9 @@ public class GamePreferences {
         last_level = prefs.getInteger("last_level",1);
         //last_level = 7;
         world = prefs.getInteger("world",0);
+        randomId = prefs.getString("randomId", randomUUID ().toString());
         operation_index=0; // we should always start from the beginning!
-
+        prefs.putString("randomId", randomId);
         prefs.flush();
     }
 
@@ -36,6 +40,7 @@ public class GamePreferences {
         prefs.putFloat("waitAfterKnock",waitAfterKnock);
         prefs.putInteger("last_level", last_level);
         prefs.putInteger("world", world);
+        prefs.putString("randomId", randomId);
         prefs.flush();
     }
 

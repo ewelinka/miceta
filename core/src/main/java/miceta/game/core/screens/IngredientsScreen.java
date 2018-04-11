@@ -12,7 +12,7 @@ import miceta.game.core.miCeta;
 /**
  * Created by ewe on 1/18/18.
  */
-public class IngredientsScreen extends BaseScreen {
+public class IngredientsScreen extends BaseScreenWithIntro {
     private static final String TAG = IngredientsScreen.class.getName();
 
     public IngredientsScreen(miCeta game) {

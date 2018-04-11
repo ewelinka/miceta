@@ -5,6 +5,7 @@ import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.Pixmap;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.graphics.glutils.FrameBuffer;
+import miceta.game.core.managers.ResultsManager;
 import miceta.game.core.transitions.ScreenTransition;
 
 
@@ -22,6 +23,7 @@ public abstract class DirectedGame extends Game {
     private SpriteBatch batch;
     private float t;
     private ScreenTransition screenTransition;
+    public ResultsManager resultsManager;
 
 
 
