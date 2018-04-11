@@ -121,6 +121,7 @@ public class LevelsManager {
      public int get_level(){
         return level;
     }
+    public int getOperationIndex(){ return operation_index;}
 
      public void forceToFirstLevel(){level = 1;}
 

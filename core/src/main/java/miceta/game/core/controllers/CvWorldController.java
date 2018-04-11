@@ -37,6 +37,7 @@ public class CvWorldController {
     private int gameNumber =0;
     protected float inactivityTime =0; // time that passed since last move
     private int currentSum=-1; // we induce first error if nothing on the table
+    private  int lastBlocksSum=0;
     float timeToWait;
     float timePassed;
     final CvBlocksManager cvBlocksManager;
@@ -59,15 +60,8 @@ public class CvWorldController {
     private boolean goToThePast;
     final boolean shouldRepeatTutorial;
     protected float readNumberDelay;
+    private boolean firstLoopWithNewPrice;
 
-
-
-
-    public CvWorldController(miCeta game, Stage stage, boolean upLevel, boolean shouldRepeatTutorial){
-        // knock by default
-        // too much and too many default values
-        this(game,stage,FeedbackSoundType.KNOCK, Assets.instance.sounds.newblock, Assets.instance.sounds.positivesFeedbacks, Assets.instance.sounds.addblock, Assets.instance.sounds.quitblock, Assets.instance.sounds.yuju, upLevel, shouldRepeatTutorial);
-    }
 
     public CvWorldController(miCeta game, Stage stage, FeedbackSoundType feedbackSound, Sound introSound, ArrayList<Sound> positiveFeedback, Sound tooFewErrorSound,  Sound tooMuchErrorSound, Sound finalFeedback, boolean upLevel, boolean shouldRepeatTutorial) {
         this.game = game;
@@ -132,6 +126,7 @@ public class CvWorldController {
         totalErrors = 0;
         goToThePast = false;
         readNumberDelay = 0;
+        firstLoopWithNewPrice = true;
 
     }
 
@@ -153,17 +148,22 @@ public class CvWorldController {
 
         if(isTimeToStartNewLoop()){
             Gdx.app.log(TAG,"isTimeToStartNewLoop and willGoToNextPart "+willGoToNextPart);
+            checkIfFirstLoopWithNewPrice();
             checkForTotalErrors();
             if(!willGoToNextPart) {
                 timePassed = 0; // start to count the time
                 ArrayList<Integer> nowDetected = cvBlocksManager.getNewDetectedVals(); // to know the blocks on the table
                 int lastSum = currentSum;
+
                 currentSum = 0;
 
                 for (Integer aNowDetected : nowDetected)
                     currentSum += aNowDetected; // we need to know the sum to decide if response is correct
 
                 answerRight = (currentSum == numberToPlay);
+                checkIfNewIntentToRegister(currentSum,lastBlocksSum,numberToPlay,answerRight,nowDetected);
+                lastBlocksSum = currentSum;
+
                 timeToWait = calculateTimeToWait(currentSum, numberToPlay);
                 if (answerRight) {
                     correctAnswersNow+=1;
@@ -178,7 +178,7 @@ public class CvWorldController {
                     }
                     onCorrectAnswer(); //change number!
                     resetErrorsAndInactivity();
-                    currentSum = 0; // we "reset" current sum to detect errors
+                    currentSum = -1; // we "reset" current sum to detect errors
                 } else {
                     checkForErrorsAndInactivity(currentSum, lastSum);
                     reproduceAllFeedbacks(nowDetected, numberToPlay);
@@ -199,6 +199,20 @@ public class CvWorldController {
             numberToPlay = LevelsManager.instance.get_number_to_play();
         }
 
+    }
+
+    void checkIfFirstLoopWithNewPrice(){
+        if(firstLoopWithNewPrice){
+            game.resultsManager.newPriceAppeared(LevelsManager.instance.getOperationIndex()+1,LevelsManager.instance.get_level());
+            firstLoopWithNewPrice = false;
+        }
+    }
+
+    void checkIfNewIntentToRegister(int currentSumNow ,int lastSum, int numberToPlayNow, boolean answerWasRight, ArrayList<Integer>  nowDetected){
+        if(currentSum!=lastSum) {
+            game.resultsManager.addIntent(answerWasRight, currentSumNow, numberToPlayNow, nowDetected);
+            if(answerWasRight) firstLoopWithNewPrice = true;
+        }
     }
 
     private void addPositiveFeedbackTimeToTimeToWait(){

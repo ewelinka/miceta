@@ -5,6 +5,7 @@ import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.assets.AssetManager;
 import edu.ceta.vision.core.topcode.TopCodeDetector;
 import miceta.game.core.managers.LevelsManager;
+import miceta.game.core.managers.ResultsManager;
 import miceta.game.core.screens.AbstractGameScreen;
 import miceta.game.core.screens.DirectedGame;
 import miceta.game.core.screens.IntroScreen;
@@ -31,11 +32,12 @@ public class miCeta extends DirectedGame {
 		//AudioManager.instance.play(Assets.instance.music.song01);
 		GamePreferences.instance.load();
 		LevelsManager.instance.init();
+		resultsManager = new ResultsManager();
 		representationMapper = new RepresentationMapper(this);
 		gameScreen = RepresentationMapper.getGameScreenFromScreenName(LevelsManager.instance.getScreenName());
 		ScreenTransition transition = ScreenTransitionFade.init(1);
 		topCodeDetector = null;
-		//setScreen(new BaseScreen(this),transition);
+
 		setScreen(new IntroScreen(this),transition);
 		//setScreen(new AutoInitScreen(this));
 		//LevelsManager levelsManager = LevelsManager.getInstance(); // inicializate level manager -- no seria necesario porque es singleton.
