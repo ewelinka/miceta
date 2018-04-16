@@ -176,6 +176,7 @@ public class Assets implements Disposable, AssetErrorListener {
         assetManager.load("images/backGeneric.png", Texture.class);
         assetManager.load("images/backDoor.png", Texture.class);
         assetManager.load("images/backIngredients.png", Texture.class);
+
         // start loading assets and wait until finished
         assetManager.finishLoading();
 
@@ -436,26 +437,30 @@ public class Assets implements Disposable, AssetErrorListener {
         public final ImageButton.ImageButtonStyle exitButtonStyle;
         public final ImageButton.ImageButtonStyle helpButtonStyle;
 
+
         public  AssetButtons(TextureAtlas atlas) {
+
             playButtonStyle = new ImageButton.ImageButtonStyle();  //Instaciate
-            playButtonStyle.up = new TextureRegionDrawable(atlas.findRegion("jugar-1")); //Set image for not pressed button
-            playButtonStyle.down= new TextureRegionDrawable(atlas.findRegion("jugar-2"));  //Set image for pressed
-            playButtonStyle.over= new TextureRegionDrawable(atlas.findRegion("jugar-2"));
+            playButtonStyle.up = new TextureRegionDrawable(atlas.findRegion("jugar")); //Set image for not pressed button
+            playButtonStyle.down= new TextureRegionDrawable(atlas.findRegion("jugar"));  //Set image for pressed
+            playButtonStyle.over= new TextureRegionDrawable(atlas.findRegion("jugar"));
 
             exitButtonStyle = new ImageButton.ImageButtonStyle();  //Instaciate
-            exitButtonStyle.up = new TextureRegionDrawable(atlas.findRegion("salir-1")); //Set image for not pressed button
-            exitButtonStyle.down= new TextureRegionDrawable(atlas.findRegion("salir-2"));  //Set image for pressed
-            exitButtonStyle.over= new TextureRegionDrawable(atlas.findRegion("salir-2"));
+            exitButtonStyle.up = new TextureRegionDrawable(atlas.findRegion("salir")); //Set image for not pressed button
+            exitButtonStyle.down= new TextureRegionDrawable(atlas.findRegion("salir"));  //Set image for pressed
+            exitButtonStyle.over= new TextureRegionDrawable(atlas.findRegion("salir"));
 
             newStartButtonStyle = new ImageButton.ImageButtonStyle();  //Instaciate
-            newStartButtonStyle.up = new TextureRegionDrawable(atlas.findRegion("reiniciar-1")); //Set image for not pressed button
-            newStartButtonStyle.down= new TextureRegionDrawable(atlas.findRegion("reiniciar-2"));  //Set image for pressed
-            newStartButtonStyle.over= new TextureRegionDrawable(atlas.findRegion("reiniciar-2"));
+            newStartButtonStyle.up = new TextureRegionDrawable(atlas.findRegion("restart")); //Set image for not pressed button
+            newStartButtonStyle.down= new TextureRegionDrawable(atlas.findRegion("restart"));  //Set image for pressed
+            newStartButtonStyle.over= new TextureRegionDrawable(atlas.findRegion("restart"));
 
             helpButtonStyle = new ImageButton.ImageButtonStyle();  //Instaciate
-            helpButtonStyle.up = new TextureRegionDrawable(atlas.findRegion("ayuda-1")); //Set image for not pressed button
-            helpButtonStyle.down= new TextureRegionDrawable(atlas.findRegion("ayuda-2"));  //Set image for pressed
-            helpButtonStyle.over= new TextureRegionDrawable(atlas.findRegion("ayuda-2"));
+            helpButtonStyle.up = new TextureRegionDrawable(atlas.findRegion("ayuda")); //Set image for not pressed button
+            helpButtonStyle.down= new TextureRegionDrawable(atlas.findRegion("ayuda"));  //Set image for pressed
+            helpButtonStyle.over= new TextureRegionDrawable(atlas.findRegion("ayuda"));
+
+
         }
 
     }

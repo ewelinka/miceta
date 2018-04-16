@@ -101,12 +101,15 @@ public class AudioManager {
         if (feedbackVolSound < 1.0f)
             feedbackVolSound +=  0.1f;
         feedbackVolSound = (float)roundMe(feedbackVolSound);
+        Gdx.app.log(TAG,"up volume "+feedbackVolSound);
     }
 
     public void downFeedbackVolSound(){
+
         if (feedbackVolSound > 0.2f)
             feedbackVolSound -= 0.1f;
         feedbackVolSound = (float)roundMe(feedbackVolSound);
+        Gdx.app.log(TAG,"down volume "+feedbackVolSound);
     }
 
 
@@ -874,64 +877,38 @@ public class AudioManager {
 
 
     public void stop_sounds(ScreenName whichScreen) {
+        if(reader!=null)
+            reader.clearActions();
         switch (whichScreen){
             case CONCRETE_TUTORIAL:
                 Assets.instance.sounds.concreteIntro.stop();
-                Assets.instance.sounds.concreteFinal.stop();
-                Assets.instance.sounds.concreteTooFew.stop();
-                Assets.instance.sounds.concreteTooMuch.stop();
                 break;
             case ORGANIC_HELP:
                 Assets.instance.sounds.organicHelpIntro.stop();
                 Assets.instance.sounds.organicHelpIntro2.stop();
-                Assets.instance.sounds.organicHelpTooFew_1.stop();
-                Assets.instance.sounds.organicHelpTooFew_2.stop();
-                Assets.instance.sounds.organicHelpTooMuch_1.stop();
-                Assets.instance.sounds.organicHelpTooMuch_2.stop();
                 Assets.instance.sounds.organicHelpFinal.stop();
                 Assets.instance.sounds.organicHelpFinal2.stop();
                 break;
             case GAME_STEPS:
                 Assets.instance.sounds.stepIntro.stop();
                 Assets.instance.sounds.stepIntro2.stop();
-                Assets.instance.sounds.stepTooFew_1.stop();
-                Assets.instance.sounds.stepTooFew_2.stop();
-                Assets.instance.sounds.stepTooMuch_1.stop();
-                Assets.instance.sounds.stepTooMuch_2.stop();
                 Assets.instance.sounds.stepFinal.stop();
                 Assets.instance.sounds.stepFinal2.stop();
                 break;
             case GAME_KNOCK:
                 Assets.instance.sounds.knockIntro.stop();
-                Assets.instance.sounds.knockTooFew.stop();
-                Assets.instance.sounds.knockTooMuch.stop();
-                Assets.instance.sounds.knockFinal.stop();
                 break;
             case GAME_INGREDIENTS:
                 Assets.instance.sounds.ingredientsIntro.stop();
-                Assets.instance.sounds.ingredientsTooFew.stop();
-                Assets.instance.sounds.ingredientsTooMuch.stop();
-                Assets.instance.sounds.ingredientsPositive_1.stop();
-                Assets.instance.sounds.ingredientsFinal.stop();
                 break;
             case GAME_MIXING:
                 Assets.instance.sounds.mixingIntro.stop();
-                Assets.instance.sounds.mixingTooFew.stop();
-                Assets.instance.sounds.mixingTooMuch.stop();
-               // Assets.instance.sounds.mixingPositive_1.stop();
-                Assets.instance.sounds.mixingFinal.stop();
                 break;
             case GAME_MUSIC:
                 Assets.instance.sounds.musicIntro.stop();
-                Assets.instance.sounds.musicTooFew.stop();
-                Assets.instance.sounds.musicTooMuch.stop();
-                Assets.instance.sounds.musicFinal.stop();
                 break;
             case GAME_GREETING:
                 Assets.instance.sounds.greetingIntro.stop();
-                Assets.instance.sounds.greetingTooFew.stop();
-                Assets.instance.sounds.greetingTooMuch.stop();
-                Assets.instance.sounds.greetingFinal.stop();
                 break;
             case FINAL_MM1:
                 Assets.instance.sounds.finalMM1.stop();

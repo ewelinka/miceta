@@ -1,6 +1,7 @@
 package miceta.game.core.screens;
 
 import com.badlogic.gdx.Gdx;
+import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.graphics.glutils.ShapeRenderer;
 import com.badlogic.gdx.scenes.scene2d.Stage;
 import com.badlogic.gdx.utils.viewport.FitViewport;
@@ -29,7 +30,8 @@ public class ConcreteTutorial extends BaseScreenWithIntro {
 
     @Override
     public void show() {
-        stage = new Stage(new FitViewport(viewportWidth , viewportHeight));
+        initRenderRelatedStuff();
+
         setGameScreenTo(ScreenName.CONCRETE_TUTORIAL); // we force organic tutorial to execute stop_sounds() in correct way
         worldController = new CvWithIntroControllerConcrete(game,stage,
                 FeedbackSoundType.CLAP,
@@ -41,11 +43,5 @@ public class ConcreteTutorial extends BaseScreenWithIntro {
                 upLevel,
                 shouldRepeatTutorial
         );
-        shapeRenderer = new ShapeRenderer();
-        fd = new FeedbackDrawManager();
-
-        // android back key used to exit, we should not catch
-        Gdx.input.setCatchBackKey(false);
-
     }
 }

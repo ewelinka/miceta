@@ -5,12 +5,24 @@ import com.badlogic.gdx.graphics.GL20;
 import com.badlogic.gdx.graphics.g2d.BitmapFont;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.graphics.glutils.ShapeRenderer;
+import com.badlogic.gdx.scenes.scene2d.Actor;
+import com.badlogic.gdx.scenes.scene2d.InputEvent;
+import com.badlogic.gdx.scenes.scene2d.InputListener;
 import com.badlogic.gdx.scenes.scene2d.Stage;
+import com.badlogic.gdx.scenes.scene2d.ui.ImageButton;
+import com.badlogic.gdx.scenes.scene2d.utils.ChangeListener;
 import com.badlogic.gdx.utils.viewport.FitViewport;
 import edu.ceta.vision.core.blocks.Block;
+import miceta.game.core.Assets;
 import miceta.game.core.controllers.CvWithIntroController;
 import miceta.game.core.managers.FeedbackDrawManager;
+import miceta.game.core.managers.LevelsManager;
 import miceta.game.core.miCeta;
+import miceta.game.core.transitions.ScreenTransition;
+import miceta.game.core.transitions.ScreenTransitionFade;
+import miceta.game.core.util.AudioManager;
+import miceta.game.core.util.GamePreferences;
+import miceta.game.core.util.ScreenName;
 
 import java.util.Set;
 
@@ -19,10 +31,9 @@ import java.util.Set;
  */
 public class BaseScreenWithIntro  extends AbstractGameScreen {
     private static final String TAG = BaseScreenWithIntro.class.getName();
-    ShapeRenderer shapeRenderer;
+
     private final BitmapFont font = new BitmapFont();
-    private final SpriteBatch spriteBatch  = new SpriteBatch();
-    FeedbackDrawManager fd;
+
     private  boolean isInOgranicHelpScreen;
 
     public BaseScreenWithIntro(miCeta game) {
@@ -34,13 +45,13 @@ public class BaseScreenWithIntro  extends AbstractGameScreen {
     }
 
     public BaseScreenWithIntro(miCeta game, boolean upLevel, boolean shouldRepeatTutorial, boolean isInOgranicHelpScreen) {
-        super(game, upLevel,shouldRepeatTutorial);
+        super(game, upLevel,shouldRepeatTutorial,false);
         this.isInOgranicHelpScreen = isInOgranicHelpScreen;
     }
 
     @Override
     public void show() {
-        stage = new Stage(new FitViewport(viewportWidth, viewportHeight));
+        initRenderRelatedStuff();
         worldController = new CvWithIntroController(game,stage,
                 game.gameScreen.feedbackSoundType,
                 game.gameScreen.intro,
@@ -51,10 +62,6 @@ public class BaseScreenWithIntro  extends AbstractGameScreen {
                 upLevel,
                 shouldRepeatTutorial,
                 isInOgranicHelpScreen);
-        shapeRenderer = new ShapeRenderer();
-        fd = new FeedbackDrawManager();
-        // android back key used to exit, we should not catch
-        Gdx.input.setCatchBackKey(false);
     }
 
     @Override

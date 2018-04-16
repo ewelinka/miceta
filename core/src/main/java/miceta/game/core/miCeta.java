@@ -39,7 +39,8 @@ public class miCeta extends DirectedGame {
 		ScreenTransition transition = ScreenTransitionFade.init(1);
 		topCodeDetector = null;
 
-		setScreen(new MenuScreen(this),transition);
+		//setScreen(new MenuScreen(this),transition);
+		setScreen(new IntroScreen(this),transition);
 		//setScreen(new AutoInitScreen(this));
 		//LevelsManager levelsManager = LevelsManager.getInstance(); // inicializate level manager -- no seria necesario porque es singleton.
 

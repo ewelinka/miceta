@@ -1,6 +1,7 @@
 package miceta.game.core.screens;
 
 import com.badlogic.gdx.Gdx;
+import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.graphics.glutils.ShapeRenderer;
 import com.badlogic.gdx.scenes.scene2d.Stage;
 import com.badlogic.gdx.utils.viewport.FitViewport;
@@ -25,9 +26,8 @@ public class IngredientsScreen extends BaseScreenWithIntro {
 
     @Override
     public void show() {
-
+        initRenderRelatedStuff();
         Gdx.app.log(TAG," we start the SHOW! "+Gdx.graphics.getWidth());
-        stage = new Stage(new FitViewport(viewportWidth, viewportHeight));
         worldController = new CvIngredientsController(game,stage,
                 Assets.instance.sounds.ingredientsTooFew,
                 Assets.instance.sounds.ingredientsTooMuch,
@@ -35,9 +35,5 @@ public class IngredientsScreen extends BaseScreenWithIntro {
                 upLevel,
                 shouldRepeatTutorial
         );
-        shapeRenderer = new ShapeRenderer();
-        fd = new FeedbackDrawManager();
-        // android back key used to exit, we should not catch
-        Gdx.input.setCatchBackKey(false);
     }
 }

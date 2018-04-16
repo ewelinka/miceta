@@ -31,7 +31,7 @@ public class MenuScreen extends AbstractGameScreen {
 
     @Override
     public void render(float deltaTime) {
-        Gdx.gl.glClearColor(1, 1, 1, 0.5f);
+        Gdx.gl.glClearColor(0, 0, 0,0);
         //Gdx.gl.glClearColor(0x64 / 255.0f, 0x95 / 255.0f,0xed / 255.0f, 0xff / 255.0f);
         Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT);
         stage.act(deltaTime);

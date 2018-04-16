@@ -1,6 +1,7 @@
 package miceta.game.core.screens;
 
 import com.badlogic.gdx.Gdx;
+import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.graphics.glutils.ShapeRenderer;
 import com.badlogic.gdx.scenes.scene2d.Stage;
 import com.badlogic.gdx.utils.viewport.FitViewport;
@@ -27,8 +28,8 @@ public class OrganicHelpOneScreen extends BaseScreenWithIntro {
 
     @Override
     public void show() {
+        initRenderRelatedStuff();
         Gdx.app.log(TAG," we start the SHOW in ORGANIC! "+Gdx.graphics.getWidth());
-        stage = new Stage(new FitViewport(viewportWidth , viewportHeight));
         setGameScreenTo(ScreenName.ORGANIC_HELP); // we force organic tutorial to execute stop_sounds() in correct way
         worldController = new CvWithIntroControllerOrganicHelpOne(game,stage,
                 FeedbackSoundType.CLAP,
@@ -40,11 +41,5 @@ public class OrganicHelpOneScreen extends BaseScreenWithIntro {
                 upLevel,
                 shouldRepeatTutorial
         );
-        shapeRenderer = new ShapeRenderer();
-        fd = new FeedbackDrawManager();
-
-        // android back key used to exit, we should not catch
-        Gdx.input.setCatchBackKey(false);
-
     }
 }

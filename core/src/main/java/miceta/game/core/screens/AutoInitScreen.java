@@ -8,7 +8,7 @@ import miceta.game.core.miCeta;
  */
 public class AutoInitScreen extends AbstractGameScreen {
     public AutoInitScreen(miCeta game, boolean upLevel, boolean shouldRepeatTutorial) {
-        super(game, upLevel, shouldRepeatTutorial);
+        super(game, upLevel, shouldRepeatTutorial,false);
     }
 
     @Override
