@@ -168,6 +168,8 @@ public class Assets implements Disposable, AssetErrorListener {
         assetManager.load("sounds/opciones/ayuda.wav", Sound.class);
         assetManager.load("sounds/opciones/salir.wav", Sound.class);
 
+        assetManager.load("sounds/finalMM1/cierre.mp3", Sound.class);
+
         assetManager.load("music/song1.mp3", Music.class);
         assetManager.load("music/song2.mp3", Music.class);
 
@@ -215,6 +217,7 @@ public class Assets implements Disposable, AssetErrorListener {
         public final Sound mixingIntro, mixingFinal, mixingTooFew, mixingTooMuch;
         public final Sound musicIntro, musicFinal, musicTooFew, musicTooMuch;
         public final Sound magicStrong, magicMiddle, magicNomal;
+        public final Sound finalMM1;
 
 
         public  ArrayList<Sound> positivesOrganicHelp = new ArrayList<>();
@@ -397,6 +400,8 @@ public class Assets implements Disposable, AssetErrorListener {
             cluesGreeting.add(soundWithDuration("sounds/saludos/hola2.mp3", am));
             cluesGreeting.add(soundWithDuration("sounds/saludos/hola3.mp3", am));
             cluesGreeting.add(soundWithDuration("sounds/saludos/hola4.mp3", am));
+
+            finalMM1 = soundWithDuration("sounds/finalMM1/cierre.mp3", am);
 
             jugar = soundWithDuration("sounds/opciones/jugar.wav", am);
             denuevo = soundWithDuration("sounds/opciones/denuevo.wav", am);

@@ -933,6 +933,10 @@ public class AudioManager {
                 Assets.instance.sounds.greetingTooMuch.stop();
                 Assets.instance.sounds.greetingFinal.stop();
                 break;
+            case FINAL_MM1:
+                Assets.instance.sounds.finalMM1.stop();
+                break;
+
         }
     }
 

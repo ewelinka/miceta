@@ -65,7 +65,6 @@ public class CvWorldController {
 
     public CvWorldController(miCeta game, Stage stage, FeedbackSoundType feedbackSound, Sound introSound, ArrayList<Sound> positiveFeedback, Sound tooFewErrorSound,  Sound tooMuchErrorSound, Sound finalFeedback, boolean upLevel, boolean shouldRepeatTutorial) {
         this.game = game;
-        Stage stage1 = stage;
         this.feedbackSound = feedbackSound;
         this.tooMuchErrorSound = tooMuchErrorSound;
         this.tooFewErrorSound = tooFewErrorSound;

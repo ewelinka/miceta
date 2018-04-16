@@ -41,10 +41,14 @@ public class RepresentationMapper {
                 Gdx.app.log(TAG,"music!");
                 return new BaseScreenWithIntro(game, true, shouldRepeatTutorial);
             case GAME_GREETING:
-                Gdx.app.log(TAG,"bell!");
+                Gdx.app.log(TAG,"greeting!");
                 return new BaseScreenWithIntro(game, true, shouldRepeatTutorial);
+            case FINAL_MM1:
+                Gdx.app.log(TAG,"final!");
+                return new FinalMM1(game, true, shouldRepeatTutorial);
+
             default:
-                Gdx.app.log(TAG,"def!");
+                Gdx.app.log(TAG,"defult in getScreenFromScreenName!");
                 return new  IntroScreen(game);
 
         }
@@ -74,6 +78,10 @@ public class RepresentationMapper {
                 break;
             case 6:
                 screenName = ScreenName.GAME_GREETING;
+                break;
+            case 7:
+                screenName = ScreenName.FINAL_MM1;
+                break;
 
         }
         return screenName;
@@ -152,6 +160,10 @@ public class RepresentationMapper {
                 gameScreen.tooMuch = Assets.instance.sounds.greetingTooMuch;
                 gameScreen.finalSound = Assets.instance.sounds.greetingFinal;
                 gameScreen.feedbackSoundType = FeedbackSoundType.GREETING;
+                break;
+            case FINAL_MM1:
+                gameScreen.screenName = ScreenName.FINAL_MM1;
+                gameScreen.intro = Assets.instance.sounds.finalMM1;
         }
         return gameScreen;
     }
