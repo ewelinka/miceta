@@ -12,10 +12,10 @@ import java.util.ArrayList;
 /**
  * Created by ewe on 3/23/18.
  */
-public class CvWithIntroControllerOrganicHelpTwo extends  CvWithIntroController{
+public class CvWithIntroControllerReadNumber extends  CvWithIntroController{
 
 
-    public CvWithIntroControllerOrganicHelpTwo(miCeta game, Stage stage, FeedbackSoundType feedbackSound, Sound introSound, ArrayList<Sound> positiveFeedback, Sound tooFewErrorSound, Sound tooMuchErrorSound, Sound finalFeedback, boolean upLevel, boolean shouldRepeatTutorial) {
+    public CvWithIntroControllerReadNumber(miCeta game, Stage stage, FeedbackSoundType feedbackSound, Sound introSound, ArrayList<Sound> positiveFeedback, Sound tooFewErrorSound, Sound tooMuchErrorSound, Sound finalFeedback, boolean upLevel, boolean shouldRepeatTutorial) {
         super(game, stage, feedbackSound, introSound, positiveFeedback, tooFewErrorSound, tooMuchErrorSound, finalFeedback, upLevel, shouldRepeatTutorial, true); // isInOgranicHelpScreen = true
         // in organic we will read the numbers
         readNumberDelay =  Constants.READ_NUMBER_DURATION ;

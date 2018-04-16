@@ -77,7 +77,6 @@ public class Assets implements Disposable, AssetErrorListener {
         // organic tutorial
         assetManager.load("sounds/organic/intro1.mp3", Sound.class);
         assetManager.load("sounds/organic/intro2.mp3", Sound.class);
-        assetManager.load("sounds/organic/final1.mp3", Sound.class);
         assetManager.load("sounds/organic/final2.mp3", Sound.class);
         assetManager.load("sounds/organic/masMenos1.mp3", Sound.class);
         assetManager.load("sounds/organic/mas2.mp3", Sound.class);
@@ -281,7 +280,7 @@ public class Assets implements Disposable, AssetErrorListener {
             organicHelpTooMuch_1 = soundWithDuration("sounds/organic/masMenos1.mp3", am);
             organicHelpTooFew_1 = organicHelpTooMuch_1;
             organicHelpPositive_1 = tada;
-            organicHelpFinal = soundWithDuration("sounds/organic/final1.mp3", am);
+            organicHelpFinal = tada;
             // second part
             organicHelpIntro2 = soundWithDuration("sounds/organic/intro2.mp3", am);
             organicHelpTooMuch_2 = soundWithDuration("sounds/organic/menos2.mp3", am);
