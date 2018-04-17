@@ -91,6 +91,10 @@ public class Assets implements Disposable, AssetErrorListener {
         assetManager.load("sounds/pasos/final2.mp3", Sound.class);
         assetManager.load("sounds/pasos/paso1.mp3", Sound.class);
         assetManager.load("sounds/pasos/paso2.mp3", Sound.class);
+        assetManager.load("sounds/pasos/paso3.mp3", Sound.class);
+        assetManager.load("sounds/pasos/paso4.mp3", Sound.class);
+        assetManager.load("sounds/pasos/paso5.mp3", Sound.class);
+        assetManager.load("sounds/pasos/paso6.mp3", Sound.class);
 
         // ingredients game
         assetManager.load("sounds/ingredientes/intro.mp3", Sound.class);
@@ -127,6 +131,11 @@ public class Assets implements Disposable, AssetErrorListener {
         assetManager.load("sounds/golpes/final.mp3", Sound.class);
         assetManager.load("sounds/golpes/knock1.mp3", Sound.class);
         assetManager.load("sounds/golpes/knock2.mp3", Sound.class);
+        assetManager.load("sounds/golpes/knock3.mp3", Sound.class);
+        assetManager.load("sounds/golpes/knock4.mp3", Sound.class);
+        assetManager.load("sounds/golpes/knock5.mp3", Sound.class);
+        assetManager.load("sounds/golpes/knock6.mp3", Sound.class);
+        assetManager.load("sounds/golpes/knock7.mp3", Sound.class);
         assetManager.load("sounds/golpes/mas.mp3", Sound.class);
         assetManager.load("sounds/golpes/menos.mp3", Sound.class);
         assetManager.load("sounds/golpes/positive1.mp3", Sound.class);
@@ -138,6 +147,15 @@ public class Assets implements Disposable, AssetErrorListener {
         assetManager.load("sounds/saludos/hola2.mp3", Sound.class);
         assetManager.load("sounds/saludos/hola3.mp3", Sound.class);
         assetManager.load("sounds/saludos/hola4.mp3", Sound.class);
+        assetManager.load("sounds/saludos/hola5.mp3", Sound.class);
+        assetManager.load("sounds/saludos/hola6.mp3", Sound.class);
+        assetManager.load("sounds/saludos/hola7.mp3", Sound.class);
+        assetManager.load("sounds/saludos/hola8.mp3", Sound.class);
+        assetManager.load("sounds/saludos/hola9.mp3", Sound.class);
+        assetManager.load("sounds/saludos/hola10.mp3", Sound.class);
+        assetManager.load("sounds/saludos/hola11.mp3", Sound.class);
+        assetManager.load("sounds/saludos/hola12.mp3", Sound.class);
+        assetManager.load("sounds/saludos/hola13.mp3", Sound.class);
         assetManager.load("sounds/saludos/mas.mp3", Sound.class);
         assetManager.load("sounds/saludos/menos.mp3", Sound.class);
 
@@ -311,6 +329,10 @@ public class Assets implements Disposable, AssetErrorListener {
 //            positivesStep.add(tmm1_positive_2);
             cluesSteps.add(soundWithDuration("sounds/pasos/paso1.mp3", am));
             cluesSteps.add(soundWithDuration("sounds/pasos/paso2.mp3", am));
+            cluesSteps.add(soundWithDuration("sounds/pasos/paso3.mp3", am));
+            cluesSteps.add(soundWithDuration("sounds/pasos/paso4.mp3", am));
+            cluesSteps.add(soundWithDuration("sounds/pasos/paso5.mp3", am));
+            cluesSteps.add(soundWithDuration("sounds/pasos/paso6.mp3", am));
 
             // knock game audios
             knockIntro = soundWithDuration("sounds/golpes/intro.mp3", am);
@@ -325,6 +347,11 @@ public class Assets implements Disposable, AssetErrorListener {
             //positivesKnock.add(knockPositive_3);
             cluesKnock.add(soundWithDuration("sounds/golpes/knock1.mp3", am));
             cluesKnock.add(soundWithDuration("sounds/golpes/knock2.mp3", am));
+            cluesKnock.add(soundWithDuration("sounds/golpes/knock3.mp3", am));
+            cluesKnock.add(soundWithDuration("sounds/golpes/knock4.mp3", am));
+            cluesKnock.add(soundWithDuration("sounds/golpes/knock5.mp3", am));
+            cluesKnock.add(soundWithDuration("sounds/golpes/knock6.mp3", am));
+            cluesKnock.add(soundWithDuration("sounds/golpes/knock7.mp3", am));
             //cluesKnock.add(knock_3);
 
             ingredientsIntro = soundWithDuration("sounds/ingredientes/intro.mp3", am);
@@ -401,7 +428,15 @@ public class Assets implements Disposable, AssetErrorListener {
             cluesGreeting.add(soundWithDuration("sounds/saludos/hola2.mp3", am));
             cluesGreeting.add(soundWithDuration("sounds/saludos/hola3.mp3", am));
             cluesGreeting.add(soundWithDuration("sounds/saludos/hola4.mp3", am));
-
+            cluesGreeting.add(soundWithDuration("sounds/saludos/hola5.mp3", am));
+            cluesGreeting.add(soundWithDuration("sounds/saludos/hola6.mp3", am));
+            cluesGreeting.add(soundWithDuration("sounds/saludos/hola7.mp3", am));
+            cluesGreeting.add(soundWithDuration("sounds/saludos/hola8.mp3", am));
+            cluesGreeting.add(soundWithDuration("sounds/saludos/hola9.mp3", am));
+            cluesGreeting.add(soundWithDuration("sounds/saludos/hola10.mp3", am));
+            cluesGreeting.add(soundWithDuration("sounds/saludos/hola11.mp3", am));
+            cluesGreeting.add(soundWithDuration("sounds/saludos/hola12.mp3", am));
+            cluesGreeting.add(soundWithDuration("sounds/saludos/hola13.mp3", am));
             finalMM1 = soundWithDuration("sounds/finalMM1/cierre.mp3", am);
 
             jugar = soundWithDuration("sounds/opciones/jugar.wav", am);
