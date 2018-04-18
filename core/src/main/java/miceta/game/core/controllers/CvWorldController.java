@@ -47,7 +47,7 @@ public class CvWorldController {
     private final Sound finalFeedback;
     private final Sound introSound;
     private final ArrayList<Sound>  positiveFeedback;
-    private final FeedbackSoundType feedbackSound;
+    private final ScreenName screenNameNow;
     int inactivityLimit;
     protected int maxErrorsForHint;
     boolean willGoToNextPart;
@@ -61,9 +61,9 @@ public class CvWorldController {
     private boolean firstLoopWithNewPrice;
 
 
-    public CvWorldController(miCeta game, Stage stage, FeedbackSoundType feedbackSound, Sound introSound, ArrayList<Sound> positiveFeedback, Sound tooFewErrorSound,  Sound tooMuchErrorSound, Sound finalFeedback, boolean upLevel, boolean shouldRepeatTutorial) {
+    public CvWorldController(miCeta game, Stage stage, ScreenName screenNameNow, Sound introSound, ArrayList<Sound> positiveFeedback, Sound tooFewErrorSound,  Sound tooMuchErrorSound, Sound finalFeedback, boolean upLevel, boolean shouldRepeatTutorial) {
         this.game = game;
-        this.feedbackSound = feedbackSound;
+        this.screenNameNow = screenNameNow;
         this.tooMuchErrorSound = tooMuchErrorSound;
         this.tooFewErrorSound = tooFewErrorSound;
         this.positiveFeedback = positiveFeedback;
@@ -94,7 +94,7 @@ public class CvWorldController {
         AudioManager.instance.setCustomSound(finalFeedback, FINAL);
         AudioManager.instance.setCustomSound(introSound, INTRO);
         AudioManager.instance.setCustomSoundArray(POSITIVE, positiveFeedback);
-        AudioManager.instance.setFeedbackSoundTypeAndLastClueIndex(feedbackSound);
+        AudioManager.instance.setScreenNameAndLastClueIndex(screenNameNow);
         AudioManager.instance.setCurrentClue();
 
     }

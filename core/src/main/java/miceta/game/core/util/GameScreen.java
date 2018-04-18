@@ -16,7 +16,6 @@ public class GameScreen {
     public Sound tooFew;
     public Sound tooMuch;
     public Sound finalSound;
-    public FeedbackSoundType feedbackSoundType;
     public Texture imgBackground;
 
 }

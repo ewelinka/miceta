@@ -29,7 +29,7 @@ public class BaseScreenWithIntroReadNumber extends BaseScreenWithIntro{
         setGameScreenTo(this.forceScreenName); // we force organic tutorial audios
         LevelsManager.instance.forceLevelParams(2); // we force the operations from organic! // 0=headers, 1 = concrete, 2 = steps
         worldController = new CvWithIntroControllerReadNumber(game,stage,
-                game.gameScreen.feedbackSoundType,
+                game.gameScreen.screenName,
                 game.gameScreen.intro,
                 game.gameScreen.positives,
                 game.gameScreen.tooFew,

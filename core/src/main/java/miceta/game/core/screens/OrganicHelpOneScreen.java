@@ -32,9 +32,9 @@ public class OrganicHelpOneScreen extends BaseScreenWithIntro {
         Gdx.app.log(TAG," we start the SHOW in ORGANIC! "+Gdx.graphics.getWidth());
         setGameScreenTo(ScreenName.ORGANIC_HELP); // we force organic tutorial to execute stop_sounds() in correct way
         worldController = new CvWithIntroControllerOrganicHelpOne(game,stage,
-                FeedbackSoundType.CLAP,
+                ScreenName.ORGANIC_HELP,
                 Assets.instance.sounds.organicHelpIntro,
-                Assets.instance.sounds.positivesOrganicHelp,
+                Assets.instance.sounds.positivesTada,
                 Assets.instance.sounds.organicHelpTooFew_1,
                 Assets.instance.sounds.organicHelpTooMuch_1,
                 Assets.instance.sounds.organicHelpFinal,

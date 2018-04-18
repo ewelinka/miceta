@@ -34,9 +34,9 @@ public class ConcreteTutorial extends BaseScreenWithIntro {
 
         setGameScreenTo(ScreenName.CONCRETE_TUTORIAL); // we force organic tutorial to execute stop_sounds() in correct way
         worldController = new CvWithIntroControllerConcrete(game,stage,
-                FeedbackSoundType.CLAP,
+                ScreenName.CONCRETE_TUTORIAL,
                 Assets.instance.sounds.concreteIntro,
-                Assets.instance.sounds.positivesOrganicHelp,
+                Assets.instance.sounds.positivesTada,
                 Assets.instance.sounds.concreteTooFew,
                 Assets.instance.sounds.concreteTooMuch,
                 Assets.instance.sounds.concreteFinal,

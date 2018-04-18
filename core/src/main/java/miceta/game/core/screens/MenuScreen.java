@@ -107,6 +107,36 @@ public class MenuScreen extends AbstractGameScreen {
             }
         });
 
+        x= 980;
+        ImageButton btnIntro = addGameBtn(x,30+ shift*3 );
+        btnIntro.addListener(new ChangeListener() {
+            @Override
+            public void changed (ChangeEvent event, Actor actor) {
+                onBtnClicked(ScreenName.GAME_HOLES);
+            }
+        });
+        ImageButton btnWings= addGameBtn(x,30+ shift*2 );
+        btnWings.addListener(new ChangeListener() {
+            @Override
+            public void changed (ChangeEvent event, Actor actor) {
+                onBtnClicked(ScreenName.GAME_WINGS);
+            }
+        });
+        ImageButton btnBird= addGameBtn(x,30+ shift*1 );
+        btnBird.addListener(new ChangeListener() {
+            @Override
+            public void changed (ChangeEvent event, Actor actor) {
+                onBtnClicked(ScreenName.GAME_BIRD);
+            }
+        });
+        ImageButton btnNumerus= addGameBtn(x,30 );
+        btnNumerus.addListener(new ChangeListener() {
+            @Override
+            public void changed (ChangeEvent event, Actor actor) {
+                onBtnClicked(ScreenName.GAME_NUMERUS);
+            }
+        });
+
     }
 
 
@@ -248,6 +278,30 @@ public class MenuScreen extends AbstractGameScreen {
                 //LevelsManager.instance.forceToFirstLevel(7);
                 LevelsManager.instance.forceLevelParams(7);
                 game.setScreen(new BaseScreenWithIntro(game, false, false),transition);
+                break;
+            case INTRO_MM2:
+                LevelsManager.instance.forceLevelParams(9);
+                game.setScreen(new OneAudioScreen(game, false, false),transition);
+                break;
+            case GAME_HOLES:
+                LevelsManager.instance.forceLevelParams(10);
+                game.setScreen(new BaseScreenWithIntro(game, false, false),transition);
+                break;
+            case GAME_WINGS:
+                LevelsManager.instance.forceLevelParams(11);
+                game.setScreen(new BaseScreenWithIntro(game, false, false),transition);
+                break;
+            case GAME_BIRD:
+                LevelsManager.instance.forceLevelParams(12);
+                game.setScreen(new BaseScreenWithIntro(game, false, false),transition);
+                break;
+            case GAME_NUMERUS:
+                LevelsManager.instance.forceLevelParams(13);
+                game.setScreen(new BaseScreenWithIntro(game, false, false),transition);
+                break;
+            case FINAL_MM2:
+                LevelsManager.instance.forceLevelParams(14);
+                game.setScreen(new OneAudioScreen(game, false, false),transition);
                 break;
         }
     }

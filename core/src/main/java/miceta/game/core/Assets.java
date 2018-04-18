@@ -158,7 +158,6 @@ public class Assets implements Disposable, AssetErrorListener {
         assetManager.load("sounds/saludos/hola13.mp3", Sound.class);
         assetManager.load("sounds/saludos/mas.mp3", Sound.class);
         assetManager.load("sounds/saludos/menos.mp3", Sound.class);
-
         // mixing
         assetManager.load("sounds/revolver/intro.mp3", Sound.class);
         assetManager.load("sounds/revolver/final.mp3", Sound.class);
@@ -187,6 +186,34 @@ public class Assets implements Disposable, AssetErrorListener {
         assetManager.load("sounds/opciones/salir.wav", Sound.class);
 
         assetManager.load("sounds/finalMM1/cierre.mp3", Sound.class);
+        assetManager.load("sounds/introMM2/intro.mp3", Sound.class);
+
+        // holes
+        assetManager.load("sounds/agujeros/intro.mp3", Sound.class);
+        assetManager.load("sounds/agujeros/final.mp3", Sound.class);
+        assetManager.load("sounds/agujeros/mas.mp3", Sound.class);
+        assetManager.load("sounds/agujeros/menos.mp3", Sound.class);
+        assetManager.load("sounds/agujeros/pinchazo1.mp3", Sound.class);
+        assetManager.load("sounds/agujeros/pinchazo2.mp3", Sound.class);
+        // wings
+        assetManager.load("sounds/alas/intro.mp3", Sound.class);
+        assetManager.load("sounds/alas/final.mp3", Sound.class);
+        //bird
+        assetManager.load("sounds/pajaro/intro.mp3", Sound.class);
+        assetManager.load("sounds/pajaro/final.mp3", Sound.class);
+        assetManager.load("sounds/pajaro/mas.mp3", Sound.class);
+        assetManager.load("sounds/pajaro/menos.mp3", Sound.class);
+        assetManager.load("sounds/pajaro/gav1.mp3", Sound.class);
+        assetManager.load("sounds/pajaro/gav2.mp3", Sound.class);
+        //numerus
+        assetManager.load("sounds/numerus/intro.mp3", Sound.class);
+        assetManager.load("sounds/numerus/final.mp3", Sound.class);
+        assetManager.load("sounds/numerus/mas.mp3", Sound.class);
+        assetManager.load("sounds/numerus/menos.mp3", Sound.class);
+        assetManager.load("sounds/numerus/truen1.mp3", Sound.class);
+        assetManager.load("sounds/numerus/truen2.mp3", Sound.class);
+        //final mm2
+        assetManager.load("sounds/finalMM2/cierre.mp3", Sound.class);
 
         assetManager.load("music/song1.mp3", Music.class);
         assetManager.load("music/song2.mp3", Music.class);
@@ -198,6 +225,13 @@ public class Assets implements Disposable, AssetErrorListener {
         assetManager.load("images/backMusic.png", Texture.class);
         assetManager.load("images/backGreetings.png", Texture.class);
         assetManager.load("images/backFinalMM1.png", Texture.class);
+        assetManager.load("images/backIntroMM2.png", Texture.class);
+        assetManager.load("images/backHoles.png", Texture.class);
+        assetManager.load("images/backWings.png", Texture.class);
+        assetManager.load("images/backBird.png", Texture.class);
+        assetManager.load("images/backNumerus.png", Texture.class);
+        assetManager.load("images/backFinalMM2.png", Texture.class);
+
 
         // start loading assets and wait until finished
         assetManager.finishLoading();
@@ -240,17 +274,22 @@ public class Assets implements Disposable, AssetErrorListener {
         public final Sound mixingIntro, mixingFinal, mixingTooFew, mixingTooMuch;
         public final Sound musicIntro, musicFinal, musicTooFew, musicTooMuch;
         public final Sound magicStrong, magicMiddle, magicNomal;
-        public final Sound finalMM1;
+        public final Sound finalMM1, introMM2, finalMM2;
+        public final Sound holesIntro, holesFinal, holesTooFew, holesTooMuch;
+        public final Sound wingsIntro, wingsFinal;
+        public final Sound birdIntro, birdFinal, birdTooFew,birdTooMuch;
+        public final Sound numerusIntro, numerusFinal, numerusTooFew,numerusTooMuch;
 
 
-        public  ArrayList<Sound> positivesOrganicHelp = new ArrayList<>();
-        public  ArrayList<Sound> positivesStep= new ArrayList<>();
-        public  ArrayList<Sound> positivesKnock = new ArrayList<>();
-        public  ArrayList<Sound> positivesMixing = new ArrayList<>();
+//        public  ArrayList<Sound> positivesOrganicHelp = new ArrayList<>();
+//        public  ArrayList<Sound> positivesStep= new ArrayList<>();
+//        public  ArrayList<Sound> positivesKnock = new ArrayList<>();
+//        public  ArrayList<Sound> positivesMixing = new ArrayList<>();
         public  ArrayList<Sound> positivesIngredients = new ArrayList<>();
-        public  ArrayList<Sound> positivesMusic = new ArrayList<>();
-        public  ArrayList<Sound> positivesGreeting = new ArrayList<>();
-        public  ArrayList<Sound> positivesFeedbacks = new ArrayList<>();
+//        public  ArrayList<Sound> positivesMusic = new ArrayList<>();
+//        public  ArrayList<Sound> positivesGreeting = new ArrayList<>();
+//        public  ArrayList<Sound> positivesFeedbacks = new ArrayList<>();
+        public  ArrayList<Sound> positivesTada = new ArrayList<>();
 
         public final ArrayList<Sound> cluesOrganicHelp = new ArrayList<>();
         public final ArrayList<Sound> cluesSteps = new ArrayList<>();
@@ -259,6 +298,9 @@ public class Assets implements Disposable, AssetErrorListener {
         public final ArrayList<Sound> cluesMixing = new ArrayList<>();
         public final ArrayList<Sound> cluesMusic = new ArrayList<>();
         public final ArrayList<Sound> cluesGreeting = new ArrayList<>();
+        public final ArrayList<Sound> cluesHoles = new ArrayList<>();
+        public final ArrayList<Sound> cluesBird = new ArrayList<>();
+        public final ArrayList<Sound> cluesNumerus = new ArrayList<>();
 
 
 
@@ -442,16 +484,42 @@ public class Assets implements Disposable, AssetErrorListener {
             cluesGreeting.add(soundWithDuration("sounds/saludos/hola12.mp3", am));
             cluesGreeting.add(soundWithDuration("sounds/saludos/hola13.mp3", am));
             finalMM1 = soundWithDuration("sounds/finalMM1/cierre.mp3", am);
+            introMM2 = soundWithDuration("sounds/introMM2/intro.mp3", am);
+
+            holesIntro = soundWithDuration("sounds/agujeros/intro.mp3", am);
+            holesFinal = soundWithDuration("sounds/agujeros/final.mp3", am);
+            holesTooFew = soundWithDuration("sounds/agujeros/mas.mp3", am);
+            holesTooMuch = soundWithDuration("sounds/agujeros/menos.mp3", am);
+            cluesHoles.add(soundWithDuration("sounds/agujeros/pinchazo1.mp3", am));
+            cluesHoles.add(soundWithDuration("sounds/agujeros/pinchazo2.mp3", am));
+
+            //flying
+            wingsIntro  = soundWithDuration("sounds/alas/intro.mp3", am);
+            wingsFinal = soundWithDuration("sounds/alas/final.mp3", am);
+            //bird
+            birdIntro = soundWithDuration("sounds/pajaro/intro.mp3", am);
+            birdFinal = soundWithDuration("sounds/pajaro/final.mp3", am);
+            birdTooFew  = soundWithDuration("sounds/pajaro/mas.mp3", am);
+            birdTooMuch  = soundWithDuration("sounds/pajaro/menos.mp3", am);
+            cluesBird.add(soundWithDuration("sounds/pajaro/gav1.mp3", am));
+            cluesBird.add(soundWithDuration("sounds/pajaro/gav2.mp3", am));
+            //numerus
+            numerusIntro = soundWithDuration("sounds/numerus/intro.mp3", am);
+            numerusFinal = soundWithDuration("sounds/numerus/final.mp3", am);
+            numerusTooFew= soundWithDuration("sounds/numerus/mas.mp3", am);
+            numerusTooMuch = soundWithDuration("sounds/numerus/menos.mp3", am);
+            cluesNumerus.add(soundWithDuration("sounds/numerus/truen1.mp3", am));
+            cluesNumerus.add(soundWithDuration("sounds/numerus/truen2.mp3", am));
+            // final mm2
+            finalMM2 = soundWithDuration("sounds/finalMM2/cierre.mp3", am);
 
             jugar = soundWithDuration("sounds/opciones/jugar.wav", am);
             denuevo = soundWithDuration("sounds/opciones/denuevo.wav", am);
             ayuda = soundWithDuration("sounds/opciones/ayuda.wav", am);
             salir = soundWithDuration("sounds/opciones/salir.wav", am);
-            positivesFeedbacks.add(tada);
+            positivesTada.add(tada);
             // tada for all!
-            //
-            //positivesIngredients
-            positivesOrganicHelp = positivesKnock = positivesStep   = positivesMixing = positivesMusic = positivesGreeting = positivesFeedbacks;
+
 
 
 
@@ -504,7 +572,7 @@ public class Assets implements Disposable, AssetErrorListener {
 
     }
     public class AssetBackground {
-        public final Texture generic, ingredients, door, mixing,music,greeting,finalMM1;
+        public final Texture generic, ingredients, door, mixing,music,greeting,finalMM1, introMM2,holes,wings,bird,numerus, finalMM2;
         public AssetBackground (AssetManager am){
             generic = am.get("images/backGeneric.png",Texture.class);
             ingredients = am.get("images/backIngredients.png",Texture.class);
@@ -513,6 +581,12 @@ public class Assets implements Disposable, AssetErrorListener {
             music = am.get("images/backMusic.png", Texture.class);
             greeting = am.get("images/backGreetings.png", Texture.class);
             finalMM1 = am.get("images/backFinalMM1.png", Texture.class);
+            introMM2 = am.get("images/backIntroMM2.png", Texture.class);
+            holes = am.get("images/backHoles.png", Texture.class);
+            wings = am.get("images/backWings.png", Texture.class);
+            bird = am.get("images/backBird.png", Texture.class);
+            numerus = am.get("images/backNumerus.png", Texture.class);
+            finalMM2 = am.get("images/backFinalMM2.png", Texture.class);
         }
 
     }

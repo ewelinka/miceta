@@ -30,9 +30,9 @@ public class StepsOneScreen extends BaseScreenWithIntro {
     public void show() {
         initRenderRelatedStuff();
         worldController = new CvWithIntroControllerStepsOne(game,stage,
-                FeedbackSoundType.STEP,
+                ScreenName.GAME_STEPS,
                 Assets.instance.sounds.stepIntro,
-                Assets.instance.sounds.positivesFeedbacks,
+                Assets.instance.sounds.positivesTada,
                 Assets.instance.sounds.stepTooFew_1,
                 Assets.instance.sounds.stepTooMuch_1,
                 Assets.instance.sounds.tada,

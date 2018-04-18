@@ -7,6 +7,7 @@ import com.sun.media.jfxmedia.effects.AudioSpectrum;
 import miceta.game.core.miCeta;
 import miceta.game.core.util.AudioManager;
 import miceta.game.core.util.FeedbackSoundType;
+import miceta.game.core.util.ScreenName;
 
 import java.util.ArrayList;
 
@@ -16,8 +17,8 @@ import java.util.ArrayList;
 public class CvWithIntroControllerConcrete extends CvWorldController {
     private static final String TAG = CvWithIntroControllerConcrete.class.getName();
     private boolean firstLoop;
-    public CvWithIntroControllerConcrete(miCeta game, Stage stage, FeedbackSoundType feedbackSound, Sound introSound, ArrayList<Sound> positiveFeedback, Sound tooFewErrorSound, Sound tooMuchErrorSound, Sound finalFeedback, boolean upLevel, boolean shouldRepeatTutorial) {
-        super(game, stage, feedbackSound, introSound, positiveFeedback, tooFewErrorSound, tooMuchErrorSound, finalFeedback, upLevel, shouldRepeatTutorial);
+    public CvWithIntroControllerConcrete(miCeta game, Stage stage, ScreenName screenNameNow, Sound introSound, ArrayList<Sound> positiveFeedback, Sound tooFewErrorSound, Sound tooMuchErrorSound, Sound finalFeedback, boolean upLevel, boolean shouldRepeatTutorial) {
+        super(game, stage, screenNameNow, introSound, positiveFeedback, tooFewErrorSound, tooMuchErrorSound, finalFeedback, upLevel, shouldRepeatTutorial);
     }
 
 

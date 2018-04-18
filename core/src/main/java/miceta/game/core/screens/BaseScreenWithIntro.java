@@ -53,7 +53,7 @@ public class BaseScreenWithIntro  extends AbstractGameScreen {
     public void show() {
         initRenderRelatedStuff();
         worldController = new CvWithIntroController(game,stage,
-                game.gameScreen.feedbackSoundType,
+                game.gameScreen.screenName,
                 game.gameScreen.intro,
                 game.gameScreen.positives,
                 game.gameScreen.tooFew,

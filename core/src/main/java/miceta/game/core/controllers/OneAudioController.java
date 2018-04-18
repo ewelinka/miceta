@@ -12,12 +12,12 @@ import static miceta.game.core.util.CommonFeedbacks.INTRO;
 /**
  * Created by ewe on 4/16/18.
  */
-public class FinalController{
+public class OneAudioController {
     miCeta game;
     float timeToWait;
     float timePassed;
 
-    public FinalController(miCeta game, Stage stage, Sound introSound){
+    public OneAudioController(miCeta game, Stage stage, Sound introSound){
         this.game  = game;
         timePassed = 0;
         AudioManager.instance.setStage(stage);
