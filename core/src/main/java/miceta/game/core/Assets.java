@@ -194,6 +194,10 @@ public class Assets implements Disposable, AssetErrorListener {
         assetManager.load("images/backGeneric.png", Texture.class);
         assetManager.load("images/backDoor.png", Texture.class);
         assetManager.load("images/backIngredients.png", Texture.class);
+        assetManager.load("images/backMixing.png", Texture.class);
+        assetManager.load("images/backMusic.png", Texture.class);
+        assetManager.load("images/backGreetings.png", Texture.class);
+        assetManager.load("images/backFinalMM1.png", Texture.class);
 
         // start loading assets and wait until finished
         assetManager.finishLoading();
@@ -500,11 +504,15 @@ public class Assets implements Disposable, AssetErrorListener {
 
     }
     public class AssetBackground {
-        public final Texture generic, ingredients, door;
+        public final Texture generic, ingredients, door, mixing,music,greeting,finalMM1;
         public AssetBackground (AssetManager am){
             generic = am.get("images/backGeneric.png",Texture.class);
             ingredients = am.get("images/backIngredients.png",Texture.class);
             door = am.get("images/backDoor.png",Texture.class);
+            mixing = am.get("images/backMixing.png", Texture.class);
+            music = am.get("images/backMusic.png", Texture.class);
+            greeting = am.get("images/backGreetings.png", Texture.class);
+            finalMM1 = am.get("images/backFinalMM1.png", Texture.class);
         }
 
     }

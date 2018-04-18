@@ -142,6 +142,7 @@ public class RepresentationMapper {
                 gameScreen.tooMuch = Assets.instance.sounds.mixingTooMuch;
                 gameScreen.finalSound = Assets.instance.sounds.mixingFinal;
                 gameScreen.feedbackSoundType = FeedbackSoundType.MIXING;
+                gameScreen.imgBackground = Assets.instance.backgrounds.mixing;
                 break;
             case GAME_MUSIC:
                 gameScreen.screenName = ScreenName.GAME_MUSIC;
@@ -151,6 +152,7 @@ public class RepresentationMapper {
                 gameScreen.tooMuch = Assets.instance.sounds.musicTooMuch;
                 gameScreen.finalSound = Assets.instance.sounds.musicFinal;
                 gameScreen.feedbackSoundType = FeedbackSoundType.MUSIC;
+                gameScreen.imgBackground = Assets.instance.backgrounds.music;
                 break;
             case GAME_GREETING:
                 gameScreen.screenName = ScreenName.GAME_GREETING;
@@ -160,10 +162,12 @@ public class RepresentationMapper {
                 gameScreen.tooMuch = Assets.instance.sounds.greetingTooMuch;
                 gameScreen.finalSound = Assets.instance.sounds.greetingFinal;
                 gameScreen.feedbackSoundType = FeedbackSoundType.GREETING;
+                gameScreen.imgBackground = Assets.instance.backgrounds.greeting;
                 break;
             case FINAL_MM1:
                 gameScreen.screenName = ScreenName.FINAL_MM1;
                 gameScreen.intro = Assets.instance.sounds.finalMM1;
+                gameScreen.imgBackground = Assets.instance.backgrounds.finalMM1;
         }
         return gameScreen;
     }
