@@ -8,6 +8,7 @@ import miceta.game.core.managers.LevelsManager;
 import miceta.game.core.miCeta;
 import miceta.game.core.util.AudioManager;
 import miceta.game.core.util.FeedbackSoundType;
+import miceta.game.core.util.ScreenName;
 
 import java.util.ArrayList;
 
@@ -19,7 +20,7 @@ public class CvIngredientsController extends CvWorldController{
 
 
     public CvIngredientsController(miCeta game, Stage stage, Sound tooFewErrorSound, Sound tooMuchErrorSound, Sound finalSound, boolean upLevel, boolean shouldRepeatTutorial) {
-        super(game, stage, FeedbackSoundType.INGREDIENT, Assets.instance.sounds.tada, Assets.instance.sounds.positivesIngredients, tooFewErrorSound, tooMuchErrorSound, finalSound, upLevel, shouldRepeatTutorial); //yuju won't be used but we have to set it
+        super(game, stage, ScreenName.GAME_INGREDIENTS, Assets.instance.sounds.tada, Assets.instance.sounds.positivesIngredients, tooFewErrorSound, tooMuchErrorSound, finalSound, upLevel, shouldRepeatTutorial); //yuju won't be used but we have to set it
     }
 
     @Override

@@ -1,11 +1,11 @@
 package miceta.game.core.screens;
 
 import com.badlogic.gdx.Gdx;
+import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.graphics.glutils.ShapeRenderer;
 import com.badlogic.gdx.scenes.scene2d.Stage;
 import com.badlogic.gdx.utils.viewport.FitViewport;
-import miceta.game.core.controllers.CvWithIntroController;
-import miceta.game.core.controllers.CvWithIntroControllerOrganicHelpTwo;
+import miceta.game.core.controllers.CvWithIntroControllerReadNumber;
 import miceta.game.core.managers.FeedbackDrawManager;
 import miceta.game.core.managers.LevelsManager;
 import miceta.game.core.miCeta;
@@ -14,20 +14,22 @@ import miceta.game.core.util.ScreenName;
 /**
  * Created by ewe on 4/3/18.
  */
-public class BaseScreenWithIntroOrganicHelp extends BaseScreenWithIntro{
-    public BaseScreenWithIntroOrganicHelp(miCeta game, boolean upLevel, boolean shouldRepeatTutorial) {
+public class BaseScreenWithIntroReadNumber extends BaseScreenWithIntro{
+    ScreenName forceScreenName;
+    public BaseScreenWithIntroReadNumber(miCeta game, boolean upLevel, boolean shouldRepeatTutorial, ScreenName forceScreenName) {
         super(game, upLevel, shouldRepeatTutorial, true);
+        this.forceScreenName = forceScreenName;
 
     }
 
     @Override
     public void show() {
-        stage = new Stage(new FitViewport(viewportWidth, viewportHeight));
+        initRenderRelatedStuff();
         // if we come from the future, we need to adapt some params
-        setGameScreenTo(ScreenName.ORGANIC_HELP); // we force organic tutorial audios
+        setGameScreenTo(this.forceScreenName); // we force organic tutorial audios
         LevelsManager.instance.forceLevelParams(2); // we force the operations from organic! // 0=headers, 1 = concrete, 2 = steps
-        worldController = new CvWithIntroControllerOrganicHelpTwo(game,stage,
-                game.gameScreen.feedbackSoundType,
+        worldController = new CvWithIntroControllerReadNumber(game,stage,
+                game.gameScreen.screenName,
                 game.gameScreen.intro,
                 game.gameScreen.positives,
                 game.gameScreen.tooFew,
@@ -35,10 +37,7 @@ public class BaseScreenWithIntroOrganicHelp extends BaseScreenWithIntro{
                 game.gameScreen.finalSound,
                 upLevel,
                 shouldRepeatTutorial);
-        shapeRenderer = new ShapeRenderer();
-        fd = new FeedbackDrawManager();
-        // android back key used to exit, we should not catch
-        Gdx.input.setCatchBackKey(false);
+
     }
 
 

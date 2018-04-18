@@ -33,7 +33,8 @@ public class AudioManager {
     private boolean newblock_loop = false;
     private final Sound   nb_sound = Assets.instance.sounds.newblock;
     private final Music  nb_sound_loop = Assets.instance.music.new_block_loop;
-    private FeedbackSoundType feedbackSoundType;
+   // private FeedbackSoundType feedbackSoundType;
+    private ScreenName currentGameScreenName;
     private Sound tooMuchErrorSound, tooFewErrorSound,finalFeedback, introSound;
     private ArrayList<Sound> positiveFeedback;
     private int currentPositiveIndex;
@@ -101,12 +102,15 @@ public class AudioManager {
         if (feedbackVolSound < 1.0f)
             feedbackVolSound +=  0.1f;
         feedbackVolSound = (float)roundMe(feedbackVolSound);
+        Gdx.app.log(TAG,"up volume "+feedbackVolSound);
     }
 
     public void downFeedbackVolSound(){
+
         if (feedbackVolSound > 0.2f)
             feedbackVolSound -= 0.1f;
         feedbackVolSound = (float)roundMe(feedbackVolSound);
+        Gdx.app.log(TAG,"down volume "+feedbackVolSound);
     }
 
 
@@ -195,9 +199,9 @@ public class AudioManager {
         }
     }
 
-    public void setFeedbackSoundTypeAndLastClueIndex(FeedbackSoundType soundName){
+    public void setScreenNameAndLastClueIndex(ScreenName gameScreenName){
         lastClueIndex = -1;
-        this.feedbackSoundType = soundName;
+        this.currentGameScreenName = gameScreenName;
     }
 
 
@@ -328,27 +332,39 @@ public class AudioManager {
 
     private Sound getRandomClue(){
         Sound clueSound = Assets.instance.sounds.cluesKnock.get(0);
-        switch(this.feedbackSoundType){
-            case KNOCK:
+        switch(currentGameScreenName){
+            case GAME_KNOCK:
                 clueSound = getRandomClueFromAll(Assets.instance.sounds.cluesKnock);
                 break;
-            case INGREDIENT:
+            case GAME_INGREDIENTS:
                 clueSound = getRandomClueFromAll(Assets.instance.sounds.cluesIngredients);
                 break;
-            case MIXING:
+            case GAME_MIXING:
                 clueSound = getRandomClueFromAll(Assets.instance.sounds.cluesMixing);
                 break;
-            case MUSIC:
+            case GAME_MUSIC:
                 clueSound = getRandomClueFromAll(Assets.instance.sounds.cluesMusic);
                 break;
-            case GREETING:
+            case GAME_GREETING:
                 clueSound = getRandomClueFromAll(Assets.instance.sounds.cluesGreeting);
                 break;
-            case STEP:
+            case GAME_STEPS:
                 clueSound = getRandomClueFromAll(Assets.instance.sounds.cluesSteps);
                 break;
-            case CLAP:
+            case ORGANIC_HELP:
                 clueSound = getRandomClueFromAll(Assets.instance.sounds.cluesOrganicHelp);
+                break;
+            case GAME_HOLES:
+                clueSound = getRandomClueFromAll(Assets.instance.sounds.cluesHoles);
+                break;
+            case GAME_WINGS:
+                clueSound = getRandomClueFromAll(Assets.instance.sounds.cluesIngredients);
+                break;
+            case GAME_BIRD:
+                clueSound = getRandomClueFromAll(Assets.instance.sounds.cluesBird);
+                break;
+            case GAME_NUMERUS:
+                clueSound = getRandomClueFromAll(Assets.instance.sounds.cluesNumerus);
                 break;
         }
         return  clueSound;
@@ -433,7 +449,7 @@ public class AudioManager {
 
     private SequenceAction addToReadFeedbackInSpace(int nr, SequenceAction readFeedback, float extraDelayBetweenFeedback) {
         for(int i = 0; i<nr;i++){ // if the number is 5 we have to knock 5 times
-            if(this.feedbackSoundType == FeedbackSoundType.GREETING)
+            if(this.currentGameScreenName == ScreenName.GAME_GREETING)
                 readSingleGreetingSound(readFeedback, extraDelayBetweenFeedback, currentGreetingClues, i);
             else
                 readSingleFeedbackSound(readFeedback, extraDelayBetweenFeedback, currentClue);
@@ -635,10 +651,10 @@ public class AudioManager {
             }
         }));
 
-        final FeedbackSoundType nowFeedback = this.feedbackSoundType;
+        final ScreenName nowGame = this.currentGameScreenName;
         readFeedbackAction.addAction(run(new Runnable() {
             public void run() {
-                if(nowFeedback == FeedbackSoundType.GREETING){
+                if(nowGame == ScreenName.GAME_GREETING){
                     currentGreetingClues = getRandomGreetings();
                 }else
                     currentClue = getRandomClue();
@@ -852,7 +868,7 @@ public class AudioManager {
 
     public void setCurrentClue(){
 
-        if(this.feedbackSoundType == FeedbackSoundType.GREETING){
+        if(this.currentGameScreenName == ScreenName.GAME_GREETING){
             currentGreetingClues = getRandomGreetings();
         }else
             currentClue = getRandomClue();
@@ -874,64 +890,59 @@ public class AudioManager {
 
 
     public void stop_sounds(ScreenName whichScreen) {
+        if(reader!=null)
+            reader.clearActions();
         switch (whichScreen){
             case CONCRETE_TUTORIAL:
                 Assets.instance.sounds.concreteIntro.stop();
-                Assets.instance.sounds.concreteFinal.stop();
-                Assets.instance.sounds.concreteTooFew.stop();
-                Assets.instance.sounds.concreteTooMuch.stop();
                 break;
             case ORGANIC_HELP:
                 Assets.instance.sounds.organicHelpIntro.stop();
                 Assets.instance.sounds.organicHelpIntro2.stop();
-                Assets.instance.sounds.organicHelpTooFew_1.stop();
-                Assets.instance.sounds.organicHelpTooFew_2.stop();
-                Assets.instance.sounds.organicHelpTooMuch_1.stop();
-                Assets.instance.sounds.organicHelpTooMuch_2.stop();
                 Assets.instance.sounds.organicHelpFinal.stop();
                 Assets.instance.sounds.organicHelpFinal2.stop();
                 break;
             case GAME_STEPS:
                 Assets.instance.sounds.stepIntro.stop();
                 Assets.instance.sounds.stepIntro2.stop();
-                Assets.instance.sounds.stepTooFew_1.stop();
-                Assets.instance.sounds.stepTooFew_2.stop();
-                Assets.instance.sounds.stepTooMuch_1.stop();
-                Assets.instance.sounds.stepTooMuch_2.stop();
                 Assets.instance.sounds.stepFinal.stop();
                 Assets.instance.sounds.stepFinal2.stop();
                 break;
             case GAME_KNOCK:
                 Assets.instance.sounds.knockIntro.stop();
-                Assets.instance.sounds.knockTooFew.stop();
-                Assets.instance.sounds.knockTooMuch.stop();
-                Assets.instance.sounds.knockFinal.stop();
                 break;
             case GAME_INGREDIENTS:
                 Assets.instance.sounds.ingredientsIntro.stop();
-                Assets.instance.sounds.ingredientsTooFew.stop();
-                Assets.instance.sounds.ingredientsTooMuch.stop();
-                Assets.instance.sounds.ingredientsPositive_1.stop();
-                Assets.instance.sounds.ingredientsFinal.stop();
                 break;
             case GAME_MIXING:
                 Assets.instance.sounds.mixingIntro.stop();
-                Assets.instance.sounds.mixingTooFew.stop();
-                Assets.instance.sounds.mixingTooMuch.stop();
-               // Assets.instance.sounds.mixingPositive_1.stop();
-                Assets.instance.sounds.mixingFinal.stop();
                 break;
             case GAME_MUSIC:
                 Assets.instance.sounds.musicIntro.stop();
-                Assets.instance.sounds.musicTooFew.stop();
-                Assets.instance.sounds.musicTooMuch.stop();
-                Assets.instance.sounds.musicFinal.stop();
                 break;
             case GAME_GREETING:
                 Assets.instance.sounds.greetingIntro.stop();
-                Assets.instance.sounds.greetingTooFew.stop();
-                Assets.instance.sounds.greetingTooMuch.stop();
-                Assets.instance.sounds.greetingFinal.stop();
+                break;
+            case FINAL_MM1:
+                Assets.instance.sounds.finalMM1.stop();
+                break;
+            case INTRO_MM2:
+                Assets.instance.sounds.introMM2.stop();
+                break;
+            case GAME_HOLES:
+                Assets.instance.sounds.holesIntro.stop();
+                break;
+            case GAME_WINGS:
+                Assets.instance.sounds.wingsIntro.stop();
+                break;
+            case GAME_BIRD:
+                Assets.instance.sounds.birdIntro.stop();
+                break;
+            case GAME_NUMERUS:
+                Assets.instance.sounds.numerusIntro.stop();
+                break;
+            case FINAL_MM2:
+                Assets.instance.sounds.finalMM2.stop();
                 break;
         }
     }

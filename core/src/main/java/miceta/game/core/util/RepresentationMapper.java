@@ -28,23 +28,24 @@ public class RepresentationMapper {
             case GAME_STEPS:
                 Gdx.app.log(TAG,"steps!");
                 return new StepsOneScreen(game, true, shouldRepeatTutorial);
-            case GAME_KNOCK:
-                Gdx.app.log(TAG,"knock!");
-                return new BaseScreenWithIntro(game, true, shouldRepeatTutorial);
             case GAME_INGREDIENTS:
                 Gdx.app.log(TAG,"ingredients!");
                 return new IngredientsScreen(game, true, shouldRepeatTutorial);
+            case GAME_KNOCK:
             case GAME_MIXING:
-                Gdx.app.log(TAG,"mixing!");
-                return new BaseScreenWithIntro(game, true, shouldRepeatTutorial);
             case GAME_MUSIC:
-                Gdx.app.log(TAG,"music!");
-                return new BaseScreenWithIntro(game, true, shouldRepeatTutorial);
             case GAME_GREETING:
-                Gdx.app.log(TAG,"bell!");
+            case GAME_HOLES:
+            case GAME_WINGS:
+            case GAME_BIRD:
+            case GAME_NUMERUS:
                 return new BaseScreenWithIntro(game, true, shouldRepeatTutorial);
+            case FINAL_MM1:
+            case INTRO_MM2:
+            case FINAL_MM2:
+                return new OneAudioScreen(game, true, shouldRepeatTutorial);
             default:
-                Gdx.app.log(TAG,"def!");
+                Gdx.app.log(TAG,"defult in getScreenFromScreenName!");
                 return new  IntroScreen(game);
 
         }
@@ -74,7 +75,28 @@ public class RepresentationMapper {
                 break;
             case 6:
                 screenName = ScreenName.GAME_GREETING;
-
+                break;
+            case 7:
+                screenName = ScreenName.FINAL_MM1;
+                break;
+            case 8:
+                screenName = ScreenName.INTRO_MM2;
+                break;
+            case 9:
+                screenName = ScreenName.GAME_HOLES;
+                break;
+            case 10:
+                screenName = ScreenName.GAME_WINGS;
+                break;
+            case 11:
+                screenName = ScreenName.GAME_BIRD;
+                break;
+            case 12:
+                screenName = ScreenName.GAME_NUMERUS;
+                break;
+            case 13:
+                screenName = ScreenName.FINAL_MM2;
+                break;
         }
         return screenName;
     }
@@ -83,75 +105,106 @@ public class RepresentationMapper {
     public static GameScreen getGameScreenFromScreenName(ScreenName screenName){
         GameScreen gameScreen = new GameScreen();
         gameScreen.imgBackground = Assets.instance.backgrounds.generic;
-
+        gameScreen.screenName = screenName;
         switch(screenName){
-            case CONCRETE_TUTORIAL:
-                gameScreen.screenName = ScreenName.CONCRETE_TUTORIAL;
-                break;
             case ORGANIC_HELP:
-                gameScreen.screenName = ScreenName.ORGANIC_HELP;
                 gameScreen.intro = Assets.instance.sounds.organicHelpIntro2;
-                gameScreen.positives = Assets.instance.sounds.positivesOrganicHelp;
+                gameScreen.positives = Assets.instance.sounds.positivesTada;
                 gameScreen.tooFew = Assets.instance.sounds.organicHelpTooFew_2;
                 gameScreen.tooMuch = Assets.instance.sounds.organicHelpTooMuch_2;
                 gameScreen.finalSound = Assets.instance.sounds.organicHelpFinal2;
-                gameScreen.feedbackSoundType = FeedbackSoundType.CLAP;
                 break;
             case GAME_STEPS:
-                gameScreen.screenName = ScreenName.GAME_STEPS;
                 gameScreen.intro = Assets.instance.sounds.stepIntro2;
-                gameScreen.positives = Assets.instance.sounds.positivesStep;
+                gameScreen.positives = Assets.instance.sounds.positivesTada;
                 gameScreen.tooFew = Assets.instance.sounds.stepTooFew_2;
                 gameScreen.tooMuch = Assets.instance.sounds.stepTooMuch_2;
                 gameScreen.finalSound = Assets.instance.sounds.stepFinal2;
-                gameScreen.feedbackSoundType = FeedbackSoundType.STEP;
                 break;
             case GAME_KNOCK:
-                gameScreen.screenName = ScreenName.GAME_KNOCK;
                 gameScreen.intro = Assets.instance.sounds.knockIntro;
-                gameScreen.positives = Assets.instance.sounds.positivesKnock;
+                gameScreen.positives = Assets.instance.sounds.positivesTada;
                 gameScreen.tooFew = Assets.instance.sounds.knockTooFew;
                 gameScreen.tooMuch = Assets.instance.sounds.knockTooMuch;
                 gameScreen.finalSound = Assets.instance.sounds.knockFinal;
-                gameScreen.feedbackSoundType = FeedbackSoundType.KNOCK;
                 gameScreen.imgBackground = Assets.instance.backgrounds.door;
                 break;
             case GAME_INGREDIENTS:
-                gameScreen.screenName = ScreenName.GAME_INGREDIENTS;
                 gameScreen.intro = Assets.instance.sounds.ingredientsIntro;
                 gameScreen.positives = Assets.instance.sounds.positivesIngredients;
                 gameScreen.tooFew = Assets.instance.sounds.ingredientsTooFew;
                 gameScreen.tooMuch = Assets.instance.sounds.ingredientsTooMuch;
                 gameScreen.finalSound = Assets.instance.sounds.ingredientsFinal;
-                gameScreen.feedbackSoundType = FeedbackSoundType.INGREDIENT;
                 gameScreen.imgBackground = Assets.instance.backgrounds.ingredients;
                 break;
             case GAME_MIXING:
-                gameScreen.screenName = ScreenName.GAME_MIXING;
                 gameScreen.intro = Assets.instance.sounds.mixingIntro;
-                gameScreen.positives = Assets.instance.sounds.positivesMixing;
+                gameScreen.positives = Assets.instance.sounds.positivesTada;
                 gameScreen.tooFew = Assets.instance.sounds.mixingTooFew;
                 gameScreen.tooMuch = Assets.instance.sounds.mixingTooMuch;
                 gameScreen.finalSound = Assets.instance.sounds.mixingFinal;
-                gameScreen.feedbackSoundType = FeedbackSoundType.MIXING;
+                gameScreen.imgBackground = Assets.instance.backgrounds.mixing;
                 break;
             case GAME_MUSIC:
-                gameScreen.screenName = ScreenName.GAME_MUSIC;
                 gameScreen.intro = Assets.instance.sounds.musicIntro; //hay que unir las intro!
-                gameScreen.positives =Assets.instance.sounds.positivesMusic;
+                gameScreen.positives =Assets.instance.sounds.positivesTada;
                 gameScreen.tooFew = Assets.instance.sounds.musicTooFew;
                 gameScreen.tooMuch = Assets.instance.sounds.musicTooMuch;
                 gameScreen.finalSound = Assets.instance.sounds.musicFinal;
-                gameScreen.feedbackSoundType = FeedbackSoundType.MUSIC;
+                gameScreen.imgBackground = Assets.instance.backgrounds.music;
                 break;
             case GAME_GREETING:
-                gameScreen.screenName = ScreenName.GAME_GREETING;
                 gameScreen.intro = Assets.instance.sounds.greetingIntro;
-                gameScreen.positives = Assets.instance.sounds.positivesGreeting;
+                gameScreen.positives = Assets.instance.sounds.positivesTada;
                 gameScreen.tooFew = Assets.instance.sounds.greetingTooFew;
                 gameScreen.tooMuch = Assets.instance.sounds.greetingTooMuch;
                 gameScreen.finalSound = Assets.instance.sounds.greetingFinal;
-                gameScreen.feedbackSoundType = FeedbackSoundType.GREETING;
+                gameScreen.imgBackground = Assets.instance.backgrounds.greeting;
+                break;
+            case FINAL_MM1:
+                gameScreen.intro = Assets.instance.sounds.finalMM1;
+                gameScreen.imgBackground = Assets.instance.backgrounds.finalMM1;
+                break;
+            case INTRO_MM2:
+                gameScreen.intro = Assets.instance.sounds.introMM2;
+                gameScreen.imgBackground = Assets.instance.backgrounds.introMM2;
+                break;
+            case GAME_HOLES:
+                gameScreen.intro = Assets.instance.sounds.holesIntro;
+                gameScreen.positives = Assets.instance.sounds.positivesTada;
+                gameScreen.tooFew = Assets.instance.sounds.holesTooFew;
+                gameScreen.tooMuch = Assets.instance.sounds.holesTooMuch;
+                gameScreen.finalSound = Assets.instance.sounds.holesFinal;
+                gameScreen.imgBackground = Assets.instance.backgrounds.holes;
+                break;
+            case GAME_WINGS:
+                gameScreen.intro = Assets.instance.sounds.wingsIntro;
+                gameScreen.positives = Assets.instance.sounds.positivesTada;
+                gameScreen.tooFew = Assets.instance.sounds.addblock;
+                gameScreen.tooMuch = Assets.instance.sounds.quitblock;
+                gameScreen.finalSound = Assets.instance.sounds.wingsFinal;
+                gameScreen.imgBackground = Assets.instance.backgrounds.wings;
+                break;
+            case GAME_BIRD:
+                gameScreen.intro = Assets.instance.sounds.birdIntro;
+                gameScreen.positives = Assets.instance.sounds.positivesTada;
+                gameScreen.tooFew = Assets.instance.sounds.addblock;
+                gameScreen.tooMuch = Assets.instance.sounds.quitblock;
+                gameScreen.finalSound = Assets.instance.sounds.birdFinal;
+                gameScreen.imgBackground = Assets.instance.backgrounds.bird;
+                break;
+            case GAME_NUMERUS:
+                gameScreen.intro = Assets.instance.sounds.numerusIntro;
+                gameScreen.positives = Assets.instance.sounds.positivesTada;
+                gameScreen.tooFew = Assets.instance.sounds.numerusTooFew;
+                gameScreen.tooMuch = Assets.instance.sounds.numerusTooMuch;
+                gameScreen.finalSound = Assets.instance.sounds.numerusFinal;
+                gameScreen.imgBackground = Assets.instance.backgrounds.numerus;
+                break;
+            case FINAL_MM2:
+                gameScreen.intro = Assets.instance.sounds.finalMM2;
+                gameScreen.imgBackground = Assets.instance.backgrounds.finalMM2;
+                break;
         }
         return gameScreen;
     }

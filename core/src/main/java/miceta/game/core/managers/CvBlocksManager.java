@@ -1,5 +1,6 @@
 package miceta.game.core.managers;
 
+import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.utils.ArrayMap;
 import edu.ceta.vision.core.blocks.Block;
 import edu.ceta.vision.core.topcode.TopCodeDetector;
@@ -201,6 +202,8 @@ public abstract class CvBlocksManager {
         }
         return result;
     }
+
+    public ArrayList<Integer> getNewDetectedIds(){return stableIds;}
 
     public Set<Block> getCurrentBlocks() {
         return tempList;

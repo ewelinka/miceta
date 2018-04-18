@@ -8,10 +8,7 @@ import com.badlogic.gdx.math.MathUtils;
 import com.badlogic.gdx.scenes.scene2d.Stage;
 import edu.ceta.vision.core.blocks.Block;
 import miceta.game.core.Assets;
-import miceta.game.core.managers.CvBlocksManager;
-import miceta.game.core.managers.CvBlocksManagerAndroid;
-import miceta.game.core.managers.CvBlocksManagerDesktop;
-import miceta.game.core.managers.LevelsManager;
+import miceta.game.core.managers.*;
 import miceta.game.core.miCeta;
 import miceta.game.core.screens.OrganicHelpOneScreen;
 import miceta.game.core.screens.IntroScreen;
@@ -21,6 +18,7 @@ import java.util.ArrayList;
 import java.util.Set;
 
 import static miceta.game.core.util.CommonFeedbacks.*;
+import static miceta.game.core.util.ScreenName.ORGANIC_HELP;
 
 
 /**
@@ -49,7 +47,7 @@ public class CvWorldController {
     private final Sound finalFeedback;
     private final Sound introSound;
     private final ArrayList<Sound>  positiveFeedback;
-    private final FeedbackSoundType feedbackSound;
+    private final ScreenName screenNameNow;
     int inactivityLimit;
     protected int maxErrorsForHint;
     boolean willGoToNextPart;
@@ -63,10 +61,9 @@ public class CvWorldController {
     private boolean firstLoopWithNewPrice;
 
 
-    public CvWorldController(miCeta game, Stage stage, FeedbackSoundType feedbackSound, Sound introSound, ArrayList<Sound> positiveFeedback, Sound tooFewErrorSound,  Sound tooMuchErrorSound, Sound finalFeedback, boolean upLevel, boolean shouldRepeatTutorial) {
+    public CvWorldController(miCeta game, Stage stage, ScreenName screenNameNow, Sound introSound, ArrayList<Sound> positiveFeedback, Sound tooFewErrorSound,  Sound tooMuchErrorSound, Sound finalFeedback, boolean upLevel, boolean shouldRepeatTutorial) {
         this.game = game;
-        Stage stage1 = stage;
-        this.feedbackSound = feedbackSound;
+        this.screenNameNow = screenNameNow;
         this.tooMuchErrorSound = tooMuchErrorSound;
         this.tooFewErrorSound = tooFewErrorSound;
         this.positiveFeedback = positiveFeedback;
@@ -97,7 +94,7 @@ public class CvWorldController {
         AudioManager.instance.setCustomSound(finalFeedback, FINAL);
         AudioManager.instance.setCustomSound(introSound, INTRO);
         AudioManager.instance.setCustomSoundArray(POSITIVE, positiveFeedback);
-        AudioManager.instance.setFeedbackSoundTypeAndLastClueIndex(feedbackSound);
+        AudioManager.instance.setScreenNameAndLastClueIndex(screenNameNow);
         AudioManager.instance.setCurrentClue();
 
     }
@@ -146,28 +143,27 @@ public class CvWorldController {
         inactivityTime+=deltaTime;
         updateCV();
 
+        if(!firstLoopWithNewPrice) {
+            ArrayList<Integer> nowDetectedIds = cvBlocksManager.getNewDetectedIds();
+            game.resultsManager.analyseDetectedIds(nowDetectedIds, numberToPlay);
+        }
+
         if(isTimeToStartNewLoop()){
-            Gdx.app.log(TAG,"isTimeToStartNewLoop and willGoToNextPart "+willGoToNextPart);
             checkIfFirstLoopWithNewPrice();
             checkForTotalErrors();
             if(!willGoToNextPart) {
                 timePassed = 0; // start to count the time
+                int thisLoopNumerToPlay = numberToPlay;
                 ArrayList<Integer> nowDetected = cvBlocksManager.getNewDetectedVals(); // to know the blocks on the table
                 int lastSum = currentSum;
-
                 currentSum = 0;
-
                 for (Integer aNowDetected : nowDetected)
                     currentSum += aNowDetected; // we need to know the sum to decide if response is correct
 
                 answerRight = (currentSum == numberToPlay);
-                checkIfNewIntentToRegister(currentSum,lastBlocksSum,numberToPlay,answerRight,nowDetected);
-                lastBlocksSum = currentSum;
-
                 timeToWait = calculateTimeToWait(currentSum, numberToPlay);
                 if (answerRight) {
                     correctAnswersNow+=1;
-                    Gdx.app.log(TAG,"correctAnswersNow "+correctAnswersNow +" correctAnswersNeeded "+correctAnswersNeeded);
                     if(correctAnswersNow == correctAnswersNeeded) {
                         willGoToNextPart = true;
                         addFinalAudioToTimeToWait();
@@ -178,11 +174,14 @@ public class CvWorldController {
                     }
                     onCorrectAnswer(); //change number!
                     resetErrorsAndInactivity();
-                    currentSum = -1; // we "reset" current sum to detect errors
+                    //currentSum = -1; // we "reset" current sum to detect errors
                 } else {
                     checkForErrorsAndInactivity(currentSum, lastSum);
                     reproduceAllFeedbacks(nowDetected, numberToPlay);
                 }
+                checkIfTimeToAdd(timeToWait);
+                checkIfNewIntentToRegister(currentSum,lastBlocksSum,answerRight? thisLoopNumerToPlay: numberToPlay,answerRight,nowDetected);
+                lastBlocksSum = currentSum;
             }else{
                 if(!goToThePast)
                     goToNextLevel();
@@ -203,14 +202,21 @@ public class CvWorldController {
 
     void checkIfFirstLoopWithNewPrice(){
         if(firstLoopWithNewPrice){
-            game.resultsManager.newPriceAppeared(LevelsManager.instance.getOperationIndex()+1,LevelsManager.instance.get_level());
+            game.resultsManager.newPriceAppeared(LevelsManager.instance.getOperationIndex()+1, game.gameScreen.screenName == ORGANIC_HELP? -1 : LevelsManager.instance.get_level());
+//            firstLoopWithNewPrice = false;
+        }
+    }
+
+    void checkIfTimeToAdd(float timeToAdd){
+        if(firstLoopWithNewPrice) {
+            game.resultsManager.setFeedbackDuration(timeToAdd);
             firstLoopWithNewPrice = false;
         }
     }
 
     void checkIfNewIntentToRegister(int currentSumNow ,int lastSum, int numberToPlayNow, boolean answerWasRight, ArrayList<Integer>  nowDetected){
-        if(currentSum!=lastSum) {
-            game.resultsManager.addIntent(answerWasRight, currentSumNow, numberToPlayNow, nowDetected);
+        if(currentSumNow!=lastSum) {
+            game.resultsManager.addIntentFromActionSubmit(answerWasRight, currentSumNow, numberToPlayNow, nowDetected);
             if(answerWasRight) firstLoopWithNewPrice = true;
         }
     }
@@ -269,7 +275,7 @@ public class CvWorldController {
     }
 
     protected void checkForTotalErrors(){
-        Gdx.app.log(TAG,"check errors! "+totalErrors+" "+(totalErrors >= Constants.ERRORS_FOR_REPEAT_TUTORIAL));
+       // Gdx.app.log(TAG,"check errors! "+totalErrors+" "+(totalErrors >= Constants.ERRORS_FOR_REPEAT_TUTORIAL));
         if(totalErrors >= Constants.ERRORS_FOR_REPEAT_TUTORIAL){
             AudioManager.instance.stop_sounds(game.getGameScreen().screenName);
             goToThePast = true;
@@ -375,7 +381,6 @@ public class CvWorldController {
     }
 
     void setDelayForPositiveFeedback(){
-        //- cambiar mas adelante
         delayForPositiveFeedback = Assets.instance.getSoundDuration(this.positiveFeedback.get(0));
     }
 

@@ -1,6 +1,7 @@
 package miceta.game.core.screens;
 
 import com.badlogic.gdx.Gdx;
+import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.graphics.glutils.ShapeRenderer;
 import com.badlogic.gdx.scenes.scene2d.Stage;
 import com.badlogic.gdx.utils.viewport.FitViewport;
@@ -27,23 +28,16 @@ public class StepsOneScreen extends BaseScreenWithIntro {
 
     @Override
     public void show() {
-        Gdx.app.log(TAG," we start the SHOW! "+Gdx.graphics.getWidth());
-        stage = new Stage(new FitViewport(viewportWidth , viewportHeight));
+        initRenderRelatedStuff();
         worldController = new CvWithIntroControllerStepsOne(game,stage,
-                FeedbackSoundType.STEP,
+                ScreenName.GAME_STEPS,
                 Assets.instance.sounds.stepIntro,
-                Assets.instance.sounds.positivesFeedbacks,
+                Assets.instance.sounds.positivesTada,
                 Assets.instance.sounds.stepTooFew_1,
                 Assets.instance.sounds.stepTooMuch_1,
                 Assets.instance.sounds.tada,
                 upLevel,
                 shouldRepeatTutorial
         );
-        shapeRenderer = new ShapeRenderer();
-        fd = new FeedbackDrawManager();
-
-        // android back key used to exit, we should not catch
-        Gdx.input.setCatchBackKey(false);
-
     }
 }

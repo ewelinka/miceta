@@ -31,7 +31,7 @@ public class MenuScreen extends AbstractGameScreen {
 
     @Override
     public void render(float deltaTime) {
-        Gdx.gl.glClearColor(1, 1, 1, 0.5f);
+        Gdx.gl.glClearColor(0, 0, 0,0);
         //Gdx.gl.glClearColor(0x64 / 255.0f, 0x95 / 255.0f,0xed / 255.0f, 0xff / 255.0f);
         Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT);
         stage.act(deltaTime);
@@ -104,6 +104,36 @@ public class MenuScreen extends AbstractGameScreen {
             @Override
             public void changed (ChangeEvent event, Actor actor) {
                 onBtnClicked(ScreenName.GAME_GREETING);
+            }
+        });
+
+        x= 980;
+        ImageButton btnIntro = addGameBtn(x,30+ shift*3 );
+        btnIntro.addListener(new ChangeListener() {
+            @Override
+            public void changed (ChangeEvent event, Actor actor) {
+                onBtnClicked(ScreenName.GAME_HOLES);
+            }
+        });
+        ImageButton btnWings= addGameBtn(x,30+ shift*2 );
+        btnWings.addListener(new ChangeListener() {
+            @Override
+            public void changed (ChangeEvent event, Actor actor) {
+                onBtnClicked(ScreenName.GAME_WINGS);
+            }
+        });
+        ImageButton btnBird= addGameBtn(x,30+ shift*1 );
+        btnBird.addListener(new ChangeListener() {
+            @Override
+            public void changed (ChangeEvent event, Actor actor) {
+                onBtnClicked(ScreenName.GAME_BIRD);
+            }
+        });
+        ImageButton btnNumerus= addGameBtn(x,30 );
+        btnNumerus.addListener(new ChangeListener() {
+            @Override
+            public void changed (ChangeEvent event, Actor actor) {
+                onBtnClicked(ScreenName.GAME_NUMERUS);
             }
         });
 
@@ -248,6 +278,30 @@ public class MenuScreen extends AbstractGameScreen {
                 //LevelsManager.instance.forceToFirstLevel(7);
                 LevelsManager.instance.forceLevelParams(7);
                 game.setScreen(new BaseScreenWithIntro(game, false, false),transition);
+                break;
+            case INTRO_MM2:
+                LevelsManager.instance.forceLevelParams(9);
+                game.setScreen(new OneAudioScreen(game, false, false),transition);
+                break;
+            case GAME_HOLES:
+                LevelsManager.instance.forceLevelParams(10);
+                game.setScreen(new BaseScreenWithIntro(game, false, false),transition);
+                break;
+            case GAME_WINGS:
+                LevelsManager.instance.forceLevelParams(11);
+                game.setScreen(new BaseScreenWithIntro(game, false, false),transition);
+                break;
+            case GAME_BIRD:
+                LevelsManager.instance.forceLevelParams(12);
+                game.setScreen(new BaseScreenWithIntro(game, false, false),transition);
+                break;
+            case GAME_NUMERUS:
+                LevelsManager.instance.forceLevelParams(13);
+                game.setScreen(new BaseScreenWithIntro(game, false, false),transition);
+                break;
+            case FINAL_MM2:
+                LevelsManager.instance.forceLevelParams(14);
+                game.setScreen(new OneAudioScreen(game, false, false),transition);
                 break;
         }
     }
