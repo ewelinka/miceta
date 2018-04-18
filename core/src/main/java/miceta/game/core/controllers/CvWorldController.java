@@ -18,6 +18,7 @@ import java.util.ArrayList;
 import java.util.Set;
 
 import static miceta.game.core.util.CommonFeedbacks.*;
+import static miceta.game.core.util.ScreenName.ORGANIC_HELP;
 
 
 /**
@@ -201,7 +202,7 @@ public class CvWorldController {
 
     void checkIfFirstLoopWithNewPrice(){
         if(firstLoopWithNewPrice){
-            game.resultsManager.newPriceAppeared(LevelsManager.instance.getOperationIndex()+1,LevelsManager.instance.get_level());
+            game.resultsManager.newPriceAppeared(LevelsManager.instance.getOperationIndex()+1, game.gameScreen.screenName == ORGANIC_HELP? -1 : LevelsManager.instance.get_level());
 //            firstLoopWithNewPrice = false;
         }
     }
