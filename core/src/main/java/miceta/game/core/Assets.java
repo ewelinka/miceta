@@ -231,8 +231,8 @@ public class Assets implements Disposable, AssetErrorListener {
         assetManager.load("images/backBird.png", Texture.class);
         assetManager.load("images/backNumerus.png", Texture.class);
         assetManager.load("images/backFinalMM2.png", Texture.class);
-
-
+        assetManager.load("images/backClap.png", Texture.class);
+        assetManager.load("images/backWalk.png", Texture.class);
         // start loading assets and wait until finished
         assetManager.finishLoading();
 
@@ -572,7 +572,7 @@ public class Assets implements Disposable, AssetErrorListener {
 
     }
     public class AssetBackground {
-        public final Texture generic, ingredients, door, mixing,music,greeting,finalMM1, introMM2,holes,wings,bird,numerus, finalMM2;
+        public final Texture generic, ingredients, door, mixing,music,greeting,finalMM1, introMM2,holes,wings,bird,numerus, finalMM2, clap, walk;
         public AssetBackground (AssetManager am){
             generic = am.get("images/backGeneric.png",Texture.class);
             ingredients = am.get("images/backIngredients.png",Texture.class);
@@ -587,6 +587,8 @@ public class Assets implements Disposable, AssetErrorListener {
             bird = am.get("images/backBird.png", Texture.class);
             numerus = am.get("images/backNumerus.png", Texture.class);
             finalMM2 = am.get("images/backFinalMM2.png", Texture.class);
+            clap = am.get("images/backClap.png", Texture.class);
+            walk = am.get("images/backWalk.png", Texture.class);
         }
 
     }

@@ -113,6 +113,7 @@ public class RepresentationMapper {
                 gameScreen.tooFew = Assets.instance.sounds.organicHelpTooFew_2;
                 gameScreen.tooMuch = Assets.instance.sounds.organicHelpTooMuch_2;
                 gameScreen.finalSound = Assets.instance.sounds.organicHelpFinal2;
+                gameScreen.imgBackground = Assets.instance.backgrounds.clap;
                 break;
             case GAME_STEPS:
                 gameScreen.intro = Assets.instance.sounds.stepIntro2;
@@ -120,6 +121,7 @@ public class RepresentationMapper {
                 gameScreen.tooFew = Assets.instance.sounds.stepTooFew_2;
                 gameScreen.tooMuch = Assets.instance.sounds.stepTooMuch_2;
                 gameScreen.finalSound = Assets.instance.sounds.stepFinal2;
+                gameScreen.imgBackground = Assets.instance.backgrounds.walk;
                 break;
             case GAME_KNOCK:
                 gameScreen.intro = Assets.instance.sounds.knockIntro;
