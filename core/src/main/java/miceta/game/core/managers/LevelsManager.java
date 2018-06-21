@@ -89,6 +89,13 @@ public class LevelsManager {
         operation_index = 0;
     }
 
+    public void forceLevelAndLevelParams(int forcedLevelNr){
+       // Gdx.app.log(TAG," -- forceLevel---> "+forcedLevelNr);
+        level = forcedLevelNr;
+        currentLevelParams = loadLevelParams(forcedLevelNr);
+        operation_index = 0;
+    }
+
 
     public void upLevelAndLoadParams(){
         if (level < level_tope) {
@@ -118,16 +125,15 @@ public class LevelsManager {
         return operation_index >= currentLevelParams.operationsToFinishLevel;
     }
 
-     public int get_level(){
+    public int get_level(){
         return level;
     }
     public int getOperationIndex(){ return operation_index;}
 
-     public void forceToFirstLevel(){level = 1;}
 
-     public ScreenName getScreenName(){return currentLevelParams.screenName;}
+    public ScreenName getScreenName(){return currentLevelParams.screenName;}
 
-     public int getOperationsNumberToFinishLevel(){ return currentLevelParams.operationsToFinishLevel;}
+    public int getOperationsNumberToFinishLevel(){ return currentLevelParams.operationsToFinishLevel;}
 
 
 }
