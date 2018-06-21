@@ -241,8 +241,8 @@ public class MenuScreen extends AbstractGameScreen {
                 break;
             case RESTART:
                 GamePreferences.instance.setLast_level(1);
-                LevelsManager.instance.forceToFirstLevel();
-                LevelsManager.instance.forceLevelParams(1);
+                //LevelsManager.instance.forceToFirstLevel();
+                LevelsManager.instance.forceLevelAndLevelParams(1);
                 game.setScreen(new ConcreteTutorial(game, true, false),transition);// restart should do upLevel!
                 break;
             case CONCRETE_TUTORIAL:
@@ -254,53 +254,53 @@ public class MenuScreen extends AbstractGameScreen {
                 game.setScreen(new OrganicHelpOneScreen(game),transition);
                 break;
             case GAME_STEPS:
-                LevelsManager.instance.forceLevelParams(2);
+                LevelsManager.instance.forceLevelAndLevelParams(2);
                 game.setScreen(new StepsOneScreen(game),transition);
                 break;
             case GAME_KNOCK:
-                LevelsManager.instance.forceLevelParams(3);
+                LevelsManager.instance.forceLevelAndLevelParams(3);
                 game.setScreen(new BaseScreenWithIntro(game),transition);
                 break;
             case GAME_INGREDIENTS:
-                LevelsManager.instance.forceLevelParams(4);
+                LevelsManager.instance.forceLevelAndLevelParams(4);
                 game.setScreen(new IngredientsScreen(game),transition);
                 break;
             case GAME_MIXING:
-                LevelsManager.instance.forceLevelParams(5);
+                LevelsManager.instance.forceLevelAndLevelParams(5);
                 game.setScreen(new BaseScreenWithIntro(game),transition);
                 break;
             case GAME_MUSIC:
                 //LevelsManager.instance.forceToFirstLevel(6);
-                LevelsManager.instance.forceLevelParams(6);
+                LevelsManager.instance.forceLevelAndLevelParams(6);
                 game.setScreen(new BaseScreenWithIntro(game),transition);
                 break;
             case GAME_GREETING:
                 //LevelsManager.instance.forceToFirstLevel(7);
-                LevelsManager.instance.forceLevelParams(7);
+                LevelsManager.instance.forceLevelAndLevelParams(7);
                 game.setScreen(new BaseScreenWithIntro(game, false, false),transition);
                 break;
             case INTRO_MM2:
-                LevelsManager.instance.forceLevelParams(9);
+                LevelsManager.instance.forceLevelAndLevelParams(9);
                 game.setScreen(new OneAudioScreen(game, false, false),transition);
                 break;
             case GAME_HOLES:
-                LevelsManager.instance.forceLevelParams(10);
+                LevelsManager.instance.forceLevelAndLevelParams(10);
                 game.setScreen(new BaseScreenWithIntro(game, false, false),transition);
                 break;
             case GAME_WINGS:
-                LevelsManager.instance.forceLevelParams(11);
+                LevelsManager.instance.forceLevelAndLevelParams(11);
                 game.setScreen(new BaseScreenWithIntro(game, false, false),transition);
                 break;
             case GAME_BIRD:
-                LevelsManager.instance.forceLevelParams(12);
+                LevelsManager.instance.forceLevelAndLevelParams(12);
                 game.setScreen(new BaseScreenWithIntro(game, false, false),transition);
                 break;
             case GAME_NUMERUS:
-                LevelsManager.instance.forceLevelParams(13);
+                LevelsManager.instance.forceLevelAndLevelParams(13);
                 game.setScreen(new BaseScreenWithIntro(game, false, false),transition);
                 break;
             case FINAL_MM2:
-                LevelsManager.instance.forceLevelParams(14);
+                LevelsManager.instance.forceLevelAndLevelParams(14);
                 game.setScreen(new OneAudioScreen(game, false, false),transition);
                 break;
         }

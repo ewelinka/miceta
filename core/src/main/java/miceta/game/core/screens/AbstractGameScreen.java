@@ -291,8 +291,7 @@ public abstract class AbstractGameScreen  extends InputAdapter implements Screen
                 break;
             case RESTART:
                 GamePreferences.instance.setLast_level(1);
-                LevelsManager.instance.forceToFirstLevel();
-                LevelsManager.instance.forceLevelParams(1);
+                LevelsManager.instance.forceLevelAndLevelParams(1);
                 game.setScreen(new ConcreteTutorial(game, true, false),transition);// restart should do upLevel!
                 break;
             case CONCRETE_TUTORIAL:
