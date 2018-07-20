@@ -4,15 +4,13 @@ import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.glutils.ShapeRenderer;
 import com.badlogic.gdx.scenes.scene2d.Stage;
 import com.badlogic.gdx.utils.viewport.FitViewport;
-import miceta.game.core.controllers.CvWorldController;
 import miceta.game.core.controllers.CvWorldControllerFeedback;
 import miceta.game.core.miCeta;
-import miceta.game.core.util.Constants;
 
 /**
  * Created by ewe on 11/16/17.
  */
-public class FeedbackScreen extends TestScreen {
+public class FeedbackScreen extends GameScreen {
     private static final String TAG = FeedbackScreen.class.getName();
 
     public FeedbackScreen(miCeta game) {
@@ -25,7 +23,7 @@ public class FeedbackScreen extends TestScreen {
         stage = new Stage(new FitViewport(viewportWidth , viewportHeight));
         worldController = new CvWorldControllerFeedback(game,stage);
         shapeRenderer = new ShapeRenderer();
-
+        showMenu = true;
         // android back key used to exit, we should not catch
         Gdx.input.setCatchBackKey(false);
 

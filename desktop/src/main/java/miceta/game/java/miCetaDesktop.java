@@ -21,8 +21,10 @@ public class miCetaDesktop {
 
 	public static void main (String[] args) throws SocketException {
 		LwjglApplicationConfiguration config = new LwjglApplicationConfiguration();
-		config.width = 1366;
-		config.height = 768;
+//		config.width = 1366;
+//		config.height = 768;
+		config.width = 600;
+		config.height = 1024;
 
 		miCeta cetaGame = new miCeta("");
 		cetaGame.initReception();

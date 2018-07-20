@@ -16,6 +16,8 @@ public class TangibleBlocksManager {
     public static final String TAG = TangibleBlocksManager.class.getName();
     private HashMap<Integer,Block> blocks, currentSolution;
     private ArrayList<Integer> currentSolutionValues;
+    private HashMap<Integer, ArrayList<Integer>> joinedBlocks; // we save id with array of joined ids. perhaps array is not necessary because we can join mas 2 blocks to one single block...
+
 
 
     public TangibleBlocksManager(miCeta game){
@@ -24,9 +26,10 @@ public class TangibleBlocksManager {
 
     public void initBlocksAndSolution(){
         Gdx.app.log(TAG,"-----> init blocks");
-        this.blocks = new HashMap<Integer,Block>(); // all the block not just solution to see if touched
-        this.currentSolution = new HashMap<Integer,Block>();
-        this.currentSolutionValues = new ArrayList<Integer>();
+        this.blocks = new HashMap<>(); // all the block not just solution to see if touched
+        this.currentSolution = new HashMap<>();
+        this.currentSolutionValues = new ArrayList<>();
+        this.joinedBlocks = new HashMap<>();
 
     }
 
@@ -66,6 +69,65 @@ public class TangibleBlocksManager {
         this.blocks.get(blockId).stopTouching();
     }
 
+    public void joinBlocks(int blockId, int joinedBlockId){
+        // we connect reference block with joined one---------
+        if(joinedBlocks.containsKey(blockId)){
+            // joined block already there so we do nothing
+            if(!joinedBlocks.get(blockId).contains(joinedBlockId)){
+                // new joined block!
+                joinedBlocks.get(blockId).add(joinedBlockId);
+                Gdx.app.log(TAG,"join "+blockId+" to "+joinedBlockId+ " "+joinedBlocks.toString());
+            }
+        }else{
+            // totally new block id in joined blocks!
+            ArrayList<Integer> toAdd = new ArrayList<>();
+            toAdd.add(joinedBlockId);
+            joinedBlocks.put(blockId,toAdd);
+            Gdx.app.log(TAG,"NEW join "+blockId+" to "+joinedBlockId+" "+joinedBlocks.toString());
+        }
+
+        // we connect joined block with the reference block -----
+        if(joinedBlocks.containsKey(joinedBlockId)){
+            // reference block already there so we do nothing
+            if(!joinedBlocks.get(joinedBlockId).contains(blockId)){
+                // new reference block!
+                joinedBlocks.get(joinedBlockId).add(blockId);
+                Gdx.app.log(TAG,"join -- joined-- "+blockId+" to "+joinedBlockId+ " "+joinedBlocks.toString());
+
+            }
+        }
+        else{
+            // totally new block id in joined blocks!
+            ArrayList<Integer> toAdd = new ArrayList<>();
+            toAdd.add(blockId);
+            joinedBlocks.put(joinedBlockId,toAdd);
+            Gdx.app.log(TAG,"NEW join --joined-- "+blockId+" to "+joinedBlockId+" "+joinedBlocks.toString());
+
+        }
+    }
+
+    public void unjoinBlocks(int blockId, int joinedBlockId){
+        // we separate reference block from previous joined one ---
+        if(joinedBlocks.containsKey(blockId)){
+            // joined block has to be there
+            if(joinedBlocks.get(blockId).contains(joinedBlockId)){
+                // new joined block!
+                joinedBlocks.get(blockId).remove((Integer) joinedBlockId);
+                Gdx.app.log(TAG,"unjoin "+blockId+" to "+joinedBlockId+ " "+joinedBlocks.toString());
+            }
+        }
+
+        // we separate joined block from previous reference
+        if(joinedBlocks.containsKey(joinedBlockId)){
+            // joined block has to be there
+            if(joinedBlocks.get(joinedBlockId).contains(blockId)){
+                // new joined block!
+                joinedBlocks.get(joinedBlockId).remove((Integer) blockId);
+                Gdx.app.log(TAG,"unjoin --joined-- "+blockId+" to "+joinedBlockId+ " "+joinedBlocks.toString());
+            }
+        }
+    }
+
 
     // we need it to play feedback (important!!)
     public ArrayList<Integer> getDetectedVals(){
@@ -76,8 +138,8 @@ public class TangibleBlocksManager {
     
 
     // we need it to draw block on the screen (not so important now)
-    public Set<Block> getCurrentBlocks(){
-        return null;
+    public ArrayList<Integer> getCurrentBlocksValues(){
+        return currentSolutionValues;
     }
 
     public boolean shouldStopLoop(){

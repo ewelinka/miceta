@@ -6,6 +6,7 @@ import com.badlogic.gdx.assets.AssetErrorListener;
 import com.badlogic.gdx.assets.AssetManager;
 import com.badlogic.gdx.audio.Music;
 import com.badlogic.gdx.audio.Sound;
+import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.utils.Disposable;
 
 /**
@@ -18,6 +19,7 @@ public class Assets implements Disposable, AssetErrorListener {
 
     public AssetSounds sounds;
     public AssetMusic music;
+    public AssetBackground background;
 
     private Assets() {
     }
@@ -66,6 +68,8 @@ public class Assets implements Disposable, AssetErrorListener {
         assetManager.load("sounds/d9.wav", Sound.class);
         assetManager.load("sounds/d10.wav", Sound.class);
 
+        assetManager.load("images/back.png", Texture.class);
+
         assetManager.load("sounds/newblock.wav", Sound.class);
         assetManager.load("feedback/feedbackLoop.wav", Music.class);
 
@@ -79,6 +83,7 @@ public class Assets implements Disposable, AssetErrorListener {
 
         sounds = new AssetSounds(assetManager);
         music = new AssetMusic(assetManager);
+        background = new AssetBackground(assetManager);
     }
 
     @Override
@@ -158,6 +163,14 @@ public class Assets implements Disposable, AssetErrorListener {
             new_block_loop  = am.get("feedback/feedbackLoop.wav", Music.class);
 
 
+        }
+    }
+
+    public class AssetBackground {
+        public final Texture generic;
+
+        public AssetBackground(AssetManager am) {
+            generic = am.get("images/back.png", Texture.class);
         }
     }
 }

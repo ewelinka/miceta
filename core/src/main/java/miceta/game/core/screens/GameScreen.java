@@ -3,6 +3,7 @@ package miceta.game.core.screens;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.InputMultiplexer;
 import com.badlogic.gdx.InputProcessor;
+import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.GL20;
 import com.badlogic.gdx.graphics.g2d.BitmapFont;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
@@ -10,55 +11,48 @@ import com.badlogic.gdx.graphics.glutils.ShapeRenderer;
 import com.badlogic.gdx.scenes.scene2d.Stage;
 import com.badlogic.gdx.utils.viewport.FitViewport;
 
+import miceta.game.core.Assets;
 import miceta.game.core.controllers.CvWorldController;
 import miceta.game.core.managers.FeedbackDrawManager;
 import miceta.game.core.miCeta;
-import miceta.game.core.receiver.Block;
-import miceta.game.core.util.AudioManager;
 import miceta.game.core.util.Constants;
 
-import java.math.RoundingMode;
-import java.text.DecimalFormat;
-import java.util.Set;
+import java.util.ArrayList;
 
 
 /**
  * Created by ewe on 8/10/17.
  */
-public class TestScreen extends AbstractGameScreen {
-    private static final String TAG = TestScreen.class.getName();
+public class GameScreen extends AbstractGameScreen {
+    private static final String TAG = GameScreen.class.getName();
     protected ShapeRenderer shapeRenderer;
-    private int shiftX =70; //70
-    private int shiftY =200;
+    private int shiftX =50;
+    private int shiftY =50;
     private BitmapFont font = new BitmapFont();
     private SpriteBatch spriteBatch  = new SpriteBatch();
     private FeedbackDrawManager fd;
     private boolean first_time = true;
+    protected boolean showMenu;
 
 
-    public TestScreen(miCeta game){
+    public GameScreen(miCeta game){
         super(game);
     }
 
     @Override
     public void show() {
-
         Gdx.app.log(TAG," we start the SHOW! "+Gdx.graphics.getWidth());
         stage = new Stage(new FitViewport(viewportWidth, viewportHeight));
         worldController = new CvWorldController(game,stage);
         shapeRenderer = new ShapeRenderer();
-        // android back key used to exit, we should not catch
+        showMenu = false;
         Gdx.input.setCatchBackKey(false);
     }
 
-   // @android.annotation.TargetApi(android.os.Build.VERSION_CODES.GINGERBREAD)
     @Override
     public void render(float deltaTime) {
-        //Gdx.gl.glClearColor(0, 0, 0, 1);
-
-        Gdx.gl.glClearColor(0x64 / 255.0f, 0x95 / 255.0f,0xed / 255.0f, 0xff / 255.0f);
-
-        //Gdx.app.log(TAG,"famerate " + Gdx.graphics.getFramesPerSecond());
+        Gdx.gl.glClearColor(0, 0, 0,0);
+        //Gdx.gl.glClearColor(0x64 / 255.0f, 0x95 / 255.0f,0xed / 255.0f, 0xff / 255.0f);
         Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT);
         // Do not update game world when paused.
         if (!paused) {
@@ -66,50 +60,46 @@ public class TestScreen extends AbstractGameScreen {
             stage.act(deltaTime);
         }
         stage.draw();
+        spriteBatch.begin();
+        spriteBatch.draw(Assets.instance.background.generic,0,0);
+        spriteBatch.end();
 
-        Set<Block> cBlocks = worldController.getCurrentBlocksFromManager();
-        shapeRenderer.begin(ShapeRenderer.ShapeType.Filled);
-        shapeRenderer.setColor(1, 1, 1, 1);
+        if(!showMenu) { // if we do not draw menu, we draw blocks as feedback
+            ArrayList<Integer> cValues = worldController.getCurrentBlocksValuesFromManager();
 
-        // in desktop:
-        shapeRenderer.rect(shiftX, shiftY, 480, 640);
-
-
-
-        if(cBlocks!=null) {
-
-            for (Block block : cBlocks) {
-                setColorFromValue(block.getValue());
-                if (first_time){
+            shapeRenderer.begin(ShapeRenderer.ShapeType.Filled);
+            for (int i=0;i<cValues.size();i++) {
+                setColorFromValue(cValues.get(i));
+                if (first_time) {
                     fd = new FeedbackDrawManager();
                     first_time = false;
                 }
-                fd.setShapeRenderer(shapeRenderer, block, shiftX,shiftY);
-
+                // TODO considerar caso mas de 10 bloques en area de deteccion
+                fd.drawBlockByValue(shapeRenderer, cValues.get(i), shiftX + i * 10 + Constants.BASE * i, shiftY);
             }
-
+            shapeRenderer.end();
         }
 
-        shapeRenderer.end();
-        spriteBatch.begin();
-        font.draw(spriteBatch,""+worldController.getRandomNumber(),200,680);
-        font.draw(spriteBatch,"jugar",550,1000);
-        font.draw(spriteBatch,"feedback",10,1000);
+        if(showMenu) {
+            spriteBatch.begin();
+            font.draw(spriteBatch, "" + worldController.getRandomNumber(), 200, 680);
+            font.draw(spriteBatch, "jugar", 550, 1000);
+            font.draw(spriteBatch, "feedback", 10, 1000);
 
-        font.draw(spriteBatch,"Mi IP: "+game.getMyIp(),10,160);
+            font.draw(spriteBatch, "Mi IP: " + game.getMyIp(), 10, 160);
 
-        font.draw(spriteBatch,"Velocidad entre golpes:",10,140);
-        font.draw(spriteBatch,"más lento",10,120);
-        font.draw(spriteBatch,"Delay extra: " + String.format("%.2g%n", worldController.getExtraDelayBetweenFeedback()),250,120);
-        font.draw(spriteBatch,"más rápido",400,120);
+            font.draw(spriteBatch, "Velocidad entre golpes:", 10, 140);
+            font.draw(spriteBatch, "más lento", 10, 120);
+            font.draw(spriteBatch, "Delay extra: " + String.format("%.2g%n", worldController.getExtraDelayBetweenFeedback()), 250, 120);
+            font.draw(spriteBatch, "más rápido", 400, 120);
 
-        font.draw(spriteBatch,"Tiempo de espera entre series:",10,80);
-        font.draw(spriteBatch,"más tiempo",10,60);
-        font.draw(spriteBatch,"Tiempo: " + String.format("%.2g%n", worldController.getWaitAfterKnock()),250,60);
-        font.draw(spriteBatch,"menos tiempo",400,60);
+            font.draw(spriteBatch, "Tiempo de espera entre series:", 10, 80);
+            font.draw(spriteBatch, "más tiempo", 10, 60);
+            font.draw(spriteBatch, "Tiempo: " + String.format("%.2g%n", worldController.getWaitAfterKnock()), 250, 60);
+            font.draw(spriteBatch, "menos tiempo", 400, 60);
 
-
-        spriteBatch.end();
+            spriteBatch.end();
+        }
 
     }
 

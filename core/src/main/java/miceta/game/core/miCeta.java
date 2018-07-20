@@ -15,7 +15,7 @@ import miceta.game.core.managers.TangibleBlocksManager;
 import miceta.game.core.receiver.Block;
 import miceta.game.core.screens.DirectedGame;
 import miceta.game.core.screens.FeedbackScreen;
-import miceta.game.core.screens.TestScreen;
+
 import miceta.game.core.transitions.ScreenTransition;
 import miceta.game.core.transitions.ScreenTransitionFade;
 import miceta.game.core.util.AudioManager;
@@ -42,15 +42,12 @@ public class miCeta extends DirectedGame {
 
 	@Override
 	public void create () {
-
 		Assets.instance.init(new AssetManager());
 		AudioManager.instance.play(Assets.instance.music.song01);
 		GamePreferences.instance.load();
 		ScreenTransition transition = ScreenTransitionFade.init(1);
 		blocksManager = new TangibleBlocksManager(this);
-		//setScreen(new TestScreen(this),transition);
 		setScreen(new FeedbackScreen(this),transition);
-
 	}
 
 	@Override
@@ -101,6 +98,7 @@ public class miCeta extends DirectedGame {
 									break;
 								default:
 									actionName="xxxx";
+									Gdx.app.error(TAG,"UNKNOWN REGISTER RECEIVED");
 									break;
 							}
 
@@ -111,11 +109,28 @@ public class miCeta extends DirectedGame {
 							String event_id = (String)arg1.getArguments().get(1);
 							int block_id = (Integer)arg1.getArguments().get(2);
 							Gdx.app.log(TAG, "event: " + event_id + " - blockID: " + block_id);
-							if(event_id.equals("touched")){
-								blocksManager.startTouch(block_id);
-							}else if(event_id.equals("untouched")){
-								blocksManager.stopTouch(block_id);
+							int joined_block_id = (event_id.equals("joined") || event_id.equals("unjoined")) ? (Integer)arg1.getArguments().get(3) : -1;
+
+							switch(event_id){
+								case "touched":
+									blocksManager.startTouch(block_id);
+									break;
+								case "untouched":
+									blocksManager.stopTouch(block_id);
+									break;
+								case "joined":
+									blocksManager.joinBlocks(block_id, joined_block_id);
+									break;
+								case "unjoined":
+									blocksManager.unjoinBlocks(block_id, joined_block_id);
+									break;
+								default:
+									Gdx.app.error(TAG,"UNKNOWN EVENT RECEIVED");
+									break;
 							}
+
+
+
 						}else if(str1.equals("debug")){
 							//event received (touched, joined, released)
 							String debug_name = (String)arg1.getArguments().get(1);

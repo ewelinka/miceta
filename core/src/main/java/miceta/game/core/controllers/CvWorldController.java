@@ -6,18 +6,17 @@ import com.badlogic.gdx.InputAdapter;
 import com.badlogic.gdx.math.MathUtils;
 import com.badlogic.gdx.scenes.scene2d.Stage;
 
-import miceta.game.core.managers.CvBlocksManager;
 import miceta.game.core.managers.TangibleBlocksManager;
 import miceta.game.core.miCeta;
 import miceta.game.core.receiver.Block;
 import miceta.game.core.screens.FeedbackScreen;
-import miceta.game.core.screens.TestScreen;
+import miceta.game.core.screens.GameScreen;
 import miceta.game.core.util.AudioManager;
 import miceta.game.core.util.Constants;
 import miceta.game.core.util.GamePreferences;
 
 import java.util.ArrayList;
-import java.util.Set;
+import java.util.HashMap;
 
 /**
  * Created by ewe on 8/10/17.
@@ -113,8 +112,8 @@ public class CvWorldController extends InputAdapter {
         return (timePassed > timeToWait );
     }
 
-    public Set<Block> getCurrentBlocksFromManager(){
-        return blocksManager.getCurrentBlocks();
+    public ArrayList<Integer> getCurrentBlocksValuesFromManager(){
+        return blocksManager.getCurrentBlocksValues();
     }
 
     public int getRandomNumber(){
@@ -179,7 +178,7 @@ public class CvWorldController extends InputAdapter {
 
     private void touchDownAndroid(int screenX, int screenY){
         if (screenX > 540 && screenY < 60) {
-            game.setScreen(new TestScreen(game));
+            game.setScreen(new GameScreen(game));
         }
         if (screenX < 60 && screenY < 60) {
             game.setScreen(new FeedbackScreen(game));
@@ -201,7 +200,7 @@ public class CvWorldController extends InputAdapter {
     }
     private void touchDownDesktop(int screenX, int screenY){
         if (screenX > 440 && screenY < 10) {
-            game.setScreen(new TestScreen(game));
+            game.setScreen(new GameScreen(game));
         }
 
         if (screenX < 40 && screenY < 10) {

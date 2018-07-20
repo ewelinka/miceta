@@ -9,19 +9,29 @@ import miceta.game.core.util.Constants;
 
 public class FeedbackDrawManager {
 
-
-
-    public void setShapeRenderer(ShapeRenderer shapeRenderer, Block block, float shiftX, float shiftY ){
-
-        shapeRenderer.rect(0, 10, Constants.BASE, Constants.BASE * block.getValue());
+    public void drawBlockByValue(ShapeRenderer shapeRenderer, int blockValue, float shiftX, float shiftY ){
+        setColorFromValue(blockValue, shapeRenderer);
+        shapeRenderer.rect(shiftX, shiftY, Constants.BASE, Constants.BASE * blockValue);
     }
 
-
-    private float radianToStage(double r){
-        float d = (float) Math.toDegrees(r - Math.PI/2);
-        if(d < 0)
-            d = 360 - d;
-        return d;
+    private void setColorFromValue(int value, ShapeRenderer shapeRenderer){
+        switch (value){
+            case 1:
+                shapeRenderer.setColor(1, 1, 0, 1); // yellow
+                break;
+            case 2:
+                shapeRenderer.setColor(0, 1, 0, 1); // green
+                break;
+            case 3:
+                shapeRenderer.setColor(0, 0, 1, 1); // blue
+                break;
+            case 4:
+                shapeRenderer.setColor(1, 159/255.0f, 0, 1); // orange
+                break;
+            case 5:
+                shapeRenderer.setColor(1, 0, 0, 1); //red
+                break;
+        }
     }
 
 }
