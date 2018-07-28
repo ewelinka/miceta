@@ -3,9 +3,14 @@ package miceta.game.core.managers;
 
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.scenes.scene2d.Group;
+import com.illposed.osc.OSCPortOut;
+
 import miceta.game.core.miCeta;
 import miceta.game.core.receiver.Block;
 
+import java.net.InetAddress;
+import java.net.SocketException;
+import java.net.UnknownHostException;
 import java.util.*;
 
 
@@ -33,40 +38,61 @@ public class TangibleBlocksManager {
 
     }
 
-    public void registerBlock(int blockID, int value){
-        Block block = new Block(blockID, value);
-        this.blocks.put(blockID,block);
+    public void registerBlock(int blockID, int value, String address, int port){
+    	if(this.blocks.get(blockID)==null){//check if it doesnt exist first
+    		OSCPortOut out;
+			try {
+				out = new OSCPortOut(InetAddress.getByName(address), port);
+	    		Block block = new Block(blockID, value, out);
+	            this.blocks.put(blockID,block);	
+	            Gdx.app.log(TAG,"----> Block "+blockID+ " registrered");
+			} catch (SocketException e) {
+				e.printStackTrace();
+			} catch (UnknownHostException e) {
+				e.printStackTrace();
+			} 
+    	}
+        
     }
-    public void addToCurrentSolution(int blockID, int blockValue){
-        Gdx.app.log(TAG,"----> add "+blockID+ " "+blockValue);
-        Block block = new Block(blockID, blockValue);
-        this.currentSolution.put(blockID,block);
-        this.currentSolutionValues.add(blockValue);
+    
+    public void addToCurrentSolution(int blockID){
+        Gdx.app.log(TAG,"----> add "+blockID);
+        Block block = this.blocks.get(blockID);
+        if(block!=null){
+	        this.currentSolution.put(blockID,block);
+	        this.currentSolutionValues.add(block.getValue());
+        }else{
+        	Gdx.app.error(TAG,"### Error, block "+blockID + " is not registred");
+        }
     }
 
-    public void removeFromCurrentSolution(int blockID, int blockValue){
-        Gdx.app.log(TAG,"----> remove "+blockID+ " "+blockValue);
-        this.currentSolution.remove(blockID);
-        this.currentSolutionValues.remove((Integer) blockValue);
+    public void removeFromCurrentSolution(int blockID){
+        Gdx.app.log(TAG,"----> remove "+blockID);
+        Block block = this.blocks.get(blockID);
+        if(block!=null){
+        	this.currentSolution.remove(blockID);
+        	this.currentSolutionValues.remove(block.getValue());
+        }else{
+        	Gdx.app.error(TAG,"### Error, block "+blockID + " is not registred");
+        }
 
     }
 
     public void startTouch(int blockId){
         Gdx.app.log(TAG,"----> start touch "+blockId);
         if (this.blocks.get(blockId) == null){
-            Block block = new Block(blockId, 1);
-            this.blocks.put(blockId,block);
+        	Gdx.app.error(TAG,"----> unexistent block touched :"+blockId);
+        }else{
+        	this.blocks.get(blockId).startTouching();
         }
-        this.blocks.get(blockId).startTouching();
     }
     public void stopTouch(int blockId){
         Gdx.app.log(TAG,"----> stop touch "+blockId);
         if (this.blocks.get(blockId) == null){
-            Block block = new Block(blockId, 1);
-            this.blocks.put(blockId,block);
+        	Gdx.app.error(TAG,"----> unexistent block untouched :"+blockId);
+        }else{
+        	this.blocks.get(blockId).stopTouching();
         }
-
-        this.blocks.get(blockId).stopTouching();
     }
 
     public void joinBlocks(int blockId, int joinedBlockId){
@@ -157,6 +183,10 @@ public class TangibleBlocksManager {
 
         return false;
 
+    }
+    
+    public boolean isBlockRegistred(int blockID){
+    	return this.blocks.get(blockID)!=null;
     }
 
 

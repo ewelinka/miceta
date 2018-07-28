@@ -31,7 +31,7 @@ public class miCetaActivity extends AndroidApplication {
 		AndroidApplicationConfiguration config = new AndroidApplicationConfiguration();
 		config.useImmersiveMode = true;
 		cetaGame = new miCeta(myIP);
-		cetaGame.initReception();
+		//cetaGame.initReception();
 
 		initialize(cetaGame, config);
 	}

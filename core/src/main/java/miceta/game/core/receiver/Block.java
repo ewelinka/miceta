@@ -1,7 +1,10 @@
 package miceta.game.core.receiver;
 
+import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Date;
+
+import com.illposed.osc.OSCPortOut;
 
 /**
  * Created by ewe on 12/6/17.
@@ -10,17 +13,25 @@ public class Block {
     private int id;
     private int value;
     private BlockState state;
-    private Collection<Integer> neighbours;
+    private ArrayList<Integer> neighbours;
     private Date startTouching;
     private boolean isBeingTouched;
 
 
-    public Block(int id, int value) {
+    /*OSC Data*/
+	private OSCPortOut portOut;	
+
+	
+    public Block(int id, int value, OSCPortOut out) {
         super();
         this.id = id;
         this.value = value;
         this.isBeingTouched = false;
         this.startTouching = new Date();
+        this.portOut = out;
+        this.neighbours = new ArrayList<Integer>();
+        this.neighbours.add(0);
+        this.neighbours.add(0);
 
         state = new BlockState();
 
@@ -77,7 +88,7 @@ public class Block {
         return neighbours;
     }
 
-    public void setNeighbours(Collection<Integer> neighbours) {
+    public void setNeighbours(ArrayList<Integer> neighbours) {
         this.neighbours = neighbours;
     }
 }
