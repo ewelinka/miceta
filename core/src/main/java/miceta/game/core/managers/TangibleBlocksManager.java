@@ -6,6 +6,7 @@ import com.badlogic.gdx.scenes.scene2d.Group;
 import com.illposed.osc.OSCPortOut;
 
 import miceta.game.core.miCeta;
+import miceta.game.core.osc.OSCManager;
 import miceta.game.core.receiver.Block;
 
 import java.net.InetAddress;
@@ -18,7 +19,19 @@ import java.util.*;
  * Created by ewe on 12/6/17.
  */
 public class TangibleBlocksManager {
-    public static final String TAG = TangibleBlocksManager.class.getName();
+   
+	
+	//COMPOSITION PARAMETERS
+		final static int START_DELAY = 1000;
+
+		final static int CICLE_DELAY = 1500;
+		
+		final static int INTERBEEP_DELAY = 500;
+
+		
+		
+		
+	public static final String TAG = TangibleBlocksManager.class.getName();
     private HashMap<Integer,Block> blocks, currentSolution;
     private ArrayList<Integer> currentSolutionValues;
     private HashMap<Integer, ArrayList<Integer>> joinedBlocks; // we save id with array of joined ids. perhaps array is not necessary because we can join mas 2 blocks to one single block...
@@ -71,22 +84,67 @@ public class TangibleBlocksManager {
         Block block = this.blocks.get(blockID);
         if(block!=null){
         	this.currentSolution.remove(blockID);
-        	this.currentSolutionValues.remove(block.getValue());
+        	int index_value = this.currentSolutionValues.indexOf(block.getValue());
+        	if(index_value>=0){
+        		this.currentSolutionValues.remove(index_value);
+        	}
         }else{
         	Gdx.app.error(TAG,"### Error, block "+blockID + " is not registred");
         }
 
     }
 
-    public void startTouch(int blockId){
+    public void startTouch(int blockId, OSCManager oscManager){
         Gdx.app.log(TAG,"----> start touch "+blockId);
         if (this.blocks.get(blockId) == null){
         	Gdx.app.error(TAG,"----> unexistent block touched :"+blockId);
         }else{
-        	this.blocks.get(blockId).startTouching();
+        	Block block = this.blocks.get(blockId);
+        	block.startTouching();
+        	if(this.currentSolution.isEmpty()){ //working area empty
+        		boolean alreadyTouched = false; //if any of the composed blocks in any port was already touched then we do nothing
+        		List<Block> composition = new ArrayList<Block>();
+        		for(int port = 0;(port<2)&&(!alreadyTouched);port++){
+            		int neighbour_id = block.getNeighbour(port);
+        			while(neighbour_id>0 && !alreadyTouched){
+            			Block neighbour = this.blocks.get(neighbour_id);
+            			if(neighbour == null){
+            				//weird case
+                            Gdx.app.log(TAG,"WARNING "+blockId+" has the neighbour  "+neighbour_id+ " that is not registrered!");
+                            break; 
+            			}else{
+            				alreadyTouched = alreadyTouched || neighbour.isBeingTouched();
+            				composition.add(neighbour);
+            				neighbour_id = neighbour.getNeighbour(port);
+            			}	
+            		}
+        		}
+        		if(composition.size()>0){
+        			int n = composite(composition) + block.getValue();
+        			String ids = "";
+            		for(Iterator<Block> iter = composition.iterator();iter.hasNext();){
+            			  ids+= iter.next().getId() + ",";
+            		}
+            		ids+="#";
+            		oscManager.sendComposition(n,START_DELAY,CICLE_DELAY, INTERBEEP_DELAY, ids);
+        		}
+        		
+        		
+        	}
         }
     }
+    
+    public int composite(List<Block> blocks){
+    	int res = 0;
+    	if(blocks!=null){
+    		for(Iterator<Block> iter = blocks.iterator();iter.hasNext();){
+    			res += iter.next().getValue();
+    		}
+    	}
+    	return res;
+    }
     public void stopTouch(int blockId){
+    	//TODO stop composition
         Gdx.app.log(TAG,"----> stop touch "+blockId);
         if (this.blocks.get(blockId) == null){
         	Gdx.app.error(TAG,"----> unexistent block untouched :"+blockId);
@@ -95,7 +153,10 @@ public class TangibleBlocksManager {
         }
     }
 
-    public void joinBlocks(int blockId, int joinedBlockId){
+    public void joinBlocks(int blockId, int joinedBlockId, int commPort){
+    	//TODO check composition if any block is being touched
+    	Block block = this.blocks.get(blockId);
+    	block.addNeighbour(blockId, commPort);
         // we connect reference block with joined one---------
         if(joinedBlocks.containsKey(blockId)){
             // joined block already there so we do nothing
@@ -132,7 +193,10 @@ public class TangibleBlocksManager {
         }
     }
 
-    public void unjoinBlocks(int blockId, int joinedBlockId){
+    public void unjoinBlocks(int blockId, int joinedBlockId, int commPort){
+    	//TODO check composition if any block is being touched
+    	Block block = this.blocks.get(blockId);
+    	block.removeNeighbour(commPort);
         // we separate reference block from previous joined one ---
         if(joinedBlocks.containsKey(blockId)){
             // joined block has to be there
@@ -189,5 +253,8 @@ public class TangibleBlocksManager {
     	return this.blocks.get(blockID)!=null;
     }
 
+    public Block findBlock(int block_id){
+    	return this.blocks.get(block_id);
+    }
 
 }
