@@ -37,14 +37,6 @@ public class Block {
 
     }
 
-    public void addNeighbour(Integer blockId){
-        this.neighbours.add(blockId);
-    }
-
-    public void removeNeighbour(Integer blockId){
-        this.neighbours.remove(blockId);
-    }
-
     public int getId() {
         return id;
     }
@@ -90,5 +82,25 @@ public class Block {
 
     public void setNeighbours(ArrayList<Integer> neighbours) {
         this.neighbours = neighbours;
+    }
+    
+    public void addNeighbour(int neighbour_id, int port){
+    	this.neighbours.set(port, neighbour_id);
+    }
+    
+    public int getNeighbour(int port){
+    	return this.neighbours.get(port);
+    }
+    
+    public boolean isNeighbour(int blockId){
+        return this.neighbours.get(0)==blockId || this.neighbours.get(1)==blockId;
+    }
+    
+    public void removeNeighbour(int port){
+    	this.neighbours.set(port, 0); 
+    }
+    
+    public OSCPortOut getPortOut(){
+    	return this.portOut;
     }
 }

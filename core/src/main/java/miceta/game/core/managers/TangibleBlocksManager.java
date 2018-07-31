@@ -126,6 +126,7 @@ public class TangibleBlocksManager {
             			  ids+= iter.next().getId() + ",";
             		}
             		ids+="#";
+                    Gdx.app.log(TAG,"COMPOSITION MESSAGE FOR BLOCKS --->>> "+ids);
             		oscManager.sendComposition(n,START_DELAY,CICLE_DELAY, INTERBEEP_DELAY, ids);
         		}
         		

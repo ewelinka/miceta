@@ -39,12 +39,15 @@ public class OSCManager implements OSCListener{
 	private TangibleBlocksManager blocksManager;
 	private Object syncObj = new Object();
 	private OSCPortOut broadcastPortOut;
+	private Clock clock;
 	
 	public static final String TAG = OSCManager.class.getName();
 
 	
 	public OSCManager(TangibleBlocksManager blocksManager){
 		this.blocksManager = blocksManager;
+		this.clock = new Clock();
+		Gdx.app.log(TAG,"----------- Clock Time: " + clock.getTime());
 		try {
 			this.broadcastPortOut = new OSCPortOut( InetAddress.getByName("192.168.43.255"), 54321);
 		} catch (SocketException e) {
@@ -128,7 +131,7 @@ public class OSCManager implements OSCListener{
 								request_registrer(block_id);
 								Gdx.app.log(TAG,"&&& Block with ID= " + block_id +" was TOUCHED but is not registrered. SENDING REGISTRATION REQUEST! &&&&");
 							}else{
-								blocksManager.startTouch(block_id);
+								blocksManager.startTouch(block_id, this);
 							}
 							break;
 						case TOUCH_FREE:
@@ -201,15 +204,10 @@ public class OSCManager implements OSCListener{
 		message.addArgument(REQUEST_REGISTRER);
 		
 		//message.addArgument(1175);
-		if(this.broadcastPortOut!=null){
-			try {
-				this.broadcastPortOut.send(message);
-			} catch (IOException e) {
-		    	Gdx.app.error(TAG,"#### ERROR SENDING REQUEST REGISTRER ####");
-				e.printStackTrace();
-			}
-		}
+		sendBroadcast(message);
 	}
+	
+	
 	
 	public void confirm(int event/*joined or unjoined*/, int block_id, int port) {
     	Gdx.app.log(TAG,"->>>> SENDING CONFIRMATION ->>>> block: " + block_id + (event==JOINED?"JOINED":"UNJOINED") + "port: "+ port);
@@ -237,7 +235,7 @@ public class OSCManager implements OSCListener{
     	message.addArgument("event");
     	message.addArgument("composedd");
     	message.addArgument(n);
-		Long seconds = clock.getTime(); //FIXME CLOCK SYNCH, migrate clock class
+		Long seconds = clock.getTime();
 		double secdouble = seconds;
 		//  println("timestamp seconds (long) = " + seconds);
 		 // println("timestamp secdouble (double) = " + secdouble);
@@ -246,5 +244,19 @@ public class OSCManager implements OSCListener{
 		message.addArgument(startDelay); //start_delay in milliseconds
 		message.addArgument(cicleDelay); //cycle_delay in milliseconds
 		message.addArgument(interbeepDelay); //beep distance in milliseconds
+		//message.addArgument(ids);
+		message.addArgument("123,222,666,999");
+		sendBroadcast(message);
+	}
+	
+	public void sendBroadcast(OSCMessage message){
+		if(this.broadcastPortOut!=null){
+			try {
+				this.broadcastPortOut.send(message);
+			} catch (IOException e) {
+		    	Gdx.app.error(TAG,"#### ERROR SENDING REQUEST REGISTRER ####");
+				e.printStackTrace();
+			}
+		}
 	}
 }
