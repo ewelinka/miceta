@@ -27,7 +27,7 @@ public class miCetaDesktop {
 		config.height = 1024;
 
 		miCeta cetaGame = new miCeta("");
-		cetaGame.initReception();
+		//cetaGame.initReception();
 		new LwjglApplication(cetaGame, config);
 
 

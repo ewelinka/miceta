@@ -57,6 +57,7 @@ public class miCeta extends DirectedGame {
 	}
 
 	public void initReception(){
+		System.out.println("init reception");
 		try {
 			oscPortIn = new OSCPortIn(12345);
 		} catch (SocketException e) {

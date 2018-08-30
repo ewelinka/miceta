@@ -8,6 +8,8 @@ import com.illposed.osc.OSCPortOut;
 import miceta.game.core.miCeta;
 import miceta.game.core.osc.OSCManager;
 import miceta.game.core.receiver.Block;
+import miceta.game.core.util.CompositionData;
+import miceta.game.core.util.Constants;
 
 import java.net.InetAddress;
 import java.net.SocketException;
@@ -36,10 +38,14 @@ public class TangibleBlocksManager {
     private ArrayList<Integer> currentSolutionValues;
     private HashMap<Integer, ArrayList<Integer>> joinedBlocks; // we save id with array of joined ids. perhaps array is not necessary because we can join mas 2 blocks to one single block...
 
+	private boolean workingAreaStrongerThanTouch;
+
 
 
     public TangibleBlocksManager(miCeta game){
         this.initBlocksAndSolution();
+        workingAreaStrongerThanTouch = true; //if true, then tablet feedback has priority over blocks' feedback
+        //TODO workingAreaStrongerThanTouch as a configurable parameter in the app
     }
 
     public void initBlocksAndSolution(){
@@ -68,21 +74,22 @@ public class TangibleBlocksManager {
         
     }
     
-    public void addToCurrentSolution(int blockID){
+    public void addToCurrentSolution(int blockID, OSCManager oscManager){
         Gdx.app.log(TAG,"----> add "+blockID);
         Block block = this.blocks.get(blockID);
-        if(block!=null){
+        if(block!=null && (!this.currentSolution.containsKey(blockID))){
 	        this.currentSolution.put(blockID,block);
 	        this.currentSolutionValues.add(block.getValue());
+	        oscManager.sendSilence(Constants.START_SILENCE,Constants.INFINITE_SILENCE,null);
         }else{
         	Gdx.app.error(TAG,"### Error, block "+blockID + " is not registred");
         }
     }
 
-    public void removeFromCurrentSolution(int blockID){
+    public void removeFromCurrentSolution(int blockID, OSCManager oscManager){
         Gdx.app.log(TAG,"----> remove "+blockID);
         Block block = this.blocks.get(blockID);
-        if(block!=null){
+        if(block!=null && this.currentSolution.containsKey(blockID)){
         	this.currentSolution.remove(blockID);
         	int index_value = this.currentSolutionValues.indexOf(block.getValue());
         	if(index_value>=0){
@@ -91,8 +98,12 @@ public class TangibleBlocksManager {
         }else{
         	Gdx.app.error(TAG,"### Error, block "+blockID + " is not registred");
         }
+        if(this.currentSolution.isEmpty()){
+        	oscManager.sendSilence(Constants.STOP_SILENCE,Constants.INFINITE_SILENCE,null);
+        }
 
     }
+
 
     public void startTouch(int blockId, OSCManager oscManager){
         Gdx.app.log(TAG,"----> start touch "+blockId);
@@ -105,8 +116,9 @@ public class TangibleBlocksManager {
         		boolean alreadyTouched = false; //if any of the composed blocks in any port was already touched then we do nothing
         		List<Block> composition = new ArrayList<Block>();
         		for(int port = 0;(port<2)&&(!alreadyTouched);port++){
-            		int neighbour_id = block.getNeighbour(port);
-        			while(neighbour_id>0 && !alreadyTouched){
+            		int neighbour_id = block.getNeighbour(port);//FIXME devuelve 0 en los dos vecionos aunque esten unidos
+        			while(neighbour_id>0 && !alreadyTouched){//FIXME verificar que no sea el mismo, entra en lloop
+        													//FIXME probar con "isstable" y las lucecitas
             			Block neighbour = this.blocks.get(neighbour_id);
             			if(neighbour == null){
             				//weird case
@@ -119,14 +131,14 @@ public class TangibleBlocksManager {
             			}	
             		}
         		}
-        		if(composition.size()>0){
+        		if(!alreadyTouched && composition.size()>0){
         			int n = composite(composition) + block.getValue();
         			String ids = "";
             		for(Iterator<Block> iter = composition.iterator();iter.hasNext();){
             			  ids+= iter.next().getId() + ",";
             		}
-            		ids+="#";
-                    Gdx.app.log(TAG,"COMPOSITION MESSAGE FOR BLOCKS --->>> "+ids);
+            		ids+=blockId+"#";
+                    Gdx.app.log(TAG,"START COMPOSITION MESSAGE FOR BLOCKS --->>> "+ids);
             		oscManager.sendComposition(n,START_DELAY,CICLE_DELAY, INTERBEEP_DELAY, ids);
         		}
         		
@@ -144,79 +156,92 @@ public class TangibleBlocksManager {
     	}
     	return res;
     }
-    public void stopTouch(int blockId){
-    	//TODO stop composition
+    public void stopTouch(int blockId, OSCManager oscManager){
+    	//TODO stop composition confirmation?
+    	Block block = this.blocks.get(blockId);
         Gdx.app.log(TAG,"----> stop touch "+blockId);
         if (this.blocks.get(blockId) == null){
         	Gdx.app.error(TAG,"----> unexistent block untouched :"+blockId);
         }else{
         	this.blocks.get(blockId).stopTouching();
+        	CompositionData data= getCompositionData(block);
+        	if(!data.hasNeighbourTouched && hasAnyNeighbour(block)){
+        		//stop composition feedback
+            	Gdx.app.log(TAG,"STOP COMPOSITION MESSAGE FOR BLOCKS --->>> "+data.oscIDs);
+        		oscManager.sendStopComposition(data.oscIDs);
+        	}
         }
+    	
+
     }
 
-    public void joinBlocks(int blockId, int joinedBlockId, int commPort){
-    	//TODO check composition if any block is being touched
+	private CompositionData getCompositionData(Block block) {
+		CompositionData data = new CompositionData();
+		for(int port = 0;port<2;port++){
+			int neighbour_id = block.getNeighbour(port);        			
+			int current_block = block.getId();
+			while(current_block!=neighbour_id && neighbour_id>0 ){
+				Block neighbour = this.blocks.get(neighbour_id);
+				if(neighbour == null){
+					//weird case
+		            Gdx.app.log(TAG,"WARNING "+block.getId()+" has the neighbour  "+neighbour_id+ " that is not registrered!");
+		            break; 
+				}else{
+    				data.composed_n+=neighbour.getValue();
+					data.oscIDs+=neighbour.getId()+",";
+					data.hasNeighbourTouched = data.hasNeighbourTouched || neighbour.isBeingTouched();
+					neighbour_id = neighbour.getNeighbour(port);
+					if(neighbour_id==current_block){
+						neighbour_id = neighbour.getNeighbour((port+1)%2); //check the other port
+					}
+					current_block = neighbour.getId();
+
+		        	Gdx.app.log(TAG,"neighbour_id = "+neighbour_id);
+				}	
+			}
+		}
+		data.oscIDs+=block.getId()+"#";
+		return data;
+	}
+
+    private boolean hasAnyNeighbour(Block block) {
+		return block!=null && block.getNeighbours()!=null && (block.getNeighbour(0)>0 || block.getNeighbour(1)>0);
+	}
+
+    /*check the block or any neighbor is being touched and send composition message*/
+    public void compositeAndSend(Block block, OSCManager oscManager){
+		CompositionData compData = getCompositionData(block);
+        if(!compData.oscIDs.isEmpty() && compData.composed_n>0){
+        	if(block.isBeingTouched() || compData.hasNeighbourTouched){
+        		Gdx.app.log(TAG,"START COMPOSITION MESSAGE FOR BLOCKS --->>> "+compData.oscIDs);
+        		oscManager.sendComposition(compData.composed_n,START_DELAY,CICLE_DELAY, INTERBEEP_DELAY, compData.oscIDs);
+        	}else{
+            	Gdx.app.log(TAG,"STOP COMPOSITION MESSAGE FOR BLOCKS --->>> "+compData.oscIDs);
+        		oscManager.sendStopComposition(compData.oscIDs);
+        	}
+        }
+    	
+    }
+    
+	public void joinBlocks(int blockId, int joinedBlockId, int commPort, OSCManager oscManager){
+		Gdx.app.log(TAG,"JOINING : " + blockId + "-" + joinedBlockId);
     	Block block = this.blocks.get(blockId);
-    	block.addNeighbour(blockId, commPort);
-        // we connect reference block with joined one---------
-        if(joinedBlocks.containsKey(blockId)){
-            // joined block already there so we do nothing
-            if(!joinedBlocks.get(blockId).contains(joinedBlockId)){
-                // new joined block!
-                joinedBlocks.get(blockId).add(joinedBlockId);
-                Gdx.app.log(TAG,"join "+blockId+" to "+joinedBlockId+ " "+joinedBlocks.toString());
-            }
-        }else{
-            // totally new block id in joined blocks!
-            ArrayList<Integer> toAdd = new ArrayList<>();
-            toAdd.add(joinedBlockId);
-            joinedBlocks.put(blockId,toAdd);
-            Gdx.app.log(TAG,"NEW join "+blockId+" to "+joinedBlockId+" "+joinedBlocks.toString());
-        }
+    	block.addNeighbour(joinedBlockId, commPort);
+    	if(this.blocks.get(joinedBlockId)==null){
+    		oscManager.request_registrer(joinedBlockId);
+    	}
+    	compositeAndSend(block, oscManager);
+		Gdx.app.log(TAG,"salgo joining");
 
-        // we connect joined block with the reference block -----
-        if(joinedBlocks.containsKey(joinedBlockId)){
-            // reference block already there so we do nothing
-            if(!joinedBlocks.get(joinedBlockId).contains(blockId)){
-                // new reference block!
-                joinedBlocks.get(joinedBlockId).add(blockId);
-                Gdx.app.log(TAG,"join -- joined-- "+blockId+" to "+joinedBlockId+ " "+joinedBlocks.toString());
-
-            }
-        }
-        else{
-            // totally new block id in joined blocks!
-            ArrayList<Integer> toAdd = new ArrayList<>();
-            toAdd.add(blockId);
-            joinedBlocks.put(joinedBlockId,toAdd);
-            Gdx.app.log(TAG,"NEW join --joined-- "+blockId+" to "+joinedBlockId+" "+joinedBlocks.toString());
-
-        }
     }
 
-    public void unjoinBlocks(int blockId, int joinedBlockId, int commPort){
-    	//TODO check composition if any block is being touched
+    public void unjoinBlocks(int blockId, int joinedBlockId, int commPort, OSCManager oscManager){
+        Gdx.app.log(TAG,"UNJOINING : " + blockId + "-" + joinedBlockId);
     	Block block = this.blocks.get(blockId);
-    	block.removeNeighbour(commPort);
-        // we separate reference block from previous joined one ---
-        if(joinedBlocks.containsKey(blockId)){
-            // joined block has to be there
-            if(joinedBlocks.get(blockId).contains(joinedBlockId)){
-                // new joined block!
-                joinedBlocks.get(blockId).remove((Integer) joinedBlockId);
-                Gdx.app.log(TAG,"unjoin "+blockId+" to "+joinedBlockId+ " "+joinedBlocks.toString());
-            }
-        }
-
-        // we separate joined block from previous reference
-        if(joinedBlocks.containsKey(joinedBlockId)){
-            // joined block has to be there
-            if(joinedBlocks.get(joinedBlockId).contains(blockId)){
-                // new joined block!
-                joinedBlocks.get(joinedBlockId).remove((Integer) blockId);
-                Gdx.app.log(TAG,"unjoin --joined-- "+blockId+" to "+joinedBlockId+ " "+joinedBlocks.toString());
-            }
-        }
+    	if(block!=null){
+	    	block.removeNeighbour(commPort);
+	    	compositeAndSend(block, oscManager);
+    	}
     }
 
 
@@ -234,18 +259,19 @@ public class TangibleBlocksManager {
     }
 
     public boolean shouldStopLoop(){
-        Date now = new Date();
-        for (Integer key : this.blocks.keySet()) {
-            Block block = this.blocks.get(key);
-            if(block.isBeingTouched()){
-                if(Math.abs(block.getStartTouching().getTime() - now.getTime()) > 3000){ //after 3seconds of touching we stop the loop
-                    Gdx.app.log(TAG," --> is being touched "+block.getId()+" since "+Math.abs(block.getStartTouching().getTime() - now.getTime()));
-                    return true;
-                }
-
-            }
-        }
-
+    	if(!workingAreaStrongerThanTouch){
+	        Date now = new Date();
+	        for (Integer key : this.blocks.keySet()) {
+	            Block block = this.blocks.get(key);
+	            if(block.isBeingTouched()){
+	                if(Math.abs(block.getStartTouching().getTime() - now.getTime()) > 3000){ //after 3seconds of touching we stop the loop
+	                    //Gdx.app.log(TAG," --> is being touched "+block.getId()+" since "+Math.abs(block.getStartTouching().getTime() - now.getTime()));
+	                    return true;
+	                }
+	
+	            }
+	        }
+    	}
         return false;
 
     }

@@ -1,40 +1,25 @@
 package miceta.game.core.osc;
+
 import java.io.IOException;
 import java.net.InetAddress;
 import java.net.SocketException;
 import java.net.UnknownHostException;
+import java.util.Collection;
 import java.util.Date;
+import java.util.Iterator;
 
 import miceta.game.core.managers.TangibleBlocksManager;
 import miceta.game.core.receiver.Block;
+import miceta.game.core.util.Constants;
 
 import com.badlogic.gdx.Gdx;
 import com.illposed.osc.OSCListener;
 import com.illposed.osc.OSCMessage;
 import com.illposed.osc.OSCPortOut;
 
+
+
 public class OSCManager implements OSCListener{
-
-	
-	/* -------- Constants and events -------*/
-
-	//Block events
-	final static int TOUCHED = 1;
-
-	final static int TOUCH_RELEASED = 2;
-	final static int TOUCH_FREE = 3;
-
-	final static int JOINED =  4;
-	final static int UNJOINED = 5;
-	final static int JOIN_FREE = 6;
-
-	final static int BLOCK_INIT = 7;
-	final static int BLOCK_SHUTDOWN = 8;
-
-	final static int COMPOSITION_FEEDBACK = 9; //not used so far
-
-	final static int REQUEST_REGISTRER = 4;
-	/*----------------------------------------*/
 	
 	private TangibleBlocksManager blocksManager;
 	private Object syncObj = new Object();
@@ -65,7 +50,7 @@ public class OSCManager implements OSCListener{
 			Gdx.app.log(TAG,"arg("+i+")="+theOscMessage.getArguments().get(i));
 		}
 		Gdx.app.log(TAG,"----------- end of message ------------");
-		synchronized (syncObj) {
+		//synchronized (syncObj) {
 			String str1 = (String)theOscMessage.getArguments().get(0);
 			if(str1!=null){
 				if(str1.equals("registrer")){
@@ -94,7 +79,7 @@ public class OSCManager implements OSCListener{
 								Gdx.app.log(TAG,"#-inArea -# Block" + block_id + "not registrered, sending req_registrer");
 							}else{
 								Gdx.app.log(TAG,"Adding block " + block_id + "to current solution");
-								blocksManager.addToCurrentSolution(block_id);
+								blocksManager.addToCurrentSolution(block_id, this);
 							}
 							break;
 						case 3:
@@ -104,7 +89,7 @@ public class OSCManager implements OSCListener{
 								Gdx.app.log(TAG,"#-outOfArea -# Block" + block_id + "not registrered, sending req_registrer");
 							}else{
 								Gdx.app.log(TAG,"Removing block " + block_id + "from current solution");
-								blocksManager.removeFromCurrentSolution(block_id);
+								blocksManager.removeFromCurrentSolution(block_id, this);
 							}
 							break;
 						default:
@@ -121,11 +106,11 @@ public class OSCManager implements OSCListener{
 					int block_id = (Integer)theOscMessage.getArguments().get(2);
 					Gdx.app.log(TAG, "event: " + event_id + " - blockID: " + block_id);
 					
-					int neighbour_id = (event_id==JOINED || event_id==UNJOINED)?(Integer)theOscMessage.getArguments().get(3):-1;
-					int commPort = (event_id==JOINED || event_id==UNJOINED)?(Integer)theOscMessage.getArguments().get(4):-1;
+					int neighbour_id = (event_id==Constants.JOINED || event_id==Constants.UNJOINED)?(Integer)theOscMessage.getArguments().get(3):-1;
+					int commPort = (event_id==Constants.JOINED || event_id==Constants.UNJOINED)?(Integer)theOscMessage.getArguments().get(4):-1;
 
 					switch(event_id){
-						case TOUCHED:
+						case Constants.TOUCHED:
 							Gdx.app.log(TAG,blocksManager==null?"ERROR ES NULL":"NO ES NULL)");
 							if(!blocksManager.isBlockRegistred(block_id)){
 								request_registrer(block_id);
@@ -134,20 +119,20 @@ public class OSCManager implements OSCListener{
 								blocksManager.startTouch(block_id, this);
 							}
 							break;
-						case TOUCH_FREE:
+						case Constants.TOUCH_FREE:
 							if(!blocksManager.isBlockRegistred(block_id)){
 								request_registrer(block_id);
 								Gdx.app.log(TAG,"&&& Block with ID= " + block_id +" was UNTOUCHED but is not registrered. SENDING REGISTRATION REQUEST! &&&&");
 							}else{
-								blocksManager.stopTouch(block_id);
+								blocksManager.stopTouch(block_id,this);
 							}
 							break;
-						case JOINED:
-							join_unjoin_blocks(block_id, neighbour_id, commPort, JOINED);
+						case Constants.JOINED:
+							join_unjoin_blocks(block_id, neighbour_id, commPort, Constants.JOINED);
 							break;
-						case UNJOINED:
+						case Constants.UNJOINED:
 							neighbour_id =  (Integer)theOscMessage.getArguments().get(3);
-							join_unjoin_blocks(block_id, neighbour_id, commPort, UNJOINED);
+							join_unjoin_blocks(block_id, neighbour_id, commPort, Constants.UNJOINED);
 							break;
 						default:
 							Gdx.app.error(TAG,"UNKNOWN EVENT RECEIVED");
@@ -167,7 +152,7 @@ public class OSCManager implements OSCListener{
 					Gdx.app.log(TAG,  "unknown command = " + str1);
 				}
 			}
-		}
+		//}
 	}
 		
 	public void join_unjoin_blocks(int block_id,int neighbour_id,int commPort,int event){
@@ -177,16 +162,16 @@ public class OSCManager implements OSCListener{
 		Gdx.app.log(TAG,"&&& Block with ID= " + block_id +" was JOINED/UNJOINED but is not registrered. SENDING REGISTRATION REQUEST! &&&&");
 	    	request_registrer(block_id);
 	    }
-	    if(event==JOINED && !blocksManager.isBlockRegistred(neighbour_id)){ //for unjoin we don't request registration
+	    if(event==Constants.JOINED && !blocksManager.isBlockRegistred(neighbour_id)){ //for unjoin we don't request registration
 	    	ok=false;
 	    	Gdx.app.log(TAG,"&&& Block with ID= " + neighbour_id +" was JOINED/UNJOINED but is not registrered. SENDING REGISTRATION REQUEST! &&&&");
 	    	request_registrer(neighbour_id);
 	    }
 	    if(ok){
-	       	if(event==JOINED){
-	       		blocksManager.joinBlocks(block_id, neighbour_id, commPort);
-	       	}else if(event==UNJOINED){
-	       		blocksManager.unjoinBlocks(block_id, neighbour_id, commPort);
+	       	if(event==Constants.JOINED){
+	       		blocksManager.joinBlocks(block_id, neighbour_id, commPort,this);
+	       	}else if(event==Constants.UNJOINED){
+	       		blocksManager.unjoinBlocks(block_id, neighbour_id, commPort,this);
 	       	}else{
 		    	Gdx.app.error(TAG,"#### UNKOWN EVENT ####");
 	       	}
@@ -198,10 +183,10 @@ public class OSCManager implements OSCListener{
 	public void request_registrer(int block_id){
 		OSCMessage message = new OSCMessage("/block");//, collectionToSend);
 		message.addArgument("registrer");
-		message.addArgument(REQUEST_REGISTRER);
+		message.addArgument(Constants.REQUEST_REGISTRER);
 		message.addArgument(block_id);
-		message.addArgument(REQUEST_REGISTRER);//If we remove these two extra arguments the esp fails to receive the message, i don't know why...
-		message.addArgument(REQUEST_REGISTRER);
+		message.addArgument(Constants.REQUEST_REGISTRER);//If we remove these two extra arguments the esp fails to receive the message, i don't know why...
+		message.addArgument(Constants.REQUEST_REGISTRER);
 		
 		//message.addArgument(1175);
 		sendBroadcast(message);
@@ -210,13 +195,13 @@ public class OSCManager implements OSCListener{
 	
 	
 	public void confirm(int event/*joined or unjoined*/, int block_id, int port) {
-    	Gdx.app.log(TAG,"->>>> SENDING CONFIRMATION ->>>> block: " + block_id + (event==JOINED?"JOINED":"UNJOINED") + "port: "+ port);
+    	Gdx.app.log(TAG,"->>>> SENDING CONFIRMATION ->>>> block: " + block_id + (event==Constants.JOINED?"JOINED":"UNJOINED") + "port: "+ port);
     	OSCMessage message = new OSCMessage("/block");//, collectionToSend);
 		message.addArgument("confirmmm");
 		message.addArgument(event);
 		message.addArgument(port);
-		message.addArgument(REQUEST_REGISTRER);//If we remove these two extra arguments the esp fails to receive the message, i don't know why...
-		message.addArgument(REQUEST_REGISTRER);
+		message.addArgument(Constants.REQUEST_REGISTRER);//If we remove these two extra arguments the esp fails to receive the message, i don't know why...
+		message.addArgument(Constants.REQUEST_REGISTRER);
 		
 		
 		Block block = blocksManager.findBlock(block_id);
@@ -230,7 +215,7 @@ public class OSCManager implements OSCListener{
 	}
 
 	public void sendComposition(int n, int startDelay, int cicleDelay, int interbeepDelay, String ids) {
-    	Gdx.app.log(TAG,"->>>> SENDING COMPOSITION MESSAGE");
+    	/*Gdx.app.log(TAG,"->>>> SENDING COMPOSITION MESSAGE");
     	OSCMessage message = new OSCMessage("/block");//, collectionToSend);
     	message.addArgument("event");
     	message.addArgument("composedd");
@@ -244,9 +229,9 @@ public class OSCManager implements OSCListener{
 		message.addArgument(startDelay); //start_delay in milliseconds
 		message.addArgument(cicleDelay); //cycle_delay in milliseconds
 		message.addArgument(interbeepDelay); //beep distance in milliseconds
-		//message.addArgument(ids);
-		message.addArgument("123,222,666,999");
+		message.addArgument(ids);
 		sendBroadcast(message);
+	*/
 	}
 	
 	public void sendBroadcast(OSCMessage message){
@@ -258,5 +243,35 @@ public class OSCManager implements OSCListener{
 				e.printStackTrace();
 			}
 		}
+	}
+
+	public void sendStopComposition(String ids) {//TODO test it, is block side coded?
+    	Gdx.app.log(TAG,"->>>> SENDING STOP COMPOSITION MESSAGE");
+    	OSCMessage message = new OSCMessage("/block");//, collectionToSend);
+    	message.addArgument("event");
+    	message.addArgument("uncomposed");
+    	message.addArgument(ids);
+    	sendBroadcast(message);
+	}
+
+	public void sendSilence(int event /*start or stop*/, int duration, Collection<Block> blocks) { //TODO test
+		Gdx.app.log(TAG,"->>>> SENDING SILENCE MESSAGE");
+		OSCMessage message = new OSCMessage("/block");
+    	message.addArgument("silenced");
+    	message.addArgument(event);
+    	message.addArgument(duration);
+		if(blocks==null || blocks.isEmpty()){ //broadcast message
+	    	sendBroadcast(message);
+		}else{									//individual silence, not used so far
+			for(Iterator<Block> iter = blocks.iterator();iter.hasNext();){
+				Block block = iter.next();
+				try {
+					block.getPortOut().send(message);
+				} catch (IOException e) {
+					e.printStackTrace();
+				}
+			}
+		}
+		
 	}
 }
