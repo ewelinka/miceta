@@ -100,7 +100,7 @@ public class CvWorldController extends InputAdapter {
 
 
     private int getNewNumber(){
-        int candidate = MathUtils.random(1,5);
+        int candidate = MathUtils.random(1,6);
         if(candidate == previousRandomNumber)
             candidate = (candidate+1)%6;
         if(candidate == 0) candidate = 1;
@@ -196,6 +196,11 @@ public class CvWorldController extends InputAdapter {
         if ((screenX > 400 && screenX < 460)&& (screenY > (Constants.ANDROID_HEIGHT-80) && screenY < (Constants.ANDROID_HEIGHT-40))) {
             makeWaitSmaller();
         }
+        if ((screenX > 300 && screenX < 350 && screenY < 40 && screenY>20)) {
+            Gdx.app.log(TAG," RESET TOUCHED ");
+            this.game.getOscManager().resetAllBlocks();
+        }
+
 
     }
     private void touchDownDesktop(int screenX, int screenY){
@@ -219,6 +224,12 @@ public class CvWorldController extends InputAdapter {
         if ((screenX > 400 && screenX < 460)&& (screenY > (Constants.DESKTOP_HEIGHT-65) && screenY < (Constants.DESKTOP_HEIGHT-45))) {
             makeWaitSmaller();
         }
+        if ((screenX > 300 && screenX < 350 && screenY < 40 && screenY>20)) {
+            Gdx.app.log(TAG," RESET TOUCHED ");
+            this.game.getOscManager().resetAllBlocks();
+        }
+        
+        
     }
 
 

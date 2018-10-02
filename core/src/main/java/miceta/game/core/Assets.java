@@ -27,21 +27,21 @@ public class Assets implements Disposable, AssetErrorListener {
         this.assetManager = assetManager;
         // set asset manager error handler
         assetManager.setErrorListener(this);
-        assetManager.load("sounds/1.wav", Sound.class);
-        assetManager.load("sounds/2.wav", Sound.class);
-        assetManager.load("sounds/3.wav", Sound.class);
-        assetManager.load("sounds/4.wav", Sound.class);
-        assetManager.load("sounds/5.wav", Sound.class);
-        assetManager.load("sounds/6.wav", Sound.class);
-        assetManager.load("sounds/7.wav", Sound.class);
-        assetManager.load("sounds/8.wav", Sound.class);
-        assetManager.load("sounds/9.wav", Sound.class);
-        assetManager.load("sounds/10.wav", Sound.class);
-        assetManager.load("sounds/11.wav", Sound.class);
-        assetManager.load("sounds/12.wav", Sound.class);
-        assetManager.load("sounds/13.wav", Sound.class);
-        assetManager.load("sounds/14.wav", Sound.class);
-        assetManager.load("sounds/15.wav", Sound.class);
+        assetManager.load("sounds/1.mp3", Sound.class);
+        assetManager.load("sounds/2.mp3", Sound.class);
+        assetManager.load("sounds/3.mp3", Sound.class);
+        assetManager.load("sounds/4.mp3", Sound.class);
+        assetManager.load("sounds/5.mp3", Sound.class);
+        assetManager.load("sounds/6.mp3", Sound.class);
+        assetManager.load("sounds/7.mp3", Sound.class);
+        assetManager.load("sounds/8.mp3", Sound.class);
+        assetManager.load("sounds/9.mp3", Sound.class);
+        assetManager.load("sounds/10.mp3", Sound.class);
+        assetManager.load("sounds/11.mp3", Sound.class);
+        assetManager.load("sounds/12.mp3", Sound.class);
+        assetManager.load("sounds/13.mp3", Sound.class);
+        assetManager.load("sounds/14.mp3", Sound.class);
+        assetManager.load("sounds/15.mp3", Sound.class);
         assetManager.load("sounds/do.wav", Sound.class);
 //        assetManager.load("sounds/re_trumpet.wav", Sound.class);
 //        assetManager.load("sounds/mi_guitar.wav", Sound.class);
@@ -74,8 +74,8 @@ public class Assets implements Disposable, AssetErrorListener {
         assetManager.load("feedback/feedbackLoop.wav", Music.class);
 
 
-        assetManager.load("sounds/masPiezas.wav", Sound.class);
-        assetManager.load("sounds/menosPiezas.wav", Sound.class);
+        assetManager.load("sounds/masPiezas.mp3", Sound.class);
+        assetManager.load("sounds/menosPiezas.mp3", Sound.class);
 
 
 
@@ -102,21 +102,21 @@ public class Assets implements Disposable, AssetErrorListener {
         public final Sound puck,yuju, newblock, addblock, quitblock, tada;
         public final Sound d1,d2,d3,d4,d5,d6,d7,d8,d9,d10;
         public AssetSounds (AssetManager am) {
-            f1 = am.get("sounds/1.wav", Sound.class);
-            f2 = am.get("sounds/2.wav", Sound.class);
-            f3 = am.get("sounds/3.wav", Sound.class);
-            f4 = am.get("sounds/4.wav", Sound.class);
-            f5 = am.get("sounds/5.wav", Sound.class);
-            f6 = am.get("sounds/6.wav", Sound.class);
-            f7 = am.get("sounds/7.wav", Sound.class);
-            f8 = am.get("sounds/8.wav", Sound.class);
-            f9 = am.get("sounds/9.wav", Sound.class);
-            f10 = am.get("sounds/10.wav", Sound.class);
-            f11 = am.get("sounds/11.wav", Sound.class);
-            f12 = am.get("sounds/12.wav", Sound.class);
-            f13 = am.get("sounds/13.wav", Sound.class);
-            f14 = am.get("sounds/14.wav", Sound.class);
-            f15 = am.get("sounds/15.wav", Sound.class);
+            f1 = am.get("sounds/1.mp3", Sound.class);
+            f2 = am.get("sounds/2.mp3", Sound.class);
+            f3 = am.get("sounds/3.mp3", Sound.class);
+            f4 = am.get("sounds/4.mp3", Sound.class);
+            f5 = am.get("sounds/5.mp3", Sound.class);
+            f6 = am.get("sounds/6.mp3", Sound.class);
+            f7 = am.get("sounds/7.mp3", Sound.class);
+            f8 = am.get("sounds/8.mp3", Sound.class);
+            f9 = am.get("sounds/9.mp3", Sound.class);
+            f10 = am.get("sounds/10.mp3", Sound.class);
+            f11 = am.get("sounds/11.mp3", Sound.class);
+            f12 = am.get("sounds/12.mp3", Sound.class);
+            f13 = am.get("sounds/13.mp3", Sound.class);
+            f14 = am.get("sounds/14.mp3", Sound.class);
+            f15 = am.get("sounds/15.mp3", Sound.class);
 
 
             oneDo = am.get("sounds/do.wav", Sound.class);
@@ -135,8 +135,8 @@ public class Assets implements Disposable, AssetErrorListener {
             newblock = am.get("sounds/newblock.wav", Sound.class);
 
 
-            addblock = am.get("sounds/masPiezas.wav", Sound.class);
-            quitblock = am.get("sounds/menosPiezas.wav", Sound.class);
+            addblock = am.get("sounds/masPiezas.mp3", Sound.class);
+            quitblock = am.get("sounds/menosPiezas.mp3", Sound.class);
 
 
             d1 = am.get("sounds/d1.wav", Sound.class);

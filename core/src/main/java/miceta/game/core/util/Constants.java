@@ -50,6 +50,30 @@ public class Constants {
 	
 	public final static int INFINITE_SILENCE = 0;
 	
+	public final static boolean CONFIGURE_BLOCK_VALUES = true;
+	public final static int getBlockValue(int blockId){//FIXME update the ids using the pjon ids
+		switch(blockId){
+			case 11757251%255:
+				return 2;
+			case 11755994:
+				return 2;
+			case 11756426%255:
+				return 2;
+			case 11757275%255:
+				return 3;
+			case 11755520%255:
+				return 1;
+			default:
+				return 1;
+		}
+	}
+	
+//	   2
+//	11755994   2
+//	
+//	   3
+//	
+//	11755520   1
 	/*----------------------------------------*/
     
 }

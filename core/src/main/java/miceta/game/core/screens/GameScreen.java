@@ -85,6 +85,7 @@ public class GameScreen extends AbstractGameScreen {
             font.draw(spriteBatch, "" + worldController.getRandomNumber(), 200, 680);
             font.draw(spriteBatch, "jugar", 550, 1000);
             font.draw(spriteBatch, "feedback", 10, 1000);
+            font.draw(spriteBatch, "Reset", 300, 1000);
 
             font.draw(spriteBatch, "Mi IP: " + game.getMyIp(), 10, 160);
 

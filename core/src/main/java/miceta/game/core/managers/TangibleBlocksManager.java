@@ -32,7 +32,7 @@ public class TangibleBlocksManager {
 
 		
 		
-		
+	private ArrayList<CompositionData> currentCompositions;
 	public static final String TAG = TangibleBlocksManager.class.getName();
     private HashMap<Integer,Block> blocks, currentSolution;
     private ArrayList<Integer> currentSolutionValues;
@@ -54,6 +54,7 @@ public class TangibleBlocksManager {
         this.currentSolution = new HashMap<>();
         this.currentSolutionValues = new ArrayList<>();
         this.joinedBlocks = new HashMap<>();
+        this.currentCompositions = new ArrayList<CompositionData>();
 
     }
 
@@ -104,7 +105,7 @@ public class TangibleBlocksManager {
 
     }
 
-
+    //TEST the function when blocks are joined
     public void startTouch(int blockId, OSCManager oscManager){
         Gdx.app.log(TAG,"----> start touch "+blockId);
         if (this.blocks.get(blockId) == null){
@@ -113,36 +114,17 @@ public class TangibleBlocksManager {
         	Block block = this.blocks.get(blockId);
         	block.startTouching();
         	if(this.currentSolution.isEmpty()){ //working area empty
-        		boolean alreadyTouched = false; //if any of the composed blocks in any port was already touched then we do nothing
-        		List<Block> composition = new ArrayList<Block>();
-        		for(int port = 0;(port<2)&&(!alreadyTouched);port++){
-            		int neighbour_id = block.getNeighbour(port);//FIXME devuelve 0 en los dos vecionos aunque esten unidos
-        			while(neighbour_id>0 && !alreadyTouched){//FIXME verificar que no sea el mismo, entra en lloop
-        													//FIXME probar con "isstable" y las lucecitas
-            			Block neighbour = this.blocks.get(neighbour_id);
-            			if(neighbour == null){
-            				//weird case
-                            Gdx.app.log(TAG,"WARNING "+blockId+" has the neighbour  "+neighbour_id+ " that is not registrered!");
-                            break; 
-            			}else{
-            				alreadyTouched = alreadyTouched || neighbour.isBeingTouched();
-            				composition.add(neighbour);
-            				neighbour_id = neighbour.getNeighbour(port);
-            			}	
-            		}
+        		CompositionData compositionData = getCompositionData(block);        		
+        		if(!compositionData.hasNeighbourTouched && compositionData.composed_n > block.getValue()){
+                    Gdx.app.log(TAG,"START COMPOSITION MESSAGE FOR BLOCKS --->>> "+compositionData.oscIDs);
+                    if(this.currentCompositions.contains(compositionData)){	//resend the composition but without changing the sentTime, otherwise it could cause and desynchronization
+                    	CompositionData existingComp = this.currentCompositions.get(this.currentCompositions.indexOf(compositionData));
+                		oscManager.sendComposition(existingComp.composed_n,START_DELAY,CICLE_DELAY, INTERBEEP_DELAY, existingComp.oscIDs,existingComp.sentTime);
+                    }else{
+                    	compositionData.sentTime = oscManager.sendComposition(compositionData.composed_n,START_DELAY,CICLE_DELAY, INTERBEEP_DELAY, compositionData.oscIDs,-1);
+                    	this.currentCompositions.add(compositionData);
+                    }
         		}
-        		if(!alreadyTouched && composition.size()>0){
-        			int n = composite(composition) + block.getValue();
-        			String ids = "";
-            		for(Iterator<Block> iter = composition.iterator();iter.hasNext();){
-            			  ids+= iter.next().getId() + ",";
-            		}
-            		ids+=blockId+"#";
-                    Gdx.app.log(TAG,"START COMPOSITION MESSAGE FOR BLOCKS --->>> "+ids);
-            		oscManager.sendComposition(n,START_DELAY,CICLE_DELAY, INTERBEEP_DELAY, ids);
-        		}
-        		
-        		
         	}
         }
     }
@@ -175,46 +157,66 @@ public class TangibleBlocksManager {
 
     }
 
-	private CompositionData getCompositionData(Block block) {
+//	old version for 2 ports	
+//    private CompositionData getCompositionData(Block block) {
+//		CompositionData data = new CompositionData();
+//		for(int port = 0;port<2;port++){
+//			int neighbour_id = block.getNeighbour(port);        			
+//			int current_block = block.getId();
+//			while(current_block!=neighbour_id && neighbour_id>0 ){
+//				Block neighbour = this.blocks.get(neighbour_id);
+//				if(neighbour == null){
+//					//weird case
+//		            Gdx.app.log(TAG,"WARNING "+block.getId()+" has the neighbour  "+neighbour_id+ " that is not registrered!");
+//		            break; 
+//				}else{
+//    				data.composed_n+=neighbour.getValue();
+//					data.oscIDs+=neighbour.getId()+",";
+//					data.hasNeighbourTouched = data.hasNeighbourTouched || neighbour.isBeingTouched();
+//					neighbour_id = neighbour.getNeighbour(port);
+//					if(neighbour_id==current_block){
+//						neighbour_id = neighbour.getNeighbour((port+1)%2); //check the other port
+//					}
+//					current_block = neighbour.getId();
+//
+//		        	Gdx.app.log(TAG,"neighbour_id = "+neighbour_id);
+//				}	
+//			}
+//		}
+//		data.oscIDs+=block.getId()+"#";
+//		return data;
+//	}
+    
+    private CompositionData getCompositionData(Block block) {
 		CompositionData data = new CompositionData();
-		for(int port = 0;port<2;port++){
-			int neighbour_id = block.getNeighbour(port);        			
-			int current_block = block.getId();
-			while(current_block!=neighbour_id && neighbour_id>0 ){
-				Block neighbour = this.blocks.get(neighbour_id);
-				if(neighbour == null){
-					//weird case
-		            Gdx.app.log(TAG,"WARNING "+block.getId()+" has the neighbour  "+neighbour_id+ " that is not registrered!");
-		            break; 
-				}else{
-    				data.composed_n+=neighbour.getValue();
-					data.oscIDs+=neighbour.getId()+",";
-					data.hasNeighbourTouched = data.hasNeighbourTouched || neighbour.isBeingTouched();
-					neighbour_id = neighbour.getNeighbour(port);
-					if(neighbour_id==current_block){
-						neighbour_id = neighbour.getNeighbour((port+1)%2); //check the other port
-					}
-					current_block = neighbour.getId();
-
-		        	Gdx.app.log(TAG,"neighbour_id = "+neighbour_id);
-				}	
-			}
+		for(Iterator<Integer> iter = block.getNeighbours().iterator();iter.hasNext();){
+			int neighbour_id = iter.next();   
+			Block neighbour = this.blocks.get(neighbour_id);
+			data.composed_n+=neighbour.getValue();
+			data.oscIDs+=neighbour.getId()+",";
+			data.hasNeighbourTouched = data.hasNeighbourTouched || neighbour.isBeingTouched();
 		}
 		data.oscIDs+=block.getId()+"#";
+		data.composed_n+=block.getValue();
 		return data;
 	}
 
     private boolean hasAnyNeighbour(Block block) {
-		return block!=null && block.getNeighbours()!=null && (block.getNeighbour(0)>0 || block.getNeighbour(1)>0);
+		return block!=null && block.getNeighbours()!=null && block.getNeighbours().size()>0;
 	}
 
     /*check the block or any neighbor is being touched and send composition message*/
     public void compositeAndSend(Block block, OSCManager oscManager){
 		CompositionData compData = getCompositionData(block);
-        if(!compData.oscIDs.isEmpty() && compData.composed_n>0){
-        	if(block.isBeingTouched() || compData.hasNeighbourTouched){
-        		Gdx.app.log(TAG,"START COMPOSITION MESSAGE FOR BLOCKS --->>> "+compData.oscIDs);
-        		oscManager.sendComposition(compData.composed_n,START_DELAY,CICLE_DELAY, INTERBEEP_DELAY, compData.oscIDs);
+        if(!compData.oscIDs.isEmpty() && compData.composed_n>block.getValue()){
+        	if(block.isBeingTouched() || compData.hasNeighbourTouched){        		
+        		if(this.currentCompositions.contains(compData)){	//resend the composition but without changing the sentTime, otherwise it could cause and desynchronization
+                	CompositionData existingComp = this.currentCompositions.get(this.currentCompositions.indexOf(compData));
+            		oscManager.sendComposition(existingComp.composed_n,START_DELAY,CICLE_DELAY, INTERBEEP_DELAY, existingComp.oscIDs,existingComp.sentTime);
+                }else{
+                	compData.sentTime = oscManager.sendComposition(compData.composed_n,START_DELAY,CICLE_DELAY, INTERBEEP_DELAY, compData.oscIDs,-1);
+                	this.currentCompositions.add(compData);
+                }
         	}else{
             	Gdx.app.log(TAG,"STOP COMPOSITION MESSAGE FOR BLOCKS --->>> "+compData.oscIDs);
         		oscManager.sendStopComposition(compData.oscIDs);
@@ -223,23 +225,24 @@ public class TangibleBlocksManager {
     	
     }
     
-	public void joinBlocks(int blockId, int joinedBlockId, int commPort, OSCManager oscManager){
+	public void joinBlocks(int blockId, int joinedBlockId,  OSCManager oscManager){
 		Gdx.app.log(TAG,"JOINING : " + blockId + "-" + joinedBlockId);
     	Block block = this.blocks.get(blockId);
-    	block.addNeighbour(joinedBlockId, commPort);
+    	block.addNeighbour(joinedBlockId);
     	if(this.blocks.get(joinedBlockId)==null){
     		oscManager.request_registrer(joinedBlockId);
+    	}else{
+    		compositeAndSend(block, oscManager);
+    		Gdx.app.log(TAG,"salgo joining");
     	}
-    	compositeAndSend(block, oscManager);
-		Gdx.app.log(TAG,"salgo joining");
 
     }
 
-    public void unjoinBlocks(int blockId, int joinedBlockId, int commPort, OSCManager oscManager){
+    public void unjoinBlocks(int blockId, int joinedBlockId, OSCManager oscManager){
         Gdx.app.log(TAG,"UNJOINING : " + blockId + "-" + joinedBlockId);
     	Block block = this.blocks.get(blockId);
     	if(block!=null){
-	    	block.removeNeighbour(commPort);
+	    	block.removeNeighbour(joinedBlockId);
 	    	compositeAndSend(block, oscManager);
     	}
     }

@@ -31,7 +31,7 @@ public class miCeta extends DirectedGame {
 	private TangibleBlocksManager blocksManager;
 	private String myIp="";
 	private OSCPortIn oscPortIn = null;
-
+	private OSCManager manager;
 
 
 	public miCeta(String ip){
@@ -63,7 +63,7 @@ public class miCeta extends DirectedGame {
 		} catch (SocketException e) {
 			e.printStackTrace();
 		}
-		OSCManager manager = new OSCManager(blocksManager);
+		manager = new OSCManager(blocksManager);
 		oscPortIn.addListener("/cetaController", manager);
 		oscPortIn.startListening();
 	}
@@ -75,6 +75,10 @@ public class miCeta extends DirectedGame {
 
 	public TangibleBlocksManager getBlocksManager(){
 		return blocksManager;
+	}
+	
+	public OSCManager getOscManager(){
+		return manager;
 	}
 
 }
