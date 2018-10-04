@@ -101,6 +101,35 @@ public class RepresentationMapper {
         return screenName;
     }
 
+    public static String getMessageNameFromScreenName(ScreenName screenName){
+        switch (screenName){
+
+            case GAME_STEPS:
+                return "pasos";
+            case GAME_INGREDIENTS:
+                return "ingredientes";
+            case GAME_KNOCK:
+                return "golpes";
+            case GAME_MIXING:
+                return "revolver";
+            case GAME_MUSIC:
+                return "musica";
+            case GAME_GREETING:
+                return "saludos";
+            case GAME_HOLES:
+                return "agujeros";
+            case GAME_WINGS:
+                return "gotas";
+            case GAME_BIRD:
+                return "pajaro";
+            case GAME_NUMERUS:
+                return "numerus";
+            default:
+                return "timbre";
+
+        }
+    }
+
 
     public static GameScreen getGameScreenFromScreenName(ScreenName screenName){
         GameScreen gameScreen = new GameScreen();

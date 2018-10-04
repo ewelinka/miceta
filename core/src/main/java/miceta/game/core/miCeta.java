@@ -33,6 +33,7 @@ public class miCeta extends DirectedGame {
 		//AudioManager.instance.play(Assets.instance.music.song01);
 		GamePreferences.instance.load();
 		LevelsManager.instance.init();
+		PureDataMessanger.instance.init();
 		resultsManager = new ResultsManager();
 		representationMapper = new RepresentationMapper(this);
 		gameScreen = RepresentationMapper.getGameScreenFromScreenName(LevelsManager.instance.getScreenName());
@@ -44,6 +45,11 @@ public class miCeta extends DirectedGame {
 		//setScreen(new AutoInitScreen(this));
 		//LevelsManager levelsManager = LevelsManager.getInstance(); // inicializate level manager -- no seria necesario porque es singleton.
 
+	}
+
+	@Override
+	public void dispose(){
+		PureDataMessanger.instance.dispose();
 	}
 
 	public void setLastFrame(Mat frame){

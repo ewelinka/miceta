@@ -8,6 +8,7 @@ import com.badlogic.gdx.scenes.scene2d.InputEvent;
 import com.badlogic.gdx.scenes.scene2d.InputListener;
 import com.badlogic.gdx.scenes.scene2d.Stage;
 import com.badlogic.gdx.scenes.scene2d.ui.ImageButton;
+import com.badlogic.gdx.scenes.scene2d.utils.ChangeListener;
 import com.badlogic.gdx.utils.viewport.FitViewport;
 import miceta.game.core.Assets;
 import miceta.game.core.controllers.CvWorldController;
@@ -151,7 +152,7 @@ public abstract class AbstractGameScreen  extends InputAdapter implements Screen
                 goToPreviouseMenuItem();
                 break;
             case Input.Keys.DOWN:
-               // AudioManager.instance.downKnockNoteVol();
+                // AudioManager.instance.downKnockNoteVol();
                 goToNextMenuItem();
                 break;
             case Input.Keys.ENTER:
@@ -187,6 +188,7 @@ public abstract class AbstractGameScreen  extends InputAdapter implements Screen
         addBtnNewStart(x , initialShift +shift*2);
         if(showPlay)
             addBtnPlay(x, initialShift +shift*3 ); // top button
+        addBtnPureDataSend(700, initialShift +shift*3);
     }
 
     private void addBtnPlay(int x, int y){
@@ -270,6 +272,24 @@ public abstract class AbstractGameScreen  extends InputAdapter implements Screen
             }
         });
         stage.addActor(btnExit);
+    }
+    private void addBtnPureDataSend(int x, int y){
+        ImageButton btnPureData = new ImageButton(Assets.instance.buttons.exitButtonStyle);
+        btnPureData.setPosition(x,y);
+        btnPureData.addListener(new ChangeListener() {
+            @Override
+            public void changed (ChangeEvent event, Actor actor) {
+                onBtnPureDataClicked();
+            }
+        });
+        stage.addActor(btnPureData);
+    }
+    private void onBtnPureDataClicked(){
+
+        // int delayBetweenFeedbacksInMillis, int numberToBuild, int childSum, ...child blocks
+        Object[] toSend = new Object[]  { 300, 3, 10, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1 };
+        PureDataMessanger.instance.sendMessageMatias("timbre",toSend);
+
     }
     private void onBtnClicked(ScreenName screenName) {
         Gdx.app.log(TAG,"onBtnClicked ----> "+screenName);
