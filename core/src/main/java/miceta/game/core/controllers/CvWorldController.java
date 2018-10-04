@@ -73,12 +73,9 @@ public class CvWorldController {
         this.shouldRepeatTutorial = shouldRepeatTutorial;
 
 
-        if((Gdx.app.getType() == Application.ApplicationType.Android)) {
-            cvBlocksManager = new CvBlocksManagerAndroid(game);
-        }
-        else {
-            cvBlocksManager = new CvBlocksManagerDesktop(game);
-        }
+
+        cvBlocksManager = new CvBlocksManagerDesktop(game);
+
         AudioManager.instance.setStage(stage); // we set current Stage in AudioManager, if not "reader" actor doesn't work
         initCustomSounds();
         initCommonVariables();
