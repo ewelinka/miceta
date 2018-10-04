@@ -131,19 +131,19 @@ public class BaseScreenWithIntro  extends AbstractGameScreen {
     private void setColorFromValue(int value){
         switch (value){
             case 1:
-                shapeRenderer.setColor(1, 1, 0, 1); // yellow
+                shapeRenderer.setColor(202/255.0f, 204/255.0f, 206/255.0f, 1); // yellow
                 break;
             case 2:
-                shapeRenderer.setColor(0, 1, 0, 1); // green
+                shapeRenderer.setColor(1, 1, 0, 1); // yellow
                 break;
             case 3:
-                shapeRenderer.setColor(0, 0, 1, 1); // blue
+                shapeRenderer.setColor(0, 1, 0, 1); // green
                 break;
             case 4:
-                shapeRenderer.setColor(1, 159/255.0f, 0, 1); // orange
+                shapeRenderer.setColor(0, 0, 1, 1); // blue
                 break;
             case 5:
-                shapeRenderer.setColor(1, 0, 0, 1); //red
+                shapeRenderer.setColor(1, 159/255.0f, 0, 1); // orange
                 break;
         }
     }
