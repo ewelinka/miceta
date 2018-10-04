@@ -8,7 +8,6 @@ import com.badlogic.gdx.scenes.scene2d.InputEvent;
 import com.badlogic.gdx.scenes.scene2d.InputListener;
 import com.badlogic.gdx.scenes.scene2d.Stage;
 import com.badlogic.gdx.scenes.scene2d.ui.ImageButton;
-import com.badlogic.gdx.scenes.scene2d.utils.ChangeListener;
 import com.badlogic.gdx.utils.viewport.FitViewport;
 import miceta.game.core.Assets;
 import miceta.game.core.controllers.CvWorldController;
@@ -54,13 +53,9 @@ public abstract class AbstractGameScreen  extends InputAdapter implements Screen
         this.game.gameScreen = game.updateGameScreen();
         paused = false;
 
-        if(Gdx.app.getType() == Application.ApplicationType.Android){
-            viewportWidth = Constants.ANDROID_WIDTH;
-            viewportHeight = Constants.ANDROID_HEIGHT;
-        }else{
-            viewportWidth = Constants.DESKTOP_WIDTH;
-            viewportHeight = Constants.DESKTOP_HEIGHT;
-        }
+        viewportWidth = Constants.DESKTOP_WIDTH;
+        viewportHeight = Constants.DESKTOP_HEIGHT;
+
         currentSelectedScreen = ScreenName.NONE;
     }
 
