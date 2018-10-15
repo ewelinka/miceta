@@ -58,11 +58,11 @@ public class Constants {
 			case 11755994:
 				return 2;
 			case 11756426%255:
-				return 2;
+				return 1;
 			case 11757275%255:
 				return 3;
 			case 11755520%255:
-				return 1;
+				return 2;
 			default:
 				return 1;
 		}

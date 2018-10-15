@@ -318,6 +318,10 @@ public class OSCManager implements OSCListener{
     	message.addArgument("event");
     	message.addArgument("uncomposed");
     	message.addArgument(ids);
+    	
+    	//FIXME ask for confirmation rather than repeating the message
+    	sendBroadcast(message);
+    	sendBroadcast(message);
     	sendBroadcast(message);
 	}
 

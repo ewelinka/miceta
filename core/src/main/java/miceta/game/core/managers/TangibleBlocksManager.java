@@ -24,7 +24,7 @@ public class TangibleBlocksManager {
    
 	
 	//COMPOSITION PARAMETERS
-		final static int START_DELAY = 1000;
+		final static int START_DELAY = 500;
 
 		final static int CICLE_DELAY = 1500;
 		
@@ -148,6 +148,9 @@ public class TangibleBlocksManager {
         	this.blocks.get(blockId).stopTouching();
         	CompositionData data= getCompositionData(block);
         	if(!data.hasNeighbourTouched && hasAnyNeighbour(block)){
+            	//CompositionData existingComp = this.currentCompositions.get(this.currentCompositions.indexOf(data));
+            	this.currentCompositions.remove(data); //remove the composition
+            	
         		//stop composition feedback
             	Gdx.app.log(TAG,"STOP COMPOSITION MESSAGE FOR BLOCKS --->>> "+data.oscIDs);
         		oscManager.sendStopComposition(data.oscIDs);
