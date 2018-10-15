@@ -10,9 +10,12 @@
 
 	<properties>
 		<android.version>4.1.1.4</android.version>
-		<android.maven.version>3.8.1</android.maven.version>
+		<!-- <android.maven.version>3.8.1</android.maven.version>-->
+		<android.maven.version>3.4.1</android.maven.version>
 		<gwt.version>2.6.0</gwt.version>
 		<gwt.maven.version>2.6.0</gwt.maven.version>
+		<lwjgl.version>2.9.2</lwjgl.version>
+    	<lwjgl3.version>3.2.0</lwjgl3.version>
 	</properties>
 	<dependencyManagement>
 		<dependencies>
