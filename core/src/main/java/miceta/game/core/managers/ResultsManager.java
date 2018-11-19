@@ -2,11 +2,15 @@ package miceta.game.core.managers;
 
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.files.FileHandle;
+
+import miceta.game.core.receiver.Block;
 import miceta.game.core.util.GamePreferences;
 
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
+import java.util.Iterator;
+import java.util.Set;
 
 import static edu.ceta.vision.core.utils.BlocksMarkersMap.belongsToBlockClass;
 
@@ -104,7 +108,7 @@ public class ResultsManager {
         return responseAsString;
     }
 
-    public void analyseDetectedIds(ArrayList<Integer> nowDetectedIds, int numberToPlay){
+    public boolean analyseDetectedIds(ArrayList<Integer> nowDetectedIds, Set<Block> set, int numberToPlay){
         boolean somethingChanged = false;
         int detectedBlocksSum = 0;
         ArrayList<Integer> nowDetectedValues = new ArrayList<>();
@@ -112,8 +116,9 @@ public class ResultsManager {
 
         for(int i = nowDetectedIds.size()-1;i>=0;i--){ // we start from the end to avoid ids problems
             int nowId = nowDetectedIds.get(i);
-            detectedBlocksSum+=getBlockValue(nowId);
-            nowDetectedValues.add(getBlockValue(nowId));
+            int val = getBlockValeFromSet(nowId,set);
+            detectedBlocksSum+=val;
+            nowDetectedValues.add(val);
             if(!previousIds.contains(nowId)) { // we know this id?
                 Gdx.app.log(TAG, String.format("new id %s", nowId));
                 somethingChanged = true;
@@ -129,6 +134,17 @@ public class ResultsManager {
             addIntent(numberToPlay == detectedBlocksSum, detectedBlocksSum, numberToPlay, nowDetectedValues, nowDetectedIds, false);
             previousIds = new  ArrayList<>(nowDetectedIds);
         }
+        return somethingChanged;
+    }
+    
+    private int getBlockValeFromSet(int blockId, Set<Block> set){
+    	for(Iterator<Block> iter = set.iterator();iter.hasNext();){
+    		Block b = iter.next();
+    		if(b.getId()==blockId){
+    			return b.getValue();
+    		}
+    	}
+    	return 0;
     }
 
     private int getBlockValue(int blockId){

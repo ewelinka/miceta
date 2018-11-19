@@ -1,20 +1,28 @@
 package miceta.game.core;
 
 
-import com.badlogic.gdx.Gdx;
-import com.badlogic.gdx.assets.AssetManager;
-import edu.ceta.vision.core.topcode.TopCodeDetector;
+import java.net.SocketException;
+
 import miceta.game.core.managers.LevelsManager;
 import miceta.game.core.managers.ResultsManager;
+import miceta.game.core.managers.TangibleBlocksManager;
+import miceta.game.core.osc.OSCManager;
 import miceta.game.core.screens.AbstractGameScreen;
 import miceta.game.core.screens.DirectedGame;
 import miceta.game.core.screens.IntroScreen;
-import miceta.game.core.screens.MenuScreen;
 import miceta.game.core.transitions.ScreenTransition;
 import miceta.game.core.transitions.ScreenTransitionFade;
-import miceta.game.core.util.*;
+import miceta.game.core.util.GamePreferences;
+import miceta.game.core.util.GameScreen;
+import miceta.game.core.util.RepresentationMapper;
+
 import org.opencv.core.Mat;
 
+import com.badlogic.gdx.Gdx;
+import com.badlogic.gdx.assets.AssetManager;
+import com.illposed.osc.OSCPortIn;
+
+import edu.ceta.vision.core.topcode.TopCodeDetector;
 
 public class miCeta extends DirectedGame {
 	private static final String TAG = miCeta.class.getName();
@@ -24,6 +32,19 @@ public class miCeta extends DirectedGame {
 	private TopCodeDetector topCodeDetector;
 	private RepresentationMapper representationMapper;
 	public GameScreen gameScreen;
+	private boolean silentFeedbackMode; //for tangible blocks only
+
+
+private TangibleBlocksManager blocksManager;
+	private String myIp="";
+	private OSCPortIn oscPortIn = null;
+	private OSCManager manager;
+
+
+	public miCeta(String ip){
+		this.myIp = ip;
+	}
+
 
 	@Override
 	public void create () {
@@ -32,11 +53,15 @@ public class miCeta extends DirectedGame {
 		Assets.instance.init(new AssetManager());
 		//AudioManager.instance.play(Assets.instance.music.song01);
 		GamePreferences.instance.load();
+		silentFeedbackMode = GamePreferences.instance.getSilentFeedbackMode()==1;
 		LevelsManager.instance.init();
 		resultsManager = new ResultsManager();
 		representationMapper = new RepresentationMapper(this);
 		gameScreen = RepresentationMapper.getGameScreenFromScreenName(LevelsManager.instance.getScreenName());
 		ScreenTransition transition = ScreenTransitionFade.init(1);
+		blocksManager = new TangibleBlocksManager(this);
+		initReception();
+
 		topCodeDetector = null;
 
 		//setScreen(new MenuScreen(this),transition);
@@ -44,6 +69,12 @@ public class miCeta extends DirectedGame {
 		//setScreen(new AutoInitScreen(this));
 		//LevelsManager levelsManager = LevelsManager.getInstance(); // inicializate level manager -- no seria necesario porque es singleton.
 
+	}
+
+	@Override
+	public void dispose(){
+		super.dispose();
+		oscPortIn.stopListening();
 	}
 
 	public void setLastFrame(Mat frame){
@@ -67,6 +98,23 @@ public class miCeta extends DirectedGame {
 
 	}
 
+
+	public void initReception(){
+		System.out.println("init reception");
+		try {
+			oscPortIn = new OSCPortIn(12345);
+		} catch (SocketException e) {
+			e.printStackTrace();
+		}
+		manager = new OSCManager(blocksManager, silentFeedbackMode);
+		oscPortIn.addListener("/cetaController", manager);
+		oscPortIn.startListening();
+	}
+
+	public String getMyIp(){
+		return this.myIp;
+	}
+
 	public void releaseFrame(){
 
 		synchronized (syncObject) {
@@ -77,6 +125,15 @@ public class miCeta extends DirectedGame {
 			}
 		}
 	}
+
+public TangibleBlocksManager getBlocksManager(){
+		return blocksManager;
+	}
+	
+	public OSCManager getOscManager(){
+		return manager;
+	}
+
 
 	public boolean hasNewFrame(){
 		return hasNewFrame;

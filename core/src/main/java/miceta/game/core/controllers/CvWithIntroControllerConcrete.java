@@ -35,9 +35,9 @@ public class CvWithIntroControllerConcrete extends CvWorldController {
     public void update(float deltaTime) {
         timePassed+=deltaTime; // variable used to check in isTimeToStartNewLoop() to decide if new feedback loop should be started
         inactivityTime+=deltaTime;
-        updateCV();
-
-
+        //updateCV();
+        updateTangible();
+    	
         if(isTimeToStartNewLoop()){
             if(firstLoop) {
                 inactivityTime = 0;
@@ -46,7 +46,8 @@ public class CvWithIntroControllerConcrete extends CvWorldController {
             Gdx.app.log(TAG,"isTimeToStartNewLoop and willGoToNextPart "+willGoToNextPart);
             if(!willGoToNextPart) {
                 timePassed = 0; // start to count the time
-                ArrayList<Integer> nowDetected = cvBlocksManager.getNewDetectedVals(); // to know the blocks on the table
+                //TODO TEST ArrayList<Integer> nowDetected = cvBlocksManager.getNewDetectedVals(); // to know the blocks on the table
+                ArrayList<Integer> nowDetected = blocksManager.getDetectedIds();
                 if(nowDetected.size() > 0){
                     Gdx.app.log(TAG,"we have block! ");
                     timeToWait = AudioManager.instance.reproduceFinal()+ 5;

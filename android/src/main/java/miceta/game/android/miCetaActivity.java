@@ -1,6 +1,8 @@
 package miceta.game.android;
 
 import android.graphics.ImageFormat;
+import android.text.format.Formatter;
+
 import android.graphics.SurfaceTexture;
 import android.hardware.Camera;
 import android.util.Log;
@@ -8,6 +10,7 @@ import android.view.SurfaceHolder;
 import miceta.game.android.utils.CameraUtils;
 import miceta.game.core.miCeta;
 
+import android.net.wifi.WifiManager;
 import android.os.Bundle;
 
 import com.badlogic.gdx.backends.android.AndroidApplication;
@@ -32,14 +35,22 @@ public class miCetaActivity extends AndroidApplication implements SurfaceTexture
 	private boolean useGrayScaleNativeScanner = false;
 	private miCeta cetaGame;
 
+	private String myIP;// = "192.168.1.42";//"12.34.56.78";
+
+
 
 
 	@Override
 	protected void onCreate (Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
+		WifiManager wm = (WifiManager)getSystemService(WIFI_SERVICE);
+		myIP = Formatter.formatIpAddress(wm.getConnectionInfo().getIpAddress());
+
 		AndroidApplicationConfiguration config = new AndroidApplicationConfiguration();
 		config.useImmersiveMode = true;
-		cetaGame = new miCeta();
+		cetaGame = new miCeta(myIP);
+		//cetaGame.initReception();
+
 		initialize(cetaGame, config);
 	}
 

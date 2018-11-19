@@ -17,7 +17,9 @@ public class GamePreferences {
     private int last_level;
     private int operation_index;
     private int world;
+    private int silentFeedbackMode, mixedFeedbackMode, errorOrSuccessBlocksFeedbackMode;
     public String randomId;
+    
 
 
     private GamePreferences () {
@@ -32,6 +34,9 @@ public class GamePreferences {
         randomId = prefs.getString("randomId", randomUUID ().toString());
         operation_index=0; // we should always start from the beginning!
         prefs.putString("randomId", randomId);
+        silentFeedbackMode = prefs.getInteger("silentFeedbackMode",0);
+        mixedFeedbackMode = prefs.getInteger("mixedFeedbackMode",0);
+        errorOrSuccessBlocksFeedbackMode = prefs.getInteger("errorOrSuccessBlocksFeedbackMode",0);
         prefs.flush();
     }
 
@@ -41,6 +46,9 @@ public class GamePreferences {
         prefs.putInteger("last_level", last_level);
         prefs.putInteger("world", world);
         prefs.putString("randomId", randomId);
+        prefs.putInteger("silentFeedbackMode",silentFeedbackMode);
+        prefs.putInteger("mixedFeedbackMode",mixedFeedbackMode);
+        prefs.putInteger("errorOrSuccessBlocksFeedbackMode", errorOrSuccessBlocksFeedbackMode);
         prefs.flush();
     }
 
@@ -94,7 +102,32 @@ public class GamePreferences {
     public int getOperation_index(){
         return operation_index;
     }
+    
+	public int getSilentFeedbackMode() {
+		return silentFeedbackMode;
+	}
+	
+	public int getMixedFeedbackMode(){
+		return mixedFeedbackMode;
+	}
+	
+	public void setSilentFeedbackMode(int silentFeedbackMode) {
+		this.silentFeedbackMode = silentFeedbackMode;
+	}
 
+	public void setMixedFeedbackMode(int mixedFeedbackMode ) {
+		this.mixedFeedbackMode = mixedFeedbackMode ;
+	}
+	
+	public int getErrorOrSuccessBlocksFeedbackMode() {
+		return errorOrSuccessBlocksFeedbackMode;
+	}
+	
+	public void setErrorOrSuccessBlocksFeedbackMode(
+			int errorOrSuccessBlocksFeedbackMode) {
+		this.errorOrSuccessBlocksFeedbackMode = errorOrSuccessBlocksFeedbackMode;
+	}
 
+	
 
 }

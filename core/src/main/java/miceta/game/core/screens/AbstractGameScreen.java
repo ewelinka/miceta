@@ -190,8 +190,12 @@ public abstract class AbstractGameScreen  extends InputAdapter implements Screen
         addBtnExit(x, initialShift ); // last btn
         addBtnHelp(x, initialShift + shift*1 );
         addBtnNewStart(x , initialShift +shift*2);
-        if(showPlay)
+        if(showPlay){
             addBtnPlay(x, initialShift +shift*3 ); // top button
+            addBtnConfig(x, initialShift +shift*4 );
+        }else{
+        	addBtnConfig(x, initialShift +shift*3 );
+        }
     }
 
     private void addBtnPlay(int x, int y){
@@ -215,6 +219,28 @@ public abstract class AbstractGameScreen  extends InputAdapter implements Screen
         stage.addActor(btnPlay);
     }
 
+    private void addBtnConfig(int x, int y){
+        ImageButton btnConfig = new ImageButton(Assets.instance.buttons.configButtonStyle);
+        btnConfig.setPosition(x,y);
+        btnConfig.addListener(new ChangeListener() {
+            @Override
+            public void changed (ChangeEvent event, Actor actor) {
+                onBtnClicked(ScreenName.CONFIG);
+            }
+        });
+        btnConfig.addListener(new InputListener(){
+            @Override
+            public  void    enter(InputEvent event, float x, float y, int pointer, Actor fromActor){
+                currentSelectedScreen = ScreenName.CONFIG;
+                if(pointer == -1) { // if not, on btn click the audio file is played again (without any need)
+                    //AudioManager.instance.playWithoutInterruption(Assets.instance.sounds.jugar);
+                }
+            }
+        });
+        stage.addActor(btnConfig);
+    }
+    
+    
     private void addBtnNewStart(int x, int y){
         ImageButton btnNewStart = new ImageButton(Assets.instance.buttons.newStartButtonStyle);
         btnNewStart.setPosition(x,y);
@@ -298,6 +324,10 @@ public abstract class AbstractGameScreen  extends InputAdapter implements Screen
                 LevelsManager.instance.forceLevelParams(1);
                 game.setScreen(new ConcreteTutorial(game, false, false),transition);
                 break;
+            case CONFIG:
+                //LevelsManager.instance.forceLevelParams(1);
+                game.setScreen(new ConfigScreen(game),transition);
+                break;
         }
     }
 
@@ -326,6 +356,9 @@ public abstract class AbstractGameScreen  extends InputAdapter implements Screen
                 }else{
                     setExitToCurrent();
                 }
+                break;
+            case CONFIG:
+                setConfigToCurrent();
                 break;
         }
 
@@ -376,6 +409,10 @@ public abstract class AbstractGameScreen  extends InputAdapter implements Screen
     private void setPlayToCurrent(){
         currentSelectedScreen = ScreenName.LAST_SCREEN;
         AudioManager.instance.playWithoutInterruption(Assets.instance.sounds.jugar);
+    }
+    private void setConfigToCurrent(){
+        currentSelectedScreen = ScreenName.CONFIG;
+        //AudioManager.instance.playWithoutInterruption(Assets.instance.sounds.jugar);
     }
 
 

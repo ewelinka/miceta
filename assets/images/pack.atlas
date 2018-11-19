@@ -32,3 +32,10 @@ salir
   orig: 182, 95
   offset: 0, 0
   index: -1
+config
+  rotate: false
+  xy: 755, 2
+  size: 182, 95
+  orig: 182, 95
+  offset: 0, 0
+  index: -1

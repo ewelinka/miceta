@@ -54,6 +54,11 @@ public abstract class CvBlocksManager {
     );
     public abstract void updateDetected();
 
+    public void updateTangibleBlocksDetected(Set<Block> detectedBlocks){//TODO smarichal poner este metodo en el manager de android
+    	results.clear();
+    	results.add(detectedBlocks);
+    }
+    
     public void analyseDetected(){
        //- Gdx.app.log(TAG,"analyse -> detectionReady " + detectionReady + " detectionInProgress " + detectionInProgress);
         if(detectionReady) {
@@ -97,6 +102,46 @@ public abstract class CvBlocksManager {
 
         }
     }
+    
+    public void analyseTangibleBlocksDetected(){
+        //- Gdx.app.log(TAG,"analyse -> detectionReady " + detectionReady + " detectionInProgress " + detectionInProgress);
+             if(results.size() > 0) {
+                 currentBlocks = results.get(0); //here we have our set of detected blocks
+                 tempList = new HashSet<>(currentBlocks);
+             }
+             else {
+                 Gdx.app.error(TAG,"tangibleBocksDetected -> empty result!");
+                 currentBlocks = new HashSet<>();
+                 tempList = new HashSet<>();
+             }
+
+
+             lastframeids = new ArrayList(nowDetectedValsId);
+             newIds.clear();
+             nowDetectedValsId.clear();
+             newDetectedCVBlocks.clear();
+             nowDetectedVals.clear();
+
+
+             nowDetectedValsId.clear();
+             for (Block i : currentBlocks) {
+
+                 newIds.add(i.getId());
+                 nowDetectedValsId.add(i.getId());
+                 nowDetectedVals.add(i.getValue());
+                 newDetectedCVBlocks.add(i);
+                 tableIdValue.put(i.getId(), i.getValue());
+
+             }
+
+             p_newIds = new ArrayList(newIds);
+             p_compareIds(newIds , lastframeids);
+             p_lastframeids = new ArrayList(stableIds);
+             compareIds(p_lastframeids , p_newIds);
+
+     }
+    
+    
 
 
     private void compareIds(ArrayList<Integer> newBlocksIds, ArrayList<Integer> oldBlocksIds){

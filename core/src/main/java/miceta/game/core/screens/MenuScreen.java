@@ -50,6 +50,7 @@ public class MenuScreen extends AbstractGameScreen {
         addBtnHelp(x, 30 + shift*1 );
         addBtnNewStart(x , 30 +shift*2);
         addBtnPlay(x, 30 +shift*3 ); // top button
+        addBtnConfig(x,30 +shift*4 );
 
         x = 340; //second column
         ImageButton btnOrganic = addGameBtn(x,30+ shift*3 );
@@ -218,6 +219,28 @@ public class MenuScreen extends AbstractGameScreen {
         });
         stage.addActor(btnExit);
     }
+    //TODO agregar boton config y modificar ConfigScreen
+    private void addBtnConfig(int x, int y){
+        ImageButton btnConfig = new ImageButton(Assets.instance.buttons.configButtonStyle);
+        btnConfig.setPosition(x,y);
+        btnConfig.addListener(new ChangeListener() {
+            @Override
+            public void changed (ChangeEvent event, Actor actor) {
+                onBtnClicked(ScreenName.CONFIG);
+            }
+        });
+
+        btnConfig.addListener(new InputListener(){
+            @Override
+            public  void    enter(InputEvent event, float x, float y, int pointer, Actor fromActor){
+                if(pointer == -1) { // if not, on btn click the audio file is played again (without any need)
+                    AudioManager.instance.playWithoutInterruption(Assets.instance.sounds.salir); // TODO change to "JUGAR" audio whan available
+                }
+            }
+        });
+        stage.addActor(btnConfig);
+    }
+    
 
 
     private ImageButton addGameBtn(int x, int y){
@@ -302,6 +325,10 @@ public class MenuScreen extends AbstractGameScreen {
             case FINAL_MM2:
                 LevelsManager.instance.forceLevelAndLevelParams(14);
                 game.setScreen(new OneAudioScreen(game, false, false),transition);
+                break;
+            case CONFIG:
+                //LevelsManager.instance.forceLevelAndLevelParams(14);
+                game.setScreen(new ConfigScreen(game),transition);
                 break;
         }
     }

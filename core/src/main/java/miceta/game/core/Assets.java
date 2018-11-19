@@ -220,6 +220,11 @@ public class Assets implements Disposable, AssetErrorListener {
 
         assetManager.load("music/song1.mp3", Music.class);
         assetManager.load("music/song2.mp3", Music.class);
+        
+        //prefeedback hints
+        assetManager.load("sounds/hints/prefeedback/hint1.mp3", Sound.class);
+        assetManager.load("sounds/hints/prefeedback/hint2.mp3", Sound.class);
+        assetManager.load("sounds/hints/prefeedback/hint3.mp3", Sound.class);
 
         assetManager.load("images/backGeneric.png", Texture.class);
         assetManager.load("images/backDoor.png", Texture.class);
@@ -304,7 +309,7 @@ public class Assets implements Disposable, AssetErrorListener {
         public final ArrayList<Sound> cluesHoles = new ArrayList<>();
         public final ArrayList<Sound> cluesBird = new ArrayList<>();
         public final ArrayList<Sound> cluesNumerus = new ArrayList<>();
-
+        public final ArrayList<Sound> hints = new ArrayList<>();
 
 
         public Sound soundWithDuration(String path, AssetManager am) {
@@ -523,9 +528,9 @@ public class Assets implements Disposable, AssetErrorListener {
             positivesTada.add(tada);
             // tada for all!
 
-
-
-
+            hints.add(soundWithDuration("sounds/hints/prefeedback/hint1.mp3", am));
+            hints.add(soundWithDuration("sounds/hints/prefeedback/hint2.mp3", am));
+            hints.add(soundWithDuration("sounds/hints/prefeedback/hint3.mp3", am));
         }
     }
 
@@ -546,7 +551,7 @@ public class Assets implements Disposable, AssetErrorListener {
         public final ImageButton.ImageButtonStyle newStartButtonStyle;
         public final ImageButton.ImageButtonStyle exitButtonStyle;
         public final ImageButton.ImageButtonStyle helpButtonStyle;
-
+        public final ImageButton.ImageButtonStyle configButtonStyle;
 
         public  AssetButtons(TextureAtlas atlas) {
 
@@ -559,6 +564,11 @@ public class Assets implements Disposable, AssetErrorListener {
             exitButtonStyle.up = new TextureRegionDrawable(atlas.findRegion("salir")); //Set image for not pressed button
             exitButtonStyle.down= new TextureRegionDrawable(atlas.findRegion("salir"));  //Set image for pressed
             exitButtonStyle.over= new TextureRegionDrawable(atlas.findRegion("salir"));
+            
+            configButtonStyle = new ImageButton.ImageButtonStyle();  //Instaciate
+            configButtonStyle.up = new TextureRegionDrawable(atlas.findRegion("config")); //Set image for not pressed button
+            configButtonStyle.down= new TextureRegionDrawable(atlas.findRegion("config"));  //Set image for pressed
+            configButtonStyle.over= new TextureRegionDrawable(atlas.findRegion("config"));
 
             newStartButtonStyle = new ImageButton.ImageButtonStyle();  //Instaciate
             newStartButtonStyle.up = new TextureRegionDrawable(atlas.findRegion("restart")); //Set image for not pressed button

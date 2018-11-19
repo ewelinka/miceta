@@ -12,8 +12,8 @@ public class FeedbackDrawManager {
 
     public void setShapeRenderer(ShapeRenderer shapeRenderer, Block block, float shiftX, float shiftY ){
 
-
-        if((Gdx.app.getType() == Application.ApplicationType.Android)) {
+    //FIXME smarichal Lo comento porque al no tener bloques detectados por CV se genera un error
+      /*  if((Gdx.app.getType() == Application.ApplicationType.Android)) {
 
             shapeRenderer.rect((float) block.getCenter().y+shiftX, (float) block.getCenter().x+shiftY,
                     Constants.BASE * block.getValue(), Constants.BASE,
@@ -26,7 +26,7 @@ public class FeedbackDrawManager {
                     Constants.BASE  * block.getValue() / 2,Constants.BASE/2,
                     radianToStage(block.getOrientation()));
 
-        }
+        }*/
     }
 
 

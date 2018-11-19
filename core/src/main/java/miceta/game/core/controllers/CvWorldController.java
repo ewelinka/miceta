@@ -1,24 +1,41 @@
 package miceta.game.core.controllers;
 
+import static miceta.game.core.util.CommonFeedbacks.FINAL;
+import static miceta.game.core.util.CommonFeedbacks.INTRO;
+import static miceta.game.core.util.CommonFeedbacks.POSITIVE;
+import static miceta.game.core.util.CommonFeedbacks.TOO_FEW;
+import static miceta.game.core.util.CommonFeedbacks.TOO_MUCH;
+import static miceta.game.core.util.ScreenName.ORGANIC_HELP;
+
+import java.util.ArrayList;
+import java.util.Date;
+import java.util.HashSet;
+import java.util.Iterator;
+import java.util.Set;
+
+import miceta.game.core.Assets;
+import miceta.game.core.miCeta;
+import miceta.game.core.managers.CvBlocksManager;
+import miceta.game.core.managers.CvBlocksManagerAndroid;
+import miceta.game.core.managers.CvBlocksManagerDesktop;
+import miceta.game.core.managers.LevelsManager;
+import miceta.game.core.managers.TangibleBlocksManager;
+import miceta.game.core.screens.IntroScreen;
+import miceta.game.core.screens.OrganicHelpOneScreen;
+import miceta.game.core.util.AudioManager;
+import miceta.game.core.util.CompositionData;
+import miceta.game.core.util.Constants;
+import miceta.game.core.util.GamePreferences;
+import miceta.game.core.util.ScreenName;
+
 import com.badlogic.gdx.Application;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Input;
 import com.badlogic.gdx.audio.Sound;
 import com.badlogic.gdx.math.MathUtils;
 import com.badlogic.gdx.scenes.scene2d.Stage;
+
 import edu.ceta.vision.core.blocks.Block;
-import miceta.game.core.Assets;
-import miceta.game.core.managers.*;
-import miceta.game.core.miCeta;
-import miceta.game.core.screens.OrganicHelpOneScreen;
-import miceta.game.core.screens.IntroScreen;
-import miceta.game.core.util.*;
-
-import java.util.ArrayList;
-import java.util.Set;
-
-import static miceta.game.core.util.CommonFeedbacks.*;
-import static miceta.game.core.util.ScreenName.ORGANIC_HELP;
 
 
 /**
@@ -59,10 +76,26 @@ public class CvWorldController {
     final boolean shouldRepeatTutorial;
     protected float readNumberDelay;
     private boolean firstLoopWithNewPrice;
+    protected TangibleBlocksManager blocksManager;
 
+	private boolean timeTosendComposition;
 
+	
+	/*smarichal*/
+	private boolean singleLoopMode = true;
+	private boolean noBlocksFeedbackMode = true; // only feedback of the number to build TODO: add menu configuration for this mode
+	
+	
+	private int silentFeedbackMode;
+	private boolean interruptLoopnewBlockDetected;
+	private int errorOrSuccessBlocksFeedbackMode;
+	private float hintsDelay;
+	
+	/*----------*/
+	
     public CvWorldController(miCeta game, Stage stage, ScreenName screenNameNow, Sound introSound, ArrayList<Sound> positiveFeedback, Sound tooFewErrorSound,  Sound tooMuchErrorSound, Sound finalFeedback, boolean upLevel, boolean shouldRepeatTutorial) {
         this.game = game;
+        this.blocksManager = game.getBlocksManager(); //TEST 
         this.screenNameNow = screenNameNow;
         this.tooMuchErrorSound = tooMuchErrorSound;
         this.tooFewErrorSound = tooFewErrorSound;
@@ -71,8 +104,8 @@ public class CvWorldController {
         this.introSound = introSound;
         this.upLevel = upLevel;
         this.shouldRepeatTutorial = shouldRepeatTutorial;
-
-
+        this.interruptLoopnewBlockDetected = false;
+        this.timeTosendComposition = false;
         if((Gdx.app.getType() == Application.ApplicationType.Android)) {
             cvBlocksManager = new CvBlocksManagerAndroid(game);
         }
@@ -116,10 +149,15 @@ public class CvWorldController {
         timePassed = 0;
         extraDelayBetweenFeedback = GamePreferences.instance.getExtraDelayBetweenFeedback();
         waitAfterKnock = GamePreferences.instance.getWaitAfterKnock();
+        silentFeedbackMode = GamePreferences.instance.getSilentFeedbackMode();
+        errorOrSuccessBlocksFeedbackMode = GamePreferences.instance.getErrorOrSuccessBlocksFeedbackMode();
+        AudioManager.instance.setSuccessErrorBlocksFeedbackMode(errorOrSuccessBlocksFeedbackMode==1);
+        
         inactivityLimit = Constants.INACTIVITY_LIMIT;
         maxErrorsForHint = Constants.ERRORS_FOT_HINT;
         willGoToNextPart = false;
         feedbackDelay = (Assets.instance.getSoundDuration(this.tooFewErrorSound) > Assets.instance.getSoundDuration(this.tooMuchErrorSound)) ? Assets.instance.getSoundDuration(this.tooFewErrorSound) : Assets.instance.getSoundDuration(this.tooMuchErrorSound);
+        hintsDelay = getMaxHintsDuration();
         totalErrors = 0;
         goToThePast = false;
         readNumberDelay = 0;
@@ -127,6 +165,16 @@ public class CvWorldController {
 
     }
 
+    private float getMaxHintsDuration(){
+    	float max = 0;
+        for(Iterator<Sound> iter = Assets.instance.sounds.hints.iterator();iter.hasNext();){
+        	Sound sound = iter.next();
+        	if(Assets.instance.getSoundDuration(sound) > max )
+        		max = Assets.instance.getSoundDuration(sound);
+        }
+        return max;
+    }
+    
     void updateCV(){
         if(cvBlocksManager.canBeUpdated()) { //ask before in order to not accumulate new threads.
             cvBlocksManager.updateDetected();
@@ -136,25 +184,61 @@ public class CvWorldController {
         }
     }
 
+    void updateTangible(){
+    	cvBlocksManager.updateTangibleBlocksDetected(convertTangibleToCVblocks(blocksManager.getDetectedBlocks()));
+    	cvBlocksManager.analyseTangibleBlocksDetected();    	
+    }
+    
+    private Set<Block> convertTangibleToCVblocks(Set<miceta.game.core.receiver.Block> tangibleBlocks){
+    	Set<Block> result = new HashSet<Block>();
+    	for(Iterator<miceta.game.core.receiver.Block> iter =tangibleBlocks.iterator();iter.hasNext(); ){
+    		miceta.game.core.receiver.Block tangibleBlock = iter.next();
+    		Block cvBlock = new Block(tangibleBlock.getValue());
+    		cvBlock.setId(tangibleBlock.getId());
+    		result.add(cvBlock);
+    	}
+    	return result;    	
+    }
 
-
+    private long lastChange = new Date().getTime();
+	
     public void update(float deltaTime) {
         timePassed+=deltaTime; // variable used to check in isTimeToStartNewLoop() to decide if new feedback loop should be started
         inactivityTime+=deltaTime;
-        updateCV();
-
+       // updateCV();// TEST removed the updateCV
         if(!firstLoopWithNewPrice) {
-            ArrayList<Integer> nowDetectedIds = cvBlocksManager.getNewDetectedIds();
-            game.resultsManager.analyseDetectedIds(nowDetectedIds, numberToPlay);
+            //ArrayList<Integer> nowDetectedIds = cvBlocksManager.getNewDetectedIds(); TEST: smarichal
+        	ArrayList<Integer> nowDetectedIds = blocksManager.getDetectedIds();
+        	updateTangible();
+            if(game.resultsManager.analyseDetectedIds(nowDetectedIds, blocksManager.getDetectedBlocks(), numberToPlay)){
+//            	long now = new Date().getTime();
+//            	if(now-lastChange > 3000){
+//            		lastChange = now;
+//	                Gdx.app.log(TAG,"INTERRUPT, SOMETHING CHANGED");//TODO continuar aca, cuando saco una pieza no corta el loop en respuesta correcta.
+//	            	interruptLoopnewBlockDetected = true;
+//	            	answerRight = false;
+//	            	AudioManager.instance.stop_sounds(this.game.getGameScreen().screenName);
+//            	}
+            }else if(timeTosendComposition){ 
+                	executeMixedFeedback();  //add time to wait and send a composition message to the blocks on the working area  
+                	timeTosendComposition = false;
+            }
+        }else{
+          //  Gdx.app.log(TAG,"firstLoopWithNewPrice");
+            /*el problema es que cuando el sistema detecta la respuesta correcta la registra inmediatamente. Lo ideal seria esperar
+             * a que termine el loop y si al final del loop los bloques son los correctos entonces registrarla. 
+             * */
         }
 
         if(isTimeToStartNewLoop()){
+            Gdx.app.log(TAG,"STARTING NEW LOOP");
             checkIfFirstLoopWithNewPrice();
             checkForTotalErrors();
             if(!willGoToNextPart) {
+            	interruptLoopnewBlockDetected = false;
                 timePassed = 0; // start to count the time
                 int thisLoopNumerToPlay = numberToPlay;
-                ArrayList<Integer> nowDetected = cvBlocksManager.getNewDetectedVals(); // to know the blocks on the table
+                ArrayList<Integer> nowDetected = blocksManager.getDetectedVals();
                 int lastSum = currentSum;
                 currentSum = 0;
                 for (Integer aNowDetected : nowDetected)
@@ -177,7 +261,10 @@ public class CvWorldController {
                     //currentSum = -1; // we "reset" current sum to detect errors
                 } else {
                     checkForErrorsAndInactivity(currentSum, lastSum);
-                    reproduceAllFeedbacks(nowDetected, numberToPlay);
+                    if(noBlocksFeedbackMode)
+                    	reproduceFeedbackWithoutBlocks(numberToPlay);
+                    else
+                    	reproduceAllFeedbacks(nowDetected, numberToPlay);
                 }
                 checkIfTimeToAdd(timeToWait);
                 checkIfNewIntentToRegister(currentSum,lastBlocksSum,answerRight? thisLoopNumerToPlay: numberToPlay,answerRight,nowDetected);
@@ -187,11 +274,24 @@ public class CvWorldController {
                     goToNextLevel();
 
             }
+            if(currentSum > 0 && GamePreferences.instance.getMixedFeedbackMode()==1){//---> no funciona ponerlo aqui porq primero inicia el loop y luego envia la composicion
+            	timeTosendComposition = true;
+            }
         }
     }
 
 
-
+    void executeMixedFeedback(){
+    	CompositionData compData = blocksManager.composeAndSendBlocksInArea();
+    	timeToWait+=((float)calculateBlocksCompositionTime(compData)/1000.f);
+    }
+    
+    int calculateBlocksCompositionTime(CompositionData compData){
+    	int res = 0;
+    	res = (compData.composed_n * compData.interbeep_delay) + compData.start_delay+ compData.cicle_delay;
+    	return res;
+    }
+    
     void onCorrectAnswer(){
         boolean levelFinished = LevelsManager.instance.up_operation_index();
         if(!levelFinished){
@@ -229,11 +329,15 @@ public class CvWorldController {
         timeToWait += Assets.instance.getSoundDuration(this.finalFeedback);
     }
 
+    private void addNextHintToTimeToWait(){
+//        Gdx.app.log(TAG,"adding hintdelay= "+ (hintsDelay + 1));
+   // 	timeToWait += 10;//hintsDelay + 1;
+    }
+    
     private float calculateTimeToWait(int currentSum, int numberToPlay){
         int biggerNumber =  (currentSum > numberToPlay) ? currentSum : numberToPlay;
-
-        return readNumberDelay + biggerNumber * (Constants.READ_ONE_UNIT_DURATION + extraDelayBetweenFeedback)+ waitAfterKnock;
-
+        Gdx.app.log(TAG,"biggerNumber is: "+biggerNumber);
+        return readNumberDelay + biggerNumber * (Constants.READ_ONE_UNIT_DURATION + extraDelayBetweenFeedback)+ waitAfterKnock + hintsDelay;
     }
 
     protected void reproduceAllFeedbacksAndPositive(ArrayList<Integer> nowDetected, int numberToPlay){
@@ -247,6 +351,10 @@ public class CvWorldController {
     protected void reproduceAllFeedbacks(ArrayList<Integer> nowDetected, int numberToPlay){
         AudioManager.instance.readAllFeedbacks(nowDetected, numberToPlay, extraDelayBetweenFeedback);
     }
+    
+    protected void reproduceFeedbackWithoutBlocks(int numberToPlay){
+    	AudioManager.instance.readFeedbackWithoutBlocks(numberToPlay,extraDelayBetweenFeedback);
+    }
 
     protected void reproduceClue(){
         AudioManager.instance.readFeedback(numberToPlay, extraDelayBetweenFeedback); //first we read the random number
@@ -255,7 +363,7 @@ public class CvWorldController {
 
 
     boolean isTimeToStartNewLoop(){
-        return (timePassed > timeToWait );
+        return (timePassed > timeToWait ) || interruptLoopnewBlockDetected;
     }
 
     public Set<Block> getCurrentBlocksFromManager(){
@@ -295,6 +403,7 @@ public class CvWorldController {
         }
         Gdx.app.log(TAG,currentSum+" "+lastSum+" "+errors_now+" total errors: "+totalErrors);
 
+        
         if((inactivityTime >= inactivityLimit) && (errors_now >= maxErrorsForHint)){ // we have enough errors!
             if(currentSum > numberToPlay){ // too much!
                 AudioManager.instance.setDelay_add();
@@ -308,6 +417,16 @@ public class CvWorldController {
             }
             //errors_now = 0; to repeat clue if the child didn't changed anything
             inactivityTime = 0;
+        }else if(singleLoopMode){
+            Gdx.app.log(TAG,"%%%%%%%% SINGLE LOOP MODE - PLAYING HINT ");
+        	addNextHintToTimeToWait();
+        	 if(currentSum > numberToPlay){ // too much!
+                 AudioManager.instance.setDelay_hint_add();
+                 Gdx.app.log(TAG,"hint add");
+             }else{ // too few!
+            	 AudioManager.instance.setDelay_hint_quit();
+                 Gdx.app.log(TAG,"hint quit");
+             }
         }
     }
 
@@ -335,6 +454,7 @@ public class CvWorldController {
         if ((screenX > 400 && screenX < 460)&& (screenY > (Constants.DESKTOP_HEIGHT-65) && screenY < (Constants.DESKTOP_HEIGHT-45))) {
             makeWaitSmaller();
         }
+       
         if(button == Input.Buttons.RIGHT){
             game.setScreen(new IntroScreen(game));
         }
@@ -361,6 +481,13 @@ public class CvWorldController {
         waitAfterKnock =  waitAfterKnock - 0.50f;
         saveSettings();
     }
+    
+    private void toogleSilentMode(){
+        silentFeedbackMode = (silentFeedbackMode+1)%2;
+        saveSettings();
+    }
+    
+    
 
 
     public float getExtraDelayBetweenFeedback(){
@@ -377,6 +504,7 @@ public class CvWorldController {
         prefs.load();
         GamePreferences.instance.setExtraDelayBetweenFeedback(extraDelayBetweenFeedback);
         GamePreferences.instance.setWaitAfterKnock(waitAfterKnock);
+        GamePreferences.instance.setSilentFeedbackMode(silentFeedbackMode);
         prefs.save();
     }
 
