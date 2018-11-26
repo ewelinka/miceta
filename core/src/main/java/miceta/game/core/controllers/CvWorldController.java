@@ -51,7 +51,7 @@ public class CvWorldController {
     private int totalErrors;
     private int gameNumber =0;
     protected float inactivityTime =0; // time that passed since last move
-    private int currentSum=-1; // we induce first error if nothing on the table
+    protected int currentSum=-1; // we induce first error if nothing on the table
     private  int lastBlocksSum=0;
     float timeToWait;
     float timePassed;
@@ -59,7 +59,7 @@ public class CvWorldController {
     float extraDelayBetweenFeedback;
     private float feedbackDelay;
     float waitAfterKnock;
-    private final Sound tooMuchErrorSound;
+    protected final Sound tooMuchErrorSound;
     protected final Sound tooFewErrorSound;
     private final Sound finalFeedback;
     private final Sound introSound;
@@ -245,7 +245,7 @@ public class CvWorldController {
                     currentSum += aNowDetected; // we need to know the sum to decide if response is correct
 
                 answerRight = (currentSum == numberToPlay);
-                timeToWait = calculateTimeToWait(currentSum, numberToPlay);
+                timeToWait = calculateTimeToWait(currentSum, numberToPlay,true);
                 if (answerRight) {
                     correctAnswersNow+=1;
                     if(correctAnswersNow == correctAnswersNeeded) {
@@ -334,12 +334,13 @@ public class CvWorldController {
    // 	timeToWait += 10;//hintsDelay + 1;
     }
     
-    private float calculateTimeToWait(int currentSum, int numberToPlay){
+    protected float calculateTimeToWait(int currentSum, int numberToPlay, boolean addHintDelay){
         int biggerNumber =  (currentSum > numberToPlay) ? currentSum : numberToPlay;
         Gdx.app.log(TAG,"biggerNumber is: "+biggerNumber);
-        return readNumberDelay + biggerNumber * (Constants.READ_ONE_UNIT_DURATION + extraDelayBetweenFeedback)+ waitAfterKnock + hintsDelay;
+        return readNumberDelay + biggerNumber * (Constants.READ_ONE_UNIT_DURATION + extraDelayBetweenFeedback)+ waitAfterKnock + (addHintDelay?hintsDelay:0);
     }
 
+    
     protected void reproduceAllFeedbacksAndPositive(ArrayList<Integer> nowDetected, int numberToPlay){
         AudioManager.instance.readAllFeedbacksAndPositive(nowDetected, numberToPlay, extraDelayBetweenFeedback);
     }

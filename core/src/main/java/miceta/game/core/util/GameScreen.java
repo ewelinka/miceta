@@ -15,6 +15,7 @@ public class GameScreen {
     public ArrayList<Sound> positives = new ArrayList<>();
     public Sound tooFew;
     public Sound tooMuch;
+    public Sound muyBien;
     public Sound finalSound;
     public Texture imgBackground;
 

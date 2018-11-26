@@ -45,16 +45,16 @@ public class Assets implements Disposable, AssetErrorListener {
         assetManager.load(Constants.TEXTURE_ATLAS_OBJECTS, TextureAtlas.class);
         // load sounds
 
-        assetManager.load("sounds/numeros/1.wav", Sound.class);
-        assetManager.load("sounds/numeros/2.wav", Sound.class);
-        assetManager.load("sounds/numeros/3.wav", Sound.class);
-        assetManager.load("sounds/numeros/4.wav", Sound.class);
-        assetManager.load("sounds/numeros/5.wav", Sound.class);
-        assetManager.load("sounds/numeros/6.wav", Sound.class);
-        assetManager.load("sounds/numeros/7.wav", Sound.class);
-        assetManager.load("sounds/numeros/8.wav", Sound.class);
-        assetManager.load("sounds/numeros/9.wav", Sound.class);
-        assetManager.load("sounds/numeros/10.wav", Sound.class);
+        assetManager.load("sounds/numeros/1.mp3", Sound.class);
+        assetManager.load("sounds/numeros/2.mp3", Sound.class);
+        assetManager.load("sounds/numeros/3.mp3", Sound.class);
+        assetManager.load("sounds/numeros/4.mp3", Sound.class);
+        assetManager.load("sounds/numeros/5.mp3", Sound.class);
+        assetManager.load("sounds/numeros/6.mp3", Sound.class);
+        assetManager.load("sounds/numeros/7.mp3", Sound.class);
+        assetManager.load("sounds/numeros/8.mp3", Sound.class);
+        assetManager.load("sounds/numeros/9.mp3", Sound.class);
+        assetManager.load("sounds/numeros/10.mp3", Sound.class);
         assetManager.load("sounds/numeros/11.wav", Sound.class);
         assetManager.load("sounds/numeros/12.wav", Sound.class);
         assetManager.load("sounds/numeros/13.wav", Sound.class);
@@ -71,11 +71,18 @@ public class Assets implements Disposable, AssetErrorListener {
         assetManager.load("sounds/feedback/feedbackLoop.wav", Music.class);
         assetManager.load("sounds/feedback/masPiezas.wav", Sound.class);
         assetManager.load("sounds/feedback/menosPiezas.wav", Sound.class);
+        assetManager.load("sounds/feedback/muy_bien.mp3", Sound.class);
+
 
 
         assetManager.load("sounds/concrete/intro.mp3", Sound.class);
         assetManager.load("sounds/concrete/final.mp3", Sound.class);
-        assetManager.load("sounds/concrete/masMenos.mp3", Sound.class);
+        assetManager.load("sounds/concrete/mas.mp3", Sound.class);
+        assetManager.load("sounds/concrete/menos.mp3", Sound.class);
+        
+        
+  
+        
         //micro mundo 1
         // organic tutorial
         assetManager.load("sounds/organic/intro1.mp3", Sound.class);
@@ -226,6 +233,27 @@ public class Assets implements Disposable, AssetErrorListener {
         assetManager.load("sounds/hints/prefeedback/hint2.mp3", Sound.class);
         assetManager.load("sounds/hints/prefeedback/hint3.mp3", Sound.class);
 
+        //hints todavia no
+        for(int i=1;i<11;i++)
+        	assetManager.load("sounds/hints/todaviaNo/todaviaNo_"+i+".mp3", Sound.class);
+        
+        //steps for concrete tutorial
+        assetManager.load("sounds/concrete/steps/step1.mp3", Sound.class);
+        assetManager.load("sounds/concrete/steps/step2.mp3", Sound.class);
+        assetManager.load("sounds/concrete/steps/step3.mp3", Sound.class);
+        assetManager.load("sounds/concrete/steps/step4.mp3", Sound.class);
+        assetManager.load("sounds/concrete/steps/step5.mp3", Sound.class);
+        assetManager.load("sounds/concrete/steps/step6.mp3", Sound.class);
+        assetManager.load("sounds/concrete/steps/step7.mp3", Sound.class);
+        assetManager.load("sounds/concrete/steps/step8.mp3", Sound.class);
+        
+        //clear number line
+        assetManager.load("sounds/hints/limpiar_recta.mp3", Sound.class);
+        
+        assetManager.load("sounds/hints/pon_una_pieza.mp3", Sound.class);
+        assetManager.load("sounds/concrete/cuando_juguemos.mp3", Sound.class);
+        
+        
         assetManager.load("images/backGeneric.png", Texture.class);
         assetManager.load("images/backDoor.png", Texture.class);
         assetManager.load("images/backIngredients.png", Texture.class);
@@ -241,6 +269,8 @@ public class Assets implements Disposable, AssetErrorListener {
         assetManager.load("images/backFinalMM2.png", Texture.class);
         assetManager.load("images/backClap.png", Texture.class);
         assetManager.load("images/backWalk.png", Texture.class);
+        
+        
         // start loading assets and wait until finished
         assetManager.finishLoading();
 
@@ -287,7 +317,8 @@ public class Assets implements Disposable, AssetErrorListener {
         public final Sound wingsIntro, wingsFinal;
         public final Sound birdIntro, birdFinal, birdTooFew,birdTooMuch;
         public final Sound numerusIntro, numerusFinal, numerusTooFew,numerusTooMuch;
-
+        public final Sound limpiarRecta;
+        public final Sound ponUnaPieza;
 
 //        public  ArrayList<Sound> positivesOrganicHelp = new ArrayList<>();
 //        public  ArrayList<Sound> positivesStep= new ArrayList<>();
@@ -299,6 +330,8 @@ public class Assets implements Disposable, AssetErrorListener {
 //        public  ArrayList<Sound> positivesFeedbacks = new ArrayList<>();
         public  ArrayList<Sound> positivesTada = new ArrayList<>();
 
+        public  ArrayList<Sound> concreteTutorialSteps = new ArrayList<>();
+        
         public final ArrayList<Sound> cluesOrganicHelp = new ArrayList<>();
         public final ArrayList<Sound> cluesSteps = new ArrayList<>();
         public final ArrayList<Sound> cluesKnock = new ArrayList<>();
@@ -310,6 +343,9 @@ public class Assets implements Disposable, AssetErrorListener {
         public final ArrayList<Sound> cluesBird = new ArrayList<>();
         public final ArrayList<Sound> cluesNumerus = new ArrayList<>();
         public final ArrayList<Sound> hints = new ArrayList<>();
+        public final ArrayList<Sound> hints_todaviaNo = new ArrayList<>();
+		public Sound muyBien;
+		public Sound cuando_juguemos;
 
 
         public Sound soundWithDuration(String path, AssetManager am) {
@@ -321,16 +357,16 @@ public class Assets implements Disposable, AssetErrorListener {
         }
 
         public AssetSounds (AssetManager am) {
-            number1 =  soundWithDuration("sounds/numeros/1.wav", am);
-            number2 =  soundWithDuration("sounds/numeros/2.wav", am);
-            number3 =  soundWithDuration("sounds/numeros/3.wav", am);
-            number4 =  soundWithDuration("sounds/numeros/4.wav", am);
-            number5 =  soundWithDuration("sounds/numeros/5.wav", am);
-            number6 =  soundWithDuration("sounds/numeros/6.wav", am);
-            number7 =  soundWithDuration("sounds/numeros/7.wav", am);
-            number8 =  soundWithDuration("sounds/numeros/8.wav", am);
-            number9 =  soundWithDuration("sounds/numeros/9.wav", am);
-            number10 = soundWithDuration("sounds/numeros/10.wav", am);
+            number1 =  soundWithDuration("sounds/numeros/1.mp3", am);
+            number2 =  soundWithDuration("sounds/numeros/2.mp3", am);
+            number3 =  soundWithDuration("sounds/numeros/3.mp3", am);
+            number4 =  soundWithDuration("sounds/numeros/4.mp3", am);
+            number5 =  soundWithDuration("sounds/numeros/5.mp3", am);
+            number6 =  soundWithDuration("sounds/numeros/6.mp3", am);
+            number7 =  soundWithDuration("sounds/numeros/7.mp3", am);
+            number8 =  soundWithDuration("sounds/numeros/8.mp3", am);
+            number9 =  soundWithDuration("sounds/numeros/9.mp3", am);
+            number10 = soundWithDuration("sounds/numeros/10.mp3", am);
             number11 = soundWithDuration("sounds/numeros/11.wav", am);
             number12 = soundWithDuration("sounds/numeros/12.wav", am);
             number13 = soundWithDuration("sounds/numeros/13.wav", am);
@@ -345,12 +381,15 @@ public class Assets implements Disposable, AssetErrorListener {
             newblock = soundWithDuration("sounds/feedback/newblock.wav", am);
             addblock = soundWithDuration("sounds/feedback/masPiezas.wav", am);
             quitblock = soundWithDuration("sounds/feedback/menosPiezas.wav", am);
-
+            muyBien = soundWithDuration("sounds/feedback/muy_bien.mp3", am);
 
             concreteIntro = soundWithDuration("sounds/concrete/intro.mp3", am);
             concreteFinal  = soundWithDuration("sounds/concrete/final.mp3", am);
-            concreteTooFew = concreteTooMuch = soundWithDuration("sounds/concrete/masMenos.mp3", am);
-
+            concreteTooFew = soundWithDuration("sounds/concrete/mas.mp3", am);
+            concreteTooMuch = soundWithDuration("sounds/concrete/menos.mp3", am);
+            ponUnaPieza = soundWithDuration("sounds/hints/pon_una_pieza.mp3", am);
+            cuando_juguemos = soundWithDuration("sounds/concrete/cuando_juguemos.mp3", am);
+            
             // tutorial audios fist part
             organicHelpIntro = soundWithDuration("sounds/organic/intro1.mp3", am);
             organicHelpTooMuch_1 = soundWithDuration("sounds/organic/masMenos1.mp3", am);
@@ -528,9 +567,25 @@ public class Assets implements Disposable, AssetErrorListener {
             positivesTada.add(tada);
             // tada for all!
 
+            
+            //concrete tutorial steps
             hints.add(soundWithDuration("sounds/hints/prefeedback/hint1.mp3", am));
             hints.add(soundWithDuration("sounds/hints/prefeedback/hint2.mp3", am));
             hints.add(soundWithDuration("sounds/hints/prefeedback/hint3.mp3", am));
+            
+            for(int i=1;i<11;i++)
+            	hints_todaviaNo.add(soundWithDuration("sounds/hints/todaviaNo/todaviaNo_"+i+".mp3", am));
+                       
+            concreteTutorialSteps.add(soundWithDuration("sounds/concrete/steps/step1.mp3", am));
+            concreteTutorialSteps.add(soundWithDuration("sounds/concrete/steps/step2.mp3", am));
+            concreteTutorialSteps.add(soundWithDuration("sounds/concrete/steps/step3.mp3", am));
+            concreteTutorialSteps.add(soundWithDuration("sounds/concrete/steps/step4.mp3", am));
+            concreteTutorialSteps.add(soundWithDuration("sounds/concrete/steps/step5.mp3", am));
+            concreteTutorialSteps.add(soundWithDuration("sounds/concrete/steps/step6.mp3", am));
+            concreteTutorialSteps.add(soundWithDuration("sounds/concrete/steps/step7.mp3", am));
+            concreteTutorialSteps.add(soundWithDuration("sounds/concrete/steps/step8.mp3", am));
+            
+            limpiarRecta = soundWithDuration("sounds/hints/limpiar_recta.mp3",am);
         }
     }
 

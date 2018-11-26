@@ -10,10 +10,12 @@ import com.badlogic.gdx.scenes.scene2d.Stage;
 import com.badlogic.gdx.scenes.scene2d.ui.ImageButton;
 import com.badlogic.gdx.scenes.scene2d.utils.ChangeListener;
 import com.badlogic.gdx.utils.viewport.FitViewport;
+
 import miceta.game.core.Assets;
 import miceta.game.core.controllers.CvWorldController;
 import miceta.game.core.managers.FeedbackDrawManager;
 import miceta.game.core.managers.LevelsManager;
+import miceta.game.core.managers.TangibleBlocksManager;
 import miceta.game.core.miCeta;
 import miceta.game.core.transitions.ScreenTransition;
 import miceta.game.core.transitions.ScreenTransitionFade;
@@ -167,8 +169,42 @@ public abstract class AbstractGameScreen  extends InputAdapter implements Screen
                     stopCurrentSound();
                     worldController.forceScreenFinish();
                 }
-                break;
-
+            break;
+            case Input.Keys.NUM_1:
+                if(Gdx.input.isKeyPressed(Input.Keys.SHIFT_LEFT)){ //remove
+                	game.getBlocksManager().removeVirtualBlock(1);
+                }else{ //add
+                	game.getBlocksManager().addVirtualBlock(1);
+                }
+            break;
+            case Input.Keys.NUM_2:
+                if(Gdx.input.isKeyPressed(Input.Keys.SHIFT_LEFT)){ //remove
+                	game.getBlocksManager().removeVirtualBlock(2);
+                }else{ //add
+                	game.getBlocksManager().addVirtualBlock(2);
+                }
+            break;
+            case Input.Keys.NUM_3:
+                if(Gdx.input.isKeyPressed(Input.Keys.SHIFT_LEFT)){ //remove
+                	game.getBlocksManager().removeVirtualBlock(3);
+                }else{ //add
+                	game.getBlocksManager().addVirtualBlock(3);
+                }
+            break;
+            case Input.Keys.NUM_4:
+                if(Gdx.input.isKeyPressed(Input.Keys.SHIFT_LEFT)){ //remove
+                	game.getBlocksManager().removeVirtualBlock(4);
+                }else{ //add
+                	game.getBlocksManager().addVirtualBlock(4);
+                }
+            break;
+            case Input.Keys.NUM_5:
+                if(Gdx.input.isKeyPressed(Input.Keys.SHIFT_LEFT)){ //remove
+                	game.getBlocksManager().removeVirtualBlock(5);
+                }else{ //add
+                	game.getBlocksManager().addVirtualBlock(5);
+                }
+            break;
         }
         return true;
     }

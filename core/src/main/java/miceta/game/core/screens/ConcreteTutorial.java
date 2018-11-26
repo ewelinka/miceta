@@ -40,6 +40,7 @@ public class ConcreteTutorial extends BaseScreenWithIntro {
                 Assets.instance.sounds.concreteTooFew,
                 Assets.instance.sounds.concreteTooMuch,
                 Assets.instance.sounds.concreteFinal,
+                Assets.instance.sounds.concreteTutorialSteps,
                 upLevel,
                 shouldRepeatTutorial
         );

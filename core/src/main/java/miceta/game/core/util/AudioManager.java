@@ -48,6 +48,8 @@ public class AudioManager {
     private ScreenName currentGameScreenName;
     private Sound tooMuchErrorSound, tooFewErrorSound,finalFeedback, introSound;
     private ArrayList<Sound> positiveFeedback;
+    private ArrayList<Sound> concreteTutorialSteps;
+
     private int currentPositiveIndex;
     private Sound currentClue;
     private ArrayList<Sound> currentGreetingClues;
@@ -224,6 +226,12 @@ public class AudioManager {
         }
     }
 
+    public void setConcreteTutorialSoundArray( ArrayList<Sound> sounds){
+        concreteTutorialSteps = sounds;
+    }
+
+
+    
     public void setScreenNameAndLastClueIndex(ScreenName gameScreenName){
         lastClueIndex = -1;
         this.currentGameScreenName = gameScreenName;
@@ -968,12 +976,110 @@ public class AudioManager {
         return newblock_loop;
 
     }
+    
+    
+    public float reproduceFinalStep1(){
+	    Gdx.app.log(TAG,"FINAL STEP 1 reproduce it now! ");
+        ArrayList<Sound> soundsToReproduce = new ArrayList<>();
+        soundsToReproduce.add(Assets.instance.sounds.muyBien);
+        soundsToReproduce.add(this.finalFeedback);
+    	soundsToReproduce.add(this.concreteTutorialSteps.get(0));
+        return AudioManager.instance.reproduceSoundsWithIndex(soundsToReproduce, 0,2);
+    }
+    
+    public float reproduceMuyBienEscuchaComoSuena(){
+	    Gdx.app.log(TAG,"FINAL STEP 2 reproduce it now! ");
+    	ArrayList<Sound> soundsToReproduce = new ArrayList<>();
+        //soundsToReproduce.add(Assets.instance.sounds.muyBien);
+    	soundsToReproduce.add(Assets.instance.sounds.tada);
+    	soundsToReproduce.add(this.concreteTutorialSteps.get(1));
+        return AudioManager.instance.reproduceSoundsWithIndex(soundsToReproduce, 0,1);
+    }
+    
+    public float reproducePonUnaPieza(){
+	    Gdx.app.log(TAG,"pon una pieza reproduce it now! ");
+    	ArrayList<Sound> soundsToReproduce = new ArrayList<>();
+    	soundsToReproduce.add(Assets.instance.sounds.ponUnaPieza);
+        return AudioManager.instance.reproduceSoundsWithIndex(soundsToReproduce, 0,0);
+    }
+    
+    public float reproduceTodaviaNo(int n){
+	    Gdx.app.log(TAG,"Playing todavia no n= " + n);
+    	ArrayList<Sound> soundsToReproduce = new ArrayList<>();
+    	soundsToReproduce.add(Assets.instance.sounds.hints_todaviaNo.get(n-1));
+    	return AudioManager.instance.reproduceSoundsWithIndex(soundsToReproduce, 0,0);
+    }
+    
+    public float reproduceCuandoJuguemosJuntos(){
+     	ArrayList<Sound> soundsToReproduce = new ArrayList<>();
+     	soundsToReproduce.add(Assets.instance.sounds.cuando_juguemos);
+     	return AudioManager.instance.reproduceSoundsWithIndex(soundsToReproduce, 0,0);
+    }
+    
+    public float reproduceAhiVaDeNuevo(){
+	    Gdx.app.log(TAG,"va de nuevo reproduce it now! ");
+    	ArrayList<Sound> soundsToReproduce = new ArrayList<>();
+    	soundsToReproduce.add(this.concreteTutorialSteps.get(2));
+        return AudioManager.instance.reproduceSoundsWithIndex(soundsToReproduce, 0,0); 
+    }
+    
+    public float reproduceStep4(){
+	    Gdx.app.log(TAG,"STEP 4 reproduce it now! ");
+    	ArrayList<Sound> soundsToReproduce = new ArrayList<>();
+    	soundsToReproduce.add(this.concreteTutorialSteps.get(3));
+        return AudioManager.instance.reproduceSoundsWithIndex(soundsToReproduce, 0,0);
+    }
+    
+    public float reproduceStep5(){
+	    Gdx.app.log(TAG,"STEP 5 reproduce it now! ");
+    	ArrayList<Sound> soundsToReproduce = new ArrayList<>();
+    	soundsToReproduce.add(this.concreteTutorialSteps.get(4));
+        return AudioManager.instance.reproduceSoundsWithIndex(soundsToReproduce, 0,0);
+    }
+    
+    public float reproduceStep6(){
+	    Gdx.app.log(TAG,"STEP 6 reproduce it now! ");
+    	ArrayList<Sound> soundsToReproduce = new ArrayList<>();
+    	soundsToReproduce.add(this.concreteTutorialSteps.get(5));
+        return AudioManager.instance.reproduceSoundsWithIndex(soundsToReproduce, 0,0);
+    }
+    
+    public float reproduceStep7(){
+	    Gdx.app.log(TAG,"STEP 7 reproduce it now! ");
+    	ArrayList<Sound> soundsToReproduce = new ArrayList<>();
+    	soundsToReproduce.add(Assets.instance.sounds.tada);
+    	soundsToReproduce.add(this.concreteTutorialSteps.get(6));
+        return AudioManager.instance.reproduceSoundsWithIndex(soundsToReproduce, 0,1);
+    }
+    
+    public float reproduceStep8(){
+	    Gdx.app.log(TAG,"STEP 7 reproduce it now! ");
+    	ArrayList<Sound> soundsToReproduce = new ArrayList<>();
+    	soundsToReproduce.add(this.concreteTutorialSteps.get(7));
+        return AudioManager.instance.reproduceSoundsWithIndex(soundsToReproduce, 0,0);
+    }
+    
+    
+    public float reproduceLimpiarRecta(){
+    	ArrayList<Sound> soundsToReproduce = new ArrayList<>();
+        soundsToReproduce.add(Assets.instance.sounds.limpiarRecta);
+        return AudioManager.instance.reproduceSoundsWithIndex(soundsToReproduce, 0,0);
+    }
+    
     public float reproduceFinal(){
         float soundDuration = Assets.instance.getSoundDuration(this.finalFeedback);
         playWithoutInterruption(this.finalFeedback); //after correct answer comes "yuju"
-
+        
         return soundDuration;
     }
+    
+//    
+//    public float reproduceConcreteTutorialStep(int step){
+//    	float soundDuration = Assets.instance.getSoundDuration(this.concreteTutorialSteps.get(step-1));
+//        playWithoutInterruption(this.concreteTutorialSteps.get(step-1));
+//
+//        return soundDuration;
+//    }
 
     private float reproduceSoundsWithIndex(ArrayList<Sound> soundsToReproduce, int start, int end){
         float duration_total =  0;

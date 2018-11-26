@@ -105,6 +105,7 @@ public class RepresentationMapper {
     public static GameScreen getGameScreenFromScreenName(ScreenName screenName){
         GameScreen gameScreen = new GameScreen();
         gameScreen.imgBackground = Assets.instance.backgrounds.generic;
+        gameScreen.muyBien = Assets.instance.sounds.muyBien;
         gameScreen.screenName = screenName;
         switch(screenName){
             case ORGANIC_HELP:
