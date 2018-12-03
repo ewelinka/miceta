@@ -48,6 +48,9 @@ public class LevelsManager {
         levelParams.numberMax = Integer.parseInt(splittedLine[1]);
         levelParams.operationsToFinishLevel = Integer.parseInt(splittedLine[2]);
 
+        levelParams.alwaysCleanNumberLine = Integer.parseInt(splittedLine[6]);
+        levelParams.blocksFeedbackEnabled = Integer.parseInt(splittedLine[7]);
+        
         int [] operations;
         if(splittedLine[3].length() > 0){
             String operationsStr = splittedLine[3];
@@ -115,7 +118,15 @@ public class LevelsManager {
     public int get_number_to_play(){
         return currentLevelParams.operations[operation_index];
     }
+    
+    public int get_blocks_feedback_enable(){
+    	return currentLevelParams.blocksFeedbackEnabled;
+    }
 
+    public int get_clean_number_line(){
+    	return currentLevelParams.alwaysCleanNumberLine;
+    }
+    
     public boolean up_operation_index(){
         operation_index ++;
         GamePreferences.instance.setLast_level(level);

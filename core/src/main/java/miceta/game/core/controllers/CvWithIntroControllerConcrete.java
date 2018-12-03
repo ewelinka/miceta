@@ -115,7 +115,8 @@ public class CvWithIntroControllerConcrete extends CvWorldController {
 	                	
                 	break;
 	                case 3: //read feedback of the blocks
-	                	timeToWait = calculateTimeToWait(currentSum, 0, false);
+	                	timeToWait = calculateTimeToWait(currentSum, currentSum, false);
+	                    Gdx.app.log(TAG,"currentsum = "+ currentSum + ", timeToWait= " + timeToWait);
 	                	reproduceAllFeedbacks(nowDetectedValues, 0);
 	                	step = 4;
                 	break;
@@ -124,7 +125,8 @@ public class CvWithIntroControllerConcrete extends CvWorldController {
 	                	step = 5;
                 	break;
 	                case 5:
-	                	timeToWait = calculateTimeToWait(currentSum, 0, false);
+	                	timeToWait = calculateTimeToWait(currentSum, currentSum, false);
+	                	Gdx.app.log(TAG,"currentsum = "+ currentSum + ", timeToWait= " + timeToWait);
 	                	reproduceAllFeedbacks(nowDetectedValues, 0);
 	                	inactivityTime=MAX_INACTIVITY_TIME;
 	                	step = 6;
@@ -176,7 +178,8 @@ public class CvWithIntroControllerConcrete extends CvWorldController {
 	                	}
                 	break;
 	                case 9:
-	                	timeToWait = calculateTimeToWait(currentSum, 0,false);
+	                	timeToWait = calculateTimeToWait(currentSum, currentSum,false);
+	                	Gdx.app.log(TAG,"currentsum = "+ currentSum + ", timeToWait= " + timeToWait);
 	                	reproduceAllFeedbacks(nowDetectedValues, 0);
 	                	step = 10;
                 	break;
@@ -185,7 +188,7 @@ public class CvWithIntroControllerConcrete extends CvWorldController {
 	                	step = 11;
                 	break;
 	                case 11:
-	                	timeToWait = calculateTimeToWait(currentSum, 0,false);
+	                	timeToWait = calculateTimeToWait(currentSum, currentSum,false);
 	                	reproduceAllFeedbacks(nowDetectedValues, 0);
 	                	timeToWait+=1.5;
 	                	step = 12;
@@ -236,7 +239,8 @@ public class CvWithIntroControllerConcrete extends CvWorldController {
 	                	}
                 	break;
 	                case 15:
-	                	timeToWait = calculateTimeToWait(currentSum, 0, false);
+	                	timeToWait = calculateTimeToWait(currentSum, currentSum, false);
+	                	Gdx.app.log(TAG,"currentsum = "+ currentSum + ", timeToWait= " + timeToWait);
 	                	reproduceAllFeedbacks(nowDetectedValues, 0);
 	                	step = 16;
                 	break;
@@ -245,7 +249,7 @@ public class CvWithIntroControllerConcrete extends CvWorldController {
 	                	step = 17;
                 	break;
 	                case 17:
-	                	timeToWait = calculateTimeToWait(currentSum, 0, false);
+	                	timeToWait = calculateTimeToWait(currentSum, currentSum, false);
 	                	reproduceAllFeedbacks(nowDetectedValues, 0);
 	                	step = 18;
                 	break;
@@ -303,7 +307,8 @@ public class CvWithIntroControllerConcrete extends CvWorldController {
 	                	}
                 	break;
 	                case 21:
-	                	timeToWait = calculateTimeToWait(currentSum, 0, false);
+	                	timeToWait = calculateTimeToWait(currentSum, currentSum, false);
+	                	Gdx.app.log(TAG,"currentsum = "+ currentSum + ", timeToWait= " + timeToWait);
 	                	reproduceAllFeedbacks(nowDetectedValues, 0);
 	                	step = 22;
                 	break;
@@ -312,7 +317,7 @@ public class CvWithIntroControllerConcrete extends CvWorldController {
 	                	step = 23;
                 	break;
 	                case 23:
-	                	timeToWait = calculateTimeToWait(currentSum, 0, false);
+	                	timeToWait = calculateTimeToWait(currentSum, currentSum, false);
 	                	reproduceAllFeedbacks(nowDetectedValues, 0);
 	                	step = 24;
                 	break;

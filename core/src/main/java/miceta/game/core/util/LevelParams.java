@@ -9,4 +9,6 @@ public class LevelParams {
     public int numberMax;
     public int operationsToFinishLevel; // operations that should APPEAR before level finish
     public int[] operations;
+	public int alwaysCleanNumberLine;
+	public int blocksFeedbackEnabled;
 }

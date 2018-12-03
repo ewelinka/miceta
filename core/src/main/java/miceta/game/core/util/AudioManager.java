@@ -12,6 +12,7 @@ import miceta.game.core.Assets;
 
 import java.util.ArrayList;
 import java.util.Random;
+import java.util.TooManyListenersException;
 
 import static com.badlogic.gdx.scenes.scene2d.actions.Actions.*;
 
@@ -54,6 +55,10 @@ public class AudioManager {
     private Sound currentClue;
     private ArrayList<Sound> currentGreetingClues;
     private int lastClueIndex;
+	private boolean explicit_help;
+	private Sound nextTooMany;
+	private Sound nextTooFew;
+	private boolean addHasHechoUn = true;
 
 
     private AudioManager () { }
@@ -66,6 +71,7 @@ public class AudioManager {
         readTutorialAction = new SequenceAction();
         readBlockDuration = Constants.READ_ONE_UNIT_DURATION;
     	nextHint = Assets.instance.sounds.hints.get(new Random().nextInt(3));
+    	explicit_help = false;
     }
 
 
@@ -171,36 +177,69 @@ public class AudioManager {
     	nextHint.play(defaultVolSound);
     }
 
+    private void nextTooManySound(){
+    	if(new Random().nextInt(2)==0){ //random between 0-1
+    		nextTooMany =  tooMuchErrorSound;
+    	}else{
+    		nextTooMany = Assets.instance.sounds.hints_menosPiezasGenerales.get(new Random().nextInt(2));
+    	}
+    }
+    
+    private void nextTooFewSound(){
+    	if(new Random().nextInt(2)==0){ //random between 0-1
+    		nextTooFew =  tooFewErrorSound;
+    	}else{
+    		nextTooFew = Assets.instance.sounds.hints_masPiezasGenerales.get(new Random().nextInt(3));
+    	}
+    }
+
+    
     private void playQuitOrAddBlock(int i){
         final Sound soundToPlay;
         if (i == 0) {
-            soundToPlay = tooMuchErrorSound;
+            soundToPlay = nextTooMany;
         }
         else {
-            soundToPlay = tooFewErrorSound;
+            soundToPlay = nextTooFew;
 
         }
         soundToPlay.play(defaultVolSound);
 
     }
+    
+    private void playExplicitHelp(int n){
+        Assets.instance.sounds.hints_todaviaNo.get(n-1).play(defaultVolSound);
+    }
 
-    public void setDelay_quit(){
+    public float setDelay_quit(){
         delay_quit= true;
+        nextTooFewSound();
+        return Assets.instance.getSoundDuration(nextTooFew);
     }
 
-    public void setDelay_add(){
+    public float setDelay_add(){
         delay_add= true;
+        nextTooManySound();
+        return Assets.instance.getSoundDuration(nextTooMany);
     }
     
-    public void setDelay_hint_add(){
+    public float setDelay_hint_add(){
         delay_hint_add= true;
+        nextHint = Assets.instance.sounds.hints.get(new Random().nextInt(3));
+        return Assets.instance.getSoundDuration(nextHint);
     }
     
-    public void setDelay_hint_quit(){
+    public float setDelay_hint_quit(){
         delay_hint_quit= true;
+        nextHint = Assets.instance.sounds.hints.get(new Random().nextInt(3));
+        return Assets.instance.getSoundDuration(nextHint);
     }
     
-
+    public float setExplicitHelp(boolean explicit, int n){
+    	explicit_help = explicit;
+    	return Assets.instance.getSoundDuration(Assets.instance.sounds.hints_todaviaNo.get(n-1));
+    }
+    
     public void setCustomSound(Sound nowSound, CommonFeedbacks soundType){
         switch (soundType){
             case TOO_MUCH:
@@ -573,18 +612,41 @@ public class AudioManager {
         readFeedbackAction = createReadFeedbackAction(readFeedbackAction, numToBuild, extraDelayBetweenFeedback);
 
 
-        final Sound positive = getPositiveSound(Assets.instance.sounds.positivesIngredients);
+        final Sound positive = getPositiveSound(Assets.instance.sounds.pre_positivesIngredients);
 
         readFeedbackAction.addAction(run(new Runnable() {
             public void run() {
                 playWithoutInterruption(positive); //after correct answer comes "yuju"
             }
         }));
-        final Sound ingredientSound = getIngredientFromIndex(ingredientIndex);
+       
         readFeedbackAction.addAction(delay(Assets.instance.getSoundDuration(positive)));
+ 
+        if(addHasHechoUn ){
+	      //  readFeedbackAction.addAction(delay(Assets.instance.getSoundDuration(positive)+ extraDelayBetweenFeedback));
+	        final Sound has_hecho_un = getHasHechoUn(numToBuild);
+	        readFeedbackAction.addAction(run(new Runnable() {
+	            public void run() {
+	                playWithoutInterruption(has_hecho_un); //after correct answer comes positive feedback
+	            }
+	        }));
+	        readFeedbackAction.addAction(delay(Assets.instance.getSoundDuration(has_hecho_un)));
+        }
+        
+        
+        final Sound post_positive = getPositiveSound(Assets.instance.sounds.post_positivesIngredients);
         readFeedbackAction.addAction(run(new Runnable() {
             public void run() {
-                playWithoutInterruption(ingredientSound); //after correct answer comes "yuju"
+                playWithoutInterruption(post_positive); 
+            }
+        }));
+       
+        readFeedbackAction.addAction(delay(Assets.instance.getSoundDuration(post_positive)));
+                
+        final Sound ingredientSound = getIngredientFromIndex(ingredientIndex); 
+        readFeedbackAction.addAction(run(new Runnable() {
+            public void run() {
+                playWithoutInterruption(ingredientSound);
             }
         }));
 
@@ -617,7 +679,16 @@ public class AudioManager {
         /////////// feedback
         readFeedbackAction = createReadFeedbackAction(readFeedbackAction, numToBuild, extraDelayBetweenFeedback);
 
-
+        if(addHasHechoUn ){
+	        final Sound has_hecho_un = getHasHechoUn(numToBuild);
+	        readFeedbackAction.addAction(run(new Runnable() {
+	            public void run() {
+	                playWithoutInterruption(has_hecho_un); //after correct answer comes positive feedback
+	            }
+	        }));
+	        readFeedbackAction.addAction(delay(Assets.instance.getSoundDuration(has_hecho_un)+ extraDelayBetweenFeedback));
+        }
+        
         final Sound finalSound = this.finalFeedback;
         readFeedbackAction.addAction(run(new Runnable() {
             public void run() {
@@ -632,7 +703,21 @@ public class AudioManager {
         reader.clearActions();
         /////// blocks
         readBlocksAction = createReadBlocksAction(readBlocksAction, toReadNums, extraDelayBetweenFeedback, numToBuild);
+        final int n = numToBuild;
+        if(explicit_help ){	//Tienes que formar un X
+        	readFeedbackAction.addAction(run(new Runnable() {
+                public void run() {
+                   playExplicitHelp(n);
+                }
 
+            }));
+            delay_quit = false;
+            delay_add = false;
+            delay_hint_add = false;
+            delay_hint_quit = false;
+            explicit_help = false;
+        }
+        
         if(delay_add){
             readBlocksAction.addAction(run(new Runnable() {
                 public void run() {
@@ -673,7 +758,6 @@ public class AudioManager {
             delay_add = false;
             delay_hint_add = false;
             delay_hint_quit = false;
-        	nextHint = Assets.instance.sounds.hints.get(new Random().nextInt(3));
         }
                
         if(delay_hint_quit){
@@ -687,7 +771,6 @@ public class AudioManager {
             delay_add = false;
             delay_hint_add = false;
             delay_hint_quit = false;
-        	nextHint = Assets.instance.sounds.hints.get(new Random().nextInt(3));
         }
 
         reader.addAction(parallel(readBlocksAction,readFeedbackAction)); // we read feedback and the blocks in parallel
@@ -703,10 +786,26 @@ public class AudioManager {
 
         /////////// feedback
         readFeedbackAction = createReadFeedbackAction(readFeedbackAction, numToBuild, extraDelayBetweenFeedback);
+        final int n = numToBuild;
+        if(explicit_help){	//Tienes que formar un X
+        	readFeedbackAction.addAction(run(new Runnable() {
+                public void run() {
+                   playExplicitHelp(n);
+                }
+
+            }));
+            delay_quit = false;
+            delay_add = false;
+            delay_hint_add = false;
+            delay_hint_quit = false;
+            explicit_help = false;
+        }
+        
+        final int option = delay_quit?1:0;
         if(delay_quit || delay_add){
             readFeedbackAction.addAction(run(new Runnable() {
                 public void run() {
-                    playQuitOrAddBlock(1);
+                    playQuitOrAddBlock(option);
                 }
 
 
@@ -803,13 +902,22 @@ public class AudioManager {
         readFeedbackAction = createReadFeedbackAction(readFeedbackAction, numToBuild, extraDelayBetweenFeedback);
 
         final Sound positiveNow = getPositiveSound(this.positiveFeedback);
-
         readFeedbackAction.addAction(run(new Runnable() {
             public void run() {
                 playWithoutInterruption(positiveNow); //after correct answer comes positive feedback
             }
         }));
-
+        
+        if(addHasHechoUn ){
+	        readFeedbackAction.addAction(delay(Assets.instance.getSoundDuration(positiveNow)+ extraDelayBetweenFeedback));
+	        final Sound has_hecho_un = getHasHechoUn(numToBuild);
+	        readFeedbackAction.addAction(run(new Runnable() {
+	            public void run() {
+	                playWithoutInterruption(has_hecho_un); //after correct answer comes positive feedback
+	            }
+	        }));
+        }
+        
         final ScreenName nowGame = this.currentGameScreenName;
         readFeedbackAction.addAction(run(new Runnable() {
             public void run() {
@@ -823,7 +931,11 @@ public class AudioManager {
         reader.addAction(parallel(readBlocksAction,readFeedbackAction)); // we read feedback and the blocks in parallel
     }
 
-    public void readFeedback( int numToBuild, float extraDelayBetweenFeedback){ // we use this action at the beginning of new screen, we read feedback without blocks
+    private Sound getHasHechoUn(int n) {
+		return Assets.instance.sounds.has_hecho_un.get(n-1);
+	}
+
+	public void readFeedback( int numToBuild, float extraDelayBetweenFeedback){ // we use this action at the beginning of new screen, we read feedback without blocks
         reader.clearActions();
         readFeedbackAction.reset();
         // read knocks
@@ -888,6 +1000,18 @@ public class AudioManager {
                 playWithoutInterruption(positiveNow); //after correct answer comes positive feedback
             }
         }));
+        
+        if(addHasHechoUn ){
+	        readFeedbackAction.addAction(delay(Assets.instance.getSoundDuration(positiveNow)+ extraDelayBetweenFeedback));
+	        final Sound has_hecho_un = getHasHechoUn(numToBuild);
+	        readFeedbackAction.addAction(run(new Runnable() {
+	            public void run() {
+	                playWithoutInterruption(has_hecho_un); //after correct answer comes positive feedback
+	            }
+	        }));
+        }
+        
+        
         readFeedbackAction.addAction(run(new Runnable() {
             public void run() {
                 currentClue = getRandomClue(); //after correct answer comes positive feedback

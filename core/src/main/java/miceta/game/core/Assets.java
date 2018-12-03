@@ -130,11 +130,15 @@ public class Assets implements Disposable, AssetErrorListener {
         assetManager.load("sounds/ingredientes/mm1_juego2_ingrediente15.mp3", Sound.class);
         assetManager.load("sounds/ingredientes/mm1_juego2_ingrediente16.mp3", Sound.class);
         assetManager.load("sounds/ingredientes/mm1_juego2_ingrediente17.mp3", Sound.class);
-        assetManager.load("sounds/ingredientes/positivo1.mp3", Sound.class);
-        assetManager.load("sounds/ingredientes/positivo2.mp3", Sound.class);
-        assetManager.load("sounds/ingredientes/positivo3.mp3", Sound.class);
-        assetManager.load("sounds/ingredientes/positivo4.mp3", Sound.class);
-
+        assetManager.load("sounds/ingredientes/pre_positivo1.mp3", Sound.class);
+        assetManager.load("sounds/ingredientes/pre_positivo2.mp3", Sound.class);
+        assetManager.load("sounds/ingredientes/pre_positivo3.mp3", Sound.class);
+        assetManager.load("sounds/ingredientes/pre_positivo4.mp3", Sound.class);
+        assetManager.load("sounds/ingredientes/post_positivo1.mp3", Sound.class);
+        assetManager.load("sounds/ingredientes/post_positivo2.mp3", Sound.class);
+        assetManager.load("sounds/ingredientes/post_positivo3.mp3", Sound.class);
+        assetManager.load("sounds/ingredientes/post_positivo4.mp3", Sound.class);
+        
         // Game 1
         // knock at the door
         assetManager.load("sounds/golpes/intro.mp3", Sound.class);
@@ -253,6 +257,13 @@ public class Assets implements Disposable, AssetErrorListener {
         assetManager.load("sounds/hints/pon_una_pieza.mp3", Sound.class);
         assetManager.load("sounds/concrete/cuando_juguemos.mp3", Sound.class);
         
+        assetManager.load("sounds/hints/mas_menos/menosPiezas1.mp3", Sound.class);
+        assetManager.load("sounds/hints/mas_menos/menosPiezas2.mp3", Sound.class);
+        
+        assetManager.load("sounds/hints/mas_menos/masPiezas1.mp3", Sound.class);
+        assetManager.load("sounds/hints/mas_menos/masPiezas2.mp3", Sound.class);
+        assetManager.load("sounds/hints/mas_menos/masPiezas3.mp3", Sound.class);
+        
         
         assetManager.load("images/backGeneric.png", Texture.class);
         assetManager.load("images/backDoor.png", Texture.class);
@@ -269,6 +280,12 @@ public class Assets implements Disposable, AssetErrorListener {
         assetManager.load("images/backFinalMM2.png", Texture.class);
         assetManager.load("images/backClap.png", Texture.class);
         assetManager.load("images/backWalk.png", Texture.class);
+        
+        
+        //has hecho un.... 
+        for(int i = 1;i<11;i++)
+        	assetManager.load("sounds/feedback/has_hecho_un/"+i+".mp3", Sound.class);
+        
         
         
         // start loading assets and wait until finished
@@ -306,7 +323,8 @@ public class Assets implements Disposable, AssetErrorListener {
         public final Sound organicHelpIntro,organicHelpTooMuch_1,organicHelpTooFew_1, organicHelpTooMuch_2,organicHelpTooFew_2, organicHelpPositive_1,organicHelpPositive_2, organicHelpFinal, organicHelpIntro2, organicHelpFinal2, organicClap;
         public final Sound stepIntro,stepTooMuch_1,stepTooFew_1, stepTooMuch_2,stepTooFew_2, stepPositive_1,stepPositive_2, stepFinal, stepIntro2, stepFinal2;
         public final Sound jugar, denuevo, ayuda, salir;
-        public final Sound ingredientsIntro,i1, i2, i3,i4,i5,i6,i7,i8,i9,i10,i11,i12,i13,i14,i15,i16,i17,ingredientsTooFew,ingredientsTooMuch, ingredientsPositive_1,ingredientsPositive_2, ingredientsPositive_3, ingredientsPositive_4,ingredientsFinal;
+        public final Sound ingredientsIntro,i1, i2, i3,i4,i5,i6,i7,i8,i9,i10,i11,i12,i13,i14,i15,i16,i17,ingredientsTooFew,ingredientsTooMuch, pre_ingredientsPositive_1,pre_ingredientsPositive_2, pre_ingredientsPositive_3, pre_ingredientsPositive_4,
+        					post_ingredientsPositive_1,post_ingredientsPositive_2, post_ingredientsPositive_3, post_ingredientsPositive_4,ingredientsFinal;
         public final Sound knockIntro, knockTooFew, knockTooMuch, knockPositive_1, knockPositive_2, knockFinal;
         public final Sound greetingIntro, greetingFinal, greetingTooFew, greetingTooMuch, greetingPositive;
         public final Sound mixingIntro, mixingFinal, mixingTooFew, mixingTooMuch;
@@ -324,7 +342,8 @@ public class Assets implements Disposable, AssetErrorListener {
 //        public  ArrayList<Sound> positivesStep= new ArrayList<>();
 //        public  ArrayList<Sound> positivesKnock = new ArrayList<>();
 //        public  ArrayList<Sound> positivesMixing = new ArrayList<>();
-        public  ArrayList<Sound> positivesIngredients = new ArrayList<>();
+        public  ArrayList<Sound> pre_positivesIngredients = new ArrayList<>();
+        public  ArrayList<Sound> post_positivesIngredients = new ArrayList<>();
 //        public  ArrayList<Sound> positivesMusic = new ArrayList<>();
 //        public  ArrayList<Sound> positivesGreeting = new ArrayList<>();
 //        public  ArrayList<Sound> positivesFeedbacks = new ArrayList<>();
@@ -344,9 +363,14 @@ public class Assets implements Disposable, AssetErrorListener {
         public final ArrayList<Sound> cluesNumerus = new ArrayList<>();
         public final ArrayList<Sound> hints = new ArrayList<>();
         public final ArrayList<Sound> hints_todaviaNo = new ArrayList<>();
+        
+        public final ArrayList<Sound> hints_menosPiezasGenerales = new ArrayList<>();
+        public final ArrayList<Sound> hints_masPiezasGenerales = new ArrayList<>();
+        
+        
+        public final ArrayList<Sound> has_hecho_un = new ArrayList<>();
 		public Sound muyBien;
 		public Sound cuando_juguemos;
-
 
         public Sound soundWithDuration(String path, AssetManager am) {
             Sound sound_load;
@@ -467,15 +491,28 @@ public class Assets implements Disposable, AssetErrorListener {
             i17= soundWithDuration("sounds/ingredientes/mm1_juego2_ingrediente16.mp3", am);
             ingredientsTooFew = soundWithDuration("sounds/ingredientes/mas.mp3", am);
             ingredientsTooMuch = soundWithDuration("sounds/ingredientes/menos.mp3", am);
-            ingredientsPositive_1 = soundWithDuration("sounds/ingredientes/positivo1.mp3", am);
-            ingredientsPositive_2 = soundWithDuration("sounds/ingredientes/positivo2.mp3", am);
-            ingredientsPositive_3 = soundWithDuration("sounds/ingredientes/positivo3.mp3", am);
-            ingredientsPositive_4 = soundWithDuration("sounds/ingredientes/positivo4.mp3", am);
+            pre_ingredientsPositive_1 = soundWithDuration("sounds/ingredientes/pre_positivo1.mp3", am);
+            pre_ingredientsPositive_2 = soundWithDuration("sounds/ingredientes/pre_positivo2.mp3", am);
+            pre_ingredientsPositive_3 = soundWithDuration("sounds/ingredientes/pre_positivo3.mp3", am);
+            pre_ingredientsPositive_4 = soundWithDuration("sounds/ingredientes/pre_positivo4.mp3", am);
+            
+            post_ingredientsPositive_1 = soundWithDuration("sounds/ingredientes/post_positivo1.mp3", am);
+            post_ingredientsPositive_2 = soundWithDuration("sounds/ingredientes/post_positivo2.mp3", am);
+            post_ingredientsPositive_3 = soundWithDuration("sounds/ingredientes/post_positivo3.mp3", am);
+            post_ingredientsPositive_4 = soundWithDuration("sounds/ingredientes/post_positivo4.mp3", am);
+            
             ingredientsFinal = soundWithDuration("sounds/ingredientes/final.mp3", am);
-            positivesIngredients.add(ingredientsPositive_1);
-            positivesIngredients.add(ingredientsPositive_2);
-            positivesIngredients.add(ingredientsPositive_3);
-            positivesIngredients.add(ingredientsPositive_4);
+            pre_positivesIngredients.add(pre_ingredientsPositive_1);
+            pre_positivesIngredients.add(pre_ingredientsPositive_2);
+            pre_positivesIngredients.add(pre_ingredientsPositive_3);
+            pre_positivesIngredients.add(pre_ingredientsPositive_4);
+            
+            post_positivesIngredients.add(post_ingredientsPositive_1);
+            post_positivesIngredients.add(post_ingredientsPositive_2);
+            post_positivesIngredients.add(post_ingredientsPositive_3);
+            post_positivesIngredients.add(post_ingredientsPositive_4);
+            
+            
             cluesIngredients.add(soundWithDuration("sounds/ingredientes/cae.mp3", am));
             cluesIngredients.add(soundWithDuration("sounds/ingredientes/cae2.mp3", am));
 
@@ -586,6 +623,18 @@ public class Assets implements Disposable, AssetErrorListener {
             concreteTutorialSteps.add(soundWithDuration("sounds/concrete/steps/step8.mp3", am));
             
             limpiarRecta = soundWithDuration("sounds/hints/limpiar_recta.mp3",am);
+            
+            hints_menosPiezasGenerales.add(soundWithDuration("sounds/hints/mas_menos/menosPiezas1.mp3", am));
+            hints_menosPiezasGenerales.add(soundWithDuration("sounds/hints/mas_menos/menosPiezas2.mp3", am));
+            
+            hints_masPiezasGenerales.add(soundWithDuration("sounds/hints/mas_menos/masPiezas1.mp3", am));
+            hints_masPiezasGenerales.add(soundWithDuration("sounds/hints/mas_menos/masPiezas2.mp3", am));
+            hints_masPiezasGenerales.add(soundWithDuration("sounds/hints/mas_menos/masPiezas3.mp3", am));
+            
+            
+            for(int i=1;i<11;i++)
+            	has_hecho_un.add(soundWithDuration("sounds/feedback/has_hecho_un/"+i+".mp3", am));
+
         }
     }
 

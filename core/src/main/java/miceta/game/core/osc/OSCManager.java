@@ -27,6 +27,7 @@ public class OSCManager implements OSCListener{
 	private Clock clock;
 	private boolean config_blocks_values;
 	private boolean silentFeedbackMode;
+	private boolean feedbackStrongerThanBlocks = true;
 	
 	public static final String TAG = OSCManager.class.getName();
 
@@ -131,8 +132,12 @@ public class OSCManager implements OSCListener{
 							}else{
 								blocksManager.startTouch(block_id, this);
 							}
-							if(!(blocksManager.getDetectedVals()==null || blocksManager.getDetectedVals().isEmpty())){
-						        this.sendSilence(Constants.START_SILENCE,Constants.INFINITE_SILENCE,null);
+							if(feedbackStrongerThanBlocks || silentFeedbackMode ){
+								if(!(blocksManager.getDetectedVals()==null || blocksManager.getDetectedVals().isEmpty())){
+							        this.sendSilence(Constants.START_SILENCE,Constants.INFINITE_SILENCE,null);
+								}
+							}else{//TODO probar esto
+								blocksManager.interruptLoop();
 							}
 							break;
 						case Constants.TOUCH_FREE:

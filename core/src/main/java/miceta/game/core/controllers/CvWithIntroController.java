@@ -32,6 +32,7 @@ public class CvWithIntroController extends CvWorldController {
         numberToPlay = LevelsManager.instance.get_number_to_play();
         setDelayForPositiveFeedback();
         Gdx.app.log(TAG,"isInOgranicHelpScreen "+ isInOgranicHelpScreen +" shouldRepeatTutorial "+shouldRepeatTutorial);
+        cleanNumberLine = LevelsManager.instance.get_clean_number_line()==1;
         timeToWait = AudioManager.instance.reproduceIntro();
         answerRight = false;
     }

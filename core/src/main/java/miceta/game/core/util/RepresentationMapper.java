@@ -134,7 +134,7 @@ public class RepresentationMapper {
                 break;
             case GAME_INGREDIENTS:
                 gameScreen.intro = Assets.instance.sounds.ingredientsIntro;
-                gameScreen.positives = Assets.instance.sounds.positivesIngredients;
+                gameScreen.positives = Assets.instance.sounds.pre_positivesIngredients;
                 gameScreen.tooFew = Assets.instance.sounds.ingredientsTooFew;
                 gameScreen.tooMuch = Assets.instance.sounds.ingredientsTooMuch;
                 gameScreen.finalSound = Assets.instance.sounds.ingredientsFinal;

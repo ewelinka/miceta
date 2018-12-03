@@ -20,7 +20,7 @@ public class CvIngredientsController extends CvWorldController{
 
 
     public CvIngredientsController(miCeta game, Stage stage, Sound tooFewErrorSound, Sound tooMuchErrorSound, Sound finalSound, boolean upLevel, boolean shouldRepeatTutorial) {
-        super(game, stage, ScreenName.GAME_INGREDIENTS, Assets.instance.sounds.tada, Assets.instance.sounds.positivesIngredients, tooFewErrorSound, tooMuchErrorSound, finalSound, upLevel, shouldRepeatTutorial); //yuju won't be used but we have to set it
+        super(game, stage, ScreenName.GAME_INGREDIENTS, Assets.instance.sounds.tada, Assets.instance.sounds.pre_positivesIngredients, tooFewErrorSound, tooMuchErrorSound, finalSound, upLevel, shouldRepeatTutorial); //yuju won't be used but we have to set it
     }
 
     @Override
@@ -28,6 +28,7 @@ public class CvIngredientsController extends CvWorldController{
         numberToPlay = LevelsManager.instance.get_number_to_play();
         setDelayForPositiveFeedback();
         timeToWait = AudioManager.instance.reproduce_ingredients_intro(); //first we read the intro
+        cleanNumberLine = LevelsManager.instance.get_clean_number_line()==1;
         answerRight = false;
     }
 
@@ -41,8 +42,9 @@ public class CvIngredientsController extends CvWorldController{
 
     @Override
     void setDelayForPositiveFeedback(){
-        delayForPositiveFeedback = Assets.instance.getSoundDuration(Assets.instance.sounds.ingredientsPositive_1) + Assets.instance.getSoundDuration(Assets.instance.sounds.i2);
-        //delayForPositiveFeedback = 4.0f;
+        delayForPositiveFeedback = Assets.instance.getSoundDuration(Assets.instance.sounds.pre_ingredientsPositive_1) + Assets.instance.getSoundDuration(Assets.instance.sounds.i2) 
+        							+ Assets.instance.getSoundDuration(Assets.instance.sounds.has_hecho_un.get(0)) + Assets.instance.getSoundDuration(Assets.instance.sounds.post_ingredientsPositive_1);
+        //delayForPositiveFeedback = 10.0f;
 
     }
 

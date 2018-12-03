@@ -337,4 +337,10 @@ public class TangibleBlocksManager {
         addVirtualBlockToCurrentSolution(randomId);
 	}
 
+	public void interruptLoop() {
+		game.getGameScreen().
+		//TODO
+		
+	}
+
 }
