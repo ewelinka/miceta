@@ -36,7 +36,12 @@ public class ConfigScreen extends AbstractGameScreen {
     private ImageButton btnPlay, btnExit, btnNewStart, btnHelp;
     private final BitmapFont font = new BitmapFont();
 	private int silentFeedbackMode, mixedFeedbackMode,errorOrSuccessBlocksFeedbackMode;
-
+	private int fastVibrationDelay = 100;
+	
+	private boolean parallelFeedback = false;
+	private boolean sound = true;
+	private boolean vibration = true;
+	
     public ConfigScreen(miCeta game) {
         super(game,true);
     }
@@ -55,6 +60,7 @@ public class ConfigScreen extends AbstractGameScreen {
         drawSilentOption();
         drawMixedFeedbackOption();
         drawErrorOrSuccessBlocksFeedbackMode();
+        drawFastVibrationOptions();
     }
     
     private void drawSilentOption(){
@@ -82,6 +88,19 @@ public class ConfigScreen extends AbstractGameScreen {
         spriteBatch.end();
     }
     
+    private void drawFastVibrationOptions(){
+    	spriteBatch.begin();
+        font.setScale(2, 2);
+        font.draw(spriteBatch,"Parallel Feedback: ",100,100);
+        font.draw(spriteBatch,parallelFeedback?"YES":"NO",350,100);
+        font.draw(spriteBatch,"--> CAMBIAR <--",450,100);
+        font.draw(spriteBatch,"delay: ",720,100);
+        font.draw(spriteBatch,""+fastVibrationDelay,820,100);
+        font.draw(spriteBatch,"Sound: "+(sound?"YES":"NO"),900,100);
+        font.draw(spriteBatch,"Vibra: "+(vibration?"YES":"NO"),1100,100);
+        spriteBatch.end();
+    }
+    
     
 
     @Override
@@ -104,7 +123,19 @@ public class ConfigScreen extends AbstractGameScreen {
         	toogleMixedFeedbackMode();
         }else if((screenX > 352 && screenX < 392)&& (screenY > 465 && screenY < 492)) {
         	toogleErrorOrSuccessFeedbackMode();
+        }else if((screenY > 662 && screenY < 696)) {
+        	if(screenX > 490 && screenX < 630)
+        		toogleParallelFeedback();
+        	else if(screenX > 1000 && screenX < 1050){
+                sound = !sound;
+        		Gdx.app.log(TAG, " SOUND CONFIG: " + sound);
+        	}else if(screenX > 1180 && screenX < 1240){
+        		vibration = !vibration;
+        		Gdx.app.log(TAG, " VIBRATION CONFIG: " + vibration);
+        	}
+
         }
+        
         if(worldController != null) {
             Gdx.app.log(TAG, " TOUCHED " + screenX + " " + screenY);
             if (Gdx.app.getType() == Application.ApplicationType.Desktop) {
@@ -140,6 +171,7 @@ public class ConfigScreen extends AbstractGameScreen {
         prefs.save();
     }
     
+    
         
     @Override
     public boolean keyDown(int keycode){
@@ -148,10 +180,88 @@ public class ConfigScreen extends AbstractGameScreen {
             case Input.Keys.S:
                 stopCurrentSound();
                 game.setScreen(new MenuScreen(game));
-                break;
+                return true;
+            case Input.Keys.F1:
+            	brokenBlocks(1);
+                return true;
+            case Input.Keys.F2:
+            	brokenBlocks(2);
+                return true;
+            case Input.Keys.F3:
+            	brokenBlocks(3);
+                return true;
+            case Input.Keys.F4:
+            	brokenBlocks(4);
+                return true;
+            case Input.Keys.RIGHT: //set parallel feedback mode
+                fastVibrationDelay += 20;
+                return true;
+            case Input.Keys.LEFT: //set fast vibration mode
+            	fastVibrationDelay -= 20;
+                return true;
+                
         }
-        return true;
+        return super.keyDown(keycode);
     }
+    
+    
+    private void toogleParallelFeedback(){
+    	parallelFeedback = !parallelFeedback;
+    	parallelFeedbackMode(parallelFeedback);
+    }
+    
+    private void parallelFeedbackMode(boolean parallel){
+    	game.getOscManager().configFeedbackMode(parallel,fastVibrationDelay, !sound, !vibration);
+    }
+    
+    private void brokenBlocks(int level){
+    	switch(level){
+    		case 1: 
+    			/*Bloque 1 :   Feedback bloque 1
+				  Bloque 2 :   Feedback bloque 2
+				  Bloque 3 :   Feedback bloque 2
+    			 */
+                Gdx.app.log(TAG, "Changing mapping level 1");
+    	    	game.getBlocksManager().changeMapping(1,1);
+    	    	game.getBlocksManager().changeMapping(2,2);
+    	    	game.getBlocksManager().changeMapping(3,2);
+			break;
+    		case 2:
+    			/*
+    			 *  Bloque 1 :   Feedback bloque 3
+					Bloque 2 :   Feedback bloque 1
+					Bloque 3 :   Feedback bloque 3
+    			 */
+    			Gdx.app.log(TAG, "Changing mapping level 2");
+    			game.getBlocksManager().changeMapping(1,3);
+    	    	game.getBlocksManager().changeMapping(2,1);
+    	    	game.getBlocksManager().changeMapping(3,3);
+			break;
+    		case 3:
+    			/*
+    			 * 	Bloque 1 :   Feedback bloque 1
+					Bloque 2 :   Feedback bloque 2
+					Bloque 3 :   Feedback bloque 3
+    			 * */
+    			Gdx.app.log(TAG, "Changing mapping level 3");
+    			game.getBlocksManager().changeMapping(1,1);
+    	    	game.getBlocksManager().changeMapping(2,2);
+    	    	game.getBlocksManager().changeMapping(3,3);
+			break;
+    		case 4:
+    			/*
+    			 *  Bloque 1 :   Feedback bloque 2
+					Bloque 2 :   Feedback bloque 3
+					Bloque 3 :   Feedback bloque 1
+    			 * */
+    			Gdx.app.log(TAG, "Changing mapping level 4");
+    			game.getBlocksManager().changeMapping(1,2);
+    	    	game.getBlocksManager().changeMapping(2,3);
+    	    	game.getBlocksManager().changeMapping(3,1);
+			break;
+    	}
+    }
+    
     
     /*
      * @Override

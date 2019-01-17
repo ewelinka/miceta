@@ -294,7 +294,25 @@ public class OSCManager implements OSCListener{
 		}
 
 	}
+	
+	public void configFeedbackMode(boolean parallel, int fastVibrationDelay, boolean sound, boolean vibration) {
+    	Gdx.app.log(TAG,"->>>> SENDING PARALLEL FEEDBACK MODE ->>>> parallel?: " + parallel);
+    	OSCMessage message = new OSCMessage("/block");//, collectionToSend);
+		message.addArgument("parallel");
+		message.addArgument(parallel?1:0);
+		message.addArgument(fastVibrationDelay);
+		message.addArgument(sound?1:0);
+		message.addArgument(vibration?1:0);
+		if(!parallel)
+	    	Gdx.app.log(TAG,"->>>> FAST VIBRATION DELAY = : " + fastVibrationDelay);
 
+		
+		sendBroadcast(message);
+		sendBroadcast(message);
+		sendBroadcast(message);
+	}
+
+	
 	public void resetAllBlocks() {
     	Gdx.app.log(TAG,"->>>> SENDING RESET ALL <<<<<<-");
     	OSCMessage message = new OSCMessage("/block");//, collectionToSend);
@@ -378,8 +396,8 @@ public class OSCManager implements OSCListener{
     	sendBroadcast(message);
 	}
 
-	public void sendSilence(int event /*start or stop*/, int duration, Collection<Block> blocks) { //TODO test
-		Gdx.app.log(TAG,"->>>> SENDING SILENCE MESSAGE: " + (event==Constants.START_SILENCE?" START":" STOP"));
+	public void sendSilence(int event /*start or stop*/, int duration, Collection<Block> blocks) { //TODO uncomment this!!
+		/*Gdx.app.log(TAG,"->>>> SENDING SILENCE MESSAGE: " + (event==Constants.START_SILENCE?" START":" STOP"));
 		OSCMessage message = new OSCMessage("/block");
     	message.addArgument("silenced");
     	message.addArgument(event);
@@ -407,6 +425,6 @@ public class OSCManager implements OSCListener{
 					}
 				}
 			}
-		}
+		}*/
 	}
 }
