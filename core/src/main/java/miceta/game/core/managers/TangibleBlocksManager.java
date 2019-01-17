@@ -337,8 +337,26 @@ public class TangibleBlocksManager {
         addVirtualBlockToCurrentSolution(randomId);
 	}
 
+	public Set<Block> findBlocks(int value){
+		Set<Block> result = new HashSet<Block>();
+		for(Iterator<Block> iter = this.blocks.values().iterator();iter.hasNext();) {
+			Block block = iter.next();
+			if(block.getValue()==value)
+				result.add(block);
+		}
+		return result;
+	}
+	
+	public void changeMapping(int blockOldValue, int blockNewValue){
+		for(Iterator<Block> iter = this.blocks.values().iterator();iter.hasNext();) {
+			Block block = iter.next();
+			if(block.getValue()==blockOldValue)
+				game.getOscManager().configBlock(block.getId(), blockNewValue);
+		}
+	}
+	
 	public void interruptLoop() {
-		game.getGameScreen().
+		//game.getGameScreen().
 		//TODO
 		
 	}

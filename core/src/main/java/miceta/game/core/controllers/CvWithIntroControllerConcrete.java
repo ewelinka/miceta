@@ -71,16 +71,19 @@ public class CvWithIntroControllerConcrete extends CvWorldController {
 	                	if(nowDetected.size() > 0){ //waiting for any block
 		                    Gdx.app.log(TAG,"we have block! ");
 		                    timeToWait = AudioManager.instance.reproduceFinalStep1()+ 4;
-		                    Gdx.app.log(TAG,"after play 1");
+		                    Gdx.app.log(TAG,"after play 1, time to wait = " + timeToWait );
 		                    step = 2;
 		                }
 		                else {
 		                    if(inactivityTime > MAX_INACTIVITY_TIME +4){
 		                        timeToWait = AudioManager.instance.reproducePonUnaPieza();
+		                        Gdx.app.log(TAG,"inactivity: time to wait = " + timeToWait );
 		                        inactivityTime = 0;
 		                    }
-		                    else
+		                    else{
 		                        timeToWait = 1.0f;
+		                        Gdx.app.log(TAG,"else time to wait = " + timeToWait );
+		                    }
 		                }
 	            	break;
 	                case 2: //waiting for block 2

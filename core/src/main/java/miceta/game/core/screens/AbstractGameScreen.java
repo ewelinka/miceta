@@ -205,6 +205,9 @@ public abstract class AbstractGameScreen  extends InputAdapter implements Screen
                 	game.getBlocksManager().addVirtualBlock(5);
                 }
             break;
+            case Input.Keys.F10:
+            		game.getOscManager().resetAllBlocks();
+            break;
         }
         return true;
     }

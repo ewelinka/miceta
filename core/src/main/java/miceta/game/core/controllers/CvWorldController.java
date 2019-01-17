@@ -164,7 +164,7 @@ public class CvWorldController {
         AudioManager.instance.setSuccessErrorBlocksFeedbackMode(errorOrSuccessBlocksFeedbackMode==1);
         noBlocksFeedbackMode = LevelsManager.instance.get_blocks_feedback_enable()==0;
         cleanNumberLine = LevelsManager.instance.get_clean_number_line()==1;
-
+        waitingCleaning =cleanNumberLine; 
         
         inactivityLimit = Constants.INACTIVITY_LIMIT;
         maxErrorsForHint = Constants.ERRORS_FOT_HINT;
@@ -290,9 +290,11 @@ public class CvWorldController {
                 checkIfNewIntentToRegister(currentSum,lastBlocksSum,answerRight? thisLoopNumerToPlay: numberToPlay,answerRight,nowDetected);
                 lastBlocksSum = currentSum;
             }else{
-            	if(!goToThePast)
+            	if(!goToThePast){
+            		if(cleanNumberLine)
+            			waitingCleaning=true;
                     goToNextLevel();
-
+            	}
             }
         }
     }
@@ -385,6 +387,7 @@ public class CvWorldController {
 
 
     boolean isTimeToStartNewLoop(){
+    	  // Gdx.app.log(TAG,"time to start? time to wait = " + timeToWait + " , time passed= " + timePassed );
         return (timePassed > timeToWait ) || interruptLoopnewBlockDetected;
     }
 
